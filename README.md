@@ -1,59 +1,91 @@
-# GroceryAppUI App UI
+# VnGrocery
 
-Check out the new style for App Design aims for Grocery App...😉😀😁😎
-Star⭐ the repo if you like what you see😉.
+Ứng dụng Flutter demo cho bài toán minh bạch chất lượng thực phẩm: buyer có thể khám phá cửa hàng, quét sản phẩm, so sánh cam kết; seller có thể quản lý cửa hàng, sản phẩm và cam kết.
 
-## Screenshots
+## Tính năng chính
 
-**Please click the image below to enlarge.**
+- Xác thực demo: đăng nhập, đăng ký, quên mật khẩu, đổi mật khẩu.
+- Chuyển chế độ User/Seller ngay trong tab tài khoản.
+- Buyer flow:
+  - Khám phá cửa hàng.
+  - Bản đồ mở rộng toàn màn hình.
+  - Quét sản phẩm và xem chi tiết.
+  - So sánh AI freshness với cam kết.
+- Seller flow:
+  - Tổng quan seller.
+  - Quản lý sản phẩm.
+  - Tạo cam kết chất lượng.
+  - Quản lý thông tin cửa hàng.
+- Toàn bộ dữ liệu đang chạy bằng mock data qua lớp hook.
 
-![screenshot_1](https://github.com/Shashank02051997/GroceryAppUI-Flutter/assets/20399094/117582b5-3dcc-4333-a8f4-4bbc19c22e78)
-<img width="659" alt="screenshot_2" src="https://github.com/Shashank02051997/GroceryAppUI-Flutter/assets/20399094/a13d7f3d-bc8b-461b-a971-6bb96acbf6f2">
-<img width="655" alt="screenshot_3" src="https://github.com/Shashank02051997/GroceryAppUI-Flutter/assets/20399094/e92ab8cb-8b6e-4523-aea9-115cb5220fb7">
-<img width="946" alt="screenshot_4" src="https://github.com/Shashank02051997/GroceryAppUI-Flutter/assets/20399094/b8dae4bc-79a8-410e-9660-04a7134a38b0">
+## Công nghệ
 
-## ✨ Requirements
+- Flutter (Material 3)
+- Dart SDK: `>=3.0.0 <4.0.0`
+- Không dùng backend thật ở bản hiện tại
 
-* Any Operating System (ie. MacOS X, Linux, Windows)
-* Any IDE with Flutter SDK installed (ie. IntelliJ, Android Studio, VSCode etc)
-* A little knowledge of Dart and Flutter
-* A brain to think 🤓🤓
+## Cấu trúc thư mục
 
-## Contributing
+- `lib/main.dart`: entrypoint app.
+- `lib/routes/app_routes.dart`: khai báo toàn bộ route.
+- `lib/screens/`: các màn hình.
+- `lib/screens/tabs/`: các tab chính trong `MainScreen`.
+- `lib/data/`: models, session, mock DB, data hooks.
+- `lib/theme/`: màu sắc và theme app.
+- `assets/images/`: ảnh dùng trong giao diện.
 
-Please fork this repository and contribute back using
-[pull requests](https://github.com/Shashank02051997/GroceryAppUI-Flutter/pulls).
+## Danh sách route
 
-Any contributions, large or small, major features, bug fixes, are welcomed and appreciated
-but will be thoroughly reviewed .
+- `splash`
+- `onboarding`
+- `auth`
+- `main`
+- `change_password`
+- `explore_map`
+- `scan`
+- `product_detail`
+- `ai_compare`
+- `buyer_check_result`
+- `store_detail`
+- `review`
+- `seller_products`
+- `seller_create_product`
+- `seller_create_pledge`
+- `seller_shop`
+- `pledge_history`
+- `qr_label`
 
-### Contact - Let's become friend
-- [Twitter](https://twitter.com/shashank020597)
-- [Github](https://github.com/Shashank02051997)
-- [Linkedin](https://www.linkedin.com/in/shashank-singhal-a87729b5/)
-- [Facebook](https://www.facebook.com/shashanksinghal02)
+## Cài đặt và chạy
 
-### Like our facebook page
-- [Android UI's Bucket](https://www.facebook.com/androiduisbucket)
+1. Cài Flutter SDK theo hướng dẫn chính thức.
+2. Trong thư mục dự án, chạy:
 
-## Donation
-If this project help you reduce time to develop, you can give me a cup of coffee :) 
+```bash
+flutter pub get
+```
 
-<a href="https://www.buymeacoffee.com/mXUuDW7" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+3. Chạy ứng dụng:
 
-## Getting Started
+```bash
+flutter run
+```
 
-This project is a starting point for a Flutter application.
+## Trạng thái dữ liệu
 
-A few resources to get you started if this is your first Flutter project:
+- Dữ liệu đang là mock, không gọi API thật.
+- Điểm nối dữ liệu tập trung ở:
+  - `lib/data/data_hooks.dart`
+  - `lib/data/mock_data.dart`
+- Khi tích hợp backend, thay implementation trong `AppDataHooks` để giữ nguyên UI flow.
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+## Lưu ý Android/Gradle
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+- App đang cấu hình theo AGP mới.
+- Nếu môi trường local báo warning Gradle/Kotlin, ưu tiên kiểm tra:
+  - `android/gradle.properties`
+  - `android/settings.gradle`
+  - plugin/dependency Android mới thêm.
 
-## Visitors Count
+## Giấy phép
 
-<img align="left" src = "https://profile-counter.glitch.me/GroceryAppUI-Flutter/count.svg" alt ="Loading">
+Dự án sử dụng file LICENSE hiện có trong repo.
