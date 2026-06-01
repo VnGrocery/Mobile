@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 /// Theme theo Template grocery: xanh lá, font Lato, nút bo tròn (stadium),
@@ -17,14 +16,14 @@ class AppTheme {
     );
 
     return base.copyWith(
-      textTheme: GoogleFonts.latoTextTheme(base.textTheme),
+      textTheme: base.textTheme.apply(fontFamily: 'Roboto'),
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
-        titleTextStyle: GoogleFonts.lato(
+        titleTextStyle: const TextStyle(
           color: Colors.black,
           fontSize: 20,
           fontWeight: FontWeight.w700,
@@ -35,7 +34,7 @@ class AppTheme {
           backgroundColor: AppColors.primaryGreen,
           foregroundColor: Colors.white,
           shape: const StadiumBorder(),
-          textStyle: GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -44,7 +43,7 @@ class AppTheme {
           foregroundColor: Colors.white,
           elevation: 0,
           shape: const StadiumBorder(),
-          textStyle: GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -52,7 +51,7 @@ class AppTheme {
           foregroundColor: AppColors.primaryGreen,
           side: const BorderSide(color: AppColors.primaryGreen),
           shape: const StadiumBorder(),
-          textStyle: GoogleFonts.lato(fontSize: 15, fontWeight: FontWeight.w600),
+          textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(

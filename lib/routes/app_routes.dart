@@ -4,6 +4,7 @@ import '../screens/splash_screen.dart';
 import '../screens/onboarding_screen.dart';
 import '../screens/auth_screen.dart';
 import '../screens/main_screen.dart';
+import '../screens/explore_map_screen.dart';
 import '../screens/scanner_screen.dart';
 import '../screens/product_detail_screen.dart';
 import '../screens/ai_freshness_screen.dart';
@@ -22,6 +23,7 @@ class Routes {
   static const onboarding = 'onboarding';
   static const auth = 'auth';
   static const main = 'main';
+  static const exploreMap = 'explore_map';
   static const scan = 'scan';
   static const productDetail = 'product_detail';
   static const aiCompare = 'ai_compare';
@@ -50,6 +52,9 @@ class Routes {
         break;
       case main:
         page = const MainScreen();
+        break;
+      case exploreMap:
+        page = ExploreMapScreen(initialShopId: args as String?);
         break;
       case scan:
         page = const ScannerScreen();

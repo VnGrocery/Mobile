@@ -127,10 +127,36 @@ class _AuthScreenState extends State<AuthScreen> {
         color: const Color(0xFFF2F2F2),
         borderRadius: BorderRadius.circular(27),
       ),
-      child: Row(
+      child: Stack(
         children: [
-          _segItem('Đăng nhập', 0),
-          _segItem('Đăng ký', 1),
+          AnimatedAlign(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic,
+            alignment: _tab == 0 ? Alignment.centerLeft : Alignment.centerRight,
+            child: FractionallySizedBox(
+              widthFactor: 0.5,
+              heightFactor: 1,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(23),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.04),
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              _segItem('Đăng nhập', 0),
+              _segItem('Đăng ký', 1),
+            ],
+          ),
         ],
       ),
     );
@@ -139,20 +165,15 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget _segItem(String label, int idx) {
     final active = _tab == idx;
     return Expanded(
-      child: GestureDetector(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(23),
         onTap: () => setState(() => _tab = idx),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          decoration: BoxDecoration(
-            color: active ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(23),
-          ),
-          alignment: Alignment.center,
+        child: Center(
           child: Text(
             label,
             style: TextStyle(
               color: active ? AppColors.meatRed : Colors.grey,
-              fontWeight: active ? FontWeight.bold : FontWeight.w500,
+              fontWeight: FontWeight.w700,
               fontSize: 15,
             ),
           ),
