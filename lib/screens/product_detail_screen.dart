@@ -1,0 +1,155 @@
+import 'package:flutter/material.dart';
+
+import '../data/data_hooks.dart';
+import '../routes/app_routes.dart';
+import '../theme/app_colors.dart';
+import '../utils/format.dart';
+import '../widgets/common.dart';
+
+class ProductDetailScreen extends StatelessWidget {
+  final String shopId;
+  final String productId;
+  const ProductDetailScreen(
+      {super.key, required this.shopId, required this.productId});
+
+  @override
+  Widget build(BuildContext context) {
+    final product = AppDataHooks.instance.getProduct(productId);
+    return Scaffold(
+      backgroundColor: AppColors.screenBg,
+      appBar: AppBar(title: const Text('Thông tin sản phẩm')),
+      body: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          // Ảnh sản phẩm
+          Stack(
+            children: [
+              Container(
+                height: 250,
+                width: double.infinity,
+                color: Colors.white,
+                alignment: Alignment.center,
+                child: const Icon(Icons.image,
+                    size: 100, color: Color(0xFFD3D3D3)),
+              ),
+              Positioned(
+                top: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text('Ảnh gốc từ Seller',
+                      style: TextStyle(color: Colors.white, fontSize: 10)),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(product.name,
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold)),
+                Text('Giá: ${formatVnd(product.price)} /kg',
+                    style: const TextStyle(
+                        fontSize: 18,
+                        color: AppColors.priceRed,
+                        fontWeight: FontWeight.bold)),
+                const SizedBox(height: 16),
+                // Điểm cam kết
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.meatRed.withValues(alpha: 0.05),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                        color: AppColors.meatRed.withValues(alpha: 0.2)),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text('ĐIỂM NGƯỜI BÁN CAM KẾT',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.meatRed)),
+                            Text('Dữ liệu đã được xác thực trên hệ thống',
+                                style: TextStyle(
+                                    fontSize: 11, color: Colors.grey)),
+                          ],
+                        ),
+                      ),
+                      Text('${product.freshnessScore}',
+                          style: const TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.meatRed)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  height: 56,
+                  child: ElevatedButton.icon(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, Routes.aiCompare),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size.fromHeight(56),
+                    ),
+                    icon: const Icon(Icons.photo_camera),
+                    label: const Text('Chụp ảnh kiểm tra chất lượng thực tế',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8, left: 4, right: 4),
+                  child: Text(
+                    'Hãy chụp ảnh miếng thịt bạn đang định mua để AI đối chứng với cam kết trên.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                const Text('Nguồn gốc & Shop',
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
+                InfoRow(
+                    icon: Icons.store,
+                    label: 'Mã cửa hàng',
+                    value: product.shopId),
+                InfoRow(
+                    icon: Icons.description,
+                    label: 'Mô tả tươi sống',
+                    value: product.freshnessNote),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pushNamed(
+                        context, Routes.storeDetail,
+                        arguments: product.shopId),
+                    child: const Text('Xem thông tin cửa hàng'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
