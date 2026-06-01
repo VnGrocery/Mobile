@@ -150,7 +150,11 @@ class _AccountTabState extends State<AccountTab> {
           ],
           _section('Cài đặt'),
           _item(Icons.edit, 'Sửa hồ sơ', () => _notImplemented(context)),
-          _item(Icons.settings, 'Tùy chỉnh ứng dụng', () => _notImplemented(context)),
+          _item(
+            Icons.lock_reset,
+            'Đổi mật khẩu',
+            () => Navigator.pushNamed(context, Routes.changePassword),
+          ),
           _item(Icons.help, 'Hỗ trợ & Trợ giúp', () => _notImplemented(context)),
           const SizedBox(height: 24),
           InkWell(
