@@ -1,4 +1,4 @@
-/// Model dữ liệu port từ data/model/MockData.kt (bản Android VNMeat).
+/// Model dữ liệu port từ data/model/MockData.kt (bản Android VnGrocery).
 
 class Shop {
   final String id;

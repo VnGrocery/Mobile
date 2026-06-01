@@ -13,7 +13,7 @@ class VnMeatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'VNMeat',
+      title: 'VnGrocery',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       initialRoute: Routes.splash,

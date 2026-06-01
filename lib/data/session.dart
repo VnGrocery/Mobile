@@ -25,7 +25,7 @@ class SessionManager {
   void login({required String email, String? displayName, String role = 'seller'}) {
     token = 'mock-token-${DateTime.now().millisecondsSinceEpoch}';
     shopId = MockDb.demoShopId;
-    this.email = email.trim().isEmpty ? 'demo@vnmeat.com' : email.trim();
+    this.email = email.trim().isEmpty ? 'demo@vngrocery.com' : email.trim();
     roleNotifier.value = role;
   }
 

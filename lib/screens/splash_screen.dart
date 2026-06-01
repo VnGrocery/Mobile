@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  'VNMeat',
+                  'VnGrocery',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 48,

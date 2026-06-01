@@ -15,7 +15,7 @@ class _AuthScreenState extends State<AuthScreen> {
   int _tab = 0; // 0 = đăng nhập, 1 = đăng ký
   bool _loading = false;
 
-  final _email = TextEditingController(text: 'demo@vnmeat.com');
+  final _email = TextEditingController(text: 'demo@vngrocery.com');
   final _password = TextEditingController(text: '123456');
   final _name = TextEditingController();
 
@@ -51,7 +51,7 @@ class _AuthScreenState extends State<AuthScreen> {
             children: [
               const SizedBox(height: 64),
               const Center(
-                child: Text('VNMeat',
+                child: Text('VnGrocery',
                     style: TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.w900,

@@ -1,5 +1,5 @@
-name: flutter_catalog
-description: VNMeat - app minh bạch chất lượng thực phẩm (demo dữ liệu giả).
+name: vngrocery
+description: VnGrocery - app minh b?ch ch?t l??ng th?c ph?m (demo d? li?u gi?).
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

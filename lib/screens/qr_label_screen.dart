@@ -43,7 +43,7 @@ class QrLabelScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('VNMeat Verification',
+                      const Text('VnGrocery Verification',
                           style: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 18,
