@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../data/data_hooks.dart';
 import '../../data/models.dart';
+import '../../data/repositories.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_palette.dart';
 
 class SellerProductPresenter {
   const SellerProductPresenter._();
+
+  static final AppRepositories _repos = AppRepositories.instance;
 
   static const states = ['Tất cả', 'Published', 'Draft', 'Archived'];
   static const categories = [
@@ -64,7 +66,7 @@ class SellerProductPresenter {
     required String shopId,
     required String state,
   }) {
-    final all = AppDataHooks.instance.getProducts(shopId: shopId);
+    final all = _repos.products.all(shopId: shopId);
     if (state == states.first) return all;
     return all.where((product) => product.status == state).toList();
   }
@@ -78,9 +80,8 @@ class SellerProductPresenter {
     required String price,
     required String tags,
   }) {
-    final data = AppDataHooks.instance;
     final product = Product(
-      id: data.nextId(),
+      id: _repos.ids.nextId(),
       shopId: shopId,
       name: name.trim(),
       description: description.trim(),
@@ -91,7 +92,7 @@ class SellerProductPresenter {
       tags: parseTags(tags),
       status: 'Draft',
     );
-    data.addProduct(product);
+    _repos.products.add(product);
     return product;
   }
 }

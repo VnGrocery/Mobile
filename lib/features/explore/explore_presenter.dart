@@ -1,8 +1,10 @@
-import '../../data/data_hooks.dart';
 import '../../data/models.dart';
+import '../../data/repositories.dart';
 
 class ExplorePresenter {
   const ExplorePresenter._();
+
+  static final AppRepositories _repos = AppRepositories.instance;
 
   static const filters = [
     'Đánh giá tốt',
@@ -12,7 +14,7 @@ class ExplorePresenter {
   ];
 
   static List<Shop> shops() {
-    return AppDataHooks.instance.getShops();
+    return _repos.shops.all();
   }
 
   static List<Shop> filteredShops(String query) {

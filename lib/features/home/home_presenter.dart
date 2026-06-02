@@ -1,5 +1,5 @@
-import '../../data/data_hooks.dart';
 import '../../data/models.dart';
+import '../../data/repositories.dart';
 
 class HomePledgeItem {
   final Product product;
@@ -14,17 +14,18 @@ class HomePledgeItem {
 class HomePresenter {
   const HomePresenter._();
 
-  static List<Shop> shops() => AppDataHooks.instance.getShops();
+  static final AppRepositories _repos = AppRepositories.instance;
 
-  static List<Product> products() => AppDataHooks.instance.getProducts();
+  static List<Shop> shops() => _repos.shops.all();
+
+  static List<Product> products() => _repos.products.all();
 
   static List<HomePledgeItem> pledgeItems() {
-    final data = AppDataHooks.instance;
     return products()
         .map(
           (product) => HomePledgeItem(
             product: product,
-            shop: data.getShop(product.shopId),
+            shop: _repos.shops.byId(product.shopId),
           ),
         )
         .toList();

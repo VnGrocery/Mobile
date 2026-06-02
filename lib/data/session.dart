@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import 'mock_data.dart';
+import 'app_data_config.dart';
 
-/// Quản lý phiên đăng nhập giả lập (tương ứng SessionManager.kt).
 class SessionManager {
   SessionManager._();
   static final SessionManager instance = SessionManager._();
@@ -17,7 +16,6 @@ class SessionManager {
 
   bool get isLoggedIn => token != null;
 
-  /// Tên hiển thị = phần trước '@' của email (giống AccountScreen.kt).
   String get displayName {
     final name = _displayName?.trim();
     if (name != null && name.isNotEmpty) return name;
@@ -26,12 +24,13 @@ class SessionManager {
         : (email.isEmpty ? 'User' : email);
   }
 
-  /// Đăng nhập giả: chấp nhận mọi email/mật khẩu. Gán shopId demo để
-  /// các luồng seller (seller_products/{shopId}) hoạt động.
-  void login(
-      {required String email, String? displayName, String role = 'user'}) {
+  void login({
+    required String email,
+    String? displayName,
+    String role = 'user',
+  }) {
     token = 'mock-token-${DateTime.now().millisecondsSinceEpoch}';
-    shopId = role == 'seller' ? MockDb.demoShopId : null;
+    shopId = role == 'seller' ? AppDataConfig.demoShopId : null;
     this.email = email.trim().isEmpty ? 'demo@vngrocery.com' : email.trim();
     _displayName = displayName?.trim();
     roleNotifier.value = role;
@@ -46,7 +45,7 @@ class SessionManager {
     if (roleNotifier.value == role) return;
     roleNotifier.value = role;
     if (role == 'seller') {
-      shopId ??= MockDb.demoShopId;
+      shopId ??= AppDataConfig.demoShopId;
     }
   }
 

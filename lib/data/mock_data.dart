@@ -1,199 +1,48 @@
+import 'app_data_config.dart';
+import 'mock_json_data.dart';
 import 'models.dart';
 
-/// Kho dữ liệu giả (singleton) — nội dung port từ MockData.kt, bổ sung
-/// thêm timeline ghi nhận & kết quả buyer-check để demo đầy đủ luồng.
 class MockDb {
-  MockDb._();
+  MockDb._() {
+    _seed(appMockJson);
+  }
+
   static final MockDb instance = MockDb._();
 
-  /// shopId mặc định gắn cho tài khoản demo (seller sở hữu shop s1).
-  static const String demoShopId = 's1';
+  static const String demoShopId = AppDataConfig.demoShopId;
 
-  final List<Shop> shops = [
-    const Shop(
-      id: 's1',
-      name: 'Cửa hàng thực phẩm sạch Organic',
-      address: '123 Đường ABC, Quận 1, TP. Hồ Chí Minh',
-      rating: 4.8,
-      reviewCount: 120,
-      description: 'Chuyên cung cấp thịt tươi sống đạt chuẩn quốc tế.',
-    ),
-    const Shop(
-      id: 's2',
-      name: 'Ba Huân Food',
-      address: '456 Đường XYZ, Quận 7, TP. Hồ Chí Minh',
-      rating: 4.5,
-      reviewCount: 85,
-      description: 'Được nhiều người mua đánh giá tốt.',
-    ),
-  ];
+  final List<Shop> shops = [];
+  final List<Product> products = [];
+  final Map<String, List<Review>> reviewsByShop = {};
+  final Map<String, List<PledgeHistoryItem>> pledgesByProduct = {};
+  final List<Voucher> vouchers = [];
+  final List<UserVoucher> userVouchers = [];
 
-  final List<Product> products = [
-    Product(
-      id: 'p1',
-      shopId: 's1',
-      name: 'Thịt bò thăn ngoại Úc',
-      description: 'Thịt bò nhập khẩu tươi ngon, phù hợp làm steak.',
-      category: 'Thịt bò',
-      freshnessScore: 95,
-      freshnessNote: 'Màu hồng tươi, đàn hồi tốt',
-      price: 250000,
-      tags: ['Tươi sống', 'Nhập khẩu'],
-      status: 'Published',
-    ),
-    Product(
-      id: 'p2',
-      shopId: 's1',
-      name: 'Thịt heo ba chỉ',
-      description: 'Thịt heo VietGAP, không chất tạo nạc.',
-      category: 'Thịt heo',
-      freshnessScore: 88,
-      freshnessNote: 'Mỡ trắng, thịt dính chặt',
-      price: 120000,
-      tags: ['VietGAP'],
-      status: 'Published',
-    ),
-    Product(
-      id: 'p3',
-      shopId: 's2',
-      name: 'Ức gà phi lê',
-      description: 'Phù hợp cho người ăn kiêng, tập gym.',
-      category: 'Thịt gà',
-      freshnessScore: 45,
-      freshnessNote: 'Có dấu hiệu hơi khô bề mặt',
-      price: 85000,
-      tags: ['Ăn kiêng'],
-      status: 'Draft',
-    ),
-  ];
+  late BuyerCheckResult lastBuyerCheck;
 
-  final Map<String, List<Review>> reviewsByShop = {
-    's1': const [
-      Review(
-        id: 'r1',
-        userName: 'Nguyễn Văn A',
-        rating: 5,
-        comment: 'Thịt rất tươi, quét mã và kết quả kiểm tra khá khớp.',
-        date: '2026-05-28',
-      ),
-      Review(
-        id: 'r2',
-        userName: 'Trần Thị B',
-        rating: 4,
-        comment: 'Giao hàng nhanh, đóng gói cẩn thận.',
-        date: '2026-05-23',
-      ),
-    ],
-    's2': const [
-      Review(
-        id: 'r3',
-        userName: 'Lê Văn C',
-        rating: 4,
-        comment: 'Ức gà sạch, hợp tập gym.',
-        date: '2026-05-20',
-      ),
-    ],
-  };
-
-  final Map<String, List<PledgeHistoryItem>> pledgesByProduct = {
-    'p1': const [
-      PledgeHistoryItem(
-        time: '2026-05-30 07:15',
-        title: 'Người bán thêm ghi nhận mới',
-        description: 'Điểm đánh giá 8.7/10 cho lô bò thăn Úc buổi sáng.',
-        isVerified: true,
-        hasProof: true,
-        proofId: '9af3c21db77e',
-      ),
-      PledgeHistoryItem(
-        time: '2026-05-29 06:50',
-        title: 'Buyer kiểm chứng tại chỗ',
-        description:
-            'Khách quét mã tại sạp, kết quả gần với ghi nhận trước đó.',
-        isVerified: true,
-        hasProof: true,
-        proofId: '12b877ef0ac4',
-      ),
-      PledgeHistoryItem(
-        time: '2026-05-28 16:40',
-        title: 'Cửa hàng cập nhật trạng thái',
-        description: 'Phát hiện lệch điểm nhỏ so với ghi nhận trước đó.',
-        isVerified: false,
-        hasProof: false,
-        proofId: '',
-      ),
-    ],
-  };
-
-  final List<Voucher> vouchers = [
-    Voucher(
-      id: 'v1',
-      code: 'FRESH20',
-      title: 'Giảm 20% cho đơn thịt tươi',
-      shopId: 's1',
-      discountValue: 20,
-      isPercent: true,
-      minSpend: 150000,
-      expiresAt: DateTime(2026, 6, 30, 23, 59),
-    ),
-    Voucher(
-      id: 'v2',
-      code: 'QUAY50K',
-      title: 'Giảm 50.000đ tại quầy',
-      shopId: 's1',
-      discountValue: 50000,
-      isPercent: false,
-      minSpend: 250000,
-      expiresAt: DateTime(2026, 6, 15, 23, 59),
-    ),
-    Voucher(
-      id: 'v3',
-      code: 'EXPIRED10',
-      title: 'Mã đã hết hạn',
-      shopId: 's1',
-      discountValue: 10,
-      isPercent: true,
-      minSpend: 100000,
-      expiresAt: DateTime(2026, 5, 1),
-    ),
-    Voucher(
-      id: 'v4',
-      code: 'BAHUAN15',
-      title: 'Giảm 15% tại Ba Huân Food',
-      shopId: 's2',
-      discountValue: 15,
-      isPercent: true,
-      minSpend: 100000,
-      expiresAt: DateTime(2026, 6, 28, 23, 59),
-    ),
-  ];
-
-  final List<UserVoucher> userVouchers = [
-    UserVoucher(
-      id: 'uv1',
-      userEmail: 'demo@vngrocery.com',
-      voucherId: 'v1',
-    ),
-    UserVoucher(
-      id: 'uv2',
-      userEmail: 'demo@vngrocery.com',
-      voucherId: 'v2',
-      used: true,
-      usedAt: DateTime(2026, 6, 2, 10, 30),
-    ),
-    UserVoucher(
-      id: 'uv3',
-      userEmail: 'google.demo@vngrocery.com',
-      voucherId: 'v4',
-    ),
-  ];
-
-  /// Kết quả buyer-check gần nhất (mock).
-  BuyerCheckResult lastBuyerCheck = const BuyerCheckResult(
-    actualScore: 78,
-    locationStatus: 'near',
-    verdict: 'Gần với ghi nhận trước đó',
-  );
+  void _seed(Map<String, Object?> json) {
+    shops
+      ..clear()
+      ..addAll(_list(json['shops']).map(Shop.fromJson));
+    products
+      ..clear()
+      ..addAll(_list(json['products']).map(Product.fromJson));
+    reviewsByShop
+      ..clear()
+      ..addAll(_groupedList(json['reviewsByShop'], Review.fromJson));
+    pledgesByProduct
+      ..clear()
+      ..addAll(
+        _groupedList(json['pledgesByProduct'], PledgeHistoryItem.fromJson),
+      );
+    vouchers
+      ..clear()
+      ..addAll(_list(json['vouchers']).map(Voucher.fromJson));
+    userVouchers
+      ..clear()
+      ..addAll(_list(json['userVouchers']).map(UserVoucher.fromJson));
+    lastBuyerCheck = BuyerCheckResult.fromJson(_map(json['lastBuyerCheck']));
+  }
 
   Shop shopById(String id) =>
       shops.firstWhere((s) => s.id == id, orElse: () => shops.first);
@@ -374,4 +223,21 @@ class MockDb {
 
   int _seq = 2000;
   String nextId() => 'g${_seq++}';
+}
+
+List<Map<String, Object?>> _list(Object? value) {
+  return (value as List<Object?>).map(_map).toList();
+}
+
+Map<String, Object?> _map(Object? value) {
+  return (value as Map<Object?, Object?>).cast<String, Object?>();
+}
+
+Map<String, List<T>> _groupedList<T>(
+  Object? value,
+  T Function(Map<String, Object?> json) parse,
+) {
+  return _map(value).map(
+    (key, item) => MapEntry(key, _list(item).map(parse).toList()),
+  );
 }

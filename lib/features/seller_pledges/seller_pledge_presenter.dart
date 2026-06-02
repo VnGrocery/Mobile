@@ -1,15 +1,17 @@
-import '../../data/data_hooks.dart';
 import '../../data/models.dart';
+import '../../data/repositories.dart';
 
 class SellerPledgePresenter {
   const SellerPledgePresenter._();
+
+  static final AppRepositories _repos = AppRepositories.instance;
 
   static const categories = [
     'Thịt bò',
     'Thịt lợn',
     'Thịt gà',
     'Hải sản',
-    'Khác'
+    'Khác',
   ];
 
   static String titleForStep(int step) {
@@ -29,8 +31,7 @@ class SellerPledgePresenter {
     required String score,
     required String category,
   }) {
-    final data = AppDataHooks.instance;
-    data.addPledge(
+    _repos.pledges.add(
       productId,
       PledgeHistoryItem(
         time: 'Vừa xong',
@@ -38,7 +39,7 @@ class SellerPledgePresenter {
         description: 'Điểm đánh giá $score/10 cho loại: $category.',
         isVerified: true,
         hasProof: true,
-        proofId: data.nextId(),
+        proofId: _repos.ids.nextId(),
       ),
     );
   }

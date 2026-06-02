@@ -1,8 +1,10 @@
-import '../../data/data_hooks.dart';
 import '../../data/models.dart';
+import '../../data/repositories.dart';
 
 class SellerShopPresenter {
   const SellerShopPresenter._();
+
+  static final AppRepositories _repos = AppRepositories.instance;
 
   static const demoShopId = 's1';
 
@@ -11,11 +13,11 @@ class SellerShopPresenter {
   }
 
   static Shop shop(String? shopId) {
-    return AppDataHooks.instance.getShop(effectiveShopId(shopId));
+    return _repos.shops.byId(effectiveShopId(shopId));
   }
 
   static SellerDashboard dashboard(String? shopId) {
-    return AppDataHooks.instance.getSellerDashboard(shopId);
+    return _repos.seller.dashboard(shopId);
   }
 
   static Shop saveShop({
@@ -24,7 +26,7 @@ class SellerShopPresenter {
     required String description,
     required String address,
   }) {
-    return AppDataHooks.instance.saveShop(
+    return _repos.shops.save(
       shopId: effectiveShopId(shopId),
       name: name.trim(),
       description: description.trim(),

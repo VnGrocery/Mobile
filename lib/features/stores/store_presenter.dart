@@ -1,19 +1,21 @@
-import '../../data/data_hooks.dart';
 import '../../data/models.dart';
+import '../../data/repositories.dart';
 
 class StorePresenter {
   const StorePresenter._();
 
+  static final AppRepositories _repos = AppRepositories.instance;
+
   static Shop shop(String shopId) {
-    return AppDataHooks.instance.getShop(shopId);
+    return _repos.shops.byId(shopId);
   }
 
   static List<Product> products(String shopId) {
-    return AppDataHooks.instance.getProducts(shopId: shopId);
+    return _repos.products.all(shopId: shopId);
   }
 
   static List<Review> reviews(String shopId) {
-    return AppDataHooks.instance.getReviews(shopId);
+    return _repos.reviews.ofShop(shopId);
   }
 
   static String shareText(Shop shop) {

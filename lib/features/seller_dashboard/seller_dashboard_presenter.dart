@@ -1,10 +1,12 @@
-import '../../data/data_hooks.dart';
+import '../../data/repositories.dart';
 
 class SellerDashboardPresenter {
   const SellerDashboardPresenter._();
 
+  static final AppRepositories _repos = AppRepositories.instance;
+
   static SellerDashboard dashboard(String? shopId) {
-    return AppDataHooks.instance.getSellerDashboard(shopId);
+    return _repos.seller.dashboard(shopId);
   }
 
   static bool canCreatePledge(SellerDashboard dashboard) {

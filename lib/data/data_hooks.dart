@@ -1,53 +1,62 @@
-import 'mock_data.dart';
 import 'models.dart';
+import 'repositories.dart';
+
+export 'repositories.dart' show SellerDashboard;
 
 class AppDataHooks {
   AppDataHooks._();
   static final AppDataHooks instance = AppDataHooks._();
 
-  final MockDb _db = MockDb.instance;
+  final AppRepositories _repos = AppRepositories.instance;
 
-  List<Shop> getShops() => List.unmodifiable(_db.shops);
+  List<Shop> getShops() => _repos.shops.all();
 
-  Shop getShop(String id) => _db.shopById(id);
+  Shop getShop(String id) => _repos.shops.byId(id);
 
   List<Product> getProducts({String? shopId}) {
-    final products = shopId == null || shopId.isEmpty
-        ? _db.products
-        : _db.productsOfShop(shopId);
-    return List.unmodifiable(products);
+    return _repos.products.all(shopId: shopId);
   }
 
-  Product getProduct(String id) => _db.productById(id);
+  Product getProduct(String id) => _repos.products.byId(id);
 
-  List<Review> getReviews(String shopId) =>
-      List.unmodifiable(_db.reviewsOf(shopId));
+  List<Review> getReviews(String shopId) => _repos.reviews.ofShop(shopId);
 
   List<PledgeHistoryItem> getPledges(String productId) =>
-      List.unmodifiable(_db.pledgesOf(productId));
+      _repos.pledges.ofProduct(productId);
 
-  BuyerCheckResult getLastBuyerCheck() => _db.lastBuyerCheck;
+  BuyerCheckResult getLastBuyerCheck() => _repos.buyerChecks.lastResult;
 
   VoucherCheckResult checkVoucher({
     required String code,
     required String shopId,
     required int orderValue,
-  }) =>
-      _db.checkVoucher(code: code, shopId: shopId, orderValue: orderValue);
+  }) {
+    return _repos.vouchers.check(
+      code: code,
+      shopId: shopId,
+      orderValue: orderValue,
+    );
+  }
 
-  List<UserVoucher> getUserVouchers(String userEmail) =>
-      List.unmodifiable(_db.userVoucherWallet(userEmail));
+  List<UserVoucher> getUserVouchers(String userEmail) {
+    return _repos.vouchers.wallet(userEmail);
+  }
 
-  Voucher getVoucher(String voucherId) => _db.voucherById(voucherId);
+  Voucher getVoucher(String voucherId) => _repos.vouchers.byId(voucherId);
 
-  UserVoucher getUserVoucher(String userVoucherId) =>
-      _db.userVoucherById(userVoucherId);
+  UserVoucher getUserVoucher(String userVoucherId) {
+    return _repos.vouchers.userVoucherById(userVoucherId);
+  }
 
   UserVoucher saveVoucherToWallet({
     required String userEmail,
     required String voucherId,
-  }) =>
-      _db.saveVoucherToWallet(userEmail: userEmail, voucherId: voucherId);
+  }) {
+    return _repos.vouchers.saveToWallet(
+      userEmail: userEmail,
+      voucherId: voucherId,
+    );
+  }
 
   UserVoucher addManualVoucherToWallet({
     required String userEmail,
@@ -57,44 +66,32 @@ class AppDataHooks {
     required String note,
     required String codeFormat,
     required DateTime expiresAt,
-  }) =>
-      _db.addManualVoucherToWallet(
-        userEmail: userEmail,
-        shopId: shopId,
-        code: code,
-        title: title,
-        note: note,
-        codeFormat: codeFormat,
-        expiresAt: expiresAt,
-      );
+  }) {
+    return _repos.vouchers.addManualToWallet(
+      userEmail: userEmail,
+      shopId: shopId,
+      code: code,
+      title: title,
+      note: note,
+      codeFormat: codeFormat,
+      expiresAt: expiresAt,
+    );
+  }
 
-  void useUserVoucher(String userVoucherId) =>
-      _db.useUserVoucher(userVoucherId);
+  void useUserVoucher(String userVoucherId) {
+    _repos.vouchers.useUserVoucher(userVoucherId);
+  }
 
-  void addProduct(Product product) => _db.addProduct(product);
+  void addProduct(Product product) => _repos.products.add(product);
 
-  void addPledge(String productId, PledgeHistoryItem item) =>
-      _db.addPledge(productId, item);
+  void addPledge(String productId, PledgeHistoryItem item) {
+    _repos.pledges.add(productId, item);
+  }
 
-  String nextId() => _db.nextId();
+  String nextId() => _repos.ids.nextId();
 
   SellerDashboard getSellerDashboard(String? shopId) {
-    final selectedShopId =
-        shopId == null || shopId.isEmpty ? MockDb.demoShopId : shopId;
-    final shop = _db.shopById(selectedShopId);
-    final products = _db.productsOfShop(shop.id);
-    final pledges = products.expand((p) => _db.pledgesOf(p.id)).toList();
-    final pledgesToday =
-        pledges.where((p) => p.time.startsWith('2026-05-30')).length;
-
-    return SellerDashboard(
-      shop: shop,
-      products: List.unmodifiable(products),
-      pledges: List.unmodifiable(pledges),
-      pledgesToday: pledgesToday,
-      warningCount: products.where((p) => p.freshnessScore < 60).length,
-      trustGrade: _trustGrade(shop.rating),
-    );
+    return _repos.seller.dashboard(shopId);
   }
 
   Shop saveShop({
@@ -103,46 +100,11 @@ class AppDataHooks {
     required String description,
     required String address,
   }) {
-    final index = _db.shops.indexWhere((shop) => shop.id == shopId);
-    final updated = Shop(
-      id: shopId,
+    return _repos.shops.save(
+      shopId: shopId,
       name: name,
-      address: address,
-      rating: index >= 0 ? _db.shops[index].rating : 0,
-      reviewCount: index >= 0 ? _db.shops[index].reviewCount : 0,
       description: description,
-      logoUrl: index >= 0 ? _db.shops[index].logoUrl : null,
+      address: address,
     );
-    if (index >= 0) {
-      _db.shops[index] = updated;
-    } else {
-      _db.shops.add(updated);
-    }
-    return updated;
   }
-
-  String _trustGrade(double rating) {
-    if (rating >= 4.7) return 'A';
-    if (rating >= 4.3) return 'B';
-    if (rating > 0) return 'C';
-    return 'N/A';
-  }
-}
-
-class SellerDashboard {
-  final Shop shop;
-  final List<Product> products;
-  final List<PledgeHistoryItem> pledges;
-  final int pledgesToday;
-  final int warningCount;
-  final String trustGrade;
-
-  const SellerDashboard({
-    required this.shop,
-    required this.products,
-    required this.pledges,
-    required this.pledgesToday,
-    required this.warningCount,
-    required this.trustGrade,
-  });
 }
