@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../data/session.dart';
 import '../theme/app_colors.dart';
+import 'explore_map_screen.dart';
 import 'scanner_screen.dart';
 import 'seller_product_list_screen.dart';
 import 'seller_shop_screen.dart';
@@ -20,6 +21,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  static const double _bottomNavContentInset = 92;
+
   int _index = 0;
   bool _menuOpen = false;
 
@@ -31,19 +34,41 @@ class _MainScreenState extends State<MainScreen> {
         final isSeller = role == 'seller';
         final tabs = isSeller
             ? [
-                const PledgeTab(),
-                SellerProductListScreen(shopId: SessionManager.instance.shopId),
-                const SellerShopScreen(),
-                const AccountTab(),
+                const PledgeTab(
+                  bottomContentInset: _bottomNavContentInset,
+                ),
+                SellerProductListScreen(
+                  shopId: SessionManager.instance.shopId,
+                  bottomContentInset: _bottomNavContentInset,
+                ),
+                const SellerShopScreen(
+                  bottomContentInset: _bottomNavContentInset,
+                ),
+                const AccountTab(
+                  bottomContentInset: _bottomNavContentInset,
+                ),
               ]
             : [
                 HomeTab(
                   onOpenMenu: () => setState(() => _menuOpen = true),
+                  bottomContentInset: _bottomNavContentInset,
                 ),
-                const ExploreTab(),
-                const ScannerScreen(),
-                const ExploreTab(),
-                const AccountTab(),
+                const ExploreMapScreen(
+                  key: ValueKey('explore_map'),
+                  showBackButton: false,
+                  bottomOverlayInset: _bottomNavContentInset,
+                ),
+                const ScannerScreen(
+                  bottomContentInset: _bottomNavContentInset,
+                ),
+                const ExploreTab(
+                  key: ValueKey('store_list'),
+                  showMap: false,
+                  bottomContentInset: _bottomNavContentInset,
+                ),
+                const AccountTab(
+                  bottomContentInset: _bottomNavContentInset,
+                ),
               ];
         final navItems = _menuItems(isSeller);
         final selectedIndex = _index.clamp(0, tabs.length - 1);
@@ -87,7 +112,9 @@ class _MainScreenState extends State<MainScreen> {
                         child: Scaffold(
                           backgroundColor: AppColors.screenBg,
                           body: IndexedStack(
-                              index: selectedIndex, children: tabs),
+                            index: selectedIndex,
+                            children: tabs,
+                          ),
                         ),
                       ),
                     ),
@@ -109,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
                 Positioned(
                   left: 0,
                   right: 0,
-                  bottom: 18,
+                  bottom: -14,
                   child: _FloatingTabPopup(
                     items: navItems,
                     selectedIndex: selectedIndex,
@@ -335,20 +362,20 @@ class _FloatingTabPopup extends StatelessWidget {
       child: Center(
         child: SizedBox(
           width: 342,
-          height: 108,
+          height: 92,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.only(bottom: 6),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(38),
+                  borderRadius: BorderRadius.circular(32),
                   child: BackdropFilter(
                     filter: ui.ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.78),
-                        borderRadius: BorderRadius.circular(38),
+                        borderRadius: BorderRadius.circular(32),
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.72),
                         ),
@@ -361,7 +388,7 @@ class _FloatingTabPopup extends StatelessWidget {
                         ],
                       ),
                       child: SizedBox(
-                        height: 82,
+                        height: 68,
                         child: Row(
                           children: [
                             const SizedBox(width: 18),
@@ -374,7 +401,7 @@ class _FloatingTabPopup extends StatelessWidget {
                                   onTap: () => onSelect(i),
                                 ),
                               ),
-                            const SizedBox(width: 74),
+                            const SizedBox(width: 64),
                             for (final i in rightItems)
                               Expanded(
                                 child: _GlassTabItem(
@@ -440,13 +467,13 @@ class _ScanDiamondButton extends StatelessWidget {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 180),
             curve: Curves.easeOutCubic,
-            width: 66,
-            height: 66,
+            width: 58,
+            height: 58,
             decoration: BoxDecoration(
               color: selected
                   ? AppColors.primaryGreenDark
                   : AppColors.primaryGreen,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.primaryGreen.withValues(alpha: 0.34),
@@ -461,7 +488,7 @@ class _ScanDiamondButton extends StatelessWidget {
               child: Icon(
                 icon,
                 color: Colors.white,
-                size: 28,
+                size: 26,
               ),
             ),
           ),
@@ -487,10 +514,10 @@ class _GlassTabItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(20),
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -498,9 +525,9 @@ class _GlassTabItem extends StatelessWidget {
               icon,
               color:
                   selected ? AppColors.primaryGreen : const Color(0xFF8BA1B2),
-              size: 24,
+              size: 22,
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
             Text(
               _shortLabel(label),
               maxLines: 1,
@@ -508,7 +535,7 @@ class _GlassTabItem extends StatelessWidget {
               style: TextStyle(
                 color:
                     selected ? AppColors.primaryGreen : const Color(0xFF8BA1B2),
-                fontSize: 11,
+                fontSize: 10.5,
                 fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
               ),
             ),

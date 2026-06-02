@@ -17,8 +17,13 @@ class _Cat {
 
 class HomeTab extends StatefulWidget {
   final VoidCallback? onOpenMenu;
+  final double bottomContentInset;
 
-  const HomeTab({super.key, this.onOpenMenu});
+  const HomeTab({
+    super.key,
+    this.onOpenMenu,
+    this.bottomContentInset = 0,
+  });
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -52,7 +57,7 @@ class _HomeTabState extends State<HomeTab> {
       body: SafeArea(
         bottom: false,
         child: ListView(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.only(bottom: widget.bottomContentInset),
           children: [
             _header(),
             const SizedBox(height: 16),

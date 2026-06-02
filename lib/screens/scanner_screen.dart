@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../routes/app_routes.dart';
 
 class ScannerScreen extends StatefulWidget {
-  const ScannerScreen({super.key});
+  final double bottomContentInset;
+
+  const ScannerScreen({super.key, this.bottomContentInset = 0});
 
   @override
   State<ScannerScreen> createState() => _ScannerScreenState();
@@ -48,87 +50,90 @@ class _ScannerScreenState extends State<ScannerScreen>
                 style: TextStyle(color: Color(0xFF555555), fontSize: 18)),
           ),
           Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Quét sản phẩm',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                Text('Đưa mã QR hoặc tem sản phẩm vào khung hình',
-                    style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.7),
-                        fontSize: 14)),
-                const SizedBox(height: 32),
-                SizedBox(
-                  width: 280,
-                  height: 280,
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.5),
-                              width: 2),
-                          borderRadius: BorderRadius.circular(24),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: widget.bottomContentInset),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('Quét sản phẩm',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Text('Đưa mã QR hoặc tem sản phẩm vào khung hình',
+                      style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.7),
+                          fontSize: 14)),
+                  const SizedBox(height: 32),
+                  SizedBox(
+                    width: 280,
+                    height: 280,
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.5),
+                                width: 2),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
                         ),
-                      ),
-                      AnimatedBuilder(
-                        animation: _line,
-                        builder: (_, __) => Positioned(
-                          top: _line.value * 278,
-                          left: 0,
-                          right: 0,
-                          child: Container(height: 2, color: Colors.red),
+                        AnimatedBuilder(
+                          animation: _line,
+                          builder: (_, __) => Positioned(
+                            top: _line.value * 278,
+                            left: 0,
+                            right: 0,
+                            child: Container(height: 2, color: Colors.red),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 40),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(50),
+                  const SizedBox(height: 40),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _verifying ? Icons.gps_fixed : Icons.location_on,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          _verifying
+                              ? 'Đang kiểm tra vị trí quầy hàng...'
+                              : 'Sẵn sàng kiểm tra sản phẩm',
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        _verifying ? Icons.gps_fixed : Icons.location_on,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        _verifying
-                            ? 'Đang kiểm tra vị trí quầy hàng...'
-                            : 'Sẵn sàng kiểm tra sản phẩm',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    ],
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: _verifying ? null : _simulate,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      minimumSize: const Size(220, 48),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24)),
+                    ),
+                    child: Text(
+                      _verifying ? 'Đang kiểm tra...' : 'Giả lập quét sản phẩm',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                ElevatedButton(
-                  onPressed: _verifying ? null : _simulate,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    minimumSize: const Size(220, 48),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24)),
-                  ),
-                  child: Text(
-                    _verifying ? 'Đang kiểm tra...' : 'Giả lập quét sản phẩm',
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           SafeArea(

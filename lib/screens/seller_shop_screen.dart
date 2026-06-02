@@ -5,7 +5,9 @@ import '../data/session.dart';
 import '../theme/app_colors.dart';
 
 class SellerShopScreen extends StatefulWidget {
-  const SellerShopScreen({super.key});
+  final double bottomContentInset;
+
+  const SellerShopScreen({super.key, this.bottomContentInset = 0});
 
   @override
   State<SellerShopScreen> createState() => _SellerShopScreenState();
@@ -67,7 +69,8 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding:
+            EdgeInsets.fromLTRB(16, 16, 16, 16 + widget.bottomContentInset),
         children: [
           _summaryCard(dashboard),
           const SizedBox(height: 16),

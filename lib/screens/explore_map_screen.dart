@@ -8,8 +8,15 @@ import '../widgets/osm_tile_map.dart';
 
 class ExploreMapScreen extends StatefulWidget {
   final String? initialShopId;
+  final bool showBackButton;
+  final double bottomOverlayInset;
 
-  const ExploreMapScreen({super.key, this.initialShopId});
+  const ExploreMapScreen({
+    super.key,
+    this.initialShopId,
+    this.showBackButton = true,
+    this.bottomOverlayInset = 0,
+  });
 
   @override
   State<ExploreMapScreen> createState() => _ExploreMapScreenState();
@@ -28,7 +35,8 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
   @override
   Widget build(BuildContext context) {
     final shops = AppDataHooks.instance.getShops();
-    final selectedShop = shops.where((shop) => shop.id == _selectedShopId).firstOrNull;
+    final selectedShop =
+        shops.where((shop) => shop.id == _selectedShopId).firstOrNull;
 
     return Scaffold(
       body: Stack(
@@ -44,7 +52,10 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
             left: 16,
             right: 16,
             top: MediaQuery.paddingOf(context).top + 12,
-            child: _SearchShell(onBack: () => Navigator.pop(context)),
+            child: _SearchShell(
+              showBackButton: widget.showBackButton,
+              onBack: () => Navigator.pop(context),
+            ),
           ),
           for (var i = 0; i < shops.length; i++)
             Align(
@@ -81,8 +92,10 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
                 controller: controller,
                 shops: shops,
                 selectedShopId: _selectedShopId,
-                onSelectShop: (shop) => setState(() => _selectedShopId = shop.id),
+                onSelectShop: (shop) =>
+                    setState(() => _selectedShopId = shop.id),
                 selectedShop: selectedShop,
+                bottomContentInset: widget.bottomOverlayInset,
               );
             },
           ),
@@ -93,24 +106,30 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
 }
 
 class _SearchShell extends StatelessWidget {
+  final bool showBackButton;
   final VoidCallback onBack;
 
-  const _SearchShell({required this.onBack});
+  const _SearchShell({
+    required this.showBackButton,
+    required this.onBack,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Material(
-          color: Colors.white,
-          elevation: 4,
-          shape: const CircleBorder(),
-          child: IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.arrow_back),
+        if (showBackButton) ...[
+          Material(
+            color: Colors.white,
+            elevation: 4,
+            shape: const CircleBorder(),
+            child: IconButton(
+              onPressed: onBack,
+              icon: const Icon(Icons.arrow_back),
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
+          const SizedBox(width: 10),
+        ],
         Expanded(
           child: Material(
             color: Colors.white,
@@ -163,7 +182,8 @@ class _FloatingShopPin extends StatelessWidget {
             if (selected)
               Container(
                 constraints: const BoxConstraints(maxWidth: 150),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
@@ -179,7 +199,8 @@ class _FloatingShopPin extends StatelessWidget {
                   shop.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 11, fontWeight: FontWeight.bold),
                 ),
               ),
             Icon(
@@ -200,6 +221,7 @@ class _MapBottomSheet extends StatelessWidget {
   final String? selectedShopId;
   final ValueChanged<Shop> onSelectShop;
   final Shop? selectedShop;
+  final double bottomContentInset;
 
   const _MapBottomSheet({
     required this.controller,
@@ -207,6 +229,7 @@ class _MapBottomSheet extends StatelessWidget {
     required this.selectedShopId,
     required this.onSelectShop,
     required this.selectedShop,
+    required this.bottomContentInset,
   });
 
   @override
@@ -218,7 +241,7 @@ class _MapBottomSheet extends StatelessWidget {
       ),
       child: ListView(
         controller: controller,
-        padding: const EdgeInsets.fromLTRB(16, 10, 16, 24),
+        padding: EdgeInsets.fromLTRB(16, 10, 16, 24 + bottomContentInset),
         children: [
           Center(
             child: Container(
@@ -323,7 +346,8 @@ class _MapShopTile extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.star, size: 15, color: AppColors.warningOrange),
+                    const Icon(Icons.star,
+                        size: 15, color: AppColors.warningOrange),
                     Text(
                       ' ${shop.rating}',
                       style: const TextStyle(fontWeight: FontWeight.bold),

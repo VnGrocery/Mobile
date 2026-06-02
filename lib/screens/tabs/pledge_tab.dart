@@ -6,7 +6,9 @@ import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
 
 class PledgeTab extends StatelessWidget {
-  const PledgeTab({super.key});
+  final double bottomContentInset;
+
+  const PledgeTab({super.key, this.bottomContentInset = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class PledgeTab extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + bottomContentInset),
         children: [
           Text(
             dashboard.shop.name,

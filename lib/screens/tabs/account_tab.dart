@@ -5,7 +5,9 @@ import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
 
 class AccountTab extends StatefulWidget {
-  const AccountTab({super.key});
+  final double bottomContentInset;
+
+  const AccountTab({super.key, this.bottomContentInset = 0});
 
   @override
   State<AccountTab> createState() => _AccountTabState();
@@ -73,7 +75,7 @@ class _AccountTabState extends State<AccountTab> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.zero,
+        padding: EdgeInsets.only(bottom: widget.bottomContentInset),
         children: [
           Padding(
             padding: const EdgeInsets.all(24),

@@ -7,7 +7,13 @@ import '../theme/app_colors.dart';
 
 class SellerProductListScreen extends StatefulWidget {
   final String? shopId;
-  const SellerProductListScreen({super.key, required this.shopId});
+  final double bottomContentInset;
+
+  const SellerProductListScreen({
+    super.key,
+    required this.shopId,
+    this.bottomContentInset = 0,
+  });
 
   @override
   State<SellerProductListScreen> createState() =>
@@ -41,15 +47,18 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
         title: const Text('Sản phẩm của tôi',
             style: TextStyle(fontWeight: FontWeight.bold)),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.meatRed,
-        foregroundColor: Colors.white,
-        onPressed: () async {
-          await Navigator.pushNamed(context, Routes.sellerCreateProduct,
-              arguments: shopId);
-          if (mounted) setState(() {});
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: widget.bottomContentInset),
+        child: FloatingActionButton(
+          backgroundColor: AppColors.meatRed,
+          foregroundColor: Colors.white,
+          onPressed: () async {
+            await Navigator.pushNamed(context, Routes.sellerCreateProduct,
+                arguments: shopId);
+            if (mounted) setState(() {});
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
       body: Column(
         children: [
@@ -90,7 +99,12 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                     ),
                   )
                 : ListView.separated(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.fromLTRB(
+                      16,
+                      16,
+                      16,
+                      16 + widget.bottomContentInset,
+                    ),
                     itemCount: products.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
                     itemBuilder: (_, i) => _card(products[i]),

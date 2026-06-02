@@ -8,7 +8,14 @@ import '../../widgets/common.dart';
 import '../../widgets/osm_tile_map.dart';
 
 class ExploreTab extends StatefulWidget {
-  const ExploreTab({super.key});
+  final bool showMap;
+  final double bottomContentInset;
+
+  const ExploreTab({
+    super.key,
+    this.showMap = true,
+    this.bottomContentInset = 0,
+  });
 
   @override
   State<ExploreTab> createState() => _ExploreTabState();
@@ -40,15 +47,16 @@ class _ExploreTabState extends State<ExploreTab> {
       return shop.name.toLowerCase().contains(query) ||
           shop.address.toLowerCase().contains(query);
     }).toList();
-    final selectedShop =
-        shops.where((shop) => shop.id == _selectedShopId).firstOrNull;
+    final selectedShop = widget.showMap
+        ? shops.where((shop) => shop.id == _selectedShopId).firstOrNull
+        : null;
 
     return Scaffold(
       backgroundColor: AppColors.screenBg,
       appBar: AppBar(
-        title: const Text(
-          'Khám phá cửa hàng',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          widget.showMap ? 'Khám phá cửa hàng' : 'Cửa hàng',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: Column(
@@ -90,31 +98,37 @@ class _ExploreTabState extends State<ExploreTab> {
               },
             ),
           ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _ExploreMap(
-              shops: shops,
-              selectedShopId: selectedShop?.id,
-              onOpenMap: () => Navigator.pushNamed(
-                context,
-                Routes.exploreMap,
-                arguments: selectedShop?.id,
+          SizedBox(height: widget.showMap ? 16 : 12),
+          if (widget.showMap) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _ExploreMap(
+                shops: shops,
+                selectedShopId: selectedShop?.id,
+                onOpenMap: () => Navigator.pushNamed(
+                  context,
+                  Routes.exploreMap,
+                  arguments: selectedShop?.id,
+                ),
+                onSelectShop: (shop) =>
+                    setState(() => _selectedShopId = shop.id),
               ),
-              onSelectShop: (shop) => setState(() => _selectedShopId = shop.id),
             ),
-          ),
-          const SizedBox(height: 12),
+            const SizedBox(height: 12),
+          ],
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                const Text(
-                  'Cửa hàng gần bạn',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Text(
+                  widget.showMap ? 'Cửa hàng gần bạn' : 'Tất cả cửa hàng',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const Spacer(),
-                if (selectedShop != null)
+                if (widget.showMap && selectedShop != null)
                   TextButton.icon(
                     onPressed: () => Navigator.pushNamed(
                       context,
@@ -136,14 +150,29 @@ class _ExploreTabState extends State<ExploreTab> {
                     ),
                   )
                 : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                    padding: EdgeInsets.fromLTRB(
+                      16,
+                      4,
+                      16,
+                      16 + widget.bottomContentInset,
+                    ),
                     itemCount: shops.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
                     itemBuilder: (_, i) => _ShopExploreCard(
                       shop: shops[i],
-                      selected: shops[i].id == _selectedShopId,
-                      onTap: () =>
-                          setState(() => _selectedShopId = shops[i].id),
+                      selected:
+                          widget.showMap && shops[i].id == _selectedShopId,
+                      onTap: () {
+                        if (widget.showMap) {
+                          setState(() => _selectedShopId = shops[i].id);
+                          return;
+                        }
+                        Navigator.pushNamed(
+                          context,
+                          Routes.storeDetail,
+                          arguments: shops[i].id,
+                        );
+                      },
                     ),
                   ),
           ),
