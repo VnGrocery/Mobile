@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../data/session.dart';
 import '../routes/app_routes.dart';
 
 class ScannerScreen extends StatefulWidget {
@@ -32,14 +31,10 @@ class _ScannerScreenState extends State<ScannerScreen>
 
   Future<void> _simulate() async {
     setState(() => _verifying = true);
-    await Future<void>.delayed(const Duration(milliseconds: 1500));
+    await Future<void>.delayed(const Duration(milliseconds: 900));
     if (!mounted) return;
-    final shopId = SessionManager.instance.shopId ?? 's1';
-    Navigator.pushReplacementNamed(
-      context,
-      Routes.productDetail,
-      arguments: {'shopId': shopId, 'productId': 'p1'},
-    );
+    setState(() => _verifying = false);
+    Navigator.pushNamed(context, Routes.aiCompare);
   }
 
   @override
@@ -102,12 +97,20 @@ class _ScannerScreenState extends State<ScannerScreen>
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(Icons.location_on, color: Colors.white, size: 16),
-                      SizedBox(width: 8),
-                      Text('Đang xác minh vị trí cửa hàng...',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 12)),
+                    children: [
+                      Icon(
+                        _verifying ? Icons.gps_fixed : Icons.location_on,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _verifying
+                            ? 'Đang xác minh vị trí cửa hàng...'
+                            : 'Sẵn sàng xác minh vị trí cửa hàng',
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
                     ],
                   ),
                 ),
@@ -126,14 +129,15 @@ class _ScannerScreenState extends State<ScannerScreen>
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                 ),
-                child: const Text('Giả lập Quét thành công'),
+                child: Text(
+                  _verifying ? 'Đang xác minh...' : 'Giả lập quét thành công',
+                ),
               ),
             ),
           ),
           SafeArea(
             child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 16),
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -152,7 +156,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   children: [
                     CircularProgressIndicator(color: Colors.white),
                     SizedBox(height: 16),
-                    Text('Đang đồng bộ Proof...',
+                    Text('Đang xác minh vị trí...',
                         style: TextStyle(color: Colors.white)),
                   ],
                 ),
