@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/ui/app_feedback.dart';
 import '../data/data_hooks.dart';
 import '../data/models.dart';
 import '../data/session.dart';
@@ -40,9 +41,7 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
       userEmail: SessionManager.instance.email,
       voucherId: voucher.id,
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Đã lưu voucher vào ví')),
-    );
+    AppFeedback.showSnackBar(context, 'Đã lưu voucher vào ví');
   }
 
   @override

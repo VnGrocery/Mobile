@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../core/ui/app_feedback.dart';
 import '../data/data_hooks.dart';
 import '../data/session.dart';
-import '../theme/app_colors.dart';
+import '../features/vouchers/widgets/voucher_components.dart';
 import '../theme/app_palette.dart';
 
 class ManualVoucherScreen extends StatefulWidget {
@@ -34,9 +35,7 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
       _codeFormat = format;
       _code.text = format == 'QR' ? 'MANUALQR20' : 'BARCODE-8938505970012';
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Đã copy mã $format demo vào ô mã')),
-    );
+    AppFeedback.showSnackBar(context, 'Đã copy mã $format demo vào ô mã');
   }
 
   Future<void> _pickExpiry() async {
@@ -65,9 +64,7 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
       codeFormat: _codeFormat,
       expiresAt: _expiresAt,
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Đã thêm voucher thủ công vào ví')),
-    );
+    AppFeedback.showSnackBar(context, 'Đã thêm voucher thủ công vào ví');
     Navigator.pop(context, true);
   }
 
@@ -76,7 +73,6 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
     final data = AppDataHooks.instance;
     final shops = data.getShops();
     _shopId ??= shops.first.id;
-    final palette = context.palette;
 
     return Scaffold(
       backgroundColor: context.palette.appBackground,
@@ -86,7 +82,10 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            _notice(palette),
+            const VoucherNotice(
+              text:
+                  'Voucher thủ công là thông tin do bạn tự nhập để lưu trữ và sử dụng tại quầy. Nội dung này chưa được cửa hàng xác thực, bạn tự chịu trách nhiệm về điều kiện sử dụng.',
+            ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               initialValue: _shopId,
@@ -180,29 +179,6 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _notice(AppPalette palette) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: palette.warningBg,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: const Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.info, color: AppColors.warningOrange),
-          SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              'Voucher thủ công là thông tin do bạn tự nhập để lưu trữ và sử dụng tại quầy. Nội dung này chưa được cửa hàng xác thực, bạn tự chịu trách nhiệm về điều kiện sử dụng.',
-              style: TextStyle(height: 1.35),
-            ),
-          ),
-        ],
       ),
     );
   }

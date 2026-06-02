@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../core/ui/app_feedback.dart';
 import '../data/data_hooks.dart';
 import '../data/models.dart';
+import '../features/vouchers/voucher_presenter.dart';
+import '../features/vouchers/widgets/voucher_components.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_palette.dart';
@@ -26,24 +29,34 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
     final voucher = data.getVoucher(userVoucher.voucherId);
     final shop = data.getShop(voucher.shopId);
     final palette = context.palette;
-    final expired = DateTime.now().isAfter(voucher.expiresAt);
-    final disabled = userVoucher.isUsed || expired || !voucher.isActive;
+    final disabled = VoucherPresenter.isDisabled(userVoucher, voucher);
 
     return Scaffold(
-      backgroundColor: context.palette.appBackground,
+      backgroundColor: palette.appBackground,
       appBar: AppBar(title: const Text('Dùng voucher')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          _voucherHeader(voucher, shop, userVoucher, expired, palette),
+          _VoucherHeader(
+            voucher: voucher,
+            shop: shop,
+            userVoucher: userVoucher,
+          ),
           const SizedBox(height: 20),
-          _qrCard(userVoucher, voucher, shop, palette),
+          _VoucherCodeCard(
+            userVoucher: userVoucher,
+            voucher: voucher,
+            shop: shop,
+          ),
           if (voucher.isManual) ...[
             const SizedBox(height: 14),
-            _manualNotice(palette),
+            const VoucherNotice(
+              text:
+                  'Thông tin voucher này do bạn tự nhập và chưa được cửa hàng xác thực. Hãy kiểm tra lại điều kiện tại quầy trước khi sử dụng.',
+            ),
           ],
           const SizedBox(height: 20),
-          _ruleCard(voucher, shop, palette),
+          _VoucherRuleCard(voucher: voucher, shop: shop),
           const SizedBox(height: 24),
           SizedBox(
             height: 56,
@@ -95,23 +108,24 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
     AppDataHooks.instance.useUserVoucher(widget.userVoucherId);
     if (!mounted) return;
     setState(() => _confirming = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Đã sử dụng voucher')),
-    );
+    AppFeedback.showSnackBar(context, 'Đã sử dụng voucher');
   }
+}
 
-  Widget _voucherHeader(
-    Voucher voucher,
-    Shop shop,
-    UserVoucher userVoucher,
-    bool expired,
-    AppPalette palette,
-  ) {
-    final status = userVoucher.isUsed
-        ? 'Đã dùng'
-        : expired
-            ? 'Hết hạn'
-            : 'Sẵn sàng sử dụng';
+class _VoucherHeader extends StatelessWidget {
+  final Voucher voucher;
+  final Shop shop;
+  final UserVoucher userVoucher;
+
+  const _VoucherHeader({
+    required this.voucher,
+    required this.shop,
+    required this.userVoucher,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -137,7 +151,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
               const Icon(Icons.info, size: 17, color: AppColors.primaryGreen),
               const SizedBox(width: 6),
               Text(
-                status,
+                VoucherPresenter.detailStatus(userVoucher, voucher),
                 style: const TextStyle(
                   color: AppColors.primaryGreen,
                   fontWeight: FontWeight.bold,
@@ -145,13 +159,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
               ),
               if (voucher.isManual) ...[
                 const SizedBox(width: 8),
-                const Text(
-                  'Tự nhập',
-                  style: TextStyle(
-                    color: AppColors.warningOrange,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                const ManualVoucherBadge(),
               ],
             ],
           ),
@@ -159,17 +167,29 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
       ),
     );
   }
+}
 
-  Widget _qrCard(
-    UserVoucher userVoucher,
-    Voucher voucher,
-    Shop shop,
-    AppPalette palette,
-  ) {
-    final payload = voucher.isManual
-        ? voucher.code
-        : 'VNGROCERY:${userVoucher.id}:${voucher.code}:${shop.id}';
+class _VoucherCodeCard extends StatelessWidget {
+  final UserVoucher userVoucher;
+  final Voucher voucher;
+  final Shop shop;
+
+  const _VoucherCodeCard({
+    required this.userVoucher,
+    required this.voucher,
+    required this.shop,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    final payload = VoucherPresenter.qrPayload(
+      userVoucher: userVoucher,
+      voucher: voucher,
+      shop: shop,
+    );
     final barcodeMode = voucher.codeFormat == 'Mã vạch';
+
     return Card(
       color: palette.card,
       elevation: 0,
@@ -188,7 +208,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
                 border: Border.all(color: palette.border),
               ),
               child: barcodeMode
-                  ? _BarcodePreview(code: voucher.code)
+                  ? BarcodePreview(code: voucher.code)
                   : const FittedBox(
                       child: Icon(Icons.qr_code_2, color: Colors.black),
                     ),
@@ -216,36 +236,20 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
       ),
     );
   }
+}
 
-  Widget _manualNotice(AppPalette palette) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: palette.warningBg,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: const Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.info, color: AppColors.warningOrange),
-          SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              'Thông tin voucher này do bạn tự nhập và chưa được cửa hàng xác thực. Hãy kiểm tra lại điều kiện tại quầy trước khi sử dụng.',
-              style: TextStyle(height: 1.35),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+class _VoucherRuleCard extends StatelessWidget {
+  final Voucher voucher;
+  final Shop shop;
 
-  Widget _ruleCard(Voucher voucher, Shop shop, AppPalette palette) {
-    final discount = voucher.isManual
-        ? 'Theo thông tin bạn tự nhập'
-        : (voucher.isPercent
-            ? 'Giảm ${voucher.discountValue}%'
-            : 'Giảm ${formatVnd(voucher.discountValue)}');
+  const _VoucherRuleCard({
+    required this.voucher,
+    required this.shop,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -260,71 +264,27 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          _rule(Icons.storefront, 'Chỉ áp dụng tại ${shop.name}'),
-          _rule(Icons.local_offer, discount),
+          VoucherRuleRow(
+            icon: Icons.storefront,
+            text: 'Chỉ áp dụng tại ${shop.name}',
+          ),
+          VoucherRuleRow(
+            icon: Icons.local_offer,
+            text: VoucherPresenter.ruleDiscountLabel(voucher),
+          ),
           if (!voucher.isManual)
-            _rule(Icons.receipt_long, 'Đơn từ ${formatVnd(voucher.minSpend)}'),
-          _rule(
-            Icons.event,
-            'Hạn dùng ${voucher.expiresAt.day}/${voucher.expiresAt.month}/${voucher.expiresAt.year}',
+            VoucherRuleRow(
+              icon: Icons.receipt_long,
+              text: 'Đơn từ ${formatVnd(voucher.minSpend)}',
+            ),
+          VoucherRuleRow(
+            icon: Icons.event,
+            text: VoucherPresenter.expiryLabel(voucher),
           ),
           if (voucher.isManual && voucher.note.isNotEmpty)
-            _rule(Icons.note, voucher.note),
+            VoucherRuleRow(icon: Icons.note, text: voucher.note),
         ],
       ),
-    );
-  }
-
-  Widget _rule(IconData icon, String text) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: Row(
-        children: [
-          Icon(icon, size: 17, color: AppColors.primaryGreen),
-          const SizedBox(width: 8),
-          Expanded(child: Text(text)),
-        ],
-      ),
-    );
-  }
-}
-
-class _BarcodePreview extends StatelessWidget {
-  final String code;
-
-  const _BarcodePreview({required this.code});
-
-  @override
-  Widget build(BuildContext context) {
-    final bars = [8, 3, 5, 9, 4, 7, 2, 6, 10, 4, 8, 3, 6, 5, 9];
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 118,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              for (final width in bars) ...[
-                Container(width: width / 2, color: Colors.black),
-                const SizedBox(width: 3),
-              ],
-            ],
-          ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          code,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
     );
   }
 }
