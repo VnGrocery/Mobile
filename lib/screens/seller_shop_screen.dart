@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../data/data_hooks.dart';
+import '../core/ui/app_feedback.dart';
 import '../data/session.dart';
-import '../theme/app_colors.dart';
+import '../features/seller_shop/seller_shop_presenter.dart';
+import '../features/seller_shop/widgets/seller_shop_components.dart';
 import '../theme/app_palette.dart';
 
 class SellerShopScreen extends StatefulWidget {
@@ -20,12 +21,13 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
   late final TextEditingController _address;
   bool _saving = false;
 
+  bool get _canSave =>
+      _name.text.trim().isNotEmpty && _address.text.trim().isNotEmpty;
+
   @override
   void initState() {
     super.initState();
-    final shop = AppDataHooks.instance.getShop(
-      SessionManager.instance.shopId ?? MockShopIds.demo,
-    );
+    final shop = SellerShopPresenter.shop(SessionManager.instance.shopId);
     _name = TextEditingController(text: shop.name);
     _description = TextEditingController(text: shop.description);
     _address = TextEditingController(text: shop.address);
@@ -39,26 +41,9 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
     super.dispose();
   }
 
-  Future<void> _save() async {
-    setState(() => _saving = true);
-    await Future<void>.delayed(const Duration(milliseconds: 450));
-    final shop = AppDataHooks.instance.saveShop(
-      shopId: SessionManager.instance.shopId ?? MockShopIds.demo,
-      name: _name.text.trim(),
-      description: _description.text.trim(),
-      address: _address.text.trim(),
-    );
-    SessionManager.instance.shopId = shop.id;
-    if (!mounted) return;
-    setState(() => _saving = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Đã lưu thông tin cửa hàng demo')),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final dashboard = AppDataHooks.instance.getSellerDashboard(
+    final dashboard = SellerShopPresenter.dashboard(
       SessionManager.instance.shopId,
     );
     return Scaffold(
@@ -73,141 +58,39 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
         padding:
             EdgeInsets.fromLTRB(16, 16, 16, 16 + widget.bottomContentInset),
         children: [
-          _summaryCard(dashboard),
+          SellerShopSummaryCard(dashboard: dashboard),
           const SizedBox(height: 16),
-          _field(_name, 'Tên cửa hàng', Icons.storefront),
-          const SizedBox(height: 12),
-          _field(_description, 'Mô tả', Icons.notes, maxLines: 4),
-          const SizedBox(height: 12),
-          _field(_address, 'Địa chỉ', Icons.location_on),
+          SellerShopFields(
+            name: _name,
+            description: _description,
+            address: _address,
+            onChanged: (_) => setState(() {}),
+          ),
           const SizedBox(height: 18),
-          SizedBox(
-            height: 52,
-            child: FilledButton.icon(
-              onPressed: _saving ||
-                      _name.text.trim().isEmpty ||
-                      _address.text.trim().isEmpty
-                  ? null
-                  : _save,
-              icon: _saving
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
-                      ),
-                    )
-                  : const Icon(Icons.save),
-              label: Text(_saving ? 'Đang lưu...' : 'Lưu thay đổi'),
-            ),
+          SellerShopSaveButton(
+            saving: _saving,
+            enabled: _canSave,
+            onSave: _save,
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Thông tin này dùng để hiển thị trên trang cửa hàng và tem sản phẩm.',
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
-          ),
+          const SellerShopFootnote(),
         ],
       ),
     );
   }
 
-  Widget _summaryCard(SellerDashboard dashboard) {
-    final palette = context.palette;
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: palette.card,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: palette.elevatedCard,
-                child:
-                    const Icon(Icons.verified, color: AppColors.primaryGreen),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      dashboard.shop.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
-                    ),
-                    Text(
-                      'Hạng ${dashboard.trustGrade} - ${dashboard.shop.rating} điểm',
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _metric('Sản phẩm', '${dashboard.products.length}'),
-              _metric('Ghi nhận', '${dashboard.pledges.length}'),
-              _metric('Cảnh báo', '${dashboard.warningCount}'),
-            ],
-          ),
-        ],
-      ),
+  Future<void> _save() async {
+    setState(() => _saving = true);
+    await Future<void>.delayed(const Duration(milliseconds: 450));
+    final shop = SellerShopPresenter.saveShop(
+      shopId: SessionManager.instance.shopId,
+      name: _name.text,
+      description: _description.text,
+      address: _address.text,
     );
+    SessionManager.instance.shopId = shop.id;
+    if (!mounted) return;
+    setState(() => _saving = false);
+    AppFeedback.showSnackBar(context, 'Đã lưu thông tin cửa hàng demo');
   }
-
-  Widget _metric(String label, String value) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
-          ),
-          Text(
-            label,
-            style: const TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 12,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _field(
-    TextEditingController controller,
-    String label,
-    IconData icon, {
-    int maxLines = 1,
-  }) {
-    return TextField(
-      controller: controller,
-      maxLines: maxLines,
-      onChanged: (_) => setState(() {}),
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon),
-      ),
-    );
-  }
-}
-
-class MockShopIds {
-  static const demo = 's1';
 }

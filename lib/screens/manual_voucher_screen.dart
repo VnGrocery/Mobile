@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../core/ui/app_feedback.dart';
-import '../data/data_hooks.dart';
 import '../data/session.dart';
-import '../features/vouchers/widgets/voucher_components.dart';
+import '../features/vouchers/voucher_presenter.dart';
+import '../features/vouchers/widgets/manual_voucher_components.dart';
 import '../theme/app_palette.dart';
 
 class ManualVoucherScreen extends StatefulWidget {
@@ -28,6 +28,43 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
     _title.dispose();
     _note.dispose();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final shops = VoucherPresenter.shops();
+    _shopId ??= shops.first.id;
+
+    return Scaffold(
+      backgroundColor: context.palette.appBackground,
+      appBar: AppBar(title: const Text('Thêm voucher thủ công')),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            const ManualVoucherNotice(),
+            const SizedBox(height: 16),
+            ManualVoucherShopPicker(
+              shopId: _shopId,
+              shops: shops,
+              onChanged: (value) => setState(() => _shopId = value),
+            ),
+            const SizedBox(height: 14),
+            ManualVoucherScanActions(onScanDemo: _scanDemo),
+            const SizedBox(height: 14),
+            ManualVoucherFields(code: _code, title: _title, note: _note),
+            const SizedBox(height: 14),
+            ManualVoucherExpiryTile(
+              expiresAt: _expiresAt,
+              onPickExpiry: _pickExpiry,
+            ),
+            const SizedBox(height: 24),
+            ManualVoucherSaveButton(onSave: _save),
+          ],
+        ),
+      ),
+    );
   }
 
   void _scanDemo(String format) {
@@ -55,7 +92,7 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     final shopId = _shopId;
     if (shopId == null) return;
-    AppDataHooks.instance.addManualVoucherToWallet(
+    VoucherPresenter.addManualVoucher(
       userEmail: SessionManager.instance.email,
       shopId: shopId,
       code: _code.text,
@@ -66,120 +103,5 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
     );
     AppFeedback.showSnackBar(context, 'Đã thêm voucher thủ công vào ví');
     Navigator.pop(context, true);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final data = AppDataHooks.instance;
-    final shops = data.getShops();
-    _shopId ??= shops.first.id;
-
-    return Scaffold(
-      backgroundColor: context.palette.appBackground,
-      appBar: AppBar(title: const Text('Thêm voucher thủ công')),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            const VoucherNotice(
-              text:
-                  'Voucher thủ công là thông tin do bạn tự nhập để lưu trữ và sử dụng tại quầy. Nội dung này chưa được cửa hàng xác thực, bạn tự chịu trách nhiệm về điều kiện sử dụng.',
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              initialValue: _shopId,
-              decoration: const InputDecoration(
-                labelText: 'Cửa hàng áp dụng',
-                prefixIcon: Icon(Icons.storefront),
-              ),
-              items: shops
-                  .map(
-                    (shop) => DropdownMenuItem(
-                      value: shop.id,
-                      child: Text(shop.name, overflow: TextOverflow.ellipsis),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) => setState(() => _shopId = value),
-            ),
-            const SizedBox(height: 14),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () => _scanDemo('QR'),
-                    icon: const Icon(Icons.qr_code_scanner),
-                    label: const Text('Quét QR'),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () => _scanDemo('Mã vạch'),
-                    icon: const Icon(Icons.document_scanner),
-                    label: const Text('Quét mã vạch'),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            TextFormField(
-              controller: _code,
-              textCapitalization: TextCapitalization.characters,
-              decoration: const InputDecoration(
-                labelText: 'Mã voucher',
-                prefixIcon: Icon(Icons.confirmation_number),
-              ),
-              validator: (value) {
-                if ((value ?? '').trim().isEmpty) return 'Nhập mã voucher';
-                return null;
-              },
-            ),
-            const SizedBox(height: 14),
-            TextFormField(
-              controller: _title,
-              decoration: const InputDecoration(
-                labelText: 'Tên gợi nhớ',
-                hintText: 'VD: Giảm 20% mua thịt cuối tuần',
-                prefixIcon: Icon(Icons.local_offer),
-              ),
-            ),
-            const SizedBox(height: 14),
-            TextFormField(
-              controller: _note,
-              maxLines: 4,
-              decoration: const InputDecoration(
-                labelText: 'Ghi chú của bạn',
-                hintText: 'Điều kiện sử dụng, nguồn nhận mã, lưu ý tại quầy...',
-                prefixIcon: Icon(Icons.note),
-              ),
-            ),
-            const SizedBox(height: 14),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.event),
-              title: const Text('Hạn dùng'),
-              subtitle: Text(
-                '${_expiresAt.day}/${_expiresAt.month}/${_expiresAt.year}',
-              ),
-              trailing: TextButton(
-                onPressed: _pickExpiry,
-                child: const Text('Đổi ngày'),
-              ),
-            ),
-            const SizedBox(height: 24),
-            SizedBox(
-              height: 56,
-              child: FilledButton.icon(
-                onPressed: _save,
-                icon: const Icon(Icons.save),
-                label: const Text('Lưu vào ví'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

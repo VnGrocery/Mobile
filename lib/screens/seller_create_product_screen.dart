@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../data/data_hooks.dart';
-import '../data/models.dart';
-import '../theme/app_colors.dart';
+import '../core/ui/app_feedback.dart';
+import '../features/seller_products/seller_product_presenter.dart';
+import '../features/seller_products/widgets/seller_create_product_components.dart';
 import '../theme/app_palette.dart';
 
 class SellerCreateProductScreen extends StatefulWidget {
@@ -20,18 +20,14 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   final _price = TextEditingController();
   final _desc = TextEditingController();
   final _tags = TextEditingController();
-  String _category = 'Thịt bò';
+  String _category = SellerProductPresenter.categories.first;
   bool _loading = false;
   bool _imageSelected = false;
 
-  static const _categories = [
-    'Thịt bò',
-    'Thịt lợn',
-    'Thịt gà',
-    'Hải sản',
-    'Gia cầm',
-    'Khác',
-  ];
+  bool get _canSave =>
+      _name.text.trim().isNotEmpty &&
+      _price.text.trim().isNotEmpty &&
+      !_loading;
 
   @override
   void dispose() {
@@ -42,56 +38,8 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
     super.dispose();
   }
 
-  bool get _canSave =>
-      _name.text.trim().isNotEmpty &&
-      _price.text.trim().isNotEmpty &&
-      !_loading;
-
-  Future<void> _save() async {
-    setState(() => _loading = true);
-    await Future<void>.delayed(const Duration(milliseconds: 900));
-    final data = AppDataHooks.instance;
-    data.addProduct(
-      Product(
-        id: data.nextId(),
-        shopId: widget.shopId,
-        name: _name.text.trim(),
-        description: _desc.text.trim(),
-        category: _category,
-        freshnessScore: 80,
-        freshnessNote: _imageSelected
-            ? 'Sản phẩm mới tạo, đã có ảnh demo.'
-            : 'Sản phẩm mới tạo.',
-        price: int.tryParse(_price.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
-        tags: _tags.text
-            .split(',')
-            .map((tag) => tag.trim())
-            .where((tag) => tag.isNotEmpty)
-            .toList(),
-        status: 'Draft',
-      ),
-    );
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Đã lưu sản phẩm nháp')),
-    );
-    Navigator.pop(context);
-  }
-
-  void _toggleImage() {
-    setState(() => _imageSelected = !_imageSelected);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          _imageSelected ? 'Đã chọn ảnh sản phẩm demo' : 'Đã bỏ ảnh sản phẩm',
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
     return Scaffold(
       backgroundColor: context.palette.appBackground,
       appBar: AppBar(
@@ -103,123 +51,55 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const Text(
-            'Hình ảnh sản phẩm',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          GestureDetector(
+          SellerProductImagePickerCard(
+            selected: _imageSelected,
             onTap: _toggleImage,
-            child: Container(
-              height: 180,
-              decoration: BoxDecoration(
-                color:
-                    _imageSelected ? palette.positiveBg : palette.mutedSurface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: palette.border),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    _imageSelected
-                        ? Icons.check_circle
-                        : Icons.add_photo_alternate,
-                    size: 48,
-                    color:
-                        _imageSelected ? AppColors.primaryGreen : Colors.grey,
-                  ),
-                  Text(
-                    _imageSelected
-                        ? 'Ảnh demo đã sẵn sàng'
-                        : 'Nhấn để chọn ảnh demo',
-                    style: TextStyle(
-                      color:
-                          _imageSelected ? AppColors.primaryGreen : Colors.grey,
-                      fontSize: 14,
-                      fontWeight:
-                          _imageSelected ? FontWeight.bold : FontWeight.normal,
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ),
           const SizedBox(height: 24),
-          TextField(
-            controller: _name,
-            onChanged: (_) => setState(() {}),
-            decoration: const InputDecoration(labelText: 'Tên sản phẩm'),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _price,
-            keyboardType: TextInputType.number,
-            onChanged: (_) => setState(() {}),
-            decoration:
-                const InputDecoration(labelText: 'Giá niêm yết (VNĐ/kg)'),
-          ),
-          const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.only(left: 4, bottom: 4),
-            child: Text(
-              'Danh mục',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-          ),
-          DropdownButtonFormField<String>(
-            initialValue: _category,
-            decoration: const InputDecoration(),
-            items: _categories
-                .map((category) => DropdownMenuItem(
-                      value: category,
-                      child: Text(category),
-                    ))
-                .toList(),
-            onChanged: (value) =>
-                setState(() => _category = value ?? _category),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _desc,
-            maxLines: 4,
-            decoration: const InputDecoration(labelText: 'Mô tả sản phẩm'),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _tags,
-            decoration: const InputDecoration(
-              labelText: 'Tags (cách nhau bằng dấu phẩy)',
-              hintText: 'VD: Tươi sống, Nhập khẩu, Ít béo',
-            ),
+          SellerCreateProductFields(
+            name: _name,
+            price: _price,
+            description: _desc,
+            tags: _tags,
+            category: _category,
+            onCategoryChanged: (category) =>
+                setState(() => _category = category),
+            onRequiredChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 32),
-          SizedBox(
-            width: double.infinity,
-            height: 56,
-            child: FilledButton(
-              onPressed: _canSave ? _save : null,
-              child: _loading
-                  ? const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2.5,
-                      ),
-                    )
-                  : const Text(
-                      'Lưu sản phẩm',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-            ),
+          SellerCreateProductSubmitButton(
+            canSave: _canSave,
+            loading: _loading,
+            onSave: _save,
           ),
           const SizedBox(height: 40),
         ],
       ),
+    );
+  }
+
+  Future<void> _save() async {
+    setState(() => _loading = true);
+    await Future<void>.delayed(const Duration(milliseconds: 900));
+    SellerProductPresenter.addProduct(
+      shopId: widget.shopId,
+      name: _name.text,
+      description: _desc.text,
+      category: _category,
+      hasImage: _imageSelected,
+      price: _price.text,
+      tags: _tags.text,
+    );
+    if (!mounted) return;
+    AppFeedback.showSnackBar(context, 'Đã lưu sản phẩm nháp');
+    Navigator.pop(context);
+  }
+
+  void _toggleImage() {
+    setState(() => _imageSelected = !_imageSelected);
+    AppFeedback.showSnackBar(
+      context,
+      _imageSelected ? 'Đã chọn ảnh sản phẩm demo' : 'Đã bỏ ảnh sản phẩm',
     );
   }
 }
