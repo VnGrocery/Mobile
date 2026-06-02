@@ -350,7 +350,7 @@ class _AuthInfoCard extends StatelessWidget {
             child: Text(
               register
                   ? 'Tài khoản demo sẽ dùng dữ liệu ảo cho đến khi gắn API thật.'
-                  : 'Đăng nhập demo để trải nghiệm kiểm chứng, bản đồ và luồng seller.',
+                  : 'Đăng nhập demo để kiểm tra sản phẩm, xem bản đồ và giá tại cửa hàng.',
               style: const TextStyle(height: 1.35),
             ),
           ),

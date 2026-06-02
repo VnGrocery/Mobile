@@ -17,14 +17,16 @@ class SessionManager {
   bool get isLoggedIn => token != null;
 
   /// Tên hiển thị = phần trước '@' của email (giống AccountScreen.kt).
-  String get displayName =>
-      email.contains('@') ? email.split('@').first : (email.isEmpty ? 'User' : email);
+  String get displayName => email.contains('@')
+      ? email.split('@').first
+      : (email.isEmpty ? 'User' : email);
 
   /// Đăng nhập giả: chấp nhận mọi email/mật khẩu. Gán shopId demo để
   /// các luồng seller (seller_products/{shopId}) hoạt động.
-  void login({required String email, String? displayName, String role = 'seller'}) {
+  void login(
+      {required String email, String? displayName, String role = 'user'}) {
     token = 'mock-token-${DateTime.now().millisecondsSinceEpoch}';
-    shopId = MockDb.demoShopId;
+    shopId = role == 'seller' ? MockDb.demoShopId : null;
     this.email = email.trim().isEmpty ? 'demo@vngrocery.com' : email.trim();
     roleNotifier.value = role;
   }

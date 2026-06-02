@@ -25,6 +25,31 @@ class _MainScreenState extends State<MainScreen> {
 
   int _index = 0;
   bool _menuOpen = false;
+  double _menuDragDistance = 0;
+
+  void _openMenuFromDrag(DragUpdateDetails details) {
+    _menuDragDistance += details.primaryDelta ?? 0;
+    if (_menuDragDistance > 28 && !_menuOpen) {
+      setState(() {
+        _menuOpen = true;
+        _menuDragDistance = 0;
+      });
+    }
+  }
+
+  void _closeMenuFromDrag(DragUpdateDetails details) {
+    _menuDragDistance += details.primaryDelta ?? 0;
+    if (_menuDragDistance < -28 && _menuOpen) {
+      setState(() {
+        _menuOpen = false;
+        _menuDragDistance = 0;
+      });
+    }
+  }
+
+  void _resetMenuDrag() {
+    _menuDragDistance = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +155,22 @@ class _MainScreenState extends State<MainScreen> {
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () => setState(() => _menuOpen = false),
+                    onHorizontalDragUpdate: _closeMenuFromDrag,
+                    onHorizontalDragEnd: (_) => _resetMenuDrag(),
+                    onHorizontalDragCancel: _resetMenuDrag,
+                  ),
+                ),
+              if (!_menuOpen)
+                Positioned(
+                  left: 42,
+                  top: 0,
+                  bottom: 0,
+                  width: 54,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onHorizontalDragUpdate: _openMenuFromDrag,
+                    onHorizontalDragEnd: (_) => _resetMenuDrag(),
+                    onHorizontalDragCancel: _resetMenuDrag,
                   ),
                 ),
               if (!_menuOpen)
