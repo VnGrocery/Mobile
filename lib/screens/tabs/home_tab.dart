@@ -466,6 +466,17 @@ class _PledgeCard extends StatelessWidget {
                             color: AppColors.priceRed,
                             fontWeight: FontWeight.w800,
                             fontSize: 15)),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Cập nhật 2 giờ trước bởi @user123',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
               ),

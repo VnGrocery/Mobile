@@ -114,25 +114,21 @@ class _ScannerScreenState extends State<ScannerScreen>
                     ],
                   ),
                 ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  onPressed: _verifying ? null : _simulate,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    minimumSize: const Size(220, 48),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)),
+                  ),
+                  child: Text(
+                    _verifying ? 'Đang xác minh...' : 'Giả lập quét thành công',
+                  ),
+                ),
               ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 120),
-              child: ElevatedButton(
-                onPressed: _verifying ? null : _simulate,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: Text(
-                  _verifying ? 'Đang xác minh...' : 'Giả lập quét thành công',
-                ),
-              ),
             ),
           ),
           SafeArea(
