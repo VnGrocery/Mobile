@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../data/data_hooks.dart';
@@ -420,7 +422,6 @@ class _PledgeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shop = AppDataHooks.instance.getShop(product.shopId);
-    final scoreColor = AppColors.freshnessColor(product.freshnessScore);
     return Material(
       color: AppColors.card,
       borderRadius: BorderRadius.circular(16),
@@ -480,22 +481,104 @@ class _PledgeCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  Text('${product.freshnessScore}',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 20,
-                          color: scoreColor)),
-                  const Text('AI Score',
-                      style: TextStyle(
-                          fontSize: 10, color: AppColors.textSecondary)),
-                ],
-              ),
+              _AiScoreBadge(score: product.freshnessScore),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class _AiScoreBadge extends StatelessWidget {
+  final int score;
+
+  const _AiScoreBadge({required this.score});
+
+  @override
+  Widget build(BuildContext context) {
+    final scoreColor = _scoreColor(score);
+
+    return SizedBox(
+      width: 62,
+      height: 70,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 48,
+            height: 48,
+            child: CustomPaint(
+              painter: _AiScoreRingPainter(
+                progress: score.clamp(0, 100) / 100,
+                color: scoreColor,
+              ),
+              child: Center(
+                child: Text(
+                  '$score',
+                  style: TextStyle(
+                    color: scoreColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'AI Score',
+            style: TextStyle(
+              color: Color(0xFF8E8E93),
+              fontSize: 9,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _scoreColor(int value) {
+    if (value >= 90) return AppColors.primaryGreen;
+    if (value >= 70) return AppColors.warningOrange;
+    return AppColors.priceRed;
+  }
+}
+
+class _AiScoreRingPainter extends CustomPainter {
+  final double progress;
+  final Color color;
+
+  const _AiScoreRingPainter({
+    required this.progress,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = math.min(size.width, size.height) / 2 - 2;
+    final rect = Rect.fromCircle(center: center, radius: radius);
+
+    final trackPaint = Paint()
+      ..color = color.withValues(alpha: 0.14)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round;
+    canvas.drawCircle(center, radius, trackPaint);
+
+    final progressPaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round;
+    canvas.drawArc(
+        rect, -math.pi / 2, math.pi * 2 * progress, false, progressPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _AiScoreRingPainter oldDelegate) {
+    return oldDelegate.progress != progress || oldDelegate.color != color;
   }
 }
