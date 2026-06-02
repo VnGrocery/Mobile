@@ -42,6 +42,7 @@ class _HomeTabState extends State<HomeTab> {
     final data = AppDataHooks.instance;
     final shops = data.getShops();
     final products = data.getProducts();
+    final featuredProducts = products.take(3).toList();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -61,11 +62,11 @@ class _HomeTabState extends State<HomeTab> {
               child: _heroCard(),
             ),
             const SizedBox(height: 24),
-            _sectionTitle('Danh mục'),
+            _sectionTitle('Danh mục', showAction: false),
             const SizedBox(height: 12),
             _categories(),
-            const SizedBox(height: 24),
-            _sectionTitle('Cửa hàng uy tín'),
+            const SizedBox(height: 28),
+            _sectionTitle('Cửa hàng uy tín', showAction: false),
             const SizedBox(height: 12),
             SizedBox(
               height: 134,
@@ -77,15 +78,18 @@ class _HomeTabState extends State<HomeTab> {
                 itemBuilder: (_, i) => _TrustShopCard(shop: shops[i]),
               ),
             ),
-            const SizedBox(height: 24),
-            _sectionTitle('Cam kết mới nhất'),
+            const SizedBox(height: 30),
+            _sectionTitle(
+              'Bảng tin cam kết',
+              onSeeAll: () => _showAllPledges(products),
+            ),
             const SizedBox(height: 12),
-            ...products.map((p) => Padding(
+            ...featuredProducts.map((p) => Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                   child: _PledgeCard(product: p),
                 )),
-            const SizedBox(height: 24),
+            const SizedBox(height: 30),
           ],
         ),
       ),
@@ -143,8 +147,8 @@ class _HomeTabState extends State<HomeTab> {
                     color: AppColors.primaryGreen, size: 16),
                 SizedBox(width: 4),
                 Text('Quận 1',
-                    style: TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w600)),
+                    style:
+                        TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                 SizedBox(width: 2),
                 Icon(Icons.keyboard_arrow_down,
                     color: AppColors.primaryGreen, size: 16),
@@ -224,7 +228,12 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget _sectionTitle(String t) => Padding(
+  Widget _sectionTitle(
+    String t, {
+    bool showAction = true,
+    VoidCallback? onSeeAll,
+  }) =>
+      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -232,14 +241,84 @@ class _HomeTabState extends State<HomeTab> {
             Text(t,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const Text('Xem tất cả',
-                style: TextStyle(
+            if (showAction)
+              TextButton(
+                onPressed: onSeeAll,
+                style: TextButton.styleFrom(
+                  minimumSize: const Size(0, 36),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: const Text(
+                  'Xem tất cả',
+                  style: TextStyle(
                     fontSize: 13,
                     color: AppColors.primaryGreen,
-                    fontWeight: FontWeight.w600)),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
           ],
         ),
       );
+
+  void _showAllPledges(List<Product> products) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+      ),
+      builder: (context) => SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.border,
+                  borderRadius: BorderRadius.circular(99),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Bảng tin cam kết',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Đóng',
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.62,
+                child: ListView.separated(
+                  itemCount: products.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 10),
+                  itemBuilder: (_, i) => _PledgeCard(product: products[i]),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _categories() {
     return Padding(
@@ -264,11 +343,8 @@ class _HomeTabState extends State<HomeTab> {
                   Text(c.label,
                       style: TextStyle(
                           fontSize: 12,
-                          fontWeight:
-                              sel ? FontWeight.w700 : FontWeight.w500,
-                          color: sel
-                              ? AppColors.primaryGreen
-                              : Colors.black)),
+                          fontWeight: sel ? FontWeight.w700 : FontWeight.w500,
+                          color: sel ? AppColors.primaryGreen : Colors.black)),
                 ],
               ),
             ),
@@ -305,8 +381,8 @@ class _TrustShopCard extends StatelessWidget {
                   child: Image.asset('assets/images/meat.png',
                       width: 26,
                       height: 26,
-                      errorBuilder: (_, __, ___) => const Icon(
-                          Icons.storefront, color: AppColors.primaryGreen)),
+                      errorBuilder: (_, __, ___) => const Icon(Icons.storefront,
+                          color: AppColors.primaryGreen)),
                 ),
                 const SizedBox(height: 10),
                 Text(shop.name,
