@@ -18,6 +18,8 @@ import '../screens/seller_create_pledge_screen.dart';
 import '../screens/seller_shop_screen.dart';
 import '../screens/pledge_history_screen.dart';
 import '../screens/qr_label_screen.dart';
+import '../screens/voucher_qr_screen.dart';
+import '../screens/voucher_wallet_screen.dart';
 
 class Routes {
   static const splash = 'splash';
@@ -38,6 +40,8 @@ class Routes {
   static const sellerShop = 'seller_shop';
   static const pledgeHistory = 'pledge_history';
   static const qrLabel = 'qr_label';
+  static const voucherWallet = 'voucher_wallet';
+  static const voucherQr = 'voucher_qr';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -100,6 +104,12 @@ class Routes {
         break;
       case qrLabel:
         page = QrLabelScreen(pledgeId: args as String);
+        break;
+      case voucherWallet:
+        page = const VoucherWalletScreen();
+        break;
+      case voucherQr:
+        page = VoucherQrScreen(userVoucherId: args as String);
         break;
       default:
         page = const SplashScreen();

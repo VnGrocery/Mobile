@@ -91,3 +91,59 @@ class BuyerCheckResult {
     required this.verdict,
   });
 }
+
+class Voucher {
+  final String id;
+  final String code;
+  final String title;
+  final String shopId;
+  final int discountValue;
+  final bool isPercent;
+  final int minSpend;
+  final DateTime expiresAt;
+  final bool active;
+
+  const Voucher({
+    required this.id,
+    required this.code,
+    required this.title,
+    required this.shopId,
+    required this.discountValue,
+    required this.isPercent,
+    required this.minSpend,
+    required this.expiresAt,
+    this.active = true,
+  });
+}
+
+class UserVoucher {
+  final String id;
+  final String userEmail;
+  final String voucherId;
+  bool used;
+  DateTime? usedAt;
+
+  UserVoucher({
+    required this.id,
+    required this.userEmail,
+    required this.voucherId,
+    this.used = false,
+    this.usedAt,
+  });
+}
+
+class VoucherCheckResult {
+  final Voucher? voucher;
+  final bool valid;
+  final String message;
+  final int discountAmount;
+  final int finalPrice;
+
+  const VoucherCheckResult({
+    required this.voucher,
+    required this.valid,
+    required this.message,
+    required this.discountAmount,
+    required this.finalPrice,
+  });
+}

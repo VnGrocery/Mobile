@@ -68,21 +68,18 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
         padding: EdgeInsets.zero,
         children: [
           _header(shop),
-          Transform.translate(
-            offset: const Offset(0, -20),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Sản phẩm mới kiểm tra',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  _pledgeCard(products),
-                ],
-              ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Sản phẩm mới kiểm tra',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                _pledgeCard(products),
+              ],
             ),
           ),
           _tabBar(),

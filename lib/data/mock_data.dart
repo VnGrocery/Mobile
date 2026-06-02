@@ -125,6 +125,69 @@ class MockDb {
     ],
   };
 
+  final List<Voucher> vouchers = [
+    Voucher(
+      id: 'v1',
+      code: 'FRESH20',
+      title: 'Giảm 20% cho đơn thịt tươi',
+      shopId: 's1',
+      discountValue: 20,
+      isPercent: true,
+      minSpend: 150000,
+      expiresAt: DateTime(2026, 6, 30, 23, 59),
+    ),
+    Voucher(
+      id: 'v2',
+      code: 'QUAY50K',
+      title: 'Giảm 50.000đ tại quầy',
+      shopId: 's1',
+      discountValue: 50000,
+      isPercent: false,
+      minSpend: 250000,
+      expiresAt: DateTime(2026, 6, 15, 23, 59),
+    ),
+    Voucher(
+      id: 'v3',
+      code: 'EXPIRED10',
+      title: 'Mã đã hết hạn',
+      shopId: 's1',
+      discountValue: 10,
+      isPercent: true,
+      minSpend: 100000,
+      expiresAt: DateTime(2026, 5, 1),
+    ),
+    Voucher(
+      id: 'v4',
+      code: 'BAHUAN15',
+      title: 'Giảm 15% tại Ba Huân Food',
+      shopId: 's2',
+      discountValue: 15,
+      isPercent: true,
+      minSpend: 100000,
+      expiresAt: DateTime(2026, 6, 28, 23, 59),
+    ),
+  ];
+
+  final List<UserVoucher> userVouchers = [
+    UserVoucher(
+      id: 'uv1',
+      userEmail: 'demo@vngrocery.com',
+      voucherId: 'v1',
+    ),
+    UserVoucher(
+      id: 'uv2',
+      userEmail: 'demo@vngrocery.com',
+      voucherId: 'v2',
+      used: true,
+      usedAt: DateTime(2026, 6, 2, 10, 30),
+    ),
+    UserVoucher(
+      id: 'uv3',
+      userEmail: 'google.demo@vngrocery.com',
+      voucherId: 'v4',
+    ),
+  ];
+
   /// Kết quả buyer-check gần nhất (mock).
   BuyerCheckResult lastBuyerCheck = const BuyerCheckResult(
     actualScore: 78,
@@ -145,6 +208,131 @@ class MockDb {
 
   List<PledgeHistoryItem> pledgesOf(String productId) =>
       pledgesByProduct[productId] ?? const [];
+
+  Voucher voucherById(String id) => vouchers
+      .firstWhere((voucher) => voucher.id == id, orElse: () => vouchers.first);
+
+  List<UserVoucher> userVoucherWallet(String userEmail) => userVouchers
+      .where((item) => item.userEmail.toLowerCase() == userEmail.toLowerCase())
+      .toList();
+
+  UserVoucher userVoucherById(String id) => userVouchers
+      .firstWhere((item) => item.id == id, orElse: () => userVouchers.first);
+
+  UserVoucher? walletItemForVoucher({
+    required String userEmail,
+    required String voucherId,
+  }) {
+    final matches = userVouchers.where(
+      (item) =>
+          item.userEmail.toLowerCase() == userEmail.toLowerCase() &&
+          item.voucherId == voucherId,
+    );
+    return matches.isEmpty ? null : matches.first;
+  }
+
+  UserVoucher saveVoucherToWallet({
+    required String userEmail,
+    required String voucherId,
+  }) {
+    final existing =
+        walletItemForVoucher(userEmail: userEmail, voucherId: voucherId);
+    if (existing != null) return existing;
+    final created = UserVoucher(
+      id: nextId(),
+      userEmail: userEmail,
+      voucherId: voucherId,
+    );
+    userVouchers.insert(0, created);
+    return created;
+  }
+
+  void useUserVoucher(String userVoucherId) {
+    final item = userVoucherById(userVoucherId);
+    if (item.used) return;
+    item.used = true;
+    item.usedAt = DateTime.now();
+  }
+
+  VoucherCheckResult checkVoucher({
+    required String code,
+    required String shopId,
+    required int orderValue,
+    DateTime? now,
+  }) {
+    final normalizedCode = code.trim().toUpperCase();
+    final currentTime = now ?? DateTime.now();
+    final voucher = vouchers
+        .where((item) => item.code.toUpperCase() == normalizedCode)
+        .firstOrNull;
+
+    if (normalizedCode.isEmpty) {
+      return VoucherCheckResult(
+        voucher: null,
+        valid: false,
+        message: 'Nhập mã voucher để kiểm tra',
+        discountAmount: 0,
+        finalPrice: orderValue,
+      );
+    }
+    if (voucher == null) {
+      return VoucherCheckResult(
+        voucher: null,
+        valid: false,
+        message: 'Không tìm thấy voucher này',
+        discountAmount: 0,
+        finalPrice: orderValue,
+      );
+    }
+    if (!voucher.active) {
+      return VoucherCheckResult(
+        voucher: voucher,
+        valid: false,
+        message: 'Voucher đang tạm khóa',
+        discountAmount: 0,
+        finalPrice: orderValue,
+      );
+    }
+    if (voucher.shopId != shopId) {
+      return VoucherCheckResult(
+        voucher: voucher,
+        valid: false,
+        message: 'Voucher không áp dụng cho cửa hàng này',
+        discountAmount: 0,
+        finalPrice: orderValue,
+      );
+    }
+    if (currentTime.isAfter(voucher.expiresAt)) {
+      return VoucherCheckResult(
+        voucher: voucher,
+        valid: false,
+        message: 'Voucher đã hết hạn',
+        discountAmount: 0,
+        finalPrice: orderValue,
+      );
+    }
+    if (orderValue < voucher.minSpend) {
+      return VoucherCheckResult(
+        voucher: voucher,
+        valid: false,
+        message: 'Đơn cần tối thiểu ${voucher.minSpend}đ để dùng mã này',
+        discountAmount: 0,
+        finalPrice: orderValue,
+      );
+    }
+
+    final discount = voucher.isPercent
+        ? (orderValue * voucher.discountValue / 100).round()
+        : voucher.discountValue;
+    final cappedDiscount = discount.clamp(0, orderValue).toInt();
+    return VoucherCheckResult(
+      voucher: voucher,
+      valid: true,
+      message: 'Voucher hợp lệ',
+      discountAmount: cappedDiscount,
+      finalPrice: orderValue - cappedDiscount,
+    );
+  }
 
   void addProduct(Product p) => products.add(p);
 

@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 import '../data/session.dart';
+import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_palette.dart';
 import 'explore_map_screen.dart';
@@ -98,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
                   onSelectTab: (index) => setState(() => _index = index),
                 ),
               ];
-        final navItems = _menuItems(isSeller);
+        final navItems = _bottomNavItems(isSeller);
         final selectedIndex = _index.clamp(0, tabs.length - 1);
 
         return Scaffold(
@@ -109,12 +110,7 @@ class _MainScreenState extends State<MainScreen> {
                 isSeller: isSeller,
                 open: _menuOpen,
                 selectedIndex: selectedIndex,
-                onSelect: (index) {
-                  setState(() {
-                    _index = index;
-                    _menuOpen = false;
-                  });
-                },
+                onSelect: (index) => _handleSideMenuSelect(index, isSeller),
               ),
               AnimatedSlide(
                 duration: const Duration(milliseconds: 360),
@@ -210,8 +206,39 @@ class _MainScreenState extends State<MainScreen> {
             _MenuItem(Icons.explore, 'Khám phá'),
             _MenuItem(Icons.qr_code_scanner, 'Quét sản phẩm'),
             _MenuItem(Icons.storefront, 'Cửa hàng'),
+            _MenuItem(Icons.wallet, 'Ví voucher'),
             _MenuItem(Icons.account_circle, 'Tài khoản'),
           ];
+  }
+
+  static List<_MenuItem> _bottomNavItems(bool isSeller) {
+    return isSeller
+        ? const [
+            _MenuItem(Icons.store, 'Tổng quan'),
+            _MenuItem(Icons.inventory_2, 'Sản phẩm'),
+            _MenuItem(Icons.storefront, 'Cửa hàng'),
+            _MenuItem(Icons.account_circle, 'Tài khoản'),
+          ]
+        : const [
+            _MenuItem(Icons.home, 'Trang chủ'),
+            _MenuItem(Icons.explore, 'Khám phá'),
+            _MenuItem(Icons.qr_code_scanner, 'Quét sản phẩm'),
+            _MenuItem(Icons.storefront, 'Cửa hàng'),
+            _MenuItem(Icons.account_circle, 'Tài khoản'),
+          ];
+  }
+
+  void _handleSideMenuSelect(int index, bool isSeller) {
+    if (!isSeller && index == 4) {
+      setState(() => _menuOpen = false);
+      Navigator.pushNamed(context, Routes.voucherWallet);
+      return;
+    }
+    final tabIndex = !isSeller && index > 4 ? index - 1 : index;
+    setState(() {
+      _index = tabIndex;
+      _menuOpen = false;
+    });
   }
 }
 

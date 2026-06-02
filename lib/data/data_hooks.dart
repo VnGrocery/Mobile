@@ -28,6 +28,30 @@ class AppDataHooks {
 
   BuyerCheckResult getLastBuyerCheck() => _db.lastBuyerCheck;
 
+  VoucherCheckResult checkVoucher({
+    required String code,
+    required String shopId,
+    required int orderValue,
+  }) =>
+      _db.checkVoucher(code: code, shopId: shopId, orderValue: orderValue);
+
+  List<UserVoucher> getUserVouchers(String userEmail) =>
+      List.unmodifiable(_db.userVoucherWallet(userEmail));
+
+  Voucher getVoucher(String voucherId) => _db.voucherById(voucherId);
+
+  UserVoucher getUserVoucher(String userVoucherId) =>
+      _db.userVoucherById(userVoucherId);
+
+  UserVoucher saveVoucherToWallet({
+    required String userEmail,
+    required String voucherId,
+  }) =>
+      _db.saveVoucherToWallet(userEmail: userEmail, voucherId: voucherId);
+
+  void useUserVoucher(String userVoucherId) =>
+      _db.useUserVoucher(userVoucherId);
+
   void addProduct(Product product) => _db.addProduct(product);
 
   void addPledge(String productId, PledgeHistoryItem item) =>
@@ -36,15 +60,13 @@ class AppDataHooks {
   String nextId() => _db.nextId();
 
   SellerDashboard getSellerDashboard(String? shopId) {
-    final selectedShopId = shopId == null || shopId.isEmpty
-        ? MockDb.demoShopId
-        : shopId;
+    final selectedShopId =
+        shopId == null || shopId.isEmpty ? MockDb.demoShopId : shopId;
     final shop = _db.shopById(selectedShopId);
     final products = _db.productsOfShop(shop.id);
     final pledges = products.expand((p) => _db.pledgesOf(p.id)).toList();
-    final pledgesToday = pledges
-        .where((p) => p.time.startsWith('2026-05-30'))
-        .length;
+    final pledgesToday =
+        pledges.where((p) => p.time.startsWith('2026-05-30')).length;
 
     return SellerDashboard(
       shop: shop,
