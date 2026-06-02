@@ -12,7 +12,7 @@ class AppTheme {
         primary: AppColors.primaryGreen,
         brightness: Brightness.light,
       ),
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: AppColors.screenBg,
     );
 
     return base.copyWith(
@@ -71,7 +71,8 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.primaryGreen, width: 1.4),
+          borderSide:
+              const BorderSide(color: AppColors.primaryGreen, width: 1.4),
         ),
       ),
       cardTheme: CardThemeData(

@@ -37,7 +37,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.screenBg,
       appBar: AppBar(title: const Text('Đánh giá cửa hàng')),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -62,7 +62,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       _loading ? null : () => setState(() => _rating = i + 1),
                   icon: Icon(
                     sel ? Icons.star : Icons.star_border,
-                    color: sel ? AppColors.warningOrange : const Color(0xFFD3D3D3),
+                    color:
+                        sel ? AppColors.warningOrange : const Color(0xFFD3D3D3),
                   ),
                 );
               }),
@@ -81,8 +82,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             const SizedBox(height: 24),
             GestureDetector(
               onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content: Text('Tính năng đang được phát triển')),
+                const SnackBar(content: Text('Tính năng đang được phát triển')),
               ),
               child: Container(
                 width: double.infinity,

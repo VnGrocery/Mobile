@@ -15,7 +15,7 @@ class QrLabelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.screenBg,
       appBar: AppBar(title: const Text('Mã QR sản phẩm')),
       body: Padding(
         padding: const EdgeInsets.all(24),

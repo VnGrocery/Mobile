@@ -41,7 +41,9 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   }
 
   bool get _canSave =>
-      _name.text.trim().isNotEmpty && _price.text.trim().isNotEmpty && !_loading;
+      _name.text.trim().isNotEmpty &&
+      _price.text.trim().isNotEmpty &&
+      !_loading;
 
   Future<void> _save() async {
     setState(() => _loading = true);
@@ -70,7 +72,7 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.screenBg,
       appBar: AppBar(
         title: const Text('Thêm sản phẩm mới',
             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -95,8 +97,7 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.add_photo_alternate,
-                      size: 48, color: Colors.grey),
+                  Icon(Icons.add_photo_alternate, size: 48, color: Colors.grey),
                   Text('Nhấn để tải ảnh lên',
                       style: TextStyle(color: Colors.grey, fontSize: 14)),
                 ],

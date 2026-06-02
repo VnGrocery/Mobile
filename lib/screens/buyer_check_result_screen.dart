@@ -14,7 +14,7 @@ class BuyerCheckResultScreen extends StatelessWidget {
     final fair = result.locationStatus == 'near';
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.screenBg,
       appBar: AppBar(title: const Text('Kết quả kiểm tra')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

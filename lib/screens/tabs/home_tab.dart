@@ -46,7 +46,7 @@ class _HomeTabState extends State<HomeTab> {
     final products = data.getProducts();
     final featuredProducts = products.take(3).toList();
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.screenBg,
       body: SafeArea(
         bottom: false,
         child: ListView(

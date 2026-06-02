@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../routes/app_routes.dart';
+import '../theme/app_colors.dart';
 
 class AiFreshnessScreen extends StatefulWidget {
   const AiFreshnessScreen({super.key});
@@ -22,7 +23,7 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.screenBg,
       appBar: AppBar(title: const Text('Gửi ảnh kiểm tra')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
