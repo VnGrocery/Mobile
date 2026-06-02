@@ -1,4 +1,4 @@
-import 'voucher.dart';
+part of '../models.dart';
 
 class VoucherCheckResult {
   final Voucher? voucher;

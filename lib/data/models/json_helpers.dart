@@ -1,3 +1,5 @@
+part of '../models.dart';
+
 List<String> stringList(Object? value) {
   return (value as List<Object?>).cast<String>();
 }

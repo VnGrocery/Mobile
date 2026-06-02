@@ -1,4 +1,4 @@
-import 'json_helpers.dart';
+part of '../models.dart';
 
 class Product {
   final String id;

@@ -1,3 +1,5 @@
+part of '../models.dart';
+
 class PledgeHistoryItem {
   final String time;
   final String title;

@@ -1,8 +1,9 @@
-export 'models/buyer_check_result.dart';
-export 'models/pledge_history_item.dart';
-export 'models/product.dart';
-export 'models/review.dart';
-export 'models/shop.dart';
-export 'models/user_voucher.dart';
-export 'models/voucher.dart';
-export 'models/voucher_check_result.dart';
+part 'models/buyer_check_result.dart';
+part 'models/json_helpers.dart';
+part 'models/pledge_history_item.dart';
+part 'models/product.dart';
+part 'models/review.dart';
+part 'models/shop.dart';
+part 'models/user_voucher.dart';
+part 'models/voucher.dart';
+part 'models/voucher_check_result.dart';
