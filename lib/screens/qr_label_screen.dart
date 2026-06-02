@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class QrLabelScreen extends StatelessWidget {
   final String pledgeId;
@@ -14,6 +15,8 @@ class QrLabelScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
+    final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: AppColors.screenBg,
       appBar: AppBar(title: const Text('Mã QR sản phẩm')),
@@ -34,7 +37,7 @@ class QrLabelScreen extends StatelessWidget {
             AspectRatio(
               aspectRatio: 0.75,
               child: Card(
-                color: AppColors.card,
+                color: palette.card,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16)),
@@ -54,11 +57,11 @@ class QrLabelScreen extends StatelessWidget {
                         height: 200,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFFD3D3D3)),
+                          border: Border.all(color: palette.border),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const FittedBox(
-                          child: Icon(Icons.qr_code_2, color: Colors.black),
+                        child: FittedBox(
+                          child: Icon(Icons.qr_code_2, color: scheme.onSurface),
                         ),
                       ),
                       const SizedBox(height: 24),

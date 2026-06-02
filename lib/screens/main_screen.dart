@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../data/session.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 import 'explore_map_screen.dart';
 import 'scanner_screen.dart';
 import 'seller_product_list_screen.dart';
@@ -125,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: AnimatedPhysicalModel(
                     duration: const Duration(milliseconds: 280),
                     curve: Curves.easeOutCubic,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     elevation: _menuOpen ? 18 : 0,
                     shadowColor: Colors.black.withValues(alpha: 0.28),
                     shape: BoxShape.rectangle,
@@ -389,6 +390,8 @@ class _FloatingTabPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final palette = context.palette;
     final centerIndex = _centerIndex;
     final sideItems = [
       for (var i = 0; i < items.length; i++)
@@ -415,14 +418,15 @@ class _FloatingTabPopup extends StatelessWidget {
                     filter: ui.ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.78),
+                        color: palette.glass,
                         borderRadius: BorderRadius.circular(32),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.72),
+                          color: palette.glassBorder,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.08),
+                            color: Colors.black
+                                .withValues(alpha: isDark ? 0.28 : 0.08),
                             blurRadius: 28,
                             offset: const Offset(0, 14),
                           ),
@@ -554,6 +558,7 @@ class _GlassTabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: onTap,
@@ -564,8 +569,11 @@ class _GlassTabItem extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color:
-                  selected ? AppColors.primaryGreen : const Color(0xFF8BA1B2),
+              color: selected
+                  ? AppColors.primaryGreen
+                  : (isDark
+                      ? const Color(0xFF9CAEA0)
+                      : const Color(0xFF8BA1B2)),
               size: 22,
             ),
             const SizedBox(height: 4),
@@ -574,8 +582,11 @@ class _GlassTabItem extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color:
-                    selected ? AppColors.primaryGreen : const Color(0xFF8BA1B2),
+                color: selected
+                    ? AppColors.primaryGreen
+                    : (isDark
+                        ? const Color(0xFF9CAEA0)
+                        : const Color(0xFF8BA1B2)),
                 fontSize: 10.5,
                 fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
               ),

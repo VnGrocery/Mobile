@@ -4,6 +4,7 @@ import '../../data/data_hooks.dart';
 import '../../data/models.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_palette.dart';
 import '../../widgets/common.dart';
 import '../../widgets/osm_tile_map.dart';
 
@@ -41,6 +42,8 @@ class _ExploreTabState extends State<ExploreTab> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
+    final scheme = Theme.of(context).colorScheme;
     final query = _search.text.trim().toLowerCase();
     final shops = AppDataHooks.instance.getShops().where((shop) {
       if (query.isEmpty) return true;
@@ -66,12 +69,12 @@ class _ExploreTabState extends State<ExploreTab> {
             child: TextField(
               controller: _search,
               onChanged: (_) => setState(() => _selectedShopId = null),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Tìm tên cửa hàng hoặc địa chỉ...',
                 filled: true,
-                fillColor: Colors.white,
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: Icon(Icons.filter_list),
+                fillColor: palette.field,
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: const Icon(Icons.filter_list),
               ),
             ),
           ),
@@ -91,7 +94,7 @@ class _ExploreTabState extends State<ExploreTab> {
                   showCheckmark: false,
                   selectedColor: AppColors.meatRed.withValues(alpha: 0.1),
                   labelStyle: TextStyle(
-                    color: selected ? AppColors.meatRed : Colors.black,
+                    color: selected ? AppColors.meatRed : scheme.onSurface,
                   ),
                   onSelected: (_) => setState(() => _filter = filter),
                 );
@@ -195,8 +198,9 @@ class _ShopExploreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Card(
-      color: selected ? AppColors.trustGreenBg : AppColors.card,
+      color: selected ? palette.positiveBg : palette.card,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -334,6 +338,7 @@ class _ExploreMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return AspectRatio(
       aspectRatio: 1.95,
       child: DecoratedBox(
@@ -389,7 +394,7 @@ class _ExploreMap extends StatelessWidget {
                 right: 14,
                 bottom: 14,
                 child: Material(
-                  color: Colors.white,
+                  color: palette.elevatedCard,
                   shape: const CircleBorder(),
                   child: IconButton(
                     tooltip: 'Vị trí của bạn',
@@ -414,10 +419,11 @@ class _MapBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: palette.elevatedCard,
         borderRadius: BorderRadius.circular(20),
       ),
       child: const Row(
@@ -448,6 +454,7 @@ class _MapPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedScale(
@@ -461,10 +468,10 @@ class _MapPin extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: palette.elevatedCard,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: selected ? AppColors.primaryGreen : Colors.white,
+                    color: selected ? AppColors.primaryGreen : palette.border,
                   ),
                 ),
                 child: Text(

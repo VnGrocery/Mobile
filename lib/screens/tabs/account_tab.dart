@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../data/session.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_palette.dart';
+import '../../theme/theme_controller.dart';
 
 class AccountTab extends StatefulWidget {
   final double bottomContentInset;
@@ -90,8 +92,10 @@ class _AccountTabState extends State<AccountTab> {
                     errorBuilder: (_, __, ___) => Container(
                       width: 100,
                       height: 100,
-                      decoration: const BoxDecoration(
-                        color: AppColors.card,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -151,6 +155,15 @@ class _AccountTabState extends State<AccountTab> {
             ),
           ],
           _section('Cài đặt'),
+          ValueListenableBuilder<ThemeMode>(
+            valueListenable: ThemeController.instance.mode,
+            builder: (context, mode, _) => _switchItem(
+              Icons.dark_mode,
+              'Chế độ tối',
+              mode == ThemeMode.dark,
+              ThemeController.instance.setDark,
+            ),
+          ),
           _item(Icons.edit, 'Sửa hồ sơ', () => _notImplemented(context)),
           _item(
             Icons.lock_reset,
@@ -187,11 +200,12 @@ class _AccountTabState extends State<AccountTab> {
   }
 
   Widget _roleSwitch(bool isSeller) {
+    final scheme = Theme.of(context).colorScheme;
     return Container(
       height: 48,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: scheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
@@ -226,7 +240,9 @@ class _AccountTabState extends State<AccountTab> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
           decoration: BoxDecoration(
-            color: selected ? Colors.white : Colors.transparent,
+            color: selected
+                ? Theme.of(context).colorScheme.surface
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(20),
           ),
           alignment: Alignment.center,
@@ -254,12 +270,13 @@ class _AccountTabState extends State<AccountTab> {
   }
 
   Widget _modeCard(bool isSeller) {
+    final scheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.card,
+          color: scheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -296,10 +313,12 @@ class _AccountTabState extends State<AccountTab> {
       );
 
   Widget _item(IconData icon, String label, VoidCallback onTap) {
+    final scheme = Theme.of(context).colorScheme;
+    final palette = context.palette;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Card(
-        color: AppColors.card,
+        color: scheme.surfaceContainerHighest,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: InkWell(
@@ -314,9 +333,43 @@ class _AccountTabState extends State<AccountTab> {
                 Expanded(
                   child: Text(label, style: const TextStyle(fontSize: 15)),
                 ),
-                const Icon(Icons.chevron_right, color: Color(0xFFD3D3D3)),
+                Icon(Icons.chevron_right, color: palette.textTertiary),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _switchItem(
+    IconData icon,
+    String label,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
+    final scheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Card(
+        color: scheme.surfaceContainerHighest,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(icon, color: Colors.grey, size: 22),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(label, style: const TextStyle(fontSize: 15)),
+              ),
+              Switch(
+                value: value,
+                activeThumbColor: AppColors.primaryGreen,
+                onChanged: onChanged,
+              ),
+            ],
           ),
         ),
       ),

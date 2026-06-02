@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/data_hooks.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 import '../utils/format.dart';
 import '../widgets/common.dart';
 
@@ -15,6 +16,8 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = AppDataHooks.instance.getProduct(productId);
+    final palette = context.palette;
+    final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: AppColors.screenBg,
       appBar: AppBar(title: const Text('Thông tin sản phẩm')),
@@ -27,10 +30,10 @@ class ProductDetailScreen extends StatelessWidget {
               Container(
                 height: 250,
                 width: double.infinity,
-                color: Colors.white,
+                color: palette.card,
                 alignment: Alignment.center,
-                child: const Icon(Icons.image,
-                    size: 100, color: Color(0xFFD3D3D3)),
+                child:
+                    Icon(Icons.image, size: 100, color: palette.textTertiary),
               ),
               Positioned(
                 top: 16,
@@ -104,8 +107,8 @@ class ProductDetailScreen extends StatelessWidget {
                     onPressed: () =>
                         Navigator.pushNamed(context, Routes.aiCompare),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.white,
+                      backgroundColor: scheme.onSurface,
+                      foregroundColor: scheme.surface,
                       minimumSize: const Size.fromHeight(56),
                     ),
                     icon: const Icon(Icons.photo_camera),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -129,7 +130,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           ),
                         )
                       : const Icon(Icons.lock_reset),
-                  label: Text(_saving ? 'Đang cập nhật...' : 'Cập nhật mật khẩu'),
+                  label:
+                      Text(_saving ? 'Đang cập nhật...' : 'Cập nhật mật khẩu'),
                 ),
               ),
             ],
@@ -172,10 +174,11 @@ class _HeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: palette.card,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
@@ -183,11 +186,12 @@ class _HeaderCard extends StatelessWidget {
           Container(
             width: 52,
             height: 52,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: palette.elevatedCard,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.verified_user, color: AppColors.primaryGreen),
+            child:
+                const Icon(Icons.verified_user, color: AppColors.primaryGreen),
           ),
           const SizedBox(width: 14),
           Expanded(
@@ -222,10 +226,11 @@ class _RuleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -242,7 +247,7 @@ class _RuleCard extends StatelessWidget {
               minHeight: 7,
               value: strength / 4,
               color: _strengthColor(strength),
-              backgroundColor: Colors.white,
+              backgroundColor: palette.elevatedCard,
             ),
           ),
           const SizedBox(height: 12),
@@ -266,10 +271,12 @@ class _RuleRow extends StatelessWidget {
       padding: const EdgeInsets.only(top: 7),
       child: Row(
         children: [
-          const Icon(Icons.check_circle, size: 16, color: AppColors.primaryGreen),
+          const Icon(Icons.check_circle,
+              size: 16, color: AppColors.primaryGreen),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(text, style: const TextStyle(color: AppColors.textSecondary)),
+            child: Text(text,
+                style: const TextStyle(color: AppColors.textSecondary)),
           ),
         ],
       ),

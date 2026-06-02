@@ -4,6 +4,7 @@ import '../data/data_hooks.dart';
 import '../data/models.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 import '../utils/format.dart';
 
 class StoreDetailScreen extends StatefulWidget {
@@ -86,6 +87,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   }
 
   Widget _header(Shop shop) {
+    final palette = context.palette;
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.topCenter,
@@ -102,11 +104,11 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 width: 80,
                 height: 80,
                 padding: const EdgeInsets.all(4),
-                decoration: const BoxDecoration(
-                    color: Colors.white, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                    color: palette.elevatedCard, shape: BoxShape.circle),
                 child: Container(
-                  decoration: const BoxDecoration(
-                      color: Color(0xFFD3D3D3), shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                      color: palette.mutedSurface, shape: BoxShape.circle),
                   child: const Icon(Icons.store, size: 40, color: Colors.grey),
                 ),
               ),
@@ -119,7 +121,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: AppColors.trustGreenBg,
+                  color: palette.positiveBg,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -151,7 +153,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
 
   Widget _pledgeCard() {
     return Card(
-      color: AppColors.card,
+      color: context.palette.card,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -236,8 +238,10 @@ class _ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
+    final scheme = Theme.of(context).colorScheme;
     return Card(
-      color: AppColors.card,
+      color: palette.card,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
@@ -253,7 +257,7 @@ class _ProductItem extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD3D3D3),
+                  color: palette.mutedSurface,
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -276,14 +280,13 @@ class _ProductItem extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 6, vertical: 2),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFD3D3D3)
-                                      .withValues(alpha: 0.3),
+                                  color: palette.mutedSurface
+                                      .withValues(alpha: 0.7),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(t,
-                                    style: const TextStyle(
-                                        fontSize: 10,
-                                        color: AppColors.darkGray)),
+                                    style: TextStyle(
+                                        fontSize: 10, color: scheme.onSurface)),
                               ))
                           .toList(),
                     ),
@@ -321,8 +324,9 @@ class _ReviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Card(
-      color: AppColors.card,
+      color: palette.card,
       elevation: 0,
       margin: const EdgeInsets.all(16),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -333,8 +337,7 @@ class _ReviewItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                const CircleAvatar(
-                    radius: 20, backgroundColor: Color(0xFFD3D3D3)),
+                CircleAvatar(radius: 20, backgroundColor: palette.mutedSurface),
                 const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

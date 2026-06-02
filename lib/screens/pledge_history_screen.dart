@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/data_hooks.dart';
 import '../data/models.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class PledgeHistoryScreen extends StatelessWidget {
   final String productId;
@@ -42,6 +43,7 @@ class _TimelineItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     final color =
         item.isVerified ? AppColors.freshGreen : AppColors.warningOrange;
     return IntrinsicHeight(
@@ -61,7 +63,7 @@ class _TimelineItem extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: 2,
-                    color: const Color(0xFFD3D3D3).withValues(alpha: 0.5),
+                    color: palette.border,
                   ),
                 ),
               ],
@@ -69,7 +71,7 @@ class _TimelineItem extends StatelessWidget {
           ),
           Expanded(
             child: Card(
-              color: AppColors.card,
+              color: palette.card,
               elevation: 0,
               margin: const EdgeInsets.only(bottom: 24),
               shape: RoundedRectangleBorder(
@@ -105,8 +107,8 @@ class _TimelineItem extends StatelessWidget {
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 15)),
                     Text(item.description,
-                        style: const TextStyle(
-                            fontSize: 13, color: AppColors.darkGray)),
+                        style: TextStyle(
+                            fontSize: 13, color: palette.textSecondary)),
                     if (item.hasProof) ...[
                       const Divider(height: 24, thickness: 0.5),
                       Row(

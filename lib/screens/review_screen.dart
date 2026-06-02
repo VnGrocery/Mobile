@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class ReviewScreen extends StatefulWidget {
   final String shopId;
@@ -36,6 +37,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Scaffold(
       backgroundColor: AppColors.screenBg,
       appBar: AppBar(title: const Text('Đánh giá cửa hàng')),
@@ -62,8 +64,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       _loading ? null : () => setState(() => _rating = i + 1),
                   icon: Icon(
                     sel ? Icons.star : Icons.star_border,
-                    color:
-                        sel ? AppColors.warningOrange : const Color(0xFFD3D3D3),
+                    color: sel ? AppColors.warningOrange : palette.textTertiary,
                   ),
                 );
               }),
@@ -88,9 +89,9 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 width: double.infinity,
                 height: 100,
                 decoration: BoxDecoration(
-                  color: AppColors.lightGray,
+                  color: palette.mutedSurface,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFD3D3D3)),
+                  border: Border.all(color: palette.border),
                 ),
                 child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 /// Ô vuông xám bo góc (placeholder ảnh) có icon ở giữa.
 class GrayBox extends StatelessWidget {
@@ -23,7 +24,7 @@ class GrayBox extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: AppColors.lightGray,
+        color: context.palette.mutedSurface,
         borderRadius: BorderRadius.circular(radius),
       ),
       child: Icon(icon, color: iconColor, size: iconSize ?? size * 0.4),

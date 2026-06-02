@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/data_hooks.dart';
 import '../data/models.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class SellerCreatePledgeScreen extends StatefulWidget {
   final String productId;
@@ -143,11 +144,12 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   }
 
   Widget _stepEvaluate() {
+    final palette = context.palette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Card(
-          color: AppColors.card,
+          color: palette.card,
           elevation: 0,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -195,6 +197,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   }
 
   Widget _categoryPill() {
+    final palette = context.palette;
     return PopupMenuButton<String>(
       onSelected: (v) => setState(() => _category = v),
       itemBuilder: (_) => _categories
@@ -203,7 +206,8 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-            color: AppColors.lightGray, borderRadius: BorderRadius.circular(8)),
+            color: palette.mutedSurface,
+            borderRadius: BorderRadius.circular(8)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

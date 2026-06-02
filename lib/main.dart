@@ -5,18 +5,11 @@ import 'package:flutter/services.dart';
 
 import 'routes/app_routes.dart';
 import 'theme/app_theme.dart';
+import 'theme/app_palette.dart';
+import 'theme/theme_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarDividerColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ),
-  );
   runApp(const VnMeatApp());
 }
 
@@ -25,15 +18,22 @@ class VnMeatApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'VnGrocery',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      builder: (context, child) =>
-          _AppBackdrop(child: child ?? const SizedBox()),
-      scrollBehavior: const _AppScrollBehavior(),
-      initialRoute: Routes.splash,
-      onGenerateRoute: Routes.onGenerateRoute,
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: ThemeController.instance.mode,
+      builder: (context, themeMode, _) {
+        return MaterialApp(
+          title: 'VnGrocery',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: themeMode,
+          builder: (context, child) =>
+              _AppBackdrop(child: child ?? const SizedBox()),
+          scrollBehavior: const _AppScrollBehavior(),
+          initialRoute: Routes.splash,
+          onGenerateRoute: Routes.onGenerateRoute,
+        );
+      },
     );
   }
 }
@@ -68,8 +68,21 @@ class _AppBackdropState extends State<_AppBackdrop>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = ThemeController.instance.mode.value == ThemeMode.dark;
+    final background = context.palette.appBackground;
+    final barStyle = SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: background,
+      systemNavigationBarDividerColor: background,
+      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      systemNavigationBarIconBrightness:
+          isDark ? Brightness.light : Brightness.dark,
+    );
+
+    SystemChrome.setSystemUIOverlayStyle(barStyle);
+
     return ColoredBox(
-      color: Colors.white,
+      color: background,
       child: Stack(
         children: [
           Positioned.fill(

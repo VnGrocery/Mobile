@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/session.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -204,8 +205,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 child: OutlinedButton.icon(
                   onPressed: _loading ? null : () {},
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    side: const BorderSide(color: Color(0xFFD3D3D3)),
+                    foregroundColor: Theme.of(context).colorScheme.onSurface,
+                    side: BorderSide(color: context.palette.border),
                   ),
                   icon: const Icon(Icons.g_mobiledata, size: 26),
                   label: const Text('Tiếp tục với Google'),
@@ -330,16 +331,17 @@ class _AuthInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: scheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
         children: [
           CircleAvatar(
-            backgroundColor: Colors.white,
+            backgroundColor: scheme.surface,
             child: Icon(
               register ? Icons.person_add_alt : Icons.verified_user,
               color: AppColors.primaryGreen,
@@ -376,10 +378,11 @@ class _PasswordRules extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: scheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -409,7 +412,7 @@ class _PasswordRules extends StatelessWidget {
               minHeight: 7,
               value: _strength / 4,
               color: _strengthColor(_strength),
-              backgroundColor: Colors.white,
+              backgroundColor: scheme.surface,
             ),
           ),
         ],

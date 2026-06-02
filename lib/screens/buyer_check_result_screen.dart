@@ -4,6 +4,7 @@ import '../data/data_hooks.dart';
 import '../data/session.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class BuyerCheckResultScreen extends StatelessWidget {
   const BuyerCheckResultScreen({super.key});
@@ -12,6 +13,8 @@ class BuyerCheckResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final result = AppDataHooks.instance.getLastBuyerCheck();
     final fair = result.locationStatus == 'near';
+    final palette = context.palette;
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       backgroundColor: AppColors.screenBg,
@@ -27,17 +30,17 @@ class BuyerCheckResultScreen extends StatelessWidget {
               height: 150,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: palette.elevatedCard,
                 border: Border.all(color: AppColors.warningOrange, width: 8),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('${result.actualScore}',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.w900,
-                          color: Colors.black)),
+                          color: scheme.onSurface)),
                   const Text('Điểm đánh giá',
                       style: TextStyle(fontSize: 14, color: Colors.grey)),
                 ],
@@ -48,7 +51,7 @@ class BuyerCheckResultScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: fair ? AppColors.trustGreenBg : AppColors.warningBg,
+                color: fair ? palette.positiveBg : palette.warningBg,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -82,7 +85,7 @@ class BuyerCheckResultScreen extends StatelessWidget {
             const SizedBox(height: 32),
             // Verdict card
             Card(
-              color: AppColors.card,
+              color: palette.card,
               elevation: 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
@@ -111,12 +114,14 @@ class BuyerCheckResultScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
                       child: Text(
                         'Kết quả dựa trên ảnh bạn gửi và thông tin đã ghi nhận.',
-                        style:
-                            TextStyle(fontSize: 14, color: AppColors.darkGray),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: palette.textSecondary,
+                        ),
                       ),
                     ),
                   ],

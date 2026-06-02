@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/data_hooks.dart';
 import '../data/session.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class SellerShopScreen extends StatefulWidget {
   final double bottomContentInset;
@@ -112,10 +113,11 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
   }
 
   Widget _summaryCard(SellerDashboard dashboard) {
+    final palette = context.palette;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -123,9 +125,10 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
         children: [
           Row(
             children: [
-              const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(Icons.verified, color: AppColors.primaryGreen),
+              CircleAvatar(
+                backgroundColor: palette.elevatedCard,
+                child:
+                    const Icon(Icons.verified, color: AppColors.primaryGreen),
               ),
               const SizedBox(width: 12),
               Expanded(

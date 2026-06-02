@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/data_hooks.dart';
 import '../data/models.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class SellerCreateProductScreen extends StatefulWidget {
   final String shopId;
@@ -71,6 +72,7 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Scaffold(
       backgroundColor: AppColors.screenBg,
       appBar: AppBar(
@@ -90,9 +92,9 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
             child: Container(
               height: 180,
               decoration: BoxDecoration(
-                color: AppColors.lightGray,
+                color: palette.mutedSurface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFD3D3D3)),
+                border: Border.all(color: palette.border),
               ),
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,

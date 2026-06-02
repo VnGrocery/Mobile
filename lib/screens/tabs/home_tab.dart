@@ -7,6 +7,7 @@ import '../../data/models.dart';
 import '../../data/session.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_palette.dart';
 import '../../utils/format.dart';
 
 class _Cat {
@@ -107,6 +108,7 @@ class _HomeTabState extends State<HomeTab> {
 
   Widget _header() {
     final name = SessionManager.instance.displayName;
+    final palette = context.palette;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       child: Row(
@@ -120,10 +122,11 @@ class _HomeTabState extends State<HomeTab> {
                 width: 48,
                 height: 48,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const CircleAvatar(
+                errorBuilder: (_, __, ___) => CircleAvatar(
                   radius: 24,
-                  backgroundColor: AppColors.card,
-                  child: Icon(Icons.person, color: AppColors.primaryGreen),
+                  backgroundColor: palette.card,
+                  child:
+                      const Icon(Icons.person, color: AppColors.primaryGreen),
                 ),
               ),
             ),
@@ -150,7 +153,7 @@ class _HomeTabState extends State<HomeTab> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: AppColors.card,
+              color: palette.card,
               borderRadius: BorderRadius.circular(24),
             ),
             child: Row(
@@ -276,9 +279,10 @@ class _HomeTabState extends State<HomeTab> {
       );
 
   void _showAllPledges(List<Product> products) {
+    final palette = context.palette;
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: palette.elevatedCard,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
@@ -334,6 +338,8 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget _categories() {
+    final scheme = Theme.of(context).colorScheme;
+    final palette = context.palette;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -347,7 +353,7 @@ class _HomeTabState extends State<HomeTab> {
                   CircleAvatar(
                     radius: 30,
                     backgroundColor:
-                        sel ? AppColors.primaryGreen : AppColors.card,
+                        sel ? AppColors.primaryGreen : palette.card,
                     child: Icon(c.icon,
                         color: sel ? Colors.white : AppColors.primaryGreen,
                         size: 26),
@@ -357,7 +363,8 @@ class _HomeTabState extends State<HomeTab> {
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: sel ? FontWeight.w700 : FontWeight.w500,
-                          color: sel ? AppColors.primaryGreen : Colors.black)),
+                          color:
+                              sel ? AppColors.primaryGreen : scheme.onSurface)),
                 ],
               ),
             ),
@@ -374,10 +381,11 @@ class _TrustShopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return SizedBox(
       width: 170,
       child: Material(
-        color: AppColors.card,
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
@@ -390,7 +398,7 @@ class _TrustShopCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 22,
-                  backgroundColor: Colors.white,
+                  backgroundColor: palette.elevatedCard,
                   child: Image.asset('assets/images/meat.png',
                       width: 26,
                       height: 26,
@@ -433,8 +441,9 @@ class _PledgeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shop = AppDataHooks.instance.getShop(product.shopId);
+    final palette = context.palette;
     return Material(
-      color: AppColors.card,
+      color: palette.card,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -452,7 +461,7 @@ class _PledgeCard extends StatelessWidget {
                 child: Container(
                   width: 72,
                   height: 72,
-                  color: Colors.white,
+                  color: palette.elevatedCard,
                   child: Image.asset('assets/images/lamb_meat.png',
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => const Icon(Icons.image,

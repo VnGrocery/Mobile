@@ -4,6 +4,7 @@ import '../data/data_hooks.dart';
 import '../data/models.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class SellerProductListScreen extends StatefulWidget {
   final String? shopId;
@@ -26,6 +27,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     final shopId = widget.shopId;
     if (shopId == null || shopId.isEmpty) {
       return Scaffold(
@@ -77,8 +79,8 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                   selected: sel,
                   showCheckmark: false,
                   selectedColor: AppColors.meatRed.withValues(alpha: 0.1),
-                  labelStyle:
-                      TextStyle(color: sel ? AppColors.meatRed : Colors.black),
+                  labelStyle: TextStyle(
+                      color: sel ? AppColors.meatRed : scheme.onSurface),
                   onSelected: (_) => setState(() => _state = s),
                 );
               },
@@ -89,10 +91,10 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                 ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         Icon(Icons.inventory_2,
-                            size: 64, color: Color(0xFFD3D3D3)),
-                        SizedBox(height: 8),
+                            size: 64, color: context.palette.textTertiary),
+                        const SizedBox(height: 8),
                         Text('Chưa có sản phẩm nào',
                             style: TextStyle(color: Colors.grey)),
                       ],
@@ -116,10 +118,11 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
   }
 
   Widget _statusBadge(String status) {
+    final palette = context.palette;
     final bg = switch (status) {
-      'Published' => AppColors.trustGreenBg,
-      'Draft' => AppColors.lightGray,
-      _ => AppColors.warningBg,
+      'Published' => palette.positiveBg,
+      'Draft' => palette.mutedSurface,
+      _ => palette.warningBg,
     };
     final fg = switch (status) {
       'Published' => AppColors.trustGreen,
@@ -144,8 +147,9 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
       };
 
   Widget _card(Product p) {
+    final palette = context.palette;
     return Card(
-      color: AppColors.card,
+      color: palette.card,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -158,7 +162,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                      color: AppColors.lightGray,
+                      color: palette.mutedSurface,
                       borderRadius: BorderRadius.circular(8)),
                   child: const Icon(Icons.image, color: Colors.grey),
                 ),
@@ -187,7 +191,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                 ),
               ],
             ),
-            const Divider(height: 24, thickness: 0.5, color: Color(0xFFD3D3D3)),
+            Divider(height: 24, thickness: 0.5, color: palette.border),
             Row(
               children: [
                 Expanded(

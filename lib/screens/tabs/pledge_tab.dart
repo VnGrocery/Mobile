@@ -4,6 +4,7 @@ import '../../data/data_hooks.dart';
 import '../../data/session.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_palette.dart';
 
 class PledgeTab extends StatelessWidget {
   final double bottomContentInset;
@@ -97,7 +98,7 @@ class PledgeTab extends StatelessWidget {
               _MetricCard(
                 label: 'Sản phẩm',
                 value: '${dashboard.products.length}',
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               _MetricCard(
                 label: 'Ghi nhận hôm nay',
@@ -202,10 +203,11 @@ class _MetricCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: palette.card,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
@@ -240,11 +242,12 @@ class _StatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     final latest = dashboard.pledges.isEmpty ? null : dashboard.pledges.first;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: palette.card,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(

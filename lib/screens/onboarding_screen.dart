@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 
 class _Page {
   final String title;
@@ -77,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   width: active ? 24 : 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: active ? AppColors.meatRed : const Color(0xFFD3D3D3),
+                    color: active ? AppColors.meatRed : context.palette.border,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 );

@@ -4,6 +4,7 @@ import '../data/data_hooks.dart';
 import '../data/models.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_palette.dart';
 import '../widgets/osm_tile_map.dart';
 
 class ExploreMapScreen extends StatefulWidget {
@@ -34,6 +35,7 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     final shops = AppDataHooks.instance.getShops();
     final selectedShop =
         shops.where((shop) => shop.id == _selectedShopId).firstOrNull;
@@ -70,7 +72,7 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
             right: 16,
             bottom: 238,
             child: Material(
-              color: Colors.white,
+              color: palette.elevatedCard,
               elevation: 4,
               shape: const CircleBorder(),
               child: IconButton(
@@ -116,11 +118,12 @@ class _SearchShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Row(
       children: [
         if (showBackButton) ...[
           Material(
-            color: Colors.white,
+            color: palette.elevatedCard,
             elevation: 4,
             shape: const CircleBorder(),
             child: IconButton(
@@ -132,7 +135,7 @@ class _SearchShell extends StatelessWidget {
         ],
         Expanded(
           child: Material(
-            color: Colors.white,
+            color: palette.elevatedCard,
             elevation: 4,
             borderRadius: BorderRadius.circular(24),
             child: const Padding(
@@ -171,6 +174,7 @@ class _FloatingShopPin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedScale(
@@ -185,7 +189,7 @@ class _FloatingShopPin extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: palette.elevatedCard,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -234,10 +238,11 @@ class _MapBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: palette.elevatedCard,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: ListView(
         controller: controller,
@@ -248,7 +253,7 @@ class _MapBottomSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: const Color(0xFFD8D8D8),
+                color: palette.border,
                 borderRadius: BorderRadius.circular(99),
               ),
             ),
@@ -300,10 +305,11 @@ class _MapShopTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Material(
-        color: selected ? AppColors.trustGreenBg : AppColors.card,
+        color: selected ? palette.positiveBg : palette.card,
         borderRadius: BorderRadius.circular(14),
         child: InkWell(
           borderRadius: BorderRadius.circular(14),
@@ -313,7 +319,7 @@ class _MapShopTile extends StatelessWidget {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: palette.elevatedCard,
                   child: Icon(
                     selected ? Icons.place : Icons.storefront,
                     color: AppColors.primaryGreen,
