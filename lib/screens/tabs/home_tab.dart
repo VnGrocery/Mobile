@@ -16,7 +16,9 @@ class _Cat {
 }
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({super.key});
+  final VoidCallback? onOpenMenu;
+
+  const HomeTab({super.key, this.onOpenMenu});
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -104,16 +106,20 @@ class _HomeTabState extends State<HomeTab> {
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       child: Row(
         children: [
-          ClipOval(
-            child: Image.asset(
-              'assets/images/user.png',
-              width: 48,
-              height: 48,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const CircleAvatar(
-                radius: 24,
-                backgroundColor: AppColors.card,
-                child: Icon(Icons.person, color: AppColors.primaryGreen),
+          InkWell(
+            customBorder: const CircleBorder(),
+            onTap: widget.onOpenMenu,
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/user.png',
+                width: 48,
+                height: 48,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => const CircleAvatar(
+                  radius: 24,
+                  backgroundColor: AppColors.card,
+                  child: Icon(Icons.person, color: AppColors.primaryGreen),
+                ),
               ),
             ),
           ),
