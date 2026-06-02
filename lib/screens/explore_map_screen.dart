@@ -77,7 +77,16 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
               shape: const CircleBorder(),
               child: IconButton(
                 tooltip: 'Vị trí của bạn',
-                onPressed: () {},
+                onPressed: () {
+                  if (shops.isNotEmpty) {
+                    setState(() => _selectedShopId = shops.first.id);
+                  }
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã căn về vị trí gần bạn (demo)'),
+                    ),
+                  );
+                },
                 icon: const Icon(
                   Icons.my_location,
                   color: AppColors.primaryGreen,

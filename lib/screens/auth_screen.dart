@@ -40,7 +40,22 @@ class _AuthScreenState extends State<AuthScreen> {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _loading = true);
     await Future<void>.delayed(const Duration(milliseconds: 800));
-    SessionManager.instance.login(email: _email.text);
+    SessionManager.instance.login(
+      email: _email.text,
+      displayName: _isRegister ? _name.text : null,
+    );
+    if (!mounted) return;
+    Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
+  }
+
+  Future<void> _continueWithGoogle() async {
+    FocusScope.of(context).unfocus();
+    setState(() => _loading = true);
+    await Future<void>.delayed(const Duration(milliseconds: 600));
+    SessionManager.instance.login(
+      email: 'google.demo@vngrocery.com',
+      displayName: 'Google Demo',
+    );
     if (!mounted) return;
     Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
   }
@@ -203,7 +218,7 @@ class _AuthScreenState extends State<AuthScreen> {
               SizedBox(
                 height: 56,
                 child: OutlinedButton.icon(
-                  onPressed: _loading ? null : () {},
+                  onPressed: _loading ? null : _continueWithGoogle,
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Theme.of(context).colorScheme.onSurface,
                     side: BorderSide(color: context.palette.border),

@@ -70,8 +70,9 @@ class _MainScreenState extends State<MainScreen> {
                 const SellerShopScreen(
                   bottomContentInset: _bottomNavContentInset,
                 ),
-                const AccountTab(
+                AccountTab(
                   bottomContentInset: _bottomNavContentInset,
+                  onSelectTab: (index) => setState(() => _index = index),
                 ),
               ]
             : [
@@ -92,8 +93,9 @@ class _MainScreenState extends State<MainScreen> {
                   showMap: false,
                   bottomContentInset: _bottomNavContentInset,
                 ),
-                const AccountTab(
+                AccountTab(
                   bottomContentInset: _bottomNavContentInset,
+                  onSelectTab: (index) => setState(() => _index = index),
                 ),
               ];
         final navItems = _menuItems(isSeller);

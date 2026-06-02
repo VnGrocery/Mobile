@@ -25,6 +25,71 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
   String _state = 'Tất cả';
   static const _states = ['Tất cả', 'Published', 'Draft', 'Archived'];
 
+  void _showProductActions(Product product) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppColors.screenBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => Padding(
+        padding: const EdgeInsets.fromLTRB(20, 14, 20, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Container(
+                width: 42,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: context.palette.border,
+                  borderRadius: BorderRadius.circular(99),
+                ),
+              ),
+            ),
+            const SizedBox(height: 18),
+            Text(
+              product.name,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '${product.category} - ${_stateLabel(product.status)}',
+              style: const TextStyle(color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: 16),
+            _actionRow(Icons.visibility, 'Xem chi tiết', () {
+              Navigator.pop(context);
+              Navigator.pushNamed(
+                context,
+                Routes.productDetail,
+                arguments: {'shopId': product.shopId, 'productId': product.id},
+              );
+            }),
+            _actionRow(Icons.history, 'Xem lịch sử ghi nhận', () {
+              Navigator.pop(context);
+              Navigator.pushNamed(
+                context,
+                Routes.pledgeHistory,
+                arguments: product.id,
+              );
+            }),
+            _actionRow(Icons.verified_user, 'Thêm ghi nhận mới', () async {
+              Navigator.pop(context);
+              await Navigator.pushNamed(
+                context,
+                Routes.sellerCreatePledge,
+                arguments: product.id,
+              );
+              if (mounted) setState(() {});
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
@@ -32,9 +97,14 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
     if (shopId == null || shopId.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-            title: const Text('Sản phẩm của tôi',
-                style: TextStyle(fontWeight: FontWeight.bold))),
-        body: const Center(child: Text('Tài khoản của bạn chưa có cửa hàng.')),
+          title: const Text(
+            'Sản phẩm của tôi',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        body: const Center(
+          child: Text('Tài khoản của bạn chưa có cửa hàng.'),
+        ),
       );
     }
 
@@ -46,8 +116,10 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
     return Scaffold(
       backgroundColor: AppColors.screenBg,
       appBar: AppBar(
-        title: const Text('Sản phẩm của tôi',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Sản phẩm của tôi',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: widget.bottomContentInset),
@@ -55,8 +127,11 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
           backgroundColor: AppColors.meatRed,
           foregroundColor: Colors.white,
           onPressed: () async {
-            await Navigator.pushNamed(context, Routes.sellerCreateProduct,
-                arguments: shopId);
+            await Navigator.pushNamed(
+              context,
+              Routes.sellerCreateProduct,
+              arguments: shopId,
+            );
             if (mounted) setState(() {});
           },
           child: const Icon(Icons.add),
@@ -71,17 +146,18 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               itemCount: _states.length,
               separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemBuilder: (_, i) {
-                final s = _states[i];
-                final sel = s == _state;
+              itemBuilder: (_, index) {
+                final state = _states[index];
+                final selected = state == _state;
                 return FilterChip(
-                  label: Text(_stateLabel(s)),
-                  selected: sel,
+                  label: Text(_stateLabel(state)),
+                  selected: selected,
                   showCheckmark: false,
                   selectedColor: AppColors.meatRed.withValues(alpha: 0.1),
                   labelStyle: TextStyle(
-                      color: sel ? AppColors.meatRed : scheme.onSurface),
-                  onSelected: (_) => setState(() => _state = s),
+                    color: selected ? AppColors.meatRed : scheme.onSurface,
+                  ),
+                  onSelected: (_) => setState(() => _state = state),
                 );
               },
             ),
@@ -92,11 +168,16 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.inventory_2,
-                            size: 64, color: context.palette.textTertiary),
+                        Icon(
+                          Icons.inventory_2,
+                          size: 64,
+                          color: context.palette.textTertiary,
+                        ),
                         const SizedBox(height: 8),
-                        Text('Chưa có sản phẩm nào',
-                            style: TextStyle(color: Colors.grey)),
+                        const Text(
+                          'Chưa có sản phẩm nào',
+                          style: TextStyle(color: Colors.grey),
+                        ),
                       ],
                     ),
                   )
@@ -109,7 +190,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                     ),
                     itemCount: products.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
-                    itemBuilder: (_, i) => _card(products[i]),
+                    itemBuilder: (_, index) => _card(products[index]),
                   ),
           ),
         ],
@@ -133,9 +214,10 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration:
           BoxDecoration(color: bg, borderRadius: BorderRadius.circular(4)),
-      child: Text(_stateLabel(status),
-          style:
-              TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: fg)),
+      child: Text(
+        _stateLabel(status),
+        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: fg),
+      ),
     );
   }
 
@@ -146,7 +228,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
         _ => status,
       };
 
-  Widget _card(Product p) {
+  Widget _card(Product product) {
     final palette = context.palette;
     return Card(
       color: palette.card,
@@ -162,8 +244,9 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                      color: palette.mutedSurface,
-                      borderRadius: BorderRadius.circular(8)),
+                    color: palette.mutedSurface,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: const Icon(Icons.image, color: Colors.grey),
                 ),
                 const SizedBox(width: 16),
@@ -171,23 +254,28 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(p.name,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15)),
-                      Text('Danh mục: ${p.category}',
-                          style: const TextStyle(
-                              fontSize: 12, color: Colors.grey)),
+                      Text(
+                        product.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(
+                        'Danh mục: ${product.category}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      _statusBadge(p.status),
+                      _statusBadge(product.status),
                     ],
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.grey, size: 20),
-                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Tính năng đang được phát triển')),
-                  ),
+                  icon: const Icon(Icons.more_horiz, color: Colors.grey),
+                  onPressed: () => _showProductActions(product),
                 ),
               ],
             ),
@@ -199,11 +287,14 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                     onPressed: () => Navigator.pushNamed(
-                        context, Routes.pledgeHistory,
-                        arguments: p.id),
+                      context,
+                      Routes.pledgeHistory,
+                      arguments: product.id,
+                    ),
                     icon: const Icon(Icons.history, size: 16),
                     label:
                         const Text('Lịch sử', style: TextStyle(fontSize: 12)),
@@ -215,17 +306,22 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                     style: FilledButton.styleFrom(
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                     onPressed: () async {
                       await Navigator.pushNamed(
-                          context, Routes.sellerCreatePledge,
-                          arguments: p.id);
+                        context,
+                        Routes.sellerCreatePledge,
+                        arguments: product.id,
+                      );
                       if (mounted) setState(() {});
                     },
                     icon: const Icon(Icons.verified_user, size: 16),
-                    label: const Text('Thêm ghi nhận',
-                        style: TextStyle(fontSize: 12)),
+                    label: const Text(
+                      'Thêm ghi nhận',
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ),
                 ),
               ],
@@ -233,6 +329,19 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _actionRow(IconData icon, String label, VoidCallback onTap) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: CircleAvatar(
+        backgroundColor: context.palette.positiveBg,
+        child: Icon(icon, color: AppColors.primaryGreen),
+      ),
+      title: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: onTap,
     );
   }
 }

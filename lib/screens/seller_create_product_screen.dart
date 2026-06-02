@@ -7,6 +7,7 @@ import '../theme/app_palette.dart';
 
 class SellerCreateProductScreen extends StatefulWidget {
   final String shopId;
+
   const SellerCreateProductScreen({super.key, required this.shopId});
 
   @override
@@ -21,14 +22,14 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   final _tags = TextEditingController();
   String _category = 'Thịt bò';
   bool _loading = false;
+  bool _imageSelected = false;
 
   static const _categories = [
     'Thịt bò',
     'Thịt lợn',
     'Thịt gà',
     'Hải sản',
-    'Thịt gia cầm khác',
-    'Thịt thú rừng',
+    'Gia cầm',
     'Khác',
   ];
 
@@ -50,24 +51,42 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
     setState(() => _loading = true);
     await Future<void>.delayed(const Duration(milliseconds: 900));
     final data = AppDataHooks.instance;
-    data.addProduct(Product(
-      id: data.nextId(),
-      shopId: widget.shopId,
-      name: _name.text.trim(),
-      description: _desc.text.trim(),
-      category: _category,
-      freshnessScore: 80,
-      freshnessNote: 'Sản phẩm mới tạo.',
-      price: int.tryParse(_price.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
-      tags: _tags.text
-          .split(',')
-          .map((e) => e.trim())
-          .where((e) => e.isNotEmpty)
-          .toList(),
-      status: 'Draft',
-    ));
+    data.addProduct(
+      Product(
+        id: data.nextId(),
+        shopId: widget.shopId,
+        name: _name.text.trim(),
+        description: _desc.text.trim(),
+        category: _category,
+        freshnessScore: 80,
+        freshnessNote: _imageSelected
+            ? 'Sản phẩm mới tạo, đã có ảnh demo.'
+            : 'Sản phẩm mới tạo.',
+        price: int.tryParse(_price.text.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0,
+        tags: _tags.text
+            .split(',')
+            .map((tag) => tag.trim())
+            .where((tag) => tag.isNotEmpty)
+            .toList(),
+        status: 'Draft',
+      ),
+    );
     if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Đã lưu sản phẩm nháp')),
+    );
     Navigator.pop(context);
+  }
+
+  void _toggleImage() {
+    setState(() => _imageSelected = !_imageSelected);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          _imageSelected ? 'Đã chọn ảnh sản phẩm demo' : 'Đã bỏ ảnh sản phẩm',
+        ),
+      ),
+    );
   }
 
   @override
@@ -76,32 +95,52 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
     return Scaffold(
       backgroundColor: AppColors.screenBg,
       appBar: AppBar(
-        title: const Text('Thêm sản phẩm mới',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Thêm sản phẩm mới',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const Text('Hình ảnh sản phẩm',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          const Text(
+            'Hình ảnh sản phẩm',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
           const SizedBox(height: 8),
           GestureDetector(
-            onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Tính năng đang được phát triển')),
-            ),
+            onTap: _toggleImage,
             child: Container(
               height: 180,
               decoration: BoxDecoration(
-                color: palette.mutedSurface,
+                color:
+                    _imageSelected ? palette.positiveBg : palette.mutedSurface,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: palette.border),
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.add_photo_alternate, size: 48, color: Colors.grey),
-                  Text('Nhấn để tải ảnh lên',
-                      style: TextStyle(color: Colors.grey, fontSize: 14)),
+                  Icon(
+                    _imageSelected
+                        ? Icons.check_circle
+                        : Icons.add_photo_alternate,
+                    size: 48,
+                    color:
+                        _imageSelected ? AppColors.primaryGreen : Colors.grey,
+                  ),
+                  Text(
+                    _imageSelected
+                        ? 'Ảnh demo đã sẵn sàng'
+                        : 'Nhấn để chọn ảnh demo',
+                    style: TextStyle(
+                      color:
+                          _imageSelected ? AppColors.primaryGreen : Colors.grey,
+                      fontSize: 14,
+                      fontWeight:
+                          _imageSelected ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -123,16 +162,22 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
           const SizedBox(height: 16),
           const Padding(
             padding: EdgeInsets.only(left: 4, bottom: 4),
-            child: Text('Danh mục',
-                style: TextStyle(fontSize: 14, color: Colors.grey)),
+            child: Text(
+              'Danh mục',
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
           ),
           DropdownButtonFormField<String>(
             initialValue: _category,
             decoration: const InputDecoration(),
             items: _categories
-                .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                .map((category) => DropdownMenuItem(
+                      value: category,
+                      child: Text(category),
+                    ))
                 .toList(),
-            onChanged: (v) => setState(() => _category = v ?? _category),
+            onChanged: (value) =>
+                setState(() => _category = value ?? _category),
           ),
           const SizedBox(height: 16),
           TextField(
@@ -144,8 +189,8 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
           TextField(
             controller: _tags,
             decoration: const InputDecoration(
-              labelText: 'Tags (Cách nhau bằng dấu phẩy)',
-              hintText: 'VD: Tươi sống, Nhập khẩu, Diet',
+              labelText: 'Tags (cách nhau bằng dấu phẩy)',
+              hintText: 'VD: Tươi sống, Nhập khẩu, Ít béo',
             ),
           ),
           const SizedBox(height: 32),
@@ -159,10 +204,17 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
                       width: 24,
                       height: 24,
                       child: CircularProgressIndicator(
-                          color: Colors.white, strokeWidth: 2.5))
-                  : const Text('Lưu sản phẩm',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        color: Colors.white,
+                        strokeWidth: 2.5,
+                      ),
+                    )
+                  : const Text(
+                      'Lưu sản phẩm',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
             ),
           ),
           const SizedBox(height: 40),

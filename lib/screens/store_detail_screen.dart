@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../data/data_hooks.dart';
 import '../data/models.dart';
@@ -9,6 +10,7 @@ import '../utils/format.dart';
 
 class StoreDetailScreen extends StatefulWidget {
   final String shopId;
+
   const StoreDetailScreen({super.key, required this.shopId});
 
   @override
@@ -18,9 +20,29 @@ class StoreDetailScreen extends StatefulWidget {
 class _StoreDetailScreenState extends State<StoreDetailScreen> {
   int _tab = 0;
 
-  void _notImplemented() {
+  void _shareShop(Shop shop) {
+    Clipboard.setData(
+      ClipboardData(
+        text:
+            '${shop.name}\n${shop.address}\n${shop.rating} điểm đánh giá - ${shop.reviewCount} lượt đánh giá',
+      ),
+    );
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Tính năng đang được phát triển')),
+      const SnackBar(content: Text('Đã sao chép thông tin cửa hàng')),
+    );
+  }
+
+  void _openLatestReceipt(List<Product> products) {
+    if (products.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Cửa hàng chưa có biên lai sản phẩm')),
+      );
+      return;
+    }
+    Navigator.pushNamed(
+      context,
+      Routes.pledgeHistory,
+      arguments: products.first.id,
     );
   }
 
@@ -36,7 +58,10 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
       appBar: AppBar(
         title: const Text('Chi tiết cửa hàng'),
         actions: [
-          IconButton(onPressed: _notImplemented, icon: const Icon(Icons.share)),
+          IconButton(
+            onPressed: () => _shareShop(shop),
+            icon: const Icon(Icons.share),
+          ),
         ],
       ),
       body: ListView(
@@ -50,31 +75,37 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Sản phẩm mới kiểm tra',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Sản phẩm mới kiểm tra',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 8),
-                  _pledgeCard(),
+                  _pledgeCard(products),
                 ],
               ),
             ),
           ),
           _tabBar(),
           if (_tab == 0)
-            ...products.map((p) => Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: _ProductItem(product: p),
-                ))
+            ...products.map(
+              (product) => Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: _ProductItem(product: product),
+              ),
+            )
           else ...[
-            ...reviews.map((r) => _ReviewItem(review: r)),
+            ...reviews.map((review) => _ReviewItem(review: review)),
             Padding(
               padding: const EdgeInsets.all(16),
               child: SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: () => Navigator.pushNamed(context, Routes.review,
-                      arguments: widget.shopId),
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    Routes.review,
+                    arguments: widget.shopId,
+                  ),
                   child: const Text('Viết đánh giá'),
                 ),
               ),
@@ -105,17 +136,25 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 height: 80,
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                    color: palette.elevatedCard, shape: BoxShape.circle),
+                  color: palette.elevatedCard,
+                  shape: BoxShape.circle,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: palette.mutedSurface, shape: BoxShape.circle),
+                    color: palette.mutedSurface,
+                    shape: BoxShape.circle,
+                  ),
                   child: const Icon(Icons.store, size: 40, color: Colors.grey),
                 ),
               ),
               const SizedBox(height: 8),
-              Text(shop.name,
-                  style: const TextStyle(
-                      fontSize: 22, fontWeight: FontWeight.bold)),
+              Text(
+                shop.name,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 8),
               Container(
                 padding:
@@ -127,22 +166,30 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.verified,
-                        color: AppColors.trustGreen, size: 20),
+                    const Icon(
+                      Icons.verified,
+                      color: AppColors.trustGreen,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
-                    Text('${shop.rating} điểm đánh giá',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.trustGreen,
-                            fontSize: 18)),
+                    Text(
+                      '${shop.rating} điểm đánh giá',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.trustGreen,
+                        fontSize: 18,
+                      ),
+                    ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-                child: Text(shop.description,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: Colors.grey)),
+                child: Text(
+                  shop.description,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                ),
               ),
             ],
           ),
@@ -151,7 +198,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     );
   }
 
-  Widget _pledgeCard() {
+  Widget _pledgeCard(List<Product> products) {
     return Card(
       color: context.palette.card,
       elevation: 0,
@@ -162,10 +209,10 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           children: [
             const Icon(Icons.verified_user, color: AppColors.meatRed),
             const SizedBox(width: 12),
-            Expanded(
+            const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     'Sản phẩm đã được kiểm tra gần đây',
                     maxLines: 1,
@@ -183,7 +230,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             ),
             const SizedBox(width: 8),
             TextButton(
-              onPressed: _notImplemented,
+              onPressed: () => _openLatestReceipt(products),
               style: TextButton.styleFrom(
                 minimumSize: const Size(0, 36),
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -201,28 +248,30 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
 
   Widget _tabBar() {
     return Row(
-      children: List.generate(2, (i) {
-        final title = i == 0 ? 'Sản phẩm' : 'Đánh giá';
-        final sel = _tab == i;
+      children: List.generate(2, (index) {
+        final title = index == 0 ? 'Sản phẩm' : 'Đánh giá';
+        final selected = _tab == index;
         return Expanded(
           child: InkWell(
-            onTap: () => setState(() => _tab = i),
+            onTap: () => setState(() => _tab = index),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 14),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: sel ? AppColors.meatRed : Colors.transparent,
+                    color: selected ? AppColors.meatRed : Colors.transparent,
                     width: 2,
                   ),
                 ),
               ),
               alignment: Alignment.center,
-              child: Text(title,
-                  style: TextStyle(
-                    color: sel ? AppColors.meatRed : Colors.grey,
-                    fontWeight: sel ? FontWeight.bold : FontWeight.normal,
-                  )),
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: selected ? AppColors.meatRed : Colors.grey,
+                  fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
             ),
           ),
         );
@@ -231,9 +280,9 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   }
 }
 
-/// ProductItem port từ ui/components/CommonComponents.kt
 class _ProductItem extends StatelessWidget {
   final Product product;
+
   const _ProductItem({required this.product});
 
   @override
@@ -246,8 +295,11 @@ class _ProductItem extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () => Navigator.pushNamed(context, Routes.productDetail,
-            arguments: {'shopId': product.shopId, 'productId': product.id}),
+        onTap: () => Navigator.pushNamed(
+          context,
+          Routes.productDetail,
+          arguments: {'shopId': product.shopId, 'productId': product.id},
+        ),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
@@ -260,51 +312,72 @@ class _ProductItem extends StatelessWidget {
                   color: palette.mutedSurface,
                   borderRadius: BorderRadius.circular(8),
                 ),
+                child: const Icon(Icons.image, color: Colors.grey),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(product.name,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
-                    Text('Cửa hàng: ${product.shopId}',
-                        style:
-                            const TextStyle(fontSize: 13, color: Colors.grey)),
+                    Text(
+                      product.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      'Cửa hàng: ${product.shopId}',
+                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
                     const SizedBox(height: 4),
                     Wrap(
                       spacing: 4,
+                      runSpacing: 4,
                       children: product.tags
-                          .map((t) => Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: palette.mutedSurface
-                                      .withValues(alpha: 0.7),
-                                  borderRadius: BorderRadius.circular(4),
+                          .map(
+                            (tag) => Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    palette.mutedSurface.withValues(alpha: 0.7),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                tag,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: scheme.onSurface,
                                 ),
-                                child: Text(t,
-                                    style: TextStyle(
-                                        fontSize: 10, color: scheme.onSurface)),
-                              ))
+                              ),
+                            ),
+                          )
                           .toList(),
                     ),
                     const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(formatVnd(product.price),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.priceRed,
-                                fontSize: 15)),
-                        Text('${product.freshnessScore} điểm đánh giá',
-                            style: TextStyle(
-                                color: AppColors.freshnessColor(
-                                    product.freshnessScore),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12)),
+                        Text(
+                          formatVnd(product.price),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.priceRed,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          '${product.freshnessScore} điểm',
+                          style: TextStyle(
+                            color: AppColors.freshnessColor(
+                                product.freshnessScore),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -320,6 +393,7 @@ class _ProductItem extends StatelessWidget {
 
 class _ReviewItem extends StatelessWidget {
   final Review review;
+
   const _ReviewItem({required this.review});
 
   @override
@@ -339,23 +413,33 @@ class _ReviewItem extends StatelessWidget {
               children: [
                 CircleAvatar(radius: 20, backgroundColor: palette.mutedSurface),
                 const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Người dùng',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Row(
-                      children: List.generate(
-                        review.rating,
-                        (_) => const Icon(Icons.star,
-                            color: AppColors.warningOrange, size: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        review.userName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      Row(
+                        children: List.generate(
+                          review.rating,
+                          (_) => const Icon(
+                            Icons.star,
+                            color: AppColors.warningOrange,
+                            size: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const Spacer(),
-                Text(review.date,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                Text(
+                  review.date,
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
               ],
             ),
             const SizedBox(height: 8),

@@ -8,17 +8,150 @@ import '../../theme/theme_controller.dart';
 
 class AccountTab extends StatefulWidget {
   final double bottomContentInset;
+  final ValueChanged<int>? onSelectTab;
 
-  const AccountTab({super.key, this.bottomContentInset = 0});
+  const AccountTab({
+    super.key,
+    this.bottomContentInset = 0,
+    this.onSelectTab,
+  });
 
   @override
   State<AccountTab> createState() => _AccountTabState();
 }
 
 class _AccountTabState extends State<AccountTab> {
-  void _notImplemented(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Tính năng đang được phát triển')),
+  void _selectTab(int index) => widget.onSelectTab?.call(index);
+
+  Future<void> _editProfile(BuildContext context) async {
+    final session = SessionManager.instance;
+    final name = TextEditingController(text: session.displayName);
+    final email = TextEditingController(text: session.email);
+    final formKey = GlobalKey<FormState>();
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.screenBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) => Padding(
+        padding: EdgeInsets.fromLTRB(
+          20,
+          14,
+          20,
+          MediaQuery.viewInsetsOf(sheetContext).bottom + 20,
+        ),
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(child: _sheetHandle(context)),
+              const SizedBox(height: 18),
+              const Text(
+                'Sửa hồ sơ',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: name,
+                decoration: const InputDecoration(
+                  labelText: 'Tên hiển thị',
+                  prefixIcon: Icon(Icons.person),
+                ),
+                validator: (value) {
+                  if ((value ?? '').trim().length < 2) {
+                    return 'Nhập tên tối thiểu 2 ký tự';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: email,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
+                ),
+                validator: (value) {
+                  final text = (value ?? '').trim();
+                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(text)) {
+                    return 'Email không hợp lệ';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 52,
+                child: FilledButton(
+                  onPressed: () {
+                    if (!(formKey.currentState?.validate() ?? false)) return;
+                    session.updateProfile(
+                      displayName: name.text,
+                      email: email.text,
+                    );
+                    setState(() {});
+                    Navigator.pop(sheetContext);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Đã cập nhật hồ sơ')),
+                    );
+                  },
+                  child: const Text('Lưu thay đổi'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    name.dispose();
+    email.dispose();
+  }
+
+  void _showHelp(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppColors.screenBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => Padding(
+        padding: const EdgeInsets.fromLTRB(20, 14, 20, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(child: _sheetHandle(context)),
+            const SizedBox(height: 18),
+            const Text(
+              'Hỗ trợ',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            _helpRow(
+              Icons.qr_code_scanner,
+              'Quét sản phẩm',
+              'Chụp sản phẩm và mã QR để kiểm tra dữ liệu đã ghi nhận.',
+            ),
+            _helpRow(
+              Icons.storefront,
+              'Cửa hàng',
+              'Xem danh sách cửa hàng, đánh giá và sản phẩm gần đây.',
+            ),
+            _helpRow(
+              Icons.mail,
+              'Liên hệ',
+              'Gửi email tới support@vngrocery.local khi cần hỗ trợ.',
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -127,32 +260,12 @@ class _AccountTabState extends State<AccountTab> {
           _modeCard(isSeller),
           if (isSeller) ...[
             _section('Quản lý bán hàng'),
-            _item(
-              Icons.inventory_2,
-              'Sản phẩm của tôi',
-              () => Navigator.pushNamed(
-                context,
-                Routes.sellerProducts,
-                arguments: session.shopId,
-              ),
-            ),
-            _item(
-              Icons.store,
-              'Thông tin cửa hàng',
-              () => Navigator.pushNamed(context, Routes.sellerShop),
-            ),
+            _item(Icons.inventory_2, 'Sản phẩm của tôi', () => _selectTab(1)),
+            _item(Icons.store, 'Thông tin cửa hàng', () => _selectTab(2)),
           ] else ...[
             _section('Hoạt động mua hàng'),
-            _item(
-              Icons.explore,
-              'Khám phá cửa hàng',
-              () => DefaultTabController.maybeOf(context),
-            ),
-            _item(
-              Icons.qr_code_scanner,
-              'Quét sản phẩm',
-              () => Navigator.pushNamed(context, Routes.scan),
-            ),
+            _item(Icons.explore, 'Khám phá cửa hàng', () => _selectTab(1)),
+            _item(Icons.qr_code_scanner, 'Quét sản phẩm', () => _selectTab(2)),
           ],
           _section('Cài đặt'),
           ValueListenableBuilder<ThemeMode>(
@@ -164,14 +277,13 @@ class _AccountTabState extends State<AccountTab> {
               ThemeController.instance.setDark,
             ),
           ),
-          _item(Icons.edit, 'Sửa hồ sơ', () => _notImplemented(context)),
+          _item(Icons.edit, 'Sửa hồ sơ', () => _editProfile(context)),
           _item(
             Icons.lock_reset,
             'Đổi mật khẩu',
             () => Navigator.pushNamed(context, Routes.changePassword),
           ),
-          _item(
-              Icons.help, 'Hỗ trợ & Trợ giúp', () => _notImplemented(context)),
+          _item(Icons.help, 'Hỗ trợ & Trợ giúp', () => _showHelp(context)),
           const SizedBox(height: 24),
           InkWell(
             onTap: () => _logout(context),
@@ -372,6 +484,50 @@ class _AccountTabState extends State<AccountTab> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _sheetHandle(BuildContext context) => Container(
+        width: 42,
+        height: 4,
+        decoration: BoxDecoration(
+          color: context.palette.border,
+          borderRadius: BorderRadius.circular(99),
+        ),
+      );
+
+  Widget _helpRow(IconData icon, String title, String body) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: 18,
+            backgroundColor: context.palette.positiveBg,
+            child: Icon(icon, size: 18, color: AppColors.primaryGreen),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title,
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                const SizedBox(height: 2),
+                Text(
+                  body,
+                  style: const TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                    height: 1.3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

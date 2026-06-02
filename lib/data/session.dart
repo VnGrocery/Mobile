@@ -10,6 +10,7 @@ class SessionManager {
   String? token;
   String? shopId;
   String email = '';
+  String? _displayName;
   final ValueNotifier<String> roleNotifier = ValueNotifier<String>('user');
 
   String get role => roleNotifier.value;
@@ -17,9 +18,13 @@ class SessionManager {
   bool get isLoggedIn => token != null;
 
   /// Tên hiển thị = phần trước '@' của email (giống AccountScreen.kt).
-  String get displayName => email.contains('@')
-      ? email.split('@').first
-      : (email.isEmpty ? 'User' : email);
+  String get displayName {
+    final name = _displayName?.trim();
+    if (name != null && name.isNotEmpty) return name;
+    return email.contains('@')
+        ? email.split('@').first
+        : (email.isEmpty ? 'User' : email);
+  }
 
   /// Đăng nhập giả: chấp nhận mọi email/mật khẩu. Gán shopId demo để
   /// các luồng seller (seller_products/{shopId}) hoạt động.
@@ -28,7 +33,13 @@ class SessionManager {
     token = 'mock-token-${DateTime.now().millisecondsSinceEpoch}';
     shopId = role == 'seller' ? MockDb.demoShopId : null;
     this.email = email.trim().isEmpty ? 'demo@vngrocery.com' : email.trim();
+    _displayName = displayName?.trim();
     roleNotifier.value = role;
+  }
+
+  void updateProfile({required String displayName, required String email}) {
+    _displayName = displayName.trim();
+    this.email = email.trim().isEmpty ? this.email : email.trim();
   }
 
   void setRole(String role) {
@@ -43,6 +54,7 @@ class SessionManager {
     token = null;
     shopId = null;
     email = '';
+    _displayName = null;
     roleNotifier.value = 'user';
   }
 }
