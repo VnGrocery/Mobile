@@ -52,8 +52,8 @@ class _AccountTabState extends State<AccountTab> {
       SnackBar(
         content: Text(
           role == 'seller'
-              ? 'Đã chuyển sang chế độ Seller'
-              : 'Đã chuyển sang chế độ User',
+              ? 'Đã chuyển sang chế độ người bán'
+              : 'Đã chuyển sang chế độ người mua',
         ),
       ),
     );
@@ -120,7 +120,7 @@ class _AccountTabState extends State<AccountTab> {
           _section('Chế độ hiện tại'),
           _modeCard(isSeller),
           if (isSeller) ...[
-            _section('Quản lý Seller'),
+            _section('Quản lý bán hàng'),
             _item(
               Icons.inventory_2,
               'Sản phẩm của tôi',
@@ -136,7 +136,7 @@ class _AccountTabState extends State<AccountTab> {
               () => Navigator.pushNamed(context, Routes.sellerShop),
             ),
           ] else ...[
-            _section('Hoạt động User'),
+            _section('Hoạt động mua hàng'),
             _item(
               Icons.explore,
               'Khám phá cửa hàng',
@@ -144,7 +144,7 @@ class _AccountTabState extends State<AccountTab> {
             ),
             _item(
               Icons.qr_code_scanner,
-              'Quét mã sản phẩm',
+              'Quét sản phẩm',
               () => Navigator.pushNamed(context, Routes.scan),
             ),
           ],
@@ -155,7 +155,8 @@ class _AccountTabState extends State<AccountTab> {
             'Đổi mật khẩu',
             () => Navigator.pushNamed(context, Routes.changePassword),
           ),
-          _item(Icons.help, 'Hỗ trợ & Trợ giúp', () => _notImplemented(context)),
+          _item(
+              Icons.help, 'Hỗ trợ & Trợ giúp', () => _notImplemented(context)),
           const SizedBox(height: 24),
           InkWell(
             onTap: () => _logout(context),
@@ -194,13 +195,13 @@ class _AccountTabState extends State<AccountTab> {
       child: Row(
         children: [
           _roleItem(
-            label: 'User',
+            label: 'Người mua',
             icon: Icons.person,
             selected: !isSeller,
             onTap: () => _switchRole('user'),
           ),
           _roleItem(
-            label: 'Seller',
+            label: 'Người bán',
             icon: Icons.storefront,
             selected: isSeller,
             onTap: () => _switchRole('seller'),
@@ -269,8 +270,8 @@ class _AccountTabState extends State<AccountTab> {
             Expanded(
               child: Text(
                 isSeller
-                    ? 'Seller mode: quản lý cửa hàng, sản phẩm và cam kết.'
-                    : 'User mode: khám phá, quét mã và kiểm chứng sản phẩm.',
+                    ? 'Chế độ người bán: quản lý cửa hàng, sản phẩm và ghi nhận.'
+                    : 'Chế độ người mua: khám phá, quét mã và kiểm tra sản phẩm.',
                 style: const TextStyle(height: 1.3),
               ),
             ),

@@ -36,13 +36,13 @@ class ProductDetailScreen extends StatelessWidget {
                 top: 16,
                 right: 16,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.6),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text('Ảnh gốc từ Seller',
+                  child: const Text('Ảnh từ quầy',
                       style: TextStyle(color: Colors.white, fontSize: 10)),
                 ),
               ),
@@ -62,7 +62,7 @@ class ProductDetailScreen extends StatelessWidget {
                         color: AppColors.priceRed,
                         fontWeight: FontWeight.bold)),
                 const SizedBox(height: 16),
-                // Điểm cam kết
+                // Điểm đánh giá
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
@@ -78,12 +78,12 @@ class ProductDetailScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
-                            Text('ĐIỂM NGƯỜI BÁN CAM KẾT',
+                            Text('ĐIỂM ĐÁNH GIÁ GẦN NHẤT',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.meatRed)),
-                            Text('Dữ liệu đã được xác thực trên hệ thống',
+                            Text('Dựa trên ảnh và thông tin đã ghi nhận',
                                 style: TextStyle(
                                     fontSize: 11, color: Colors.grey)),
                           ],
@@ -109,20 +109,20 @@ class ProductDetailScreen extends StatelessWidget {
                       minimumSize: const Size.fromHeight(56),
                     ),
                     icon: const Icon(Icons.photo_camera),
-                    label: const Text('Chụp ảnh kiểm tra chất lượng thực tế',
+                    label: const Text('Gửi ảnh kiểm tra sản phẩm',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
                 const Padding(
                   padding: EdgeInsets.only(top: 8, left: 4, right: 4),
                   child: Text(
-                    'Hãy chụp ảnh miếng thịt bạn đang định mua để AI đối chứng với cam kết trên.',
+                    'Hãy chụp ảnh bảng giá hoặc sản phẩm để so với dữ liệu gần nhất.',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ),
                 const SizedBox(height: 32),
-                const Text('Nguồn gốc & Shop',
+                const Text('Thông tin quầy hàng',
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
@@ -132,7 +132,7 @@ class ProductDetailScreen extends StatelessWidget {
                     value: product.shopId),
                 InfoRow(
                     icon: Icons.description,
-                    label: 'Mô tả tươi sống',
+                    label: 'Ghi chú sản phẩm',
                     value: product.freshnessNote),
                 const SizedBox(height: 16),
                 SizedBox(

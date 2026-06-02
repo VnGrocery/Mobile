@@ -51,13 +51,13 @@ class _ScannerScreenState extends State<ScannerScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Quét mã sản phẩm',
+                const Text('Quét sản phẩm',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                Text('Căn chỉnh mã nằm trong khung hình',
+                Text('Đưa mã QR hoặc tem sản phẩm vào khung hình',
                     style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.7),
                         fontSize: 14)),
@@ -106,8 +106,8 @@ class _ScannerScreenState extends State<ScannerScreen>
                       const SizedBox(width: 8),
                       Text(
                         _verifying
-                            ? 'Đang xác minh vị trí cửa hàng...'
-                            : 'Sẵn sàng xác minh vị trí cửa hàng',
+                            ? 'Đang kiểm tra vị trí quầy hàng...'
+                            : 'Sẵn sàng kiểm tra sản phẩm',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 12),
                       ),
@@ -125,7 +125,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                         borderRadius: BorderRadius.circular(24)),
                   ),
                   child: Text(
-                    _verifying ? 'Đang xác minh...' : 'Giả lập quét thành công',
+                    _verifying ? 'Đang kiểm tra...' : 'Giả lập quét sản phẩm',
                   ),
                 ),
               ],
@@ -152,7 +152,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   children: [
                     CircularProgressIndicator(color: Colors.white),
                     SizedBox(height: 16),
-                    Text('Đang xác minh vị trí...',
+                    Text('Đang kiểm tra sản phẩm...',
                         style: TextStyle(color: Colors.white)),
                   ],
                 ),

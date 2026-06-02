@@ -43,7 +43,7 @@ class QrLabelScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('VnGrocery Verification',
+                      const Text('VnGrocery Check',
                           style: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 18,
@@ -62,13 +62,13 @@ class QrLabelScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      Text('ID Cam kết: $pledgeId',
+                      Text('Mã ghi nhận: $pledgeId',
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14)),
-                      const Text('Thịt bò thăn Úc - Seller Score: 8.5',
+                      const Text('Thịt bò thăn Úc - Điểm đánh giá: 8.5',
                           style: TextStyle(fontSize: 12, color: Colors.grey)),
                       const SizedBox(height: 16),
-                      const Text('Quét mã để kiểm chứng độ tươi sống',
+                      const Text('Quét mã để kiểm tra thông tin sản phẩm',
                           style: TextStyle(
                               fontSize: 10,
                               color: AppColors.meatRed,

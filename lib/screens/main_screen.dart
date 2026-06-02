@@ -69,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.qr_code_scanner),
-                  label: 'Quét',
+                  label: 'Quét SP',
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.account_circle),

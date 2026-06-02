@@ -23,18 +23,18 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text('Chụp ảnh kiểm tra thực tế')),
+      appBar: AppBar(title: const Text('Gửi ảnh kiểm tra')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Bước 2: Chụp ảnh miếng thịt tại sạp',
+            const Text('Chụp ảnh sản phẩm tại quầy',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             const Text(
-              'Hệ thống sẽ đối chứng chất lượng thực tế với cam kết của người bán.',
+              'Ảnh này giúp so với thông tin đã ghi nhận gần đây.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: Colors.grey),
             ),
@@ -52,7 +52,7 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
                         children: const [
                           CircularProgressIndicator(color: Colors.white),
                           SizedBox(height: 16),
-                          Text('AI đang chấm điểm lại...',
+                          Text('Đang so với dữ liệu gần nhất...',
                               style: TextStyle(color: Colors.white)),
                         ],
                       )
@@ -65,7 +65,7 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
               height: 56,
               child: FilledButton(
                 onPressed: _analyzing ? null : _analyze,
-                child: const Text('Chụp ảnh & Đối chứng AI',
+                child: const Text('Chụp ảnh & kiểm tra',
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ),
             ),

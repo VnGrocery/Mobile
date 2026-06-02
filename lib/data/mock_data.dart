@@ -1,7 +1,7 @@
 import 'models.dart';
 
 /// Kho dữ liệu giả (singleton) — nội dung port từ MockData.kt, bổ sung
-/// thêm timeline cam kết & kết quả buyer-check để demo đầy đủ luồng.
+/// thêm timeline ghi nhận & kết quả buyer-check để demo đầy đủ luồng.
 class MockDb {
   MockDb._();
   static final MockDb instance = MockDb._();
@@ -24,7 +24,7 @@ class MockDb {
       address: '456 Đường XYZ, Quận 7, TP. Hồ Chí Minh',
       rating: 4.5,
       reviewCount: 85,
-      description: 'Uy tín làm nên thương hiệu.',
+      description: 'Được nhiều người mua đánh giá tốt.',
     ),
   ];
 
@@ -73,7 +73,7 @@ class MockDb {
         id: 'r1',
         userName: 'Nguyễn Văn A',
         rating: 5,
-        comment: 'Thịt rất tươi, quét mã AI kết quả rất khớp.',
+        comment: 'Thịt rất tươi, quét mã và kết quả kiểm tra khá khớp.',
         date: '2026-05-28',
       ),
       Review(
@@ -99,8 +99,8 @@ class MockDb {
     'p1': const [
       PledgeHistoryItem(
         time: '2026-05-30 07:15',
-        title: 'Seller tạo cam kết mới',
-        description: 'Cam kết chất lượng 8.7/10 cho lô bò thăn Úc buổi sáng.',
+        title: 'Người bán thêm ghi nhận mới',
+        description: 'Điểm đánh giá 8.7/10 cho lô bò thăn Úc buổi sáng.',
         isVerified: true,
         hasProof: true,
         proofId: '9af3c21db77e',
@@ -108,7 +108,8 @@ class MockDb {
       PledgeHistoryItem(
         time: '2026-05-29 06:50',
         title: 'Buyer kiểm chứng tại chỗ',
-        description: 'Khách quét mã tại sạp, kết quả khớp cam kết.',
+        description:
+            'Khách quét mã tại sạp, kết quả gần với ghi nhận trước đó.',
         isVerified: true,
         hasProof: true,
         proofId: '12b877ef0ac4',
@@ -116,7 +117,7 @@ class MockDb {
       PledgeHistoryItem(
         time: '2026-05-28 16:40',
         title: 'Cửa hàng cập nhật trạng thái',
-        description: 'Phát hiện lệch điểm nhỏ so với cam kết, ghi nhận cảnh báo.',
+        description: 'Phát hiện lệch điểm nhỏ so với ghi nhận trước đó.',
         isVerified: false,
         hasProof: false,
         proofId: '',
@@ -128,7 +129,7 @@ class MockDb {
   BuyerCheckResult lastBuyerCheck = const BuyerCheckResult(
     actualScore: 78,
     locationStatus: 'near',
-    verdict: 'Tương đồng với cam kết',
+    verdict: 'Gần với ghi nhận trước đó',
   );
 
   Shop shopById(String id) =>

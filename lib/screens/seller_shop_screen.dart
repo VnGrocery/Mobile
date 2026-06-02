@@ -100,7 +100,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
           ),
           const SizedBox(height: 16),
           const Text(
-            'Dữ liệu đang lấy từ mock hook. Khi có API thật, chỉ cần thay implementation trong AppDataHooks.',
+            'Thông tin này dùng để hiển thị trên trang cửa hàng và tem sản phẩm.',
             style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
           ),
         ],
@@ -139,7 +139,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                       ),
                     ),
                     Text(
-                      'Trust ${dashboard.trustGrade} - ${dashboard.shop.rating}',
+                      'Hạng ${dashboard.trustGrade} - ${dashboard.shop.rating} điểm',
                       style: const TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 12,
@@ -154,7 +154,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
           Row(
             children: [
               _metric('Sản phẩm', '${dashboard.products.length}'),
-              _metric('Cam kết', '${dashboard.pledges.length}'),
+              _metric('Ghi nhận', '${dashboard.pledges.length}'),
               _metric('Cảnh báo', '${dashboard.warningCount}'),
             ],
           ),

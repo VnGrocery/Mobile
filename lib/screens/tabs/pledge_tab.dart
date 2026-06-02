@@ -98,7 +98,7 @@ class PledgeTab extends StatelessWidget {
                 color: Colors.black,
               ),
               _MetricCard(
-                label: 'Cam kết hôm nay',
+                label: 'Ghi nhận hôm nay',
                 value: '${dashboard.pledgesToday}',
                 color: AppColors.primaryGreen,
               ),
@@ -115,7 +115,7 @@ class PledgeTab extends StatelessWidget {
           _StatusCard(dashboard: dashboard),
           const SizedBox(height: 22),
           const Text(
-            'Chụp ảnh trong điều kiện đủ sáng để AI chấm điểm ổn định. Mỗi cam kết demo sẽ lưu vào mock data cho đến khi gắn API thật.',
+            'Chụp ảnh trong điều kiện đủ sáng để điểm đánh giá ổn định. Mỗi ghi nhận demo sẽ lưu tạm cho đến khi gắn dữ liệu thật.',
             style: TextStyle(color: AppColors.textSecondary, height: 1.35),
           ),
         ],
@@ -155,7 +155,7 @@ class _CreatePledgeCard extends StatelessWidget {
                     const Icon(Icons.add_a_photo, color: Colors.white),
                     const SizedBox(height: 12),
                     const Text(
-                      'Tạo cam kết chất lượng',
+                      'Thêm ghi nhận sản phẩm',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -165,8 +165,8 @@ class _CreatePledgeCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       canCreatePledge
-                          ? 'Chọn sản phẩm và tạo bằng chứng minh bạch.'
-                          : 'Cần tạo sản phẩm trước khi cam kết.',
+                          ? 'Chọn sản phẩm và lưu thông tin tại quầy.'
+                          : 'Cần tạo sản phẩm trước khi ghi nhận.',
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.85),
                       ),
@@ -254,9 +254,10 @@ class _StatusCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _row('Trạng thái', 'active'),
-          _row('Tổng cam kết', '${dashboard.pledges.length}'),
-          _row('Proof mới nhất', latest?.proofId ?? 'Chưa có'),
-          _row('Integrity', dashboard.warningCount > 0 ? 'Cần xem lại' : 'Ổn định'),
+          _row('Tổng ghi nhận', '${dashboard.pledges.length}'),
+          _row('Biên lai gần nhất', latest?.proofId ?? 'Chưa có'),
+          _row('Integrity',
+              dashboard.warningCount > 0 ? 'Cần xem lại' : 'Ổn định'),
         ],
       ),
     );

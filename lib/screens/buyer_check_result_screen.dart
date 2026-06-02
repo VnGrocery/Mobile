@@ -28,8 +28,7 @@ class BuyerCheckResultScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
-                border:
-                    Border.all(color: AppColors.warningOrange, width: 8),
+                border: Border.all(color: AppColors.warningOrange, width: 8),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +38,7 @@ class BuyerCheckResultScreen extends StatelessWidget {
                           fontSize: 48,
                           fontWeight: FontWeight.w900,
                           color: Colors.black)),
-                  const Text('Score AI',
+                  const Text('Điểm đánh giá',
                       style: TextStyle(fontSize: 14, color: Colors.grey)),
                 ],
               ),
@@ -47,8 +46,7 @@ class BuyerCheckResultScreen extends StatelessWidget {
             const SizedBox(height: 24),
             // Fairness badge
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: fair ? AppColors.trustGreenBg : AppColors.warningBg,
                 borderRadius: BorderRadius.circular(8),
@@ -62,7 +60,7 @@ class BuyerCheckResultScreen extends StatelessWidget {
                           ? AppColors.trustGreen
                           : AppColors.warningOrange),
                   const SizedBox(width: 8),
-                  Text(fair ? 'Đánh giá tại chỗ' : 'Chỉ mang tính tham khảo',
+                  Text(fair ? 'Ghi nhận tại quầy' : 'Cần thêm lượt xác nhận',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: fair
@@ -75,8 +73,8 @@ class BuyerCheckResultScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(32, 8, 32, 0),
               child: Text(
                 fair
-                    ? 'Bạn đang ở gần cửa hàng. Kết quả này được tính vào độ uy tín.'
-                    : 'Bạn không ở gần cửa hàng. Kết quả này không ảnh hưởng đến người bán.',
+                    ? 'Bạn đang ở gần cửa hàng. Ghi nhận này được tính vào dữ liệu gần đây.'
+                    : 'Bạn không ở gần cửa hàng. Ghi nhận này chỉ dùng để tham khảo.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
@@ -93,7 +91,7 @@ class BuyerCheckResultScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('So sánh với cam kết',
+                    const Text('So với dữ liệu gần nhất',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 12),
                     Row(
@@ -108,17 +106,17 @@ class BuyerCheckResultScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text('Kết quả: ${result.verdict}',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w500)),
                         ),
                       ],
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 8),
                       child: Text(
-                        'Sản phẩm được AI đánh giá dựa trên hình ảnh và dữ liệu cam kết.',
-                        style: TextStyle(
-                            fontSize: 14, color: AppColors.darkGray),
+                        'Kết quả dựa trên ảnh bạn gửi và thông tin đã ghi nhận.',
+                        style:
+                            TextStyle(fontSize: 14, color: AppColors.darkGray),
                       ),
                     ),
                   ],
@@ -141,8 +139,8 @@ class BuyerCheckResultScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Kiểm tra lại',
-                  style: TextStyle(color: Colors.grey)),
+              child:
+                  const Text('Chụp lại', style: TextStyle(color: Colors.grey)),
             ),
           ],
         ),

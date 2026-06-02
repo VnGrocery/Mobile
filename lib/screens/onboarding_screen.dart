@@ -23,18 +23,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   static const _pages = [
     _Page(
-      'Xem cam kết chất lượng',
-      'Mọi sản phẩm từ người bán đều có cam kết điểm số AI minh bạch.',
+      'Xem dữ liệu sản phẩm',
+      'Mỗi sản phẩm có điểm đánh giá và lịch sử ghi nhận rõ ràng.',
       Icons.verified_user,
     ),
     _Page(
       'Chụp ảnh kiểm tra',
-      'Chụp ảnh ngay tại sạp để AI đối chiếu chất lượng thực tế tức thì.',
+      'Quét mã hoặc chụp ảnh tại quầy để kiểm tra với dữ liệu gần nhất.',
       Icons.photo_camera,
     ),
     _Page(
       'Ra quyết định dễ dàng',
-      'Mua sắm an tâm hơn khi mọi bằng chứng chất lượng đều được xác thực.',
+      'Dễ so sánh hơn khi thông tin đến từ các lượt ghi nhận thực tế.',
       Icons.check_circle,
     ),
   ];
@@ -132,8 +132,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             color: AppColors.meatRed.withValues(alpha: 0.1),
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(p.icon,
-                              size: 60, color: AppColors.meatRed),
+                          child:
+                              Icon(p.icon, size: 60, color: AppColors.meatRed),
                         ),
                         const SizedBox(height: 48),
                         Text(p.title,
@@ -144,9 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Text(p.desc,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey,
-                                height: 1.5)),
+                                fontSize: 16, color: Colors.grey, height: 1.5)),
                       ],
                     ),
                   );

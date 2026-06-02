@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
                 Text(
-                  'Minh bạch - Kiểm chứng',
+                  'Kiểm tra giá và sản phẩm gần bạn',
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.8),
                     fontSize: 16,
@@ -63,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Text(
-                'Powered by AI & Blockchain',
+                'Dữ liệu từ quầy hàng và cộng đồng',
                 style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.5), fontSize: 12),
               ),

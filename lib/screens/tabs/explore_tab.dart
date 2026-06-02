@@ -16,10 +16,15 @@ class ExploreTab extends StatefulWidget {
 
 class _ExploreTabState extends State<ExploreTab> {
   final _search = TextEditingController();
-  String _filter = 'Uy tín cao';
+  String _filter = 'Đánh giá tốt';
   String? _selectedShopId;
 
-  static const _filters = ['Uy tín cao', 'Có cam kết', 'Gần bạn', 'Mới nhất'];
+  static const _filters = [
+    'Đánh giá tốt',
+    'Có ghi nhận',
+    'Gần bạn',
+    'Mới nhất'
+  ];
 
   @override
   void dispose() {
@@ -35,7 +40,8 @@ class _ExploreTabState extends State<ExploreTab> {
       return shop.name.toLowerCase().contains(query) ||
           shop.address.toLowerCase().contains(query);
     }).toList();
-    final selectedShop = shops.where((shop) => shop.id == _selectedShopId).firstOrNull;
+    final selectedShop =
+        shops.where((shop) => shop.id == _selectedShopId).firstOrNull;
 
     return Scaffold(
       backgroundColor: AppColors.screenBg,
@@ -136,7 +142,8 @@ class _ExploreTabState extends State<ExploreTab> {
                     itemBuilder: (_, i) => _ShopExploreCard(
                       shop: shops[i],
                       selected: shops[i].id == _selectedShopId,
-                      onTap: () => setState(() => _selectedShopId = shops[i].id),
+                      onTap: () =>
+                          setState(() => _selectedShopId = shops[i].id),
                     ),
                   ),
           ),
@@ -228,7 +235,7 @@ class _ShopExploreCard extends StatelessWidget {
                                 size: 12,
                               ),
                               Text(
-                                ' ${shop.rating} Trust Score',
+                                ' ${shop.rating} điểm đánh giá',
                                 style: const TextStyle(
                                   color: AppColors.trustGreen,
                                   fontSize: 11,
@@ -250,7 +257,7 @@ class _ShopExploreCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: const Text(
-                              'Uy tín cao',
+                              'Đánh giá tốt',
                               style: TextStyle(
                                 color: AppColors.meatRed,
                                 fontSize: 11,

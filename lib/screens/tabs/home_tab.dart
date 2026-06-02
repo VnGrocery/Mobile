@@ -68,7 +68,7 @@ class _HomeTabState extends State<HomeTab> {
             const SizedBox(height: 12),
             _categories(),
             const SizedBox(height: 28),
-            _sectionTitle('Cửa hàng uy tín', showAction: false),
+            _sectionTitle('Cửa hàng được đánh giá tốt', showAction: false),
             const SizedBox(height: 12),
             SizedBox(
               height: 134,
@@ -82,7 +82,7 @@ class _HomeTabState extends State<HomeTab> {
             ),
             const SizedBox(height: 30),
             _sectionTitle(
-              'Bảng tin cam kết',
+              'Sản phẩm mới kiểm tra',
               onSeeAll: () => _showAllPledges(products),
             ),
             const SizedBox(height: 12),
@@ -202,12 +202,12 @@ class _HomeTabState extends State<HomeTab> {
                     children: [
                       const Icon(Icons.auto_awesome, color: Colors.white),
                       const SizedBox(height: 8),
-                      const Text('Kiểm tra AI',
+                      const Text('Quét sản phẩm',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                               fontWeight: FontWeight.bold)),
-                      Text('Đối chứng thực tế với cam kết',
+                      Text('Kiểm tra với dữ liệu đã ghi nhận',
                           style: TextStyle(
                               color: Colors.white.withValues(alpha: 0.85),
                               fontSize: 12)),
@@ -292,7 +292,7 @@ class _HomeTabState extends State<HomeTab> {
                 children: [
                   const Expanded(
                     child: Text(
-                      'Bảng tin cam kết',
+                      'Sản phẩm mới kiểm tra',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -500,7 +500,7 @@ class _AiScoreBadge extends StatelessWidget {
     final scoreColor = _scoreColor(score);
 
     return SizedBox(
-      width: 62,
+      width: 74,
       height: 70,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -527,7 +527,9 @@ class _AiScoreBadge extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           const Text(
-            'AI Score',
+            'Điểm đánh giá',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: Color(0xFF8E8E93),
               fontSize: 9,

@@ -22,7 +22,13 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   final _sellerScore = TextEditingController(text: '8.5');
   String _category = 'Thịt bò';
 
-  static const _categories = ['Thịt bò', 'Thịt lợn', 'Thịt gà', 'Hải sản', 'Khác'];
+  static const _categories = [
+    'Thịt bò',
+    'Thịt lợn',
+    'Thịt gà',
+    'Hải sản',
+    'Khác'
+  ];
 
   @override
   void dispose() {
@@ -32,8 +38,8 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
 
   String get _title => switch (_step) {
         1 => 'Bước 1: Chụp ảnh hàng',
-        2 => 'Bước 2: AI & Seller đánh giá',
-        _ => 'Bước 3: Xác nhận cam kết',
+        2 => 'Bước 2: Chấm điểm sản phẩm',
+        _ => 'Bước 3: Xác nhận ghi nhận',
       };
 
   void _back() {
@@ -58,13 +64,14 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
     setState(() => _loading = true);
     await Future<void>.delayed(const Duration(milliseconds: 900));
     final data = AppDataHooks.instance;
-    final score = _sellerScore.text.trim().isEmpty ? '8.5' : _sellerScore.text.trim();
+    final score =
+        _sellerScore.text.trim().isEmpty ? '8.5' : _sellerScore.text.trim();
     data.addPledge(
       widget.productId,
       PledgeHistoryItem(
         time: 'Vừa xong',
-        title: 'Seller tạo cam kết mới',
-        description: 'Cam kết chất lượng $score/10 cho loại: $_category.',
+        title: 'Người bán thêm ghi nhận mới',
+        description: 'Điểm đánh giá $score/10 cho loại: $_category.',
         isVerified: true,
         hasProof: true,
         proofId: data.nextId(),
@@ -72,7 +79,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
     );
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Đã lưu cam kết thành công!')),
+      const SnackBar(content: Text('Đã lưu ghi nhận sản phẩm.')),
     );
     Navigator.pop(context);
   }
@@ -142,13 +149,13 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
         Card(
           color: AppColors.card,
           elevation: 0,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                const Text('KẾT QUẢ AI TỰ ĐỘNG',
+                const Text('ĐIỂM GỢI Ý TỪ ẢNH',
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -164,14 +171,14 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
           ),
         ),
         const SizedBox(height: 24),
-        const Text('BẠN TỰ ĐÁNH GIÁ (SELLER SCORE)',
+        const Text('ĐIỂM NGƯỜI BÁN NHẬP',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
         const SizedBox(height: 8),
         TextField(
           controller: _sellerScore,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration:
-              const InputDecoration(labelText: 'Nhập điểm cam kết (0-10)'),
+              const InputDecoration(labelText: 'Nhập điểm đánh giá (0-10)'),
         ),
         const SizedBox(height: 32),
         SizedBox(
@@ -196,8 +203,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-            color: AppColors.lightGray,
-            borderRadius: BorderRadius.circular(8)),
+            color: AppColors.lightGray, borderRadius: BorderRadius.circular(8)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -221,19 +227,18 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
           decoration: BoxDecoration(
             color: AppColors.meatRed.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
-            border:
-                Border.all(color: AppColors.meatRed.withValues(alpha: 0.2)),
+            border: Border.all(color: AppColors.meatRed.withValues(alpha: 0.2)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('NỘI DUNG CAM KẾT',
+              const Text('NỘI DUNG GHI NHẬN',
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: AppColors.meatRed)),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  'Tôi cam kết chất lượng sản phẩm thực tế khi đến tay khách hàng sẽ tương đồng với điểm $score mà tôi đã đánh giá.',
+                  'Tôi ghi nhận sản phẩm tại quầy với điểm đánh giá $score.',
                 ),
               ),
             ],
@@ -250,7 +255,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
                     height: 24,
                     child: CircularProgressIndicator(
                         color: Colors.white, strokeWidth: 2.5))
-                : const Text('Xác nhận & Lưu cam kết',
+                : const Text('Xác nhận & lưu ghi nhận',
                     style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ),

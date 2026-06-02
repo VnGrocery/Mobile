@@ -13,18 +13,18 @@ class PledgeHistoryScreen extends StatelessWidget {
     final history = AppDataHooks.instance.getPledges(productId);
     return Scaffold(
       backgroundColor: AppColors.screenBg,
-      appBar: AppBar(title: const Text('Lịch sử cam kết')),
+      appBar: AppBar(title: const Text('Lịch sử ghi nhận')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const Text('Dòng thời gian chất lượng',
+          const Text('Dòng thời gian sản phẩm',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           if (history.isEmpty)
             const Padding(
               padding: EdgeInsets.only(top: 100),
               child: Center(
-                child: Text('Chưa có lịch sử cam kết',
+                child: Text('Chưa có lịch sử ghi nhận',
                     style: TextStyle(color: Colors.grey)),
               ),
             )
@@ -42,7 +42,8 @@ class _TimelineItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = item.isVerified ? AppColors.freshGreen : AppColors.warningOrange;
+    final color =
+        item.isVerified ? AppColors.freshGreen : AppColors.warningOrange;
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +114,7 @@ class _TimelineItem extends StatelessWidget {
                           const Icon(Icons.history,
                               size: 14, color: Colors.grey),
                           const SizedBox(width: 8),
-                          Text('Blockchain ID: ${item.proofId}',
+                          Text('Biên lai gốc: ${item.proofId}',
                               style: const TextStyle(
                                   fontSize: 11, color: Colors.grey)),
                         ],

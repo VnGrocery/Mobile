@@ -57,20 +57,19 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
             height: 56,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               itemCount: _states.length,
               separatorBuilder: (_, __) => const SizedBox(width: 8),
               itemBuilder: (_, i) {
                 final s = _states[i];
                 final sel = s == _state;
                 return FilterChip(
-                  label: Text(s),
+                  label: Text(_stateLabel(s)),
                   selected: sel,
                   showCheckmark: false,
                   selectedColor: AppColors.meatRed.withValues(alpha: 0.1),
-                  labelStyle: TextStyle(
-                      color: sel ? AppColors.meatRed : Colors.black),
+                  labelStyle:
+                      TextStyle(color: sel ? AppColors.meatRed : Colors.black),
                   onSelected: (_) => setState(() => _state = s),
                 );
               },
@@ -117,11 +116,18 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration:
           BoxDecoration(color: bg, borderRadius: BorderRadius.circular(4)),
-      child: Text(status,
-          style: TextStyle(
-              fontSize: 10, fontWeight: FontWeight.bold, color: fg)),
+      child: Text(_stateLabel(status),
+          style:
+              TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: fg)),
     );
   }
+
+  String _stateLabel(String status) => switch (status) {
+        'Published' => 'Đang bán',
+        'Draft' => 'Bản nháp',
+        'Archived' => 'Đã ẩn',
+        _ => status,
+      };
 
   Widget _card(Product p) {
     return Card(
@@ -181,7 +187,8 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                         context, Routes.pledgeHistory,
                         arguments: p.id),
                     icon: const Icon(Icons.history, size: 16),
-                    label: const Text('Lịch sử', style: TextStyle(fontSize: 12)),
+                    label:
+                        const Text('Lịch sử', style: TextStyle(fontSize: 12)),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -199,7 +206,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                       if (mounted) setState(() {});
                     },
                     icon: const Icon(Icons.verified_user, size: 16),
-                    label: const Text('Tạo cam kết',
+                    label: const Text('Thêm ghi nhận',
                         style: TextStyle(fontSize: 12)),
                   ),
                 ),

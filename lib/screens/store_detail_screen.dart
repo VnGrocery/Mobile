@@ -49,9 +49,9 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Cam kết hiện tại',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold)),
+                  const Text('Sản phẩm mới kiểm tra',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   _pledgeCard(),
                 ],
@@ -61,8 +61,8 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           _tabBar(),
           if (_tab == 0)
             ...products.map((p) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   child: _ProductItem(product: p),
                 ))
           else ...[
@@ -128,7 +128,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                     const Icon(Icons.verified,
                         color: AppColors.trustGreen, size: 20),
                     const SizedBox(width: 8),
-                    Text('${shop.rating} Trust Score',
+                    Text('${shop.rating} điểm đánh giá',
                         style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             color: AppColors.trustGreen,
@@ -160,21 +160,36 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           children: [
             const Icon(Icons.verified_user, color: AppColors.meatRed),
             const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('Cam kết chất lượng đạt 8.5+',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                Text('Đã xác thực gần đây',
-                    style: TextStyle(fontSize: 12, color: Colors.grey)),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    'Sản phẩm đã được kiểm tra gần đây',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                  Text(
+                    'Có biên lai trong lịch sử',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
+              ),
             ),
-            const Spacer(),
+            const SizedBox(width: 8),
             TextButton(
               onPressed: _notImplemented,
-              child: const Text('Xem Proof',
-                  style: TextStyle(color: AppColors.meatRed)),
+              style: TextButton.styleFrom(
+                minimumSize: const Size(0, 36),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+              ),
+              child: const Text(
+                'Xem biên lai',
+                style: TextStyle(color: AppColors.meatRed),
+              ),
             ),
           ],
         ),
@@ -251,8 +266,8 @@ class _ProductItem extends StatelessWidget {
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16)),
                     Text('Cửa hàng: ${product.shopId}',
-                        style: const TextStyle(
-                            fontSize: 13, color: Colors.grey)),
+                        style:
+                            const TextStyle(fontSize: 13, color: Colors.grey)),
                     const SizedBox(height: 4),
                     Wrap(
                       spacing: 4,
@@ -281,7 +296,7 @@ class _ProductItem extends StatelessWidget {
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.priceRed,
                                 fontSize: 15)),
-                        Text('${product.freshnessScore}% Fresh',
+                        Text('${product.freshnessScore} điểm đánh giá',
                             style: TextStyle(
                                 color: AppColors.freshnessColor(
                                     product.freshnessScore),
@@ -337,8 +352,7 @@ class _ReviewItem extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(review.date,
-                    style:
-                        const TextStyle(fontSize: 12, color: Colors.grey)),
+                    style: const TextStyle(fontSize: 12, color: Colors.grey)),
               ],
             ),
             const SizedBox(height: 8),
