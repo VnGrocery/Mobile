@@ -27,7 +27,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
     final shop = data.getShop(voucher.shopId);
     final palette = context.palette;
     final expired = DateTime.now().isAfter(voucher.expiresAt);
-    final disabled = userVoucher.used || expired || !voucher.active;
+    final disabled = userVoucher.isUsed || expired || !voucher.isActive;
 
     return Scaffold(
       backgroundColor: AppColors.screenBg,
@@ -38,6 +38,10 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
           _voucherHeader(voucher, shop, userVoucher, expired, palette),
           const SizedBox(height: 20),
           _qrCard(userVoucher, voucher, shop, palette),
+          if (voucher.isManual) ...[
+            const SizedBox(height: 14),
+            _manualNotice(palette),
+          ],
           const SizedBox(height: 20),
           _ruleCard(voucher, shop, palette),
           const SizedBox(height: 24),
@@ -45,9 +49,11 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
             height: 56,
             child: FilledButton.icon(
               onPressed: disabled || _confirming ? null : _markUsed,
-              icon: Icon(userVoucher.used ? Icons.check : Icons.point_of_sale),
+              icon:
+                  Icon(userVoucher.isUsed ? Icons.check : Icons.point_of_sale),
               label: Text(
-                  userVoucher.used ? 'Voucher đã dùng' : 'Đánh dấu đã dùng'),
+                userVoucher.isUsed ? 'Voucher đã dùng' : 'Đánh dấu đã dùng',
+              ),
             ),
           ),
           TextButton(
@@ -101,7 +107,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
     bool expired,
     AppPalette palette,
   ) {
-    final status = userVoucher.used
+    final status = userVoucher.isUsed
         ? 'Đã dùng'
         : expired
             ? 'Hết hạn'
@@ -137,6 +143,16 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              if (voucher.isManual) ...[
+                const SizedBox(width: 8),
+                const Text(
+                  'Tự nhập',
+                  style: TextStyle(
+                    color: AppColors.warningOrange,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ],
           ),
         ],
@@ -150,7 +166,10 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
     Shop shop,
     AppPalette palette,
   ) {
-    final payload = 'VNGROCERY:${userVoucher.id}:${voucher.code}:${shop.id}';
+    final payload = voucher.isManual
+        ? voucher.code
+        : 'VNGROCERY:${userVoucher.id}:${voucher.code}:${shop.id}';
+    final barcodeMode = voucher.codeFormat == 'Mã vạch';
     return Card(
       color: palette.card,
       elevation: 0,
@@ -168,9 +187,11 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(color: palette.border),
               ),
-              child: const FittedBox(
-                child: Icon(Icons.qr_code_2, color: Colors.black),
-              ),
+              child: barcodeMode
+                  ? _BarcodePreview(code: voucher.code)
+                  : const FittedBox(
+                      child: Icon(Icons.qr_code_2, color: Colors.black),
+                    ),
             ),
             const SizedBox(height: 16),
             Text(
@@ -196,10 +217,35 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
     );
   }
 
+  Widget _manualNotice(AppPalette palette) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: palette.warningBg,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: const Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.info, color: AppColors.warningOrange),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Thông tin voucher này do bạn tự nhập và chưa được cửa hàng xác thực. Hãy kiểm tra lại điều kiện tại quầy trước khi sử dụng.',
+              style: TextStyle(height: 1.35),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _ruleCard(Voucher voucher, Shop shop, AppPalette palette) {
-    final discount = voucher.isPercent
-        ? 'Giảm ${voucher.discountValue}%'
-        : 'Giảm ${formatVnd(voucher.discountValue)}';
+    final discount = voucher.isManual
+        ? 'Theo thông tin bạn tự nhập'
+        : (voucher.isPercent
+            ? 'Giảm ${voucher.discountValue}%'
+            : 'Giảm ${formatVnd(voucher.discountValue)}');
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -216,11 +262,14 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
           const SizedBox(height: 10),
           _rule(Icons.storefront, 'Chỉ áp dụng tại ${shop.name}'),
           _rule(Icons.local_offer, discount),
-          _rule(Icons.receipt_long, 'Đơn từ ${formatVnd(voucher.minSpend)}'),
+          if (!voucher.isManual)
+            _rule(Icons.receipt_long, 'Đơn từ ${formatVnd(voucher.minSpend)}'),
           _rule(
             Icons.event,
             'Hạn dùng ${voucher.expiresAt.day}/${voucher.expiresAt.month}/${voucher.expiresAt.year}',
           ),
+          if (voucher.isManual && voucher.note.isNotEmpty)
+            _rule(Icons.note, voucher.note),
         ],
       ),
     );
@@ -236,6 +285,46 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
           Expanded(child: Text(text)),
         ],
       ),
+    );
+  }
+}
+
+class _BarcodePreview extends StatelessWidget {
+  final String code;
+
+  const _BarcodePreview({required this.code});
+
+  @override
+  Widget build(BuildContext context) {
+    final bars = [8, 3, 5, 9, 4, 7, 2, 6, 10, 4, 8, 3, 6, 5, 9];
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 118,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final width in bars) ...[
+                Container(width: width / 2, color: Colors.black),
+                const SizedBox(width: 3),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          code,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }

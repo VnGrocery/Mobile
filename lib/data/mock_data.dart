@@ -247,9 +247,41 @@ class MockDb {
     return created;
   }
 
+  UserVoucher addManualVoucherToWallet({
+    required String userEmail,
+    required String shopId,
+    required String code,
+    required String title,
+    required String note,
+    required String codeFormat,
+    required DateTime expiresAt,
+  }) {
+    final voucher = Voucher(
+      id: nextId(),
+      code: code.trim().toUpperCase(),
+      title: title.trim().isEmpty ? 'Voucher tự nhập' : title.trim(),
+      shopId: shopId,
+      discountValue: 0,
+      isPercent: false,
+      minSpend: 0,
+      expiresAt: expiresAt,
+      manual: true,
+      note: note.trim(),
+      codeFormat: codeFormat,
+    );
+    vouchers.insert(0, voucher);
+    final userVoucher = UserVoucher(
+      id: nextId(),
+      userEmail: userEmail,
+      voucherId: voucher.id,
+    );
+    userVouchers.insert(0, userVoucher);
+    return userVoucher;
+  }
+
   void useUserVoucher(String userVoucherId) {
     final item = userVoucherById(userVoucherId);
-    if (item.used) return;
+    if (item.isUsed) return;
     item.used = true;
     item.usedAt = DateTime.now();
   }
@@ -284,7 +316,7 @@ class MockDb {
         finalPrice: orderValue,
       );
     }
-    if (!voucher.active) {
+    if (!voucher.isActive) {
       return VoucherCheckResult(
         voucher: voucher,
         valid: false,

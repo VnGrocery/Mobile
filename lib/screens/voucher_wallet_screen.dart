@@ -24,13 +24,25 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
     final email = SessionManager.instance.email;
     final wallet = data.getUserVouchers(email);
     final visibleWallet =
-        wallet.where((item) => _showUsed || !item.used).toList();
-    final usableCount = wallet.where((item) => !item.used).length;
+        wallet.where((item) => _showUsed || !item.isUsed).toList();
+    final usableCount = wallet.where((item) => !item.isUsed).length;
     final palette = context.palette;
 
     return Scaffold(
       backgroundColor: AppColors.screenBg,
-      appBar: AppBar(title: const Text('Ví voucher')),
+      appBar: AppBar(
+        title: const Text('Ví voucher'),
+        actions: [
+          IconButton(
+            tooltip: 'Thêm thủ công',
+            onPressed: () async {
+              await Navigator.pushNamed(context, Routes.manualVoucher);
+              if (mounted) setState(() {});
+            },
+            icon: const Icon(Icons.add_card),
+          ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -123,7 +135,7 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
           ),
           SizedBox(height: 4),
           Text(
-            'Quét sản phẩm hoặc nhập mã để lưu voucher vào ví.',
+            'Quét sản phẩm, nhập mã hoặc thêm thủ công để lưu voucher vào ví.',
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.grey),
           ),
@@ -137,10 +149,12 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
     final shop = data.getShop(voucher.shopId);
     final palette = context.palette;
     final expired = DateTime.now().isAfter(voucher.expiresAt);
-    final disabled = userVoucher.used || expired || !voucher.active;
-    final discount = voucher.isPercent
-        ? 'Giảm ${voucher.discountValue}%'
-        : 'Giảm ${formatVnd(voucher.discountValue)}';
+    final disabled = userVoucher.isUsed || expired || !voucher.isActive;
+    final discount = voucher.isManual
+        ? voucher.codeFormat
+        : (voucher.isPercent
+            ? 'Giảm ${voucher.discountValue}%'
+            : 'Giảm ${formatVnd(voucher.discountValue)}');
 
     return Material(
       color: palette.card,
@@ -168,7 +182,7 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
                     backgroundColor:
                         disabled ? palette.mutedSurface : palette.positiveBg,
                     child: Icon(
-                      userVoucher.used ? Icons.check : Icons.local_offer,
+                      userVoucher.isUsed ? Icons.check : Icons.local_offer,
                       color: disabled ? Colors.grey : AppColors.primaryGreen,
                     ),
                   ),
@@ -204,10 +218,15 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
               const SizedBox(height: 12),
               Row(
                 children: [
-                  _meta(Icons.sell, discount),
+                  _meta(voucher.isManual ? Icons.document_scanner : Icons.sell,
+                      discount),
                   const SizedBox(width: 10),
                   _meta(
-                      Icons.receipt_long, 'Từ ${formatVnd(voucher.minSpend)}'),
+                    Icons.receipt_long,
+                    voucher.isManual
+                        ? 'Thông tin tự nhập'
+                        : 'Từ ${formatVnd(voucher.minSpend)}',
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
@@ -222,15 +241,24 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
                       ),
                     ),
                   ),
-                  Text(
-                    'HSD ${voucher.expiresAt.day}/${voucher.expiresAt.month}/${voucher.expiresAt.year}',
-                    style: TextStyle(
-                      color: palette.textSecondary,
-                      fontSize: 12,
-                    ),
-                  ),
+                  voucher.isManual
+                      ? _manualBadge()
+                      : _expiryText(voucher, palette),
                 ],
               ),
+              if (voucher.isManual && voucher.note.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Text(
+                  voucher.note,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: palette.textSecondary,
+                    fontSize: 12,
+                    height: 1.25,
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -238,14 +266,24 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
     );
   }
 
+  Widget _expiryText(Voucher voucher, AppPalette palette) {
+    return Text(
+      'HSD ${voucher.expiresAt.day}/${voucher.expiresAt.month}/${voucher.expiresAt.year}',
+      style: TextStyle(
+        color: palette.textSecondary,
+        fontSize: 12,
+      ),
+    );
+  }
+
   Widget _statusBadge(UserVoucher userVoucher, bool expired) {
-    final label = userVoucher.used
+    final label = userVoucher.isUsed
         ? 'Đã dùng'
         : expired
             ? 'Hết hạn'
             : 'Có thể dùng';
     final color =
-        userVoucher.used || expired ? Colors.grey : AppColors.primaryGreen;
+        userVoucher.isUsed || expired ? Colors.grey : AppColors.primaryGreen;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
@@ -256,6 +294,24 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
         label,
         style: TextStyle(
           color: color,
+          fontWeight: FontWeight.bold,
+          fontSize: 11,
+        ),
+      ),
+    );
+  }
+
+  Widget _manualBadge() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.warningOrange.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(99),
+      ),
+      child: const Text(
+        'Tự nhập',
+        style: TextStyle(
+          color: AppColors.warningOrange,
           fontWeight: FontWeight.bold,
           fontSize: 11,
         ),

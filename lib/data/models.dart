@@ -101,7 +101,10 @@ class Voucher {
   final bool isPercent;
   final int minSpend;
   final DateTime expiresAt;
-  final bool active;
+  final bool? active;
+  final bool? manual;
+  final String note;
+  final String codeFormat;
 
   const Voucher({
     required this.id,
@@ -113,14 +116,21 @@ class Voucher {
     required this.minSpend,
     required this.expiresAt,
     this.active = true,
+    this.manual = false,
+    this.note = '',
+    this.codeFormat = 'QR',
   });
+
+  bool get isActive => active ?? true;
+
+  bool get isManual => manual ?? false;
 }
 
 class UserVoucher {
   final String id;
   final String userEmail;
   final String voucherId;
-  bool used;
+  bool? used;
   DateTime? usedAt;
 
   UserVoucher({
@@ -130,6 +140,8 @@ class UserVoucher {
     this.used = false,
     this.usedAt,
   });
+
+  bool get isUsed => used ?? false;
 }
 
 class VoucherCheckResult {

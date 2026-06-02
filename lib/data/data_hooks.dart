@@ -49,6 +49,25 @@ class AppDataHooks {
   }) =>
       _db.saveVoucherToWallet(userEmail: userEmail, voucherId: voucherId);
 
+  UserVoucher addManualVoucherToWallet({
+    required String userEmail,
+    required String shopId,
+    required String code,
+    required String title,
+    required String note,
+    required String codeFormat,
+    required DateTime expiresAt,
+  }) =>
+      _db.addManualVoucherToWallet(
+        userEmail: userEmail,
+        shopId: shopId,
+        code: code,
+        title: title,
+        note: note,
+        codeFormat: codeFormat,
+        expiresAt: expiresAt,
+      );
+
   void useUserVoucher(String userVoucherId) =>
       _db.useUserVoucher(userVoucherId);
 
