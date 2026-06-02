@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 
 import '../data/session.dart';
@@ -40,45 +42,10 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 const ExploreTab(),
                 const ScannerScreen(),
+                const ExploreTab(),
                 const AccountTab(),
               ];
-        final destinations = isSeller
-            ? const [
-                NavigationDestination(
-                  icon: Icon(Icons.store),
-                  label: 'Tổng quan',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.inventory_2),
-                  label: 'Sản phẩm',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.storefront),
-                  label: 'Cửa hàng',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.account_circle),
-                  label: 'Tài khoản',
-                ),
-              ]
-            : const [
-                NavigationDestination(
-                  icon: Icon(Icons.home),
-                  label: 'Trang chủ',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.explore),
-                  label: 'Khám phá',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.qr_code_scanner),
-                  label: 'Quét SP',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.account_circle),
-                  label: 'Tài khoản',
-                ),
-              ];
+        final navItems = _menuItems(isSeller);
         final selectedIndex = _index.clamp(0, tabs.length - 1);
 
         return Scaffold(
@@ -121,43 +88,6 @@ class _MainScreenState extends State<MainScreen> {
                           backgroundColor: AppColors.screenBg,
                           body: IndexedStack(
                               index: selectedIndex, children: tabs),
-                          bottomNavigationBar: NavigationBarTheme(
-                            data: NavigationBarThemeData(
-                              backgroundColor: Colors.white,
-                              indicatorColor:
-                                  AppColors.meatRed.withValues(alpha: 0.1),
-                              labelTextStyle:
-                                  WidgetStateProperty.resolveWith((states) {
-                                final selected =
-                                    states.contains(WidgetState.selected);
-                                return TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: selected
-                                      ? AppColors.meatRed
-                                      : Colors.grey,
-                                );
-                              }),
-                              iconTheme:
-                                  WidgetStateProperty.resolveWith((states) {
-                                final selected =
-                                    states.contains(WidgetState.selected);
-                                return IconThemeData(
-                                  color: selected
-                                      ? AppColors.meatRed
-                                      : Colors.grey,
-                                );
-                              }),
-                            ),
-                            child: NavigationBar(
-                              selectedIndex: selectedIndex,
-                              onDestinationSelected: (index) => setState(() {
-                                _index = index;
-                                _menuOpen = false;
-                              }),
-                              destinations: destinations,
-                            ),
-                          ),
                         ),
                       ),
                     ),
@@ -175,11 +105,42 @@ class _MainScreenState extends State<MainScreen> {
                     onTap: () => setState(() => _menuOpen = false),
                   ),
                 ),
+              if (!_menuOpen)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 18,
+                  child: _FloatingTabPopup(
+                    items: navItems,
+                    selectedIndex: selectedIndex,
+                    onSelect: (index) => setState(() {
+                      _index = index;
+                      _menuOpen = false;
+                    }),
+                  ),
+                ),
             ],
           ),
         );
       },
     );
+  }
+
+  static List<_MenuItem> _menuItems(bool isSeller) {
+    return isSeller
+        ? const [
+            _MenuItem(Icons.store, 'Tổng quan'),
+            _MenuItem(Icons.inventory_2, 'Sản phẩm'),
+            _MenuItem(Icons.storefront, 'Cửa hàng'),
+            _MenuItem(Icons.account_circle, 'Tài khoản'),
+          ]
+        : const [
+            _MenuItem(Icons.home, 'Trang chủ'),
+            _MenuItem(Icons.explore, 'Khám phá'),
+            _MenuItem(Icons.qr_code_scanner, 'Quét sản phẩm'),
+            _MenuItem(Icons.storefront, 'Cửa hàng'),
+            _MenuItem(Icons.account_circle, 'Tài khoản'),
+          ];
   }
 }
 
@@ -199,19 +160,7 @@ class _SideMenuPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = SessionManager.instance.displayName;
-    final items = isSeller
-        ? const [
-            _MenuItem(Icons.store, 'Tổng quan'),
-            _MenuItem(Icons.inventory_2, 'Sản phẩm'),
-            _MenuItem(Icons.storefront, 'Cửa hàng'),
-            _MenuItem(Icons.account_circle, 'Tài khoản'),
-          ]
-        : const [
-            _MenuItem(Icons.home, 'Trang chủ'),
-            _MenuItem(Icons.explore, 'Khám phá'),
-            _MenuItem(Icons.qr_code_scanner, 'Quét sản phẩm'),
-            _MenuItem(Icons.account_circle, 'Tài khoản'),
-          ];
+    final items = _MainScreenState._menuItems(isSeller);
 
     return AnimatedSlide(
       duration: const Duration(milliseconds: 300),
@@ -357,6 +306,222 @@ class _MenuItem {
   final String label;
 
   const _MenuItem(this.icon, this.label);
+}
+
+class _FloatingTabPopup extends StatelessWidget {
+  final List<_MenuItem> items;
+  final int selectedIndex;
+  final ValueChanged<int> onSelect;
+
+  const _FloatingTabPopup({
+    required this.items,
+    required this.selectedIndex,
+    required this.onSelect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final centerIndex = _centerIndex;
+    final sideItems = [
+      for (var i = 0; i < items.length; i++)
+        if (i != centerIndex) i,
+    ];
+    final leftItems = sideItems.take(2).toList();
+    final rightItems = sideItems.skip(2).toList();
+    final centerItem = items[centerIndex];
+
+    return SafeArea(
+      top: false,
+      child: Center(
+        child: SizedBox(
+          width: 342,
+          height: 108,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(38),
+                  child: BackdropFilter(
+                    filter: ui.ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.78),
+                        borderRadius: BorderRadius.circular(38),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.72),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.08),
+                            blurRadius: 28,
+                            offset: const Offset(0, 14),
+                          ),
+                        ],
+                      ),
+                      child: SizedBox(
+                        height: 82,
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 18),
+                            for (final i in leftItems)
+                              Expanded(
+                                child: _GlassTabItem(
+                                  icon: items[i].icon,
+                                  label: items[i].label,
+                                  selected: i == selectedIndex,
+                                  onTap: () => onSelect(i),
+                                ),
+                              ),
+                            const SizedBox(width: 74),
+                            for (final i in rightItems)
+                              Expanded(
+                                child: _GlassTabItem(
+                                  icon: items[i].icon,
+                                  label: items[i].label,
+                                  selected: i == selectedIndex,
+                                  onTap: () => onSelect(i),
+                                ),
+                              ),
+                            const SizedBox(width: 18),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                child: _ScanDiamondButton(
+                  icon: centerItem.icon,
+                  selected: centerIndex == selectedIndex,
+                  onTap: () => onSelect(centerIndex),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  int get _centerIndex {
+    final scan = items.indexWhere((item) =>
+        item.icon == Icons.qr_code_scanner || item.label.contains('Quét'));
+    if (scan >= 0) return scan;
+    return items.length > 1 ? 1 : 0;
+  }
+}
+
+class _ScanDiamondButton extends StatelessWidget {
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _ScanDiamondButton({
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+        onTap: onTap,
+        child: Transform.rotate(
+          angle: 0.785398,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOutCubic,
+            width: 66,
+            height: 66,
+            decoration: BoxDecoration(
+              color: selected
+                  ? AppColors.primaryGreenDark
+                  : AppColors.primaryGreen,
+              borderRadius: BorderRadius.circular(18),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primaryGreen.withValues(alpha: 0.34),
+                  blurRadius: 34,
+                  spreadRadius: 4,
+                  offset: const Offset(0, 18),
+                ),
+              ],
+            ),
+            child: Transform.rotate(
+              angle: -0.785398,
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 28,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GlassTabItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _GlassTabItem({
+    required this.icon,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(24),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color:
+                  selected ? AppColors.primaryGreen : const Color(0xFF8BA1B2),
+              size: 24,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              _shortLabel(label),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color:
+                    selected ? AppColors.primaryGreen : const Color(0xFF8BA1B2),
+                fontSize: 11,
+                fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _shortLabel(String value) {
+    if (value == 'Quét sản phẩm') return 'Quét';
+    return value;
+  }
 }
 
 class _MenuButton extends StatelessWidget {
