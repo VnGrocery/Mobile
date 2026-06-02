@@ -55,7 +55,7 @@ class _ExploreTabState extends State<ExploreTab> {
         : null;
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: Text(
           widget.showMap ? 'Khám phá cửa hàng' : 'Cửa hàng',

@@ -56,7 +56,7 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
     final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(title: const Text('Kết quả kiểm tra')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

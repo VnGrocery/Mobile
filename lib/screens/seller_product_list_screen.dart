@@ -28,7 +28,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
   void _showProductActions(Product product) {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -96,6 +96,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
     final shopId = widget.shopId;
     if (shopId == null || shopId.isEmpty) {
       return Scaffold(
+        backgroundColor: context.palette.appBackground,
         appBar: AppBar(
           title: const Text(
             'Sản phẩm của tôi',
@@ -114,7 +115,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
         : all.where((p) => p.status == _state).toList();
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: const Text(
           'Sản phẩm của tôi',

@@ -12,15 +12,17 @@ class AppTheme {
         seedColor: AppColors.primaryGreen,
         primary: AppColors.primaryGreen,
         brightness: Brightness.light,
+        surface: AppPalette.light.appBackground,
+        surfaceContainerHighest: AppPalette.light.card,
       ),
-      scaffoldBackgroundColor: AppColors.screenBg,
+      scaffoldBackgroundColor: AppPalette.light.appBackground,
       extensions: const [AppPalette.light],
     );
 
     return base.copyWith(
       textTheme: base.textTheme.apply(fontFamily: 'Roboto'),
       appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white,
+        backgroundColor: AppPalette.light.appBackground,
         foregroundColor: Colors.black,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -94,22 +96,22 @@ class AppTheme {
         seedColor: AppColors.primaryGreen,
         primary: AppColors.primaryGreen,
         brightness: Brightness.dark,
-        surface: const Color(0xFF121714),
-        surfaceContainerHighest: const Color(0xFF202620),
+        surface: AppPalette.dark.appBackground,
+        surfaceContainerHighest: AppPalette.dark.card,
       ),
-      scaffoldBackgroundColor: AppColors.screenBg,
+      scaffoldBackgroundColor: AppPalette.dark.appBackground,
       extensions: const [AppPalette.dark],
     );
 
     return base.copyWith(
       textTheme: base.textTheme.apply(fontFamily: 'Roboto'),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF121714),
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppPalette.dark.appBackground,
         foregroundColor: Colors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: false,
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.w700,

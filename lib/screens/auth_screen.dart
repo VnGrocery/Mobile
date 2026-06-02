@@ -64,7 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -84,7 +84,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -235,11 +235,12 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Widget _segmented() {
+    final palette = context.palette;
     return Container(
       height: 54,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F2),
+        color: palette.mutedSurface,
         borderRadius: BorderRadius.circular(27),
       ),
       child: Stack(
@@ -253,7 +254,7 @@ class _AuthScreenState extends State<AuthScreen> {
               heightFactor: 1,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: palette.elevatedCard,
                   borderRadius: BorderRadius.circular(23),
                   boxShadow: [
                     BoxShadow(
@@ -493,7 +494,7 @@ class _ForgotPasswordSheetState extends State<_ForgotPasswordSheet> {
                 width: 42,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD8D8D8),
+                  color: context.palette.border,
                   borderRadius: BorderRadius.circular(99),
                 ),
               ),

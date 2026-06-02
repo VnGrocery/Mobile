@@ -19,7 +19,7 @@ class ProductDetailScreen extends StatelessWidget {
     final palette = context.palette;
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(title: const Text('Thông tin sản phẩm')),
       body: ListView(
         padding: EdgeInsets.zero,

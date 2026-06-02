@@ -54,7 +54,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     final reviews = data.getReviews(widget.shopId);
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: const Text('Chi tiết cửa hàng'),
         actions: [

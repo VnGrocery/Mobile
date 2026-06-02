@@ -88,7 +88,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: Text(_title),
         leading:

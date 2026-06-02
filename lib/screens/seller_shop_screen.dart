@@ -62,7 +62,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
       SessionManager.instance.shopId,
     );
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: const Text(
           'Thông tin cửa hàng',

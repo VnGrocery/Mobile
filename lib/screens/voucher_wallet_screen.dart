@@ -29,7 +29,7 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
     final palette = context.palette;
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: const Text('Ví voucher'),
         actions: [

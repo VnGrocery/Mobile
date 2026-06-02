@@ -19,7 +19,7 @@ class PledgeTab extends StatelessWidget {
     final canCreatePledge = dashboard.products.isNotEmpty;
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: const Text(
           'Tổng quan bán hàng',

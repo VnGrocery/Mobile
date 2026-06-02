@@ -32,7 +32,7 @@ class _AccountTabState extends State<AccountTab> {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -117,7 +117,7 @@ class _AccountTabState extends State<AccountTab> {
   void _showHelp(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -202,7 +202,7 @@ class _AccountTabState extends State<AccountTab> {
     final isSeller = session.role == 'seller';
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: const Text(
           'Hồ sơ cá nhân',

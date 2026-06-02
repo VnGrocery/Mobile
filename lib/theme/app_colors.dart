@@ -20,7 +20,7 @@ class AppColors {
   static const Color warningBg = Color(0xFFFFF3E0);
 
   // Nền & bề mặt grocery
-  static const Color screenBg = Colors.transparent;
+  static const Color screenBg = Color(0xFFFFFFFF);
   static const Color card = Color(0xFFF3F5F7); // card xám phẳng
   static const Color lightGray = Color(0xFFF3F5F7);
   static const Color darkGray = Color(0xFF333333);

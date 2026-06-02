@@ -13,7 +13,7 @@ class PledgeHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final history = AppDataHooks.instance.getPledges(productId);
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(title: const Text('Lịch sử ghi nhận')),
       body: ListView(
         padding: const EdgeInsets.all(16),

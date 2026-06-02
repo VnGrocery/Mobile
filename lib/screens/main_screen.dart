@@ -103,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
         final selectedIndex = _index.clamp(0, tabs.length - 1);
 
         return Scaffold(
-          backgroundColor: AppColors.screenBg,
+          backgroundColor: context.palette.appBackground,
           body: Stack(
             children: [
               _SideMenuPanel(
@@ -124,7 +124,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: AnimatedPhysicalModel(
                     duration: const Duration(milliseconds: 280),
                     curve: Curves.easeOutCubic,
-                    color: Theme.of(context).colorScheme.surface,
+                    color: context.palette.appBackground,
                     elevation: _menuOpen ? 18 : 0,
                     shadowColor: Colors.black.withValues(alpha: 0.28),
                     shape: BoxShape.rectangle,
@@ -134,7 +134,7 @@ class _MainScreenState extends State<MainScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(_menuOpen ? 30 : 0),
                         child: Scaffold(
-                          backgroundColor: AppColors.screenBg,
+                          backgroundColor: context.palette.appBackground,
                           body: IndexedStack(
                             index: selectedIndex,
                             children: tabs,

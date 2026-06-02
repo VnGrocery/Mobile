@@ -93,7 +93,7 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   Widget build(BuildContext context) {
     final palette = context.palette;
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: const Text(
           'Thêm sản phẩm mới',

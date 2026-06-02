@@ -79,7 +79,7 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
     final palette = context.palette;
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(title: const Text('Thêm voucher thủ công')),
       body: Form(
         key: _formKey,

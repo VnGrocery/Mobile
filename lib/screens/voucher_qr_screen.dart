@@ -30,7 +30,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
     final disabled = userVoucher.isUsed || expired || !voucher.isActive;
 
     return Scaffold(
-      backgroundColor: AppColors.screenBg,
+      backgroundColor: context.palette.appBackground,
       appBar: AppBar(title: const Text('Dùng voucher')),
       body: ListView(
         padding: const EdgeInsets.all(20),
