@@ -3,13 +3,15 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'core/storage/hive_storage_service.dart';
 import 'routes/app_routes.dart';
 import 'theme/app_theme.dart';
 import 'theme/app_palette.dart';
 import 'theme/theme_controller.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await HiveStorageService.init();
   runApp(const VnMeatApp());
 }
 
