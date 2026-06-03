@@ -27,10 +27,15 @@ class CartRepository implements CartStorage {
     if (data == null) return const [];
     final rawItems = data['items'] as List?;
     if (rawItems == null) return const [];
-    return rawItems
-        .whereType<Map>()
-        .map((item) => CartItem.fromJson(item.cast<String, Object?>()))
-        .toList();
+    final items = <CartItem>[];
+    for (final rawItem in rawItems.whereType<Map>()) {
+      try {
+        items.add(CartItem.fromJson(rawItem.cast<String, Object?>()));
+      } catch (_) {
+        // Ignore stale cache rows that no longer match the cart schema.
+      }
+    }
+    return items;
   }
 
   @override

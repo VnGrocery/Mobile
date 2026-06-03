@@ -144,6 +144,19 @@ void main() {
       await bloc.close();
     });
 
+    test('loads legacy cache items without addedAt', () {
+      final item = CartItem.fromJson({
+        'productId': 'legacy-p',
+        'shopId': 's1',
+        'name': 'Legacy item',
+        'price': 10000,
+        'quantity': 1,
+      });
+
+      expect(item.productId, 'legacy-p');
+      expect(item.addedAt, isA<DateTime>());
+    });
+
     test('clears cart', () async {
       final storage = _MemoryCartStorage();
       final bloc = CartBloc(cartRepository: storage);

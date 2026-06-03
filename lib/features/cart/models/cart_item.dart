@@ -33,6 +33,7 @@ class CartItem {
   }
 
   factory CartItem.fromJson(Map<String, Object?> json) {
+    final addedAtValue = json['addedAt'];
     return CartItem(
       productId: json['productId'] as String,
       shopId: json['shopId'] as String,
@@ -42,7 +43,9 @@ class CartItem {
       imageAsset:
           json['imageAsset'] as String? ?? 'assets/images/lamb_meat.png',
       appliedVoucherId: json['appliedVoucherId'] as String?,
-      addedAt: DateTime.parse(json['addedAt'] as String),
+      addedAt: addedAtValue is String
+          ? DateTime.tryParse(addedAtValue) ?? DateTime.now()
+          : DateTime.now(),
     );
   }
 
