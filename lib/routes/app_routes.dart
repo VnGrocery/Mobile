@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/session.dart';
 import '../screens/splash_screen.dart';
 import '../screens/onboarding_screen.dart';
 import '../screens/auth_screen.dart';
@@ -22,6 +23,7 @@ import '../screens/qr_label_screen.dart';
 import '../screens/voucher_qr_screen.dart';
 import '../screens/voucher_wallet_screen.dart';
 import '../screens/cart_screen.dart';
+import 'route_policy.dart';
 
 class Routes {
   static const splash = 'splash';
@@ -48,6 +50,16 @@ class Routes {
   static const cart = 'cart';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    final session = SessionManager.instance;
+    if (!RoutePolicy.canOpen(
+      routeName: settings.name,
+      isLoggedIn: session.isLoggedIn,
+      isSeller: session.role == 'seller',
+    )) {
+      final redirect = session.isLoggedIn ? main : auth;
+      return onGenerateRoute(RouteSettings(name: redirect));
+    }
+
     final args = settings.arguments;
     Widget page;
     switch (settings.name) {
