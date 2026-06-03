@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/ui/app_feedback.dart';
-import '../features/vouchers/voucher_presenter.dart';
+import '../features/vouchers/controllers/voucher_qr_cubit.dart';
+import '../features/vouchers/controllers/voucher_qr_state.dart';
 import '../features/vouchers/widgets/voucher_components.dart';
 import '../features/vouchers/widgets/voucher_qr_components.dart';
 import '../routes/app_routes.dart';
@@ -17,63 +19,94 @@ class VoucherQrScreen extends StatefulWidget {
 }
 
 class _VoucherQrScreenState extends State<VoucherQrScreen> {
-  bool _confirming = false;
+  late final VoucherQrCubit _voucherQrCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _voucherQrCubit = VoucherQrCubit(userVoucherId: widget.userVoucherId)
+      ..load();
+  }
+
+  @override
+  void dispose() {
+    _voucherQrCubit.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final userVoucher = VoucherPresenter.userVoucher(widget.userVoucherId);
-    final voucher = VoucherPresenter.voucher(userVoucher.voucherId);
-    final shop = VoucherPresenter.shop(voucher.shopId);
     final palette = context.palette;
-    final disabled = VoucherPresenter.isDisabled(userVoucher, voucher);
 
-    return Scaffold(
-      backgroundColor: palette.appBackground,
-      appBar: AppBar(title: const Text('Dùng voucher')),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          VoucherUseHeader(
-            voucher: voucher,
-            shop: shop,
-            userVoucher: userVoucher,
-          ),
-          const SizedBox(height: 20),
-          VoucherCodeCard(
-            userVoucher: userVoucher,
-            voucher: voucher,
-            shop: shop,
-          ),
-          if (voucher.isManual) ...[
-            const SizedBox(height: 14),
-            const VoucherNotice(
-              text:
-                  'Thông tin voucher này do bạn tự nhập và chưa được cửa hàng xác thực. Hãy kiểm tra lại điều kiện tại quầy trước khi sử dụng.',
+    return BlocProvider.value(
+      value: _voucherQrCubit,
+      child: BlocBuilder<VoucherQrCubit, VoucherQrState>(
+        builder: (context, state) {
+          final userVoucher = state.userVoucher;
+          final voucher = state.voucher;
+          final shop = state.shop;
+          if (userVoucher == null || voucher == null || shop == null) {
+            return Scaffold(
+              backgroundColor: palette.appBackground,
+              appBar: AppBar(title: const Text('Dùng voucher')),
+              body: const Center(child: CircularProgressIndicator()),
+            );
+          }
+
+          return Scaffold(
+            backgroundColor: palette.appBackground,
+            appBar: AppBar(title: const Text('Dùng voucher')),
+            body: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                VoucherUseHeader(
+                  voucher: voucher,
+                  shop: shop,
+                  userVoucher: userVoucher,
+                ),
+                const SizedBox(height: 20),
+                VoucherCodeCard(
+                  userVoucher: userVoucher,
+                  voucher: voucher,
+                  shop: shop,
+                ),
+                if (voucher.isManual) ...[
+                  const SizedBox(height: 14),
+                  const VoucherNotice(
+                    text:
+                        'Thông tin voucher này do bạn tự nhập và chưa được cửa hàng xác thực. Hãy kiểm tra lại điều kiện tại quầy trước khi sử dụng.',
+                  ),
+                ],
+                const SizedBox(height: 20),
+                VoucherRuleCard(voucher: voucher, shop: shop),
+                const SizedBox(height: 24),
+                SizedBox(
+                  height: 56,
+                  child: FilledButton.icon(
+                    onPressed:
+                        state.disabled || state.confirming ? null : _markUsed,
+                    icon: Icon(
+                      userVoucher.isUsed ? Icons.check : Icons.point_of_sale,
+                    ),
+                    label: Text(
+                      userVoucher.isUsed
+                          ? 'Voucher đã dùng'
+                          : 'Đánh dấu đã dùng',
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pushNamed(
+                    context,
+                    Routes.storeDetail,
+                    arguments: shop.id,
+                  ),
+                  child: const Text('Xem cửa hàng áp dụng'),
+                ),
+              ],
             ),
-          ],
-          const SizedBox(height: 20),
-          VoucherRuleCard(voucher: voucher, shop: shop),
-          const SizedBox(height: 24),
-          SizedBox(
-            height: 56,
-            child: FilledButton.icon(
-              onPressed: disabled || _confirming ? null : _markUsed,
-              icon:
-                  Icon(userVoucher.isUsed ? Icons.check : Icons.point_of_sale),
-              label: Text(
-                userVoucher.isUsed ? 'Voucher đã dùng' : 'Đánh dấu đã dùng',
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pushNamed(
-              context,
-              Routes.storeDetail,
-              arguments: shop.id,
-            ),
-            child: const Text('Xem cửa hàng áp dụng'),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -99,11 +132,8 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
       ),
     );
     if (ok != true) return;
-    setState(() => _confirming = true);
-    await Future<void>.delayed(const Duration(milliseconds: 450));
-    VoucherPresenter.useUserVoucher(widget.userVoucherId);
+    await _voucherQrCubit.markUsed();
     if (!mounted) return;
-    setState(() => _confirming = false);
     AppFeedback.showSnackBar(context, 'Đã sử dụng voucher');
   }
 }
