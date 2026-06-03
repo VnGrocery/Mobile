@@ -82,13 +82,16 @@ class Routes {
         page = const ChangePasswordScreen();
         break;
       case exploreMap:
-        page = ExploreMapScreen(initialShopId: args as String?);
+        page = ExploreMapScreen(initialShopId: _optionalString(args));
         break;
       case scan:
         page = const ScannerScreen();
         break;
       case productDetail:
-        final m = args as Map<String, String>;
+        final m = _stringMap(args);
+        if (m == null || m['shopId'] == null || m['productId'] == null) {
+          return _fallbackRoute(settings);
+        }
         page = ProductDetailScreen(
           shopId: m['shopId']!,
           productId: m['productId']!,
@@ -101,34 +104,48 @@ class Routes {
         page = const BuyerCheckResultScreen();
         break;
       case storeDetail:
-        page = StoreDetailScreen(shopId: args as String);
+        final shopId = _requiredString(args);
+        if (shopId == null) return _fallbackRoute(settings);
+        page = StoreDetailScreen(shopId: shopId);
         break;
       case review:
-        page = ReviewScreen(shopId: args as String);
+        final shopId = _requiredString(args);
+        if (shopId == null) return _fallbackRoute(settings);
+        page = ReviewScreen(shopId: shopId);
         break;
       case sellerProducts:
-        page = SellerProductListScreen(shopId: args as String?);
+        page = SellerProductListScreen(shopId: _optionalString(args));
         break;
       case sellerCreateProduct:
-        page = SellerCreateProductScreen(shopId: args as String);
+        final shopId = _requiredString(args);
+        if (shopId == null) return _fallbackRoute(settings);
+        page = SellerCreateProductScreen(shopId: shopId);
         break;
       case sellerCreatePledge:
-        page = SellerCreatePledgeScreen(productId: args as String);
+        final productId = _requiredString(args);
+        if (productId == null) return _fallbackRoute(settings);
+        page = SellerCreatePledgeScreen(productId: productId);
         break;
       case sellerShop:
         page = const SellerShopScreen();
         break;
       case pledgeHistory:
-        page = PledgeHistoryScreen(productId: args as String);
+        final productId = _requiredString(args);
+        if (productId == null) return _fallbackRoute(settings);
+        page = PledgeHistoryScreen(productId: productId);
         break;
       case qrLabel:
-        page = QrLabelScreen(pledgeId: args as String);
+        final pledgeId = _requiredString(args);
+        if (pledgeId == null) return _fallbackRoute(settings);
+        page = QrLabelScreen(pledgeId: pledgeId);
         break;
       case voucherWallet:
         page = const VoucherWalletScreen();
         break;
       case voucherQr:
-        page = VoucherQrScreen(userVoucherId: args as String);
+        final userVoucherId = _requiredString(args);
+        if (userVoucherId == null) return _fallbackRoute(settings);
+        page = VoucherQrScreen(userVoucherId: userVoucherId);
         break;
       case cart:
         page = const CartScreen();
@@ -137,5 +154,31 @@ class Routes {
         page = const SplashScreen();
     }
     return MaterialPageRoute(builder: (_) => page, settings: settings);
+  }
+
+  static Route<dynamic> _fallbackRoute(RouteSettings settings) {
+    return MaterialPageRoute(
+      builder: (_) => const MainScreen(),
+      settings: RouteSettings(name: main, arguments: settings.arguments),
+    );
+  }
+
+  static String? _optionalString(Object? value) {
+    return value is String && value.trim().isNotEmpty ? value : null;
+  }
+
+  static String? _requiredString(Object? value) => _optionalString(value);
+
+  static Map<String, String>? _stringMap(Object? value) {
+    if (value is! Map) return null;
+    final result = <String, String>{};
+    for (final entry in value.entries) {
+      final key = entry.key;
+      final entryValue = entry.value;
+      if (key is String && entryValue is String) {
+        result[key] = entryValue;
+      }
+    }
+    return result;
   }
 }
