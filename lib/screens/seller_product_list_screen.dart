@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data/models.dart';
-import '../features/seller_products/seller_product_presenter.dart';
+import '../features/seller_products/controllers/seller_product_list_cubit.dart';
+import '../features/seller_products/controllers/seller_product_list_state.dart';
 import '../features/seller_products/widgets/seller_product_components.dart';
 import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
@@ -23,12 +25,28 @@ class SellerProductListScreen extends StatefulWidget {
 }
 
 class _SellerProductListScreenState extends State<SellerProductListScreen> {
-  String _state = SellerProductPresenter.states.first;
+  SellerProductListCubit? _productCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    final shopId = widget.shopId;
+    if (shopId != null && shopId.isNotEmpty) {
+      _productCubit = SellerProductListCubit(shopId: shopId)..load();
+    }
+  }
+
+  @override
+  void dispose() {
+    _productCubit?.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final shopId = widget.shopId;
-    if (shopId == null || shopId.isEmpty) {
+    final productCubit = _productCubit;
+    if (shopId == null || shopId.isEmpty || productCubit == null) {
       return Scaffold(
         backgroundColor: context.palette.appBackground,
         appBar: AppBar(
@@ -43,46 +61,48 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
       );
     }
 
-    final products = SellerProductPresenter.filteredProducts(
-      shopId: shopId,
-      state: _state,
-    );
-
-    return Scaffold(
-      backgroundColor: context.palette.appBackground,
-      appBar: AppBar(
-        title: const Text(
-          'Sản phẩm của tôi',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: widget.bottomContentInset),
-        child: FloatingActionButton(
-          backgroundColor: AppColors.meatRed,
-          foregroundColor: Colors.white,
-          onPressed: () => _openCreateProduct(shopId),
-          child: const Icon(Icons.add),
-        ),
-      ),
-      body: Column(
-        children: [
-          SellerProductFilterBar(
-            value: _state,
-            onChanged: (state) => setState(() => _state = state),
+    return BlocProvider.value(
+      value: productCubit,
+      child: Scaffold(
+        backgroundColor: context.palette.appBackground,
+        appBar: AppBar(
+          title: const Text(
+            'Sản phẩm của tôi',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          Expanded(
-            child: products.isEmpty
-                ? const SellerProductEmptyState()
-                : SellerProductList(
-                    products: products,
-                    bottomContentInset: widget.bottomContentInset,
-                    onMore: _showProductActions,
-                    onOpenHistory: _openHistory,
-                    onCreatePledge: _openCreatePledgeForProduct,
-                  ),
+        ),
+        floatingActionButton: Padding(
+          padding: EdgeInsets.only(bottom: widget.bottomContentInset),
+          child: FloatingActionButton(
+            backgroundColor: AppColors.meatRed,
+            foregroundColor: Colors.white,
+            onPressed: () => _openCreateProduct(shopId),
+            child: const Icon(Icons.add),
           ),
-        ],
+        ),
+        body: BlocBuilder<SellerProductListCubit, SellerProductListState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                SellerProductFilterBar(
+                  value: state.selectedState,
+                  onChanged: productCubit.setStateFilter,
+                ),
+                Expanded(
+                  child: state.products.isEmpty
+                      ? const SellerProductEmptyState()
+                      : SellerProductList(
+                          products: state.products,
+                          bottomContentInset: widget.bottomContentInset,
+                          onMore: _showProductActions,
+                          onOpenHistory: _openHistory,
+                          onCreatePledge: _openCreatePledgeForProduct,
+                        ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -93,7 +113,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
       Routes.sellerCreateProduct,
       arguments: shopId,
     );
-    if (mounted) setState(() {});
+    if (mounted) _productCubit?.load();
   }
 
   void _openHistory(Product product) {
@@ -106,7 +126,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
       Routes.sellerCreatePledge,
       arguments: product.id,
     );
-    if (mounted) setState(() {});
+    if (mounted) _productCubit?.load();
   }
 
   void _showProductActions(Product product) {
