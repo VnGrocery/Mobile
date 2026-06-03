@@ -29,6 +29,11 @@ class SessionCubit extends Cubit<SessionState> {
     _emitCurrent();
   }
 
+  void setShopId(String shopId) {
+    _session.shopId = shopId;
+    _emitCurrent();
+  }
+
   void logout() {
     _session.logout();
     _emitCurrent();
