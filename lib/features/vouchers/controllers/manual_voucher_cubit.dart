@@ -1,0 +1,63 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../data/models.dart';
+import '../../../data/repositories.dart';
+import 'manual_voucher_state.dart';
+
+class ManualVoucherCubit extends Cubit<ManualVoucherState> {
+  final AppRepositories _repositories;
+
+  ManualVoucherCubit({AppRepositories? repositories})
+      : _repositories = repositories ?? AppRepositories.instance,
+        super(ManualVoucherState.initial());
+
+  void load() {
+    final shops = _repositories.shops.all();
+    emit(
+      state.copyWith(
+        shops: shops,
+        shopId: state.shopId ?? (shops.isEmpty ? null : shops.first.id),
+      ),
+    );
+  }
+
+  void selectShop(String? shopId) {
+    if (shopId == null) return;
+    emit(state.copyWith(shopId: shopId, saved: false));
+  }
+
+  String scanDemo(String format) {
+    emit(state.copyWith(codeFormat: format, saved: false));
+    return format == 'QR' ? 'MANUALQR20' : 'BARCODE-8938505970012';
+  }
+
+  void setExpiry(DateTime date) {
+    emit(
+      state.copyWith(
+        expiresAt: DateTime(date.year, date.month, date.day, 23, 59),
+        saved: false,
+      ),
+    );
+  }
+
+  UserVoucher? save({
+    required String userEmail,
+    required String code,
+    required String title,
+    required String note,
+  }) {
+    final shopId = state.shopId;
+    if (shopId == null) return null;
+    final userVoucher = _repositories.vouchers.addManualToWallet(
+      userEmail: userEmail,
+      shopId: shopId,
+      code: code,
+      title: title,
+      note: note,
+      codeFormat: state.codeFormat,
+      expiresAt: state.expiresAt,
+    );
+    emit(state.copyWith(saved: true));
+    return userVoucher;
+  }
+}
