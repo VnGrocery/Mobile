@@ -58,7 +58,7 @@ void main() {
 
       bloc.add(CartAddRequested(product: _product));
       await bloc.stream.first;
-      bloc.add(CartVoucherApplied(_voucher));
+      bloc.add(CartVoucherApplied(shopId: 's1', voucher: _voucher));
 
       await expectLater(
         bloc.stream,
@@ -67,7 +67,7 @@ void main() {
             (state) =>
                 state.discountAmount == 50000 &&
                 state.total == 200000 &&
-                state.appliedVoucherId == 'v-test',
+                state.appliedVouchersByShop['s1']?.id == 'v-test',
           ),
         ),
       );
@@ -109,18 +109,18 @@ final _voucher = Voucher(
 
 class _MemoryCartStorage implements CartStorage {
   List<CartItem> savedItems = const [];
-  String? savedVoucherId;
+  Map<String, String> savedVoucherIdsByShop = const {};
   bool cleared = false;
 
   @override
   Future<void> clearCart() async {
     cleared = true;
     savedItems = const [];
-    savedVoucherId = null;
+    savedVoucherIdsByShop = const {};
   }
 
   @override
-  String? loadAppliedVoucherId() => savedVoucherId;
+  Map<String, String> loadAppliedVoucherIdsByShop() => savedVoucherIdsByShop;
 
   @override
   List<CartItem> loadItems() => savedItems;
@@ -128,9 +128,9 @@ class _MemoryCartStorage implements CartStorage {
   @override
   Future<void> saveCart({
     required List<CartItem> items,
-    String? appliedVoucherId,
+    required Map<String, String> appliedVoucherIdsByShop,
   }) async {
     savedItems = items;
-    savedVoucherId = appliedVoucherId;
+    savedVoucherIdsByShop = appliedVoucherIdsByShop;
   }
 }

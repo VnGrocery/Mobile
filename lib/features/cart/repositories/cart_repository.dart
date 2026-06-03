@@ -5,10 +5,10 @@ import '../models/cart_item.dart';
 
 abstract class CartStorage {
   List<CartItem> loadItems();
-  String? loadAppliedVoucherId();
+  Map<String, String> loadAppliedVoucherIdsByShop();
   Future<void> saveCart({
     required List<CartItem> items,
-    String? appliedVoucherId,
+    required Map<String, String> appliedVoucherIdsByShop,
   });
   Future<void> clearCart();
 }
@@ -34,21 +34,26 @@ class CartRepository implements CartStorage {
   }
 
   @override
-  String? loadAppliedVoucherId() {
+  Map<String, String> loadAppliedVoucherIdsByShop() {
     final data = _box?.get(_stateKey);
-    return data?['appliedVoucherId'] as String?;
+    final raw = data?['appliedVoucherIdsByShop'] as Map?;
+    if (raw == null) {
+      final legacyVoucherId = data?['appliedVoucherId'] as String?;
+      return legacyVoucherId == null ? const {} : {'legacy': legacyVoucherId};
+    }
+    return raw.cast<String, String>();
   }
 
   @override
   Future<void> saveCart({
     required List<CartItem> items,
-    String? appliedVoucherId,
+    required Map<String, String> appliedVoucherIdsByShop,
   }) {
     final box = _box;
     if (box == null) return Future.value();
     return box.put(_stateKey, {
       'items': items.map((item) => item.toJson()).toList(),
-      'appliedVoucherId': appliedVoucherId,
+      'appliedVoucherIdsByShop': appliedVoucherIdsByShop,
     });
   }
 

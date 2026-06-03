@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/models.dart';
 import '../../../data/repositories.dart';
 import '../models/cart_item.dart';
 import '../repositories/cart_repository.dart';
@@ -21,21 +22,34 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CartQuantityChanged>(_onQuantityChanged);
     on<CartRemoveRequested>(_onRemoveRequested);
     on<CartVoucherApplied>(_onVoucherApplied);
+    on<CartVoucherChecked>(_onVoucherChecked);
+    on<CartVoucherRemoved>(_onVoucherRemoved);
     on<CartCleared>(_onCleared);
   }
 
   Future<void> _onStarted(CartStarted event, Emitter<CartState> emit) async {
-    final items = _cartRepository.loadItems();
-    final voucherId = _cartRepository.loadAppliedVoucherId();
-    final voucher =
-        voucherId == null ? null : _appRepositories.vouchers.byId(voucherId);
+    final now = DateTime.now();
+    final items = _cartRepository
+        .loadItems()
+        .where((item) => !item.isExpired(now))
+        .toList();
+    final voucherIdsByShop = _cartRepository.loadAppliedVoucherIdsByShop();
+    final vouchersByShop = <String, Voucher>{};
+    for (final entry in voucherIdsByShop.entries) {
+      if (entry.key == 'legacy') continue;
+      final voucher = _appRepositories.vouchers.byId(entry.value);
+      if (voucher.shopId == entry.key) vouchersByShop[entry.key] = voucher;
+    }
     emit(
       CartState(
         items: items,
-        appliedVoucher: voucher,
-        appliedVoucherId: voucherId,
+        appliedVouchersByShop: vouchersByShop,
         isRestored: true,
       ),
+    );
+    await _cartRepository.saveCart(
+      items: items,
+      appliedVoucherIdsByShop: _voucherIds(vouchersByShop),
     );
   }
 
@@ -88,9 +102,36 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     await _emitAndPersist(
       emit,
       state.copyWith(
-        appliedVoucher: event.voucher,
-        appliedVoucherId: event.voucher.id,
+        appliedVouchersByShop: {
+          ...state.appliedVouchersByShop,
+          event.shopId: event.voucher,
+        },
       ),
+    );
+  }
+
+  Future<void> _onVoucherChecked(
+    CartVoucherChecked event,
+    Emitter<CartState> emit,
+  ) async {
+    final result = _appRepositories.vouchers.check(
+      code: event.code,
+      shopId: event.shopId,
+      orderValue: state.shopSubtotal(event.shopId),
+    );
+    final voucher = result.voucher;
+    if (!result.valid || voucher == null) return;
+    add(CartVoucherApplied(shopId: event.shopId, voucher: voucher));
+  }
+
+  Future<void> _onVoucherRemoved(
+    CartVoucherRemoved event,
+    Emitter<CartState> emit,
+  ) async {
+    final vouchers = {...state.appliedVouchersByShop}..remove(event.shopId);
+    await _emitAndPersist(
+      emit,
+      state.copyWith(appliedVouchersByShop: vouchers),
     );
   }
 
@@ -103,7 +144,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     emit(next);
     await _cartRepository.saveCart(
       items: next.items,
-      appliedVoucherId: next.appliedVoucherId,
+      appliedVoucherIdsByShop: _voucherIds(next.appliedVouchersByShop),
     );
+  }
+
+  Map<String, String> _voucherIds(Map<String, Voucher> vouchersByShop) {
+    return vouchersByShop
+        .map((shopId, voucher) => MapEntry(shopId, voucher.id));
   }
 }

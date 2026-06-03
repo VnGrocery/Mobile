@@ -8,6 +8,7 @@ class CartItem {
   final int quantity;
   final String imageAsset;
   final String? appliedVoucherId;
+  final DateTime addedAt;
 
   const CartItem({
     required this.productId,
@@ -17,6 +18,7 @@ class CartItem {
     required this.quantity,
     this.imageAsset = 'assets/images/lamb_meat.png',
     this.appliedVoucherId,
+    required this.addedAt,
   });
 
   factory CartItem.fromProduct(Product product, {int quantity = 1}) {
@@ -26,6 +28,7 @@ class CartItem {
       name: product.name,
       price: product.price,
       quantity: quantity,
+      addedAt: DateTime.now(),
     );
   }
 
@@ -39,10 +42,15 @@ class CartItem {
       imageAsset:
           json['imageAsset'] as String? ?? 'assets/images/lamb_meat.png',
       appliedVoucherId: json['appliedVoucherId'] as String?,
+      addedAt: DateTime.parse(json['addedAt'] as String),
     );
   }
 
   int get lineTotal => price * quantity;
+
+  bool isExpired(DateTime now) {
+    return now.difference(addedAt) >= const Duration(hours: 24);
+  }
 
   CartItem copyWith({
     String? productId,
@@ -52,6 +60,7 @@ class CartItem {
     int? quantity,
     String? imageAsset,
     String? appliedVoucherId,
+    DateTime? addedAt,
   }) {
     return CartItem(
       productId: productId ?? this.productId,
@@ -61,6 +70,7 @@ class CartItem {
       quantity: quantity ?? this.quantity,
       imageAsset: imageAsset ?? this.imageAsset,
       appliedVoucherId: appliedVoucherId ?? this.appliedVoucherId,
+      addedAt: addedAt ?? this.addedAt,
     );
   }
 
@@ -72,5 +82,6 @@ class CartItem {
         'quantity': quantity,
         'imageAsset': imageAsset,
         'appliedVoucherId': appliedVoucherId,
+        'addedAt': addedAt.toIso8601String(),
       };
 }

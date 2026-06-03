@@ -35,9 +35,29 @@ class CartRemoveRequested extends CartEvent {
 }
 
 class CartVoucherApplied extends CartEvent {
+  final String shopId;
   final Voucher voucher;
 
-  const CartVoucherApplied(this.voucher);
+  const CartVoucherApplied({
+    required this.shopId,
+    required this.voucher,
+  });
+}
+
+class CartVoucherChecked extends CartEvent {
+  final String shopId;
+  final String code;
+
+  const CartVoucherChecked({
+    required this.shopId,
+    required this.code,
+  });
+}
+
+class CartVoucherRemoved extends CartEvent {
+  final String shopId;
+
+  const CartVoucherRemoved(this.shopId);
 }
 
 class CartCleared extends CartEvent {
