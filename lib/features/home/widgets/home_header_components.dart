@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/widgets/cart_badge_button.dart';
 import '../../../features/cart/controllers/cart_bloc.dart';
 import '../../../features/cart/controllers/cart_state.dart';
+import '../../../routes/app_routes.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_palette.dart';
 
@@ -103,12 +104,7 @@ class HomeHeader extends StatelessWidget {
             builder: (context, state) {
               return CartBadgeButton(
                 itemCount: state.itemCount,
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Giỏ hàng đang được chuẩn bị')),
-                  );
-                },
+                onTap: () => Navigator.pushNamed(context, Routes.cart),
               );
             },
           ),
