@@ -1,4 +1,4 @@
-part of '../models.dart';
+import 'json_helpers.dart';
 
 class Voucher {
   final String id;

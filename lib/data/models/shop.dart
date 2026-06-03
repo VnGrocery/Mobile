@@ -1,5 +1,3 @@
-part of '../models.dart';
-
 class Shop {
   final String id;
   final String name;

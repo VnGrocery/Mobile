@@ -1,5 +1,3 @@
-part of '../models.dart';
-
 class Review {
   final String id;
   final String userName;

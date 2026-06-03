@@ -1,5 +1,3 @@
-part of '../models.dart';
-
 class BuyerCheckResult {
   final int actualScore;
   final String locationStatus;
