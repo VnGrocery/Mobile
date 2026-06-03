@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../data/session.dart';
+import '../features/account/controllers/session_cubit.dart';
+import '../features/vouchers/controllers/voucher_wallet_cubit.dart';
+import '../features/vouchers/controllers/voucher_wallet_state.dart';
 import '../features/vouchers/voucher_presenter.dart';
 import '../features/vouchers/widgets/voucher_wallet_components.dart';
 import '../routes/app_routes.dart';
@@ -14,63 +17,78 @@ class VoucherWalletScreen extends StatefulWidget {
 }
 
 class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
-  bool _showUsed = false;
+  late final VoucherWalletCubit _walletCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _walletCubit = VoucherWalletCubit(
+      userEmail: context.read<SessionCubit>().state.email,
+    )..load();
+  }
+
+  @override
+  void dispose() {
+    _walletCubit.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final email = SessionManager.instance.email;
-    final wallet = VoucherPresenter.wallet(email);
-    final visibleWallet = VoucherPresenter.visibleWallet(
-      wallet,
-      showUsed: _showUsed,
-    );
-    final usableCount = VoucherPresenter.usableCount(wallet);
     final palette = context.palette;
 
-    return Scaffold(
-      backgroundColor: palette.appBackground,
-      appBar: AppBar(
-        title: const Text('Ví voucher'),
-        actions: [
-          IconButton(
-            tooltip: 'Thêm thủ công',
-            onPressed: _openManualVoucher,
-            icon: const Icon(Icons.add_card),
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          VoucherSummaryCard(
-            usableCount: usableCount,
-            total: wallet.length,
-          ),
-          const SizedBox(height: 16),
-          VoucherWalletToolbar(
-            showUsed: _showUsed,
-            onShowUsedChanged: (value) => setState(() => _showUsed = value),
-          ),
-          const SizedBox(height: 12),
-          if (visibleWallet.isEmpty)
-            const VoucherEmptyState()
-          else
-            for (final item in visibleWallet)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: VoucherWalletCard(
-                  userVoucher: item,
-                  voucher: VoucherPresenter.voucher(item.voucherId),
-                  onChanged: () => setState(() {}),
+    return BlocProvider.value(
+      value: _walletCubit,
+      child: Scaffold(
+        backgroundColor: palette.appBackground,
+        appBar: AppBar(
+          title: const Text('Ví voucher'),
+          actions: [
+            IconButton(
+              tooltip: 'Thêm thủ công',
+              onPressed: _openManualVoucher,
+              icon: const Icon(Icons.add_card),
+            ),
+          ],
+        ),
+        body: BlocBuilder<VoucherWalletCubit, VoucherWalletState>(
+          builder: (context, state) {
+            final visibleWallet = state.visibleWallet;
+            return ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                VoucherSummaryCard(
+                  usableCount: state.usableCount,
+                  total: state.wallet.length,
                 ),
-              ),
-        ],
+                const SizedBox(height: 16),
+                VoucherWalletToolbar(
+                  showUsed: state.showUsed,
+                  onShowUsedChanged: _walletCubit.setShowUsed,
+                ),
+                const SizedBox(height: 12),
+                if (visibleWallet.isEmpty)
+                  const VoucherEmptyState()
+                else
+                  for (final item in visibleWallet)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: VoucherWalletCard(
+                        userVoucher: item,
+                        voucher: VoucherPresenter.voucher(item.voucherId),
+                        onChanged: _walletCubit.load,
+                      ),
+                    ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 
   Future<void> _openManualVoucher() async {
     await Navigator.pushNamed(context, Routes.manualVoucher);
-    if (mounted) setState(() {});
+    if (mounted) _walletCubit.load();
   }
 }
