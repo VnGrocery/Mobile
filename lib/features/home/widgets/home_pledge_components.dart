@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../features/cart/controllers/cart_bloc.dart';
+import '../../../features/cart/controllers/cart_event.dart';
 import '../../../routes/app_routes.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_palette.dart';
@@ -91,7 +94,24 @@ class HomePledgeCard extends StatelessWidget {
                   ],
                 ),
               ),
-              ScoreRingBadge(score: product.freshnessScore),
+              Column(
+                children: [
+                  ScoreRingBadge(score: product.freshnessScore),
+                  const SizedBox(height: 8),
+                  IconButton.filled(
+                    tooltip: 'Thêm vào giỏ',
+                    onPressed: () {
+                      context
+                          .read<CartBloc>()
+                          .add(CartAddRequested(product: product));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Đã thêm ${product.name}')),
+                      );
+                    },
+                    icon: const Icon(Icons.add_shopping_cart, size: 18),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
