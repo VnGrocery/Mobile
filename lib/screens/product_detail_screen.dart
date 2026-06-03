@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../core/ui/app_feedback.dart';
 import '../features/cart/controllers/cart_bloc.dart';
 import '../features/cart/controllers/cart_event.dart';
 import '../features/products/product_presenter.dart';
@@ -43,8 +44,10 @@ class ProductDetailScreen extends StatelessWidget {
                       context
                           .read<CartBloc>()
                           .add(CartAddRequested(product: product));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Đã thêm ${product.name}')),
+                      AppFeedback.showSnackBar(
+                        context,
+                        'Đã thêm ${product.name}',
+                        icon: Icons.add_shopping_cart_rounded,
                       );
                     },
                     icon: const Icon(Icons.add_shopping_cart),
