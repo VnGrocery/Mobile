@@ -1,46 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/ui/app_feedback.dart';
-import '../features/seller_labels/seller_label_presenter.dart';
+import '../features/seller_labels/controllers/qr_label_cubit.dart';
+import '../features/seller_labels/controllers/qr_label_state.dart';
 import '../features/seller_labels/widgets/qr_label_components.dart';
 import '../theme/app_palette.dart';
 
-class QrLabelScreen extends StatelessWidget {
+class QrLabelScreen extends StatefulWidget {
   final String pledgeId;
 
   const QrLabelScreen({super.key, required this.pledgeId});
 
   @override
+  State<QrLabelScreen> createState() => _QrLabelScreenState();
+}
+
+class _QrLabelScreenState extends State<QrLabelScreen> {
+  late final QrLabelCubit _labelCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _labelCubit = QrLabelCubit(pledgeId: widget.pledgeId);
+  }
+
+  @override
+  void dispose() {
+    _labelCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.palette.appBackground,
-      appBar: AppBar(title: const Text('Mã QR sản phẩm')),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            const QrLabelIntro(),
-            QrLabelPreviewCard(pledgeId: pledgeId),
-            const Spacer(),
-            QrLabelActions(
-              onDownload: () => _downloadLabel(context),
-              onPrint: () => _printLabel(context),
-              onBackHome: () => Navigator.popUntil(
-                context,
-                (route) => route.settings.name == 'main' || route.isFirst,
+    return BlocProvider.value(
+      value: _labelCubit,
+      child: BlocBuilder<QrLabelCubit, QrLabelState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: context.palette.appBackground,
+            appBar: AppBar(title: const Text('Mã QR sản phẩm')),
+            body: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  const QrLabelIntro(),
+                  QrLabelPreviewCard(pledgeId: state.pledgeId),
+                  const Spacer(),
+                  QrLabelActions(
+                    onDownload: () => _downloadLabel(context, state),
+                    onPrint: () => _printLabel(context),
+                    onBackHome: () => Navigator.popUntil(
+                      context,
+                      (route) => route.settings.name == 'main' || route.isFirst,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  void _downloadLabel(BuildContext context) {
-    Clipboard.setData(
-      ClipboardData(text: SellerLabelPresenter.clipboardText(pledgeId)),
-    );
+  void _downloadLabel(BuildContext context, QrLabelState state) {
+    Clipboard.setData(ClipboardData(text: state.clipboardText));
     AppFeedback.showSnackBar(context, 'Đã sao chép nội dung tem QR');
   }
 
