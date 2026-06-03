@@ -3,13 +3,24 @@ import 'package:hive/hive.dart';
 import '../../../core/storage/hive_storage_service.dart';
 import '../models/cart_item.dart';
 
-class CartRepository {
+abstract class CartStorage {
+  List<CartItem> loadItems();
+  String? loadAppliedVoucherId();
+  Future<void> saveCart({
+    required List<CartItem> items,
+    String? appliedVoucherId,
+  });
+  Future<void> clearCart();
+}
+
+class CartRepository implements CartStorage {
   static const _stateKey = 'cart_state';
 
   final Box<Map> _box;
 
   CartRepository({Box<Map>? box}) : _box = box ?? HiveStorageService.cartBox();
 
+  @override
   List<CartItem> loadItems() {
     final data = _box.get(_stateKey);
     if (data == null) return const [];
@@ -21,11 +32,13 @@ class CartRepository {
         .toList();
   }
 
+  @override
   String? loadAppliedVoucherId() {
     final data = _box.get(_stateKey);
     return data?['appliedVoucherId'] as String?;
   }
 
+  @override
   Future<void> saveCart({
     required List<CartItem> items,
     String? appliedVoucherId,
@@ -36,5 +49,6 @@ class CartRepository {
     });
   }
 
+  @override
   Future<void> clearCart() => _box.delete(_stateKey);
 }

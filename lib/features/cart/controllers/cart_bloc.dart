@@ -7,11 +7,11 @@ import 'cart_event.dart';
 import 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final CartRepository _cartRepository;
+  final CartStorage _cartRepository;
   final AppRepositories _appRepositories;
 
   CartBloc({
-    CartRepository? cartRepository,
+    CartStorage? cartRepository,
     AppRepositories? appRepositories,
   })  : _cartRepository = cartRepository ?? CartRepository(),
         _appRepositories = appRepositories ?? AppRepositories.instance,
