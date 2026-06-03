@@ -1,0 +1,76 @@
+import '../../../data/models.dart';
+
+class CartItem {
+  final String productId;
+  final String shopId;
+  final String name;
+  final int price;
+  final int quantity;
+  final String imageAsset;
+  final String? appliedVoucherId;
+
+  const CartItem({
+    required this.productId,
+    required this.shopId,
+    required this.name,
+    required this.price,
+    required this.quantity,
+    this.imageAsset = 'assets/images/lamb_meat.png',
+    this.appliedVoucherId,
+  });
+
+  factory CartItem.fromProduct(Product product, {int quantity = 1}) {
+    return CartItem(
+      productId: product.id,
+      shopId: product.shopId,
+      name: product.name,
+      price: product.price,
+      quantity: quantity,
+    );
+  }
+
+  factory CartItem.fromJson(Map<String, Object?> json) {
+    return CartItem(
+      productId: json['productId'] as String,
+      shopId: json['shopId'] as String,
+      name: json['name'] as String,
+      price: (json['price'] as num).toInt(),
+      quantity: (json['quantity'] as num).toInt(),
+      imageAsset:
+          json['imageAsset'] as String? ?? 'assets/images/lamb_meat.png',
+      appliedVoucherId: json['appliedVoucherId'] as String?,
+    );
+  }
+
+  int get lineTotal => price * quantity;
+
+  CartItem copyWith({
+    String? productId,
+    String? shopId,
+    String? name,
+    int? price,
+    int? quantity,
+    String? imageAsset,
+    String? appliedVoucherId,
+  }) {
+    return CartItem(
+      productId: productId ?? this.productId,
+      shopId: shopId ?? this.shopId,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      imageAsset: imageAsset ?? this.imageAsset,
+      appliedVoucherId: appliedVoucherId ?? this.appliedVoucherId,
+    );
+  }
+
+  Map<String, Object?> toJson() => {
+        'productId': productId,
+        'shopId': shopId,
+        'name': name,
+        'price': price,
+        'quantity': quantity,
+        'imageAsset': imageAsset,
+        'appliedVoucherId': appliedVoucherId,
+      };
+}
