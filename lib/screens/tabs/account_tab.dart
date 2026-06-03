@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/ui/app_feedback.dart';
-import '../../data/session.dart';
+import '../../features/account/controllers/session_cubit.dart';
 import '../../features/account/widgets/account_components.dart';
 import '../../routes/app_routes.dart';
 import '../../theme/app_colors.dart';
@@ -26,14 +27,15 @@ class _AccountTabState extends State<AccountTab> {
   void _selectTab(int index) => widget.onSelectTab?.call(index);
 
   Future<void> _editProfile(BuildContext context) async {
-    final session = SessionManager.instance;
+    final session = context.read<SessionCubit>().state;
     final saved = await showAccountEditProfileSheet(
       context,
       initialName: session.displayName,
       initialEmail: session.email,
       onSave: (name, email) {
-        session.updateProfile(displayName: name, email: email);
-        setState(() {});
+        context
+            .read<SessionCubit>()
+            .updateProfile(displayName: name, email: email);
       },
     );
 
@@ -68,14 +70,13 @@ class _AccountTabState extends State<AccountTab> {
       ),
     );
     if (ok == true && context.mounted) {
-      SessionManager.instance.logout();
+      context.read<SessionCubit>().logout();
       Navigator.pushNamedAndRemoveUntil(context, Routes.auth, (r) => false);
     }
   }
 
   void _switchRole(String role) {
-    SessionManager.instance.setRole(role);
-    setState(() {});
+    context.read<SessionCubit>().setRole(role);
     AppFeedback.showSnackBar(
       context,
       role == 'seller'
@@ -86,8 +87,8 @@ class _AccountTabState extends State<AccountTab> {
 
   @override
   Widget build(BuildContext context) {
-    final session = SessionManager.instance;
-    final isSeller = session.role == 'seller';
+    final session = context.watch<SessionCubit>().state;
+    final isSeller = session.isSeller;
 
     return Scaffold(
       backgroundColor: context.palette.appBackground,

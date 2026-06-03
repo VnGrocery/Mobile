@@ -1,0 +1,40 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../data/session.dart';
+import 'session_state.dart';
+
+class SessionCubit extends Cubit<SessionState> {
+  final SessionManager _session;
+
+  SessionCubit({SessionManager? session})
+      : _session = session ?? SessionManager.instance,
+        super(SessionState.fromManager(session ?? SessionManager.instance));
+
+  void login({
+    required String email,
+    String? displayName,
+    String role = 'user',
+  }) {
+    _session.login(email: email, displayName: displayName, role: role);
+    _emitCurrent();
+  }
+
+  void updateProfile({required String displayName, required String email}) {
+    _session.updateProfile(displayName: displayName, email: email);
+    _emitCurrent();
+  }
+
+  void setRole(String role) {
+    _session.setRole(role);
+    _emitCurrent();
+  }
+
+  void logout() {
+    _session.logout();
+    _emitCurrent();
+  }
+
+  void _emitCurrent() {
+    emit(SessionState.fromManager(_session));
+  }
+}

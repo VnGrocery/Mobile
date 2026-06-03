@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../data/session.dart';
+import '../features/account/controllers/session_cubit.dart';
+import '../features/account/controllers/session_state.dart';
 import '../features/navigation/navigation_config.dart';
 import '../features/navigation/widgets/animated_content_shell.dart';
 import '../features/navigation/widgets/floating_tab_popup.dart';
@@ -34,11 +36,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
-      valueListenable: SessionManager.instance.roleNotifier,
-      builder: (context, role, _) {
-        final isSeller = role == 'seller';
-        final tabs = _tabsForRole(isSeller);
+    return BlocBuilder<SessionCubit, SessionState>(
+      builder: (context, session) {
+        final isSeller = session.isSeller;
+        final tabs = _tabsForRole(session);
         final selectedIndex = _index.clamp(0, tabs.length - 1);
 
         return Scaffold(
@@ -88,12 +89,12 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  List<Widget> _tabsForRole(bool isSeller) {
-    if (isSeller) {
+  List<Widget> _tabsForRole(SessionState session) {
+    if (session.isSeller) {
       return [
         const PledgeTab(bottomContentInset: _bottomNavContentInset),
         SellerProductListScreen(
-          shopId: SessionManager.instance.shopId,
+          shopId: session.shopId,
           bottomContentInset: _bottomNavContentInset,
         ),
         const SellerShopScreen(bottomContentInset: _bottomNavContentInset),

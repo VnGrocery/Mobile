@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/storage/hive_storage_service.dart';
+import 'features/account/controllers/session_cubit.dart';
 import 'features/cart/controllers/cart_bloc.dart';
 import 'features/cart/controllers/cart_event.dart';
 import 'routes/app_routes.dart';
@@ -26,8 +27,11 @@ class VnMeatApp extends StatelessWidget {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: ThemeController.instance.mode,
       builder: (context, themeMode, _) {
-        return BlocProvider(
-          create: (_) => CartBloc()..add(const CartStarted()),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => SessionCubit()),
+            BlocProvider(create: (_) => CartBloc()..add(const CartStarted())),
+          ],
           child: MaterialApp(
             title: 'VnGrocery',
             debugShowCheckedModeBanner: false,
