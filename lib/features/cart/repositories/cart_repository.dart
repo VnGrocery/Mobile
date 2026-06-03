@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 
+import '../../../core/storage/cache_policy.dart';
 import '../../../core/storage/hive_storage_service.dart';
 import '../models/cart_item.dart';
 
@@ -57,6 +58,9 @@ class CartRepository implements CartStorage {
     final box = _box;
     if (box == null) return Future.value();
     return box.put(_stateKey, {
+      'schemaVersion': CachePolicy.cartSchemaVersion,
+      'savedAt': DateTime.now().toIso8601String(),
+      'expiresAfterHours': CachePolicy.cartTtl.inHours,
       'items': items.map((item) => item.toJson()).toList(),
       'appliedVoucherIdsByShop': appliedVoucherIdsByShop,
     });

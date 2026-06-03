@@ -1,4 +1,5 @@
 import '../../../data/models.dart';
+import '../../../core/storage/cache_policy.dart';
 
 class CartItem {
   final String productId;
@@ -52,7 +53,7 @@ class CartItem {
   int get lineTotal => price * quantity;
 
   bool isExpired(DateTime now) {
-    return now.difference(addedAt) >= const Duration(hours: 24);
+    return now.difference(addedAt) >= CachePolicy.cartTtl;
   }
 
   CartItem copyWith({
