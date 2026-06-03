@@ -36,6 +36,28 @@ void main() {
       await bloc.close();
     });
 
+    test('groups products by shop and sums grand total', () async {
+      final bloc = CartBloc(cartRepository: _MemoryCartStorage());
+
+      bloc.add(CartAddRequested(product: _product));
+      await bloc.stream.first;
+      bloc.add(CartAddRequested(product: _otherShopProduct));
+
+      await expectLater(
+        bloc.stream,
+        emits(
+          predicate<CartState>(
+            (state) =>
+                state.itemsByShop.keys.length == 2 &&
+                state.shopSubtotal('s1') == 250000 &&
+                state.shopSubtotal('s2') == 85000 &&
+                state.grandTotal == 335000,
+          ),
+        ),
+      );
+      await bloc.close();
+    });
+
     test('removes item when quantity changes to zero', () async {
       final bloc = CartBloc(cartRepository: _MemoryCartStorage());
 
@@ -52,7 +74,7 @@ void main() {
       await bloc.close();
     });
 
-    test('applies voucher and clears cart', () async {
+    test('applies voucher for the matching shop', () async {
       final storage = _MemoryCartStorage();
       final bloc = CartBloc(cartRepository: storage);
 
@@ -65,14 +87,71 @@ void main() {
         emits(
           predicate<CartState>(
             (state) =>
-                state.discountAmount == 50000 &&
-                state.total == 200000 &&
+                state.shopDiscount('s1') == 50000 &&
+                state.shopTotal('s1') == 200000 &&
                 state.appliedVouchersByShop['s1']?.id == 'v-test',
           ),
         ),
       );
+      await bloc.close();
+    });
 
+    test('does not discount when voucher belongs to another shop', () async {
+      final bloc = CartBloc(cartRepository: _MemoryCartStorage());
+
+      bloc.add(CartAddRequested(product: _product));
+      await bloc.stream.first;
+      bloc.add(CartVoucherApplied(shopId: 's1', voucher: _otherShopVoucher));
+
+      await expectLater(
+        bloc.stream,
+        emits(
+          predicate<CartState>(
+            (state) =>
+                state.shopDiscount('s1') == 0 &&
+                state.shopTotal('s1') == 250000,
+          ),
+        ),
+      );
+      await bloc.close();
+    });
+
+    test('drops items older than 24 hours on start', () async {
+      final storage = _MemoryCartStorage(
+        savedItems: [
+          CartItem.fromProduct(
+            _product,
+          ).copyWith(
+              addedAt: DateTime.now().subtract(const Duration(hours: 25))),
+          CartItem.fromProduct(_otherShopProduct),
+        ],
+      );
+      final bloc = CartBloc(cartRepository: storage);
+
+      bloc.add(const CartStarted());
+
+      await expectLater(
+        bloc.stream,
+        emits(
+          predicate<CartState>(
+            (state) =>
+                state.itemCount == 1 &&
+                state.items.single.productId == _otherShopProduct.id,
+          ),
+        ),
+      );
+      expect(storage.savedItems.length, 1);
+      await bloc.close();
+    });
+
+    test('clears cart', () async {
+      final storage = _MemoryCartStorage();
+      final bloc = CartBloc(cartRepository: storage);
+
+      bloc.add(CartAddRequested(product: _product));
+      await bloc.stream.first;
       bloc.add(const CartCleared());
+
       await expectLater(
         bloc.stream,
         emits(predicate<CartState>((state) => state.isEmpty)),
@@ -96,6 +175,19 @@ final _product = Product(
   status: 'Published',
 );
 
+final _otherShopProduct = Product(
+  id: 'p-other',
+  shopId: 's2',
+  name: 'Ức gà test',
+  description: 'Demo',
+  category: 'Thịt gà',
+  freshnessScore: 88,
+  freshnessNote: 'Tươi',
+  price: 85000,
+  tags: const ['Demo'],
+  status: 'Published',
+);
+
 final _voucher = Voucher(
   id: 'v-test',
   code: 'SAVE20',
@@ -107,9 +199,26 @@ final _voucher = Voucher(
   expiresAt: DateTime(2026, 12, 31),
 );
 
+final _otherShopVoucher = Voucher(
+  id: 'v-other',
+  code: 'OTHER20',
+  title: 'Giảm 20%',
+  shopId: 's2',
+  discountValue: 20,
+  isPercent: true,
+  minSpend: 100000,
+  expiresAt: DateTime(2026, 12, 31),
+);
+
 class _MemoryCartStorage implements CartStorage {
-  List<CartItem> savedItems = const [];
-  Map<String, String> savedVoucherIdsByShop = const {};
+  _MemoryCartStorage({
+    List<CartItem> savedItems = const [],
+    Map<String, String> savedVoucherIdsByShop = const {},
+  })  : savedItems = savedItems,
+        savedVoucherIdsByShop = savedVoucherIdsByShop;
+
+  List<CartItem> savedItems;
+  Map<String, String> savedVoucherIdsByShop;
   bool cleared = false;
 
   @override
