@@ -2,8 +2,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/storage/hive_storage_service.dart';
+import 'features/cart/controllers/cart_bloc.dart';
+import 'features/cart/controllers/cart_event.dart';
 import 'routes/app_routes.dart';
 import 'theme/app_theme.dart';
 import 'theme/app_palette.dart';
@@ -23,17 +26,20 @@ class VnMeatApp extends StatelessWidget {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: ThemeController.instance.mode,
       builder: (context, themeMode, _) {
-        return MaterialApp(
-          title: 'VnGrocery',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: themeMode,
-          builder: (context, child) =>
-              _AppBackdrop(child: child ?? const SizedBox()),
-          scrollBehavior: const _AppScrollBehavior(),
-          initialRoute: Routes.splash,
-          onGenerateRoute: Routes.onGenerateRoute,
+        return BlocProvider(
+          create: (_) => CartBloc()..add(const CartStarted()),
+          child: MaterialApp(
+            title: 'VnGrocery',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeMode,
+            builder: (context, child) =>
+                _AppBackdrop(child: child ?? const SizedBox()),
+            scrollBehavior: const _AppScrollBehavior(),
+            initialRoute: Routes.splash,
+            onGenerateRoute: Routes.onGenerateRoute,
+          ),
         );
       },
     );
