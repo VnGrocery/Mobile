@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/ui/app_feedback.dart';
+import '../features/reviews/controllers/review_cubit.dart';
+import '../features/reviews/controllers/review_state.dart';
 import '../features/reviews/widgets/review_components.dart';
 import '../theme/app_palette.dart';
 
@@ -14,66 +17,74 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
-  int _rating = 0;
   final _comment = TextEditingController();
-  bool _loading = false;
-  bool _photoAttached = false;
+  late final ReviewCubit _reviewCubit;
 
-  bool get _canSubmit =>
-      _rating > 0 && _comment.text.trim().isNotEmpty && !_loading;
+  @override
+  void initState() {
+    super.initState();
+    _reviewCubit = ReviewCubit();
+  }
 
   @override
   void dispose() {
+    _reviewCubit.close();
     _comment.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.palette.appBackground,
-      appBar: AppBar(title: const Text('Đánh giá cửa hàng')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const ReviewIntro(),
-            RatingPicker(
-              rating: _rating,
-              enabled: !_loading,
-              onChanged: (rating) => setState(() => _rating = rating),
+    return BlocProvider.value(
+      value: _reviewCubit,
+      child: BlocBuilder<ReviewCubit, ReviewState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: context.palette.appBackground,
+            appBar: AppBar(title: const Text('Đánh giá cửa hàng')),
+            body: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  const ReviewIntro(),
+                  RatingPicker(
+                    rating: state.rating,
+                    enabled: !state.submitting,
+                    onChanged: _reviewCubit.setRating,
+                  ),
+                  const SizedBox(height: 32),
+                  ReviewCommentField(
+                    controller: _comment,
+                    enabled: !state.submitting,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 24),
+                  ReviewPhotoAttachment(
+                    attached: state.photoAttached,
+                    enabled: !state.submitting,
+                    onTap: _togglePhoto,
+                  ),
+                  const Spacer(),
+                  ReviewSubmitButton(
+                    enabled: state.canSubmit(_comment.text),
+                    loading: state.submitting,
+                    onSubmit: _submit,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 32),
-            ReviewCommentField(
-              controller: _comment,
-              enabled: !_loading,
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 24),
-            ReviewPhotoAttachment(
-              attached: _photoAttached,
-              enabled: !_loading,
-              onTap: _togglePhoto,
-            ),
-            const Spacer(),
-            ReviewSubmitButton(
-              enabled: _canSubmit,
-              loading: _loading,
-              onSubmit: _submit,
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
   Future<void> _submit() async {
-    setState(() => _loading = true);
-    await Future<void>.delayed(const Duration(milliseconds: 900));
-    if (!mounted) return;
+    await _reviewCubit.submit(_comment.text);
+    if (!mounted || !_reviewCubit.state.submitted) return;
     AppFeedback.showSnackBar(
       context,
-      _photoAttached
+      _reviewCubit.state.photoAttached
           ? 'Đã gửi đánh giá kèm ảnh. Cảm ơn bạn!'
           : 'Đã gửi đánh giá. Cảm ơn bạn!',
     );
@@ -81,10 +92,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
   }
 
   void _togglePhoto() {
-    setState(() => _photoAttached = !_photoAttached);
+    _reviewCubit.togglePhoto();
     AppFeedback.showSnackBar(
       context,
-      _photoAttached ? 'Đã đính kèm ảnh demo' : 'Đã bỏ ảnh đính kèm',
+      _reviewCubit.state.photoAttached
+          ? 'Đã đính kèm ảnh demo'
+          : 'Đã bỏ ảnh đính kèm',
     );
   }
 }
