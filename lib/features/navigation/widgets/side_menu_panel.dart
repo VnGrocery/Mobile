@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/session.dart';
+import '../../account/controllers/session_cubit.dart';
 import '../../../theme/app_colors.dart';
 import '../navigation_config.dart';
 import 'side_menu_button.dart';
@@ -24,7 +25,7 @@ class SideMenuPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = SessionManager.instance.displayName;
+    final name = context.watch<SessionCubit>().state.displayName;
     final items = NavigationConfig.sideMenuItems(isSeller);
 
     return AnimatedSlide(
