@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/ui/app_feedback.dart';
-import '../features/seller_products/seller_product_presenter.dart';
+import '../features/seller_products/controllers/seller_create_product_cubit.dart';
+import '../features/seller_products/controllers/seller_create_product_state.dart';
 import '../features/seller_products/widgets/seller_create_product_components.dart';
 import '../theme/app_palette.dart';
 
@@ -20,17 +22,20 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   final _price = TextEditingController();
   final _desc = TextEditingController();
   final _tags = TextEditingController();
-  String _category = SellerProductPresenter.categories.first;
-  bool _loading = false;
-  bool _imageSelected = false;
+  late final SellerCreateProductCubit _createCubit;
 
   bool get _canSave =>
-      _name.text.trim().isNotEmpty &&
-      _price.text.trim().isNotEmpty &&
-      !_loading;
+      _name.text.trim().isNotEmpty && _price.text.trim().isNotEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    _createCubit = SellerCreateProductCubit(shopId: widget.shopId);
+  }
 
   @override
   void dispose() {
+    _createCubit.close();
     _name.dispose();
     _price.dispose();
     _desc.dispose();
@@ -40,53 +45,54 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.palette.appBackground,
-      appBar: AppBar(
-        title: const Text(
-          'Thêm sản phẩm mới',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          SellerProductImagePickerCard(
-            selected: _imageSelected,
-            onTap: _toggleImage,
-          ),
-          const SizedBox(height: 24),
-          SellerCreateProductFields(
-            name: _name,
-            price: _price,
-            description: _desc,
-            tags: _tags,
-            category: _category,
-            onCategoryChanged: (category) =>
-                setState(() => _category = category),
-            onRequiredChanged: (_) => setState(() {}),
-          ),
-          const SizedBox(height: 32),
-          SellerCreateProductSubmitButton(
-            canSave: _canSave,
-            loading: _loading,
-            onSave: _save,
-          ),
-          const SizedBox(height: 40),
-        ],
+    return BlocProvider.value(
+      value: _createCubit,
+      child: BlocBuilder<SellerCreateProductCubit, SellerCreateProductState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: context.palette.appBackground,
+            appBar: AppBar(
+              title: const Text(
+                'Thêm sản phẩm mới',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            body: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                SellerProductImagePickerCard(
+                  selected: state.imageSelected,
+                  onTap: _toggleImage,
+                ),
+                const SizedBox(height: 24),
+                SellerCreateProductFields(
+                  name: _name,
+                  price: _price,
+                  description: _desc,
+                  tags: _tags,
+                  category: state.category,
+                  onCategoryChanged: _createCubit.setCategory,
+                  onRequiredChanged: (_) => setState(() {}),
+                ),
+                const SizedBox(height: 32),
+                SellerCreateProductSubmitButton(
+                  canSave: _canSave && !state.saving,
+                  loading: state.saving,
+                  onSave: _save,
+                ),
+                const SizedBox(height: 40),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
   Future<void> _save() async {
-    setState(() => _loading = true);
-    await Future<void>.delayed(const Duration(milliseconds: 900));
-    SellerProductPresenter.addProduct(
-      shopId: widget.shopId,
+    await _createCubit.save(
       name: _name.text,
       description: _desc.text,
-      category: _category,
-      hasImage: _imageSelected,
       price: _price.text,
       tags: _tags.text,
     );
@@ -96,10 +102,12 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   }
 
   void _toggleImage() {
-    setState(() => _imageSelected = !_imageSelected);
+    _createCubit.toggleImage();
     AppFeedback.showSnackBar(
       context,
-      _imageSelected ? 'Đã chọn ảnh sản phẩm demo' : 'Đã bỏ ảnh sản phẩm',
+      _createCubit.state.imageSelected
+          ? 'Đã chọn ảnh sản phẩm demo'
+          : 'Đã bỏ ảnh sản phẩm',
     );
   }
 }
