@@ -17,4 +17,14 @@ class HiveStorageService {
   static Box<Map> cartBox() => Hive.box<Map>(cartBoxName);
 
   static Box<Map> productBox() => Hive.box<Map>(productBoxName);
+
+  static Box<Map>? tryCartBox() {
+    if (!Hive.isBoxOpen(cartBoxName)) return null;
+    return Hive.box<Map>(cartBoxName);
+  }
+
+  static Box<Map>? tryProductBox() {
+    if (!Hive.isBoxOpen(productBoxName)) return null;
+    return Hive.box<Map>(productBoxName);
+  }
 }

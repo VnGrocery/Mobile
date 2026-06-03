@@ -16,13 +16,14 @@ abstract class CartStorage {
 class CartRepository implements CartStorage {
   static const _stateKey = 'cart_state';
 
-  final Box<Map> _box;
+  final Box<Map>? _box;
 
-  CartRepository({Box<Map>? box}) : _box = box ?? HiveStorageService.cartBox();
+  CartRepository({Box<Map>? box})
+      : _box = box ?? HiveStorageService.tryCartBox();
 
   @override
   List<CartItem> loadItems() {
-    final data = _box.get(_stateKey);
+    final data = _box?.get(_stateKey);
     if (data == null) return const [];
     final rawItems = data['items'] as List?;
     if (rawItems == null) return const [];
@@ -34,7 +35,7 @@ class CartRepository implements CartStorage {
 
   @override
   String? loadAppliedVoucherId() {
-    final data = _box.get(_stateKey);
+    final data = _box?.get(_stateKey);
     return data?['appliedVoucherId'] as String?;
   }
 
@@ -43,12 +44,14 @@ class CartRepository implements CartStorage {
     required List<CartItem> items,
     String? appliedVoucherId,
   }) {
-    return _box.put(_stateKey, {
+    final box = _box;
+    if (box == null) return Future.value();
+    return box.put(_stateKey, {
       'items': items.map((item) => item.toJson()).toList(),
       'appliedVoucherId': appliedVoucherId,
     });
   }
 
   @override
-  Future<void> clearCart() => _box.delete(_stateKey);
+  Future<void> clearCart() => _box?.delete(_stateKey) ?? Future.value();
 }
