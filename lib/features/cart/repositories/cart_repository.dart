@@ -47,7 +47,18 @@ class CartRepository implements CartStorage {
       final legacyVoucherId = data?['appliedVoucherId'] as String?;
       return legacyVoucherId == null ? const {} : {'legacy': legacyVoucherId};
     }
-    return raw.cast<String, String>();
+    final voucherIdsByShop = <String, String>{};
+    for (final entry in raw.entries) {
+      final shopId = entry.key;
+      final voucherId = entry.value;
+      if (shopId is String &&
+          shopId.trim().isNotEmpty &&
+          voucherId is String &&
+          voucherId.trim().isNotEmpty) {
+        voucherIdsByShop[shopId] = voucherId;
+      }
+    }
+    return voucherIdsByShop;
   }
 
   @override

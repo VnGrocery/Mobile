@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hive/hive.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_event.dart';
@@ -171,6 +174,45 @@ void main() {
       );
       expect(storage.cleared, isTrue);
       await bloc.close();
+    });
+  });
+
+  group('CartRepository', () {
+    late Directory tempDir;
+    late Box<Map> box;
+
+    setUp(() async {
+      tempDir = await Directory.systemTemp.createTemp('cart_repository_test_');
+      Hive.init(tempDir.path);
+      box = await Hive.openBox<Map>(
+        'cart_test_${DateTime.now().microsecondsSinceEpoch}',
+      );
+    });
+
+    tearDown(() async {
+      await box.deleteFromDisk();
+      await Hive.close();
+      if (await tempDir.exists()) {
+        await tempDir.delete(recursive: true);
+      }
+    });
+
+    test('filters stale applied voucher cache rows', () async {
+      await box.put('cart_state', {
+        'appliedVoucherIdsByShop': {
+          'shop-1': 'voucher-1',
+          7: 'bad-shop',
+          'shop-2': null,
+          '': 'bad-empty-shop',
+          'shop-3': '',
+        },
+      });
+
+      final repository = CartRepository(box: box);
+
+      expect(repository.loadAppliedVoucherIdsByShop(), {
+        'shop-1': 'voucher-1',
+      });
     });
   });
 }
