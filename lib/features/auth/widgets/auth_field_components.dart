@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/validation/app_validators.dart';
-import '../../../theme/app_colors.dart';
+import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/theme/app_colors.dart';
 
 class AuthTextField extends StatelessWidget {
   final TextEditingController controller;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/utils/currency_formatter.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
-import '../controllers/cart_state.dart';
+import 'package:vngrocery/core/utils/currency_formatter.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/features/cart/controllers/cart_state.dart';
 
 class CartSummaryBar extends StatelessWidget {
   final CartState state;

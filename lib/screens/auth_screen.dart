@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/validation/app_validators.dart';
-import '../features/account/controllers/session_cubit.dart';
-import '../features/auth/widgets/auth_components.dart';
-import '../features/auth/widgets/forgot_password_sheet.dart';
-import '../routes/app_routes.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/auth/widgets/auth_components.dart';
+import 'package:vngrocery/features/auth/widgets/forgot_password_sheet.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});

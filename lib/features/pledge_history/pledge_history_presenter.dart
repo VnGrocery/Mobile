@@ -1,5 +1,5 @@
-import '../../data/models.dart';
-import '../../data/repositories.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/repositories.dart';
 
 class PledgeHistoryPresenter {
   const PledgeHistoryPresenter._();

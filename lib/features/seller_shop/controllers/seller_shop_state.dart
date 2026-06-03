@@ -1,5 +1,5 @@
-import '../../../data/models.dart';
-import '../../../data/repositories/seller_dashboard.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/repositories/seller_dashboard.dart';
 
 class SellerShopState {
   final Shop? shop;

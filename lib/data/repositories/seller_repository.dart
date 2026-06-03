@@ -1,5 +1,5 @@
-import '../app_data_config.dart';
-import '../mock_data.dart';
+import 'package:vngrocery/data/app_data_config.dart';
+import 'package:vngrocery/data/mock_data.dart';
 import 'seller_dashboard.dart';
 
 class SellerRepository {

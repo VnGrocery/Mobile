@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models.dart';
-import '../../../routes/app_routes.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/routes/app_routes.dart';
 
 class SellerProductRoutes {
   const SellerProductRoutes._();

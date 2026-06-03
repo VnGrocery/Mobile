@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/app_palette.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 import 'auth_segment_item.dart';
 
 class AuthSegmentedControl extends StatelessWidget {

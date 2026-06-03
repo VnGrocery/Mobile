@@ -1,6 +1,6 @@
-import '../../data/models.dart';
-import '../../data/repositories.dart';
-import '../../utils/format.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/utils/format.dart';
 
 class VoucherPresenter {
   const VoucherPresenter._();

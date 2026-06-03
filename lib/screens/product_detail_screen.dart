@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/cart/controllers/cart_bloc.dart';
-import '../features/cart/controllers/cart_event.dart';
-import '../features/products/controllers/product_detail_cubit.dart';
-import '../features/products/controllers/product_detail_state.dart';
-import '../features/products/widgets/product_detail_components.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
+import 'package:vngrocery/features/cart/controllers/cart_event.dart';
+import 'package:vngrocery/features/products/controllers/product_detail_cubit.dart';
+import 'package:vngrocery/features/products/controllers/product_detail_state.dart';
+import 'package:vngrocery/features/products/widgets/product_detail_components.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String shopId;

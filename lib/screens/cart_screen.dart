@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/cart/controllers/cart_bloc.dart';
-import '../features/cart/controllers/cart_event.dart';
-import '../features/cart/controllers/cart_state.dart';
-import '../features/cart/widgets/cart_expiry_banner.dart';
-import '../features/cart/widgets/cart_shop_group_card.dart';
-import '../features/cart/widgets/cart_summary_bar.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
+import 'package:vngrocery/features/cart/controllers/cart_event.dart';
+import 'package:vngrocery/features/cart/controllers/cart_state.dart';
+import 'package:vngrocery/features/cart/widgets/cart_expiry_banner.dart';
+import 'package:vngrocery/features/cart/widgets/cart_shop_group_card.dart';
+import 'package:vngrocery/features/cart/widgets/cart_summary_bar.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});

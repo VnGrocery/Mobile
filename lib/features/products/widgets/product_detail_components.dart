@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models.dart';
-import '../../../routes/app_routes.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
-import '../../../utils/format.dart';
-import '../../../widgets/common.dart';
-import '../../../widgets/score_badge.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/utils/format.dart';
+import 'package:vngrocery/widgets/common.dart';
+import 'package:vngrocery/widgets/score_badge.dart';
 
 class ProductHeroImage extends StatelessWidget {
   const ProductHeroImage({super.key});

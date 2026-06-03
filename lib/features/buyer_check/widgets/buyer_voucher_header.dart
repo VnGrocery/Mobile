@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
-import '../../../utils/format.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/utils/format.dart';
 
 class VoucherCheckHeader extends StatelessWidget {
   final Product product;

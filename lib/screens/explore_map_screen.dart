@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/explore_map/controllers/explore_map_cubit.dart';
-import '../features/explore_map/controllers/explore_map_state.dart';
-import '../features/explore_map/explore_map_presenter.dart';
-import '../features/explore_map/widgets/explore_map_components.dart';
-import '../widgets/osm_tile_map.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/explore_map/controllers/explore_map_cubit.dart';
+import 'package:vngrocery/features/explore_map/controllers/explore_map_state.dart';
+import 'package:vngrocery/features/explore_map/explore_map_presenter.dart';
+import 'package:vngrocery/features/explore_map/widgets/explore_map_components.dart';
+import 'package:vngrocery/widgets/osm_tile_map.dart';
 
 class ExploreMapScreen extends StatefulWidget {
   final String? initialShopId;

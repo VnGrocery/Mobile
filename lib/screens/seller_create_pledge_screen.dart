@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/seller_pledges/controllers/seller_pledge_cubit.dart';
-import '../features/seller_pledges/controllers/seller_pledge_state.dart';
-import '../features/seller_pledges/seller_pledge_presenter.dart';
-import '../features/seller_pledges/widgets/seller_pledge_steps.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_cubit.dart';
+import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_state.dart';
+import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
+import 'package:vngrocery/features/seller_pledges/widgets/seller_pledge_steps.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerCreatePledgeScreen extends StatefulWidget {
   final String productId;

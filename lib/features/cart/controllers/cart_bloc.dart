@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models.dart';
-import '../../../data/repositories.dart';
-import '../models/cart_item.dart';
-import '../repositories/cart_repository.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/cart/models/cart_item.dart';
+import 'package:vngrocery/features/cart/repositories/cart_repository.dart';
 import 'cart_event.dart';
 import 'cart_state.dart';
 

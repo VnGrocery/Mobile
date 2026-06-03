@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/ui/app_sheet.dart';
-import '../../../data/models.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
-import '../seller_product_presenter.dart';
+import 'package:vngrocery/core/ui/app_sheet.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 
 class SellerProductActionSheet extends StatelessWidget {
   final Product product;

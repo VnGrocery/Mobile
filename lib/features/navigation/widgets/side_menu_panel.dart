@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../account/controllers/session_cubit.dart';
-import '../../../theme/app_colors.dart';
-import '../navigation_config.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/features/navigation/navigation_config.dart';
 import 'side_menu_button.dart';
 import 'side_menu_footnote.dart';
 import 'side_menu_halo.dart';

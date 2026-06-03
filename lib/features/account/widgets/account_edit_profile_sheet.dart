@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/ui/app_sheet.dart';
-import '../../../core/validation/app_validators.dart';
+import 'package:vngrocery/core/ui/app_sheet.dart';
+import 'package:vngrocery/core/validation/app_validators.dart';
 
 class AccountEditProfileSheet extends StatefulWidget {
   final String initialName;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models.dart';
-import '../../../routes/app_routes.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class StoreReviewItem extends StatelessWidget {
   final Review review;

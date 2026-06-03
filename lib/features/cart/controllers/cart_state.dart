@@ -1,5 +1,5 @@
-import '../../../data/models.dart';
-import '../models/cart_item.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/cart/models/cart_item.dart';
 
 class CartState {
   final List<CartItem> items;

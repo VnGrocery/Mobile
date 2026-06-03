@@ -1,4 +1,4 @@
-import '../../data/repositories.dart';
+import 'package:vngrocery/data/repositories.dart';
 
 class SellerDashboardPresenter {
   const SellerDashboardPresenter._();

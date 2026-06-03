@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/scanner/controllers/scanner_cubit.dart';
-import '../features/scanner/controllers/scanner_state.dart';
-import '../features/scanner/widgets/scanner_components.dart';
-import '../routes/app_routes.dart';
+import 'package:vngrocery/features/scanner/controllers/scanner_cubit.dart';
+import 'package:vngrocery/features/scanner/controllers/scanner_state.dart';
+import 'package:vngrocery/features/scanner/widgets/scanner_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
 
 class ScannerScreen extends StatefulWidget {
   final double bottomContentInset;

@@ -1,4 +1,4 @@
-import '../seller_pledge_presenter.dart';
+import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
 
 class SellerPledgeState {
   final int step;

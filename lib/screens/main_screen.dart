@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/account/controllers/session_cubit.dart';
-import '../features/account/controllers/session_state.dart';
-import '../features/navigation/navigation_config.dart';
-import '../features/navigation/widgets/animated_content_shell.dart';
-import '../features/navigation/widgets/floating_tab_popup.dart';
-import '../features/navigation/widgets/side_menu_gesture_layers.dart';
-import '../features/navigation/widgets/side_menu_panel.dart';
-import '../routes/app_routes.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/account/controllers/session_state.dart';
+import 'package:vngrocery/features/navigation/navigation_config.dart';
+import 'package:vngrocery/features/navigation/widgets/animated_content_shell.dart';
+import 'package:vngrocery/features/navigation/widgets/floating_tab_popup.dart';
+import 'package:vngrocery/features/navigation/widgets/side_menu_gesture_layers.dart';
+import 'package:vngrocery/features/navigation/widgets/side_menu_panel.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 import 'explore_map_screen.dart';
 import 'scanner_screen.dart';
 import 'seller_product_list_screen.dart';

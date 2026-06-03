@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class FloatingShopPin extends StatelessWidget {
   final Shop shop;

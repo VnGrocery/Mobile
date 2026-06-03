@@ -1,4 +1,4 @@
-import '../../../data/session.dart';
+import 'package:vngrocery/data/session.dart';
 
 class SessionState {
   final String? token;

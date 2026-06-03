@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../features/onboarding/onboarding_page_data.dart';
-import '../features/onboarding/widgets/onboarding_components.dart';
-import '../routes/app_routes.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/features/onboarding/onboarding_page_data.dart';
+import 'package:vngrocery/features/onboarding/widgets/onboarding_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

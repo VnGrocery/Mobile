@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/repositories.dart';
-import '../home_presenter.dart';
+import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/home/home_presenter.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {

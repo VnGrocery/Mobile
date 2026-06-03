@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/repositories.dart';
+import 'package:vngrocery/data/repositories.dart';
 import 'product_detail_state.dart';
 
 class ProductDetailCubit extends Cubit<ProductDetailState> {

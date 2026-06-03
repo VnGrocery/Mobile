@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/validation/app_validators.dart';
+import 'package:vngrocery/core/validation/app_validators.dart';
 import 'auth_components.dart';
 
 class ChangePasswordFields extends StatelessWidget {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/account/controllers/session_cubit.dart';
-import '../features/seller_shop/controllers/seller_shop_cubit.dart';
-import '../features/seller_shop/controllers/seller_shop_state.dart';
-import '../features/seller_shop/widgets/seller_shop_components.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/seller_shop/controllers/seller_shop_cubit.dart';
+import 'package:vngrocery/features/seller_shop/controllers/seller_shop_state.dart';
+import 'package:vngrocery/features/seller_shop/widgets/seller_shop_components.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerShopScreen extends StatefulWidget {
   final double bottomContentInset;

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/repositories.dart';
+import 'package:vngrocery/data/repositories.dart';
 import 'pledge_history_state.dart';
 
 class PledgeHistoryCubit extends Cubit<PledgeHistoryState> {

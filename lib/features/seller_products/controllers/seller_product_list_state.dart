@@ -1,5 +1,5 @@
-import '../../../data/models.dart';
-import '../seller_product_presenter.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 
 class SellerProductListState {
   final String selectedState;

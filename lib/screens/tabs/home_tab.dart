@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../features/account/controllers/session_cubit.dart';
-import '../../features/home/controllers/home_cubit.dart';
-import '../../features/home/controllers/home_state.dart';
-import '../../features/home/widgets/home_components.dart';
-import '../../routes/app_routes.dart';
-import '../../theme/app_palette.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/home/controllers/home_cubit.dart';
+import 'package:vngrocery/features/home/controllers/home_state.dart';
+import 'package:vngrocery/features/home/widgets/home_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class HomeTab extends StatefulWidget {
   final VoidCallback? onOpenMenu;

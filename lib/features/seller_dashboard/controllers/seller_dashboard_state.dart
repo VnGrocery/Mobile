@@ -1,4 +1,4 @@
-import '../../../data/repositories/seller_dashboard.dart';
+import 'package:vngrocery/data/repositories/seller_dashboard.dart';
 
 class SellerDashboardState {
   final SellerDashboard? dashboard;

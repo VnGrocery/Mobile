@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/ui/app_feedback.dart';
-import '../../../core/ui/app_sheet.dart';
-import '../../../core/validation/app_validators.dart';
-import '../../../theme/app_colors.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/core/ui/app_sheet.dart';
+import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/theme/app_colors.dart';
 import 'auth_components.dart';
 
 class ForgotPasswordSheet extends StatefulWidget {

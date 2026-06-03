@@ -1,4 +1,4 @@
-import '../../../data/models.dart';
+import 'package:vngrocery/data/models.dart';
 
 class ProductDetailState {
   final Product? product;

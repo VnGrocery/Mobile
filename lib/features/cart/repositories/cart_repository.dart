@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
 
-import '../../../core/storage/cache_policy.dart';
-import '../../../core/storage/hive_storage_service.dart';
-import '../models/cart_item.dart';
+import 'package:vngrocery/core/storage/cache_policy.dart';
+import 'package:vngrocery/core/storage/hive_storage_service.dart';
+import 'package:vngrocery/features/cart/models/cart_item.dart';
 
 abstract class CartStorage {
   List<CartItem> loadItems();

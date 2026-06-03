@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/app_colors.dart';
+import 'package:vngrocery/theme/app_colors.dart';
 
 class AuthBrandHeader extends StatelessWidget {
   const AuthBrandHeader({super.key});

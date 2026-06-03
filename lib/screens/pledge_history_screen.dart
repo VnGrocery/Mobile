@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/pledge_history/controllers/pledge_history_cubit.dart';
-import '../features/pledge_history/controllers/pledge_history_state.dart';
-import '../features/pledge_history/widgets/pledge_history_components.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/features/pledge_history/controllers/pledge_history_cubit.dart';
+import 'package:vngrocery/features/pledge_history/controllers/pledge_history_state.dart';
+import 'package:vngrocery/features/pledge_history/widgets/pledge_history_components.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class PledgeHistoryScreen extends StatefulWidget {
   final String productId;

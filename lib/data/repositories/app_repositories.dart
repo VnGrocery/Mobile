@@ -1,4 +1,4 @@
-import '../mock_data.dart';
+import 'package:vngrocery/data/mock_data.dart';
 import 'buyer_check_repository.dart';
 import 'id_repository.dart';
 import 'pledge_repository.dart';

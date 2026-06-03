@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models.dart';
+import 'package:vngrocery/data/models.dart';
 import 'voucher_components.dart';
 
 class ManualVoucherNotice extends StatelessWidget {

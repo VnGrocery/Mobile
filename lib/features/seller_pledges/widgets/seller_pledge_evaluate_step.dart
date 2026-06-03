@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
-import '../seller_pledge_presenter.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
 
 class SellerPledgeEvaluateStep extends StatelessWidget {
   final double aiScore;

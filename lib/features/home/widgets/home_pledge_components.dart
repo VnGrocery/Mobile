@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/ui/app_feedback.dart';
-import '../../../features/cart/controllers/cart_bloc.dart';
-import '../../../features/cart/controllers/cart_event.dart';
-import '../../../routes/app_routes.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
-import '../../../utils/format.dart';
-import '../../../widgets/score_badge.dart';
-import '../home_presenter.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
+import 'package:vngrocery/features/cart/controllers/cart_event.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/utils/format.dart';
+import 'package:vngrocery/widgets/score_badge.dart';
+import 'package:vngrocery/features/home/home_presenter.dart';
 
 class HomePledgeCard extends StatelessWidget {
   final HomePledgeItem item;

@@ -1,4 +1,4 @@
-import '../../../data/models.dart';
+import 'package:vngrocery/data/models.dart';
 
 class VoucherWalletState {
   final List<UserVoucher> wallet;

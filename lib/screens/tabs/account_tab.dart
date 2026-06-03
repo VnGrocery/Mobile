@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/ui/app_feedback.dart';
-import '../../features/account/controllers/session_cubit.dart';
-import '../../features/account/widgets/account_components.dart';
-import '../../routes/app_routes.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_palette.dart';
-import '../../theme/theme_controller.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/account/widgets/account_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/theme/theme_controller.dart';
 
 class AccountTab extends StatefulWidget {
   final double bottomContentInset;

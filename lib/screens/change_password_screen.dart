@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/auth/widgets/change_password_components.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/auth/widgets/change_password_components.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});

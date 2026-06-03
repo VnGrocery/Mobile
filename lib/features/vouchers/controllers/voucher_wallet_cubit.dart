@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/repositories.dart';
+import 'package:vngrocery/data/repositories.dart';
 import 'voucher_wallet_state.dart';
 
 class VoucherWalletCubit extends Cubit<VoucherWalletState> {

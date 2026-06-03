@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/seller_products/controllers/seller_create_product_cubit.dart';
-import '../features/seller_products/controllers/seller_create_product_state.dart';
-import '../features/seller_products/widgets/seller_create_product_components.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/seller_products/controllers/seller_create_product_cubit.dart';
+import 'package:vngrocery/features/seller_products/controllers/seller_create_product_state.dart';
+import 'package:vngrocery/features/seller_products/widgets/seller_create_product_components.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerCreateProductScreen extends StatefulWidget {
   final String shopId;

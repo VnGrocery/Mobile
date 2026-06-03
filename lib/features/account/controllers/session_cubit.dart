@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/session.dart';
+import 'package:vngrocery/data/session.dart';
 import 'session_state.dart';
 
 class SessionCubit extends Cubit<SessionState> {

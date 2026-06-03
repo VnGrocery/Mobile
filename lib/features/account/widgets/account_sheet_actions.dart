@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/app_palette.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 import 'account_edit_profile_sheet.dart';
 import 'account_help_sheet.dart';
 

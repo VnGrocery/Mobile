@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models.dart';
-import '../../../data/repositories.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/repositories.dart';
 import 'store_detail_state.dart';
 
 class StoreDetailCubit extends Cubit<StoreDetailState> {

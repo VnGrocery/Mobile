@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../features/account/controllers/session_cubit.dart';
-import '../features/vouchers/controllers/voucher_wallet_cubit.dart';
-import '../features/vouchers/controllers/voucher_wallet_state.dart';
-import '../features/vouchers/voucher_presenter.dart';
-import '../features/vouchers/widgets/voucher_wallet_components.dart';
-import '../routes/app_routes.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/vouchers/controllers/voucher_wallet_cubit.dart';
+import 'package:vngrocery/features/vouchers/controllers/voucher_wallet_state.dart';
+import 'package:vngrocery/features/vouchers/voucher_presenter.dart';
+import 'package:vngrocery/features/vouchers/widgets/voucher_wallet_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class VoucherWalletScreen extends StatefulWidget {
   const VoucherWalletScreen({super.key});

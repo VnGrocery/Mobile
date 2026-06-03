@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/vouchers/controllers/voucher_qr_cubit.dart';
-import '../features/vouchers/controllers/voucher_qr_state.dart';
-import '../features/vouchers/widgets/voucher_components.dart';
-import '../features/vouchers/widgets/voucher_qr_components.dart';
-import '../routes/app_routes.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/vouchers/controllers/voucher_qr_cubit.dart';
+import 'package:vngrocery/features/vouchers/controllers/voucher_qr_state.dart';
+import 'package:vngrocery/features/vouchers/widgets/voucher_components.dart';
+import 'package:vngrocery/features/vouchers/widgets/voucher_qr_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class VoucherQrScreen extends StatefulWidget {
   final String userVoucherId;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../data/models.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_palette.dart';
-import '../utils/currency_formatter.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/core/utils/currency_formatter.dart';
 
 class GroceryProductCard extends StatelessWidget {
   final Product product;

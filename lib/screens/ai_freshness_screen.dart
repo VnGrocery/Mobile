@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../routes/app_routes.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class AiFreshnessScreen extends StatefulWidget {
   const AiFreshnessScreen({super.key});

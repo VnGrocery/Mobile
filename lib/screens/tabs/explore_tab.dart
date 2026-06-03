@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../features/explore/controllers/explore_cubit.dart';
-import '../../features/explore/controllers/explore_state.dart';
-import '../../features/explore/explore_presenter.dart';
-import '../../features/explore/widgets/explore_tab_components.dart';
-import '../../routes/app_routes.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_palette.dart';
+import 'package:vngrocery/features/explore/controllers/explore_cubit.dart';
+import 'package:vngrocery/features/explore/controllers/explore_state.dart';
+import 'package:vngrocery/features/explore/explore_presenter.dart';
+import 'package:vngrocery/features/explore/widgets/explore_tab_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class ExploreTab extends StatefulWidget {
   final bool showMap;

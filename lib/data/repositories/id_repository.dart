@@ -1,4 +1,4 @@
-import '../mock_data.dart';
+import 'package:vngrocery/data/mock_data.dart';
 
 class IdRepository {
   final MockDb _db;

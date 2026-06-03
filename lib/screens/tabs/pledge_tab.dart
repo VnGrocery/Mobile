@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../features/account/controllers/session_cubit.dart';
-import '../../features/seller_dashboard/controllers/seller_dashboard_cubit.dart';
-import '../../features/seller_dashboard/controllers/seller_dashboard_state.dart';
-import '../../features/seller_dashboard/widgets/seller_dashboard_components.dart';
-import '../../routes/app_routes.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_palette.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_cubit.dart';
+import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_state.dart';
+import 'package:vngrocery/features/seller_dashboard/widgets/seller_dashboard_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class PledgeTab extends StatefulWidget {
   final double bottomContentInset;

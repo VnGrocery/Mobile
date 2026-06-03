@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/widgets/cart_badge_button.dart';
-import '../../../features/cart/controllers/cart_bloc.dart';
-import '../../../features/cart/controllers/cart_state.dart';
-import '../../../routes/app_routes.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
+import 'package:vngrocery/core/widgets/cart_badge_button.dart';
+import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
+import 'package:vngrocery/features/cart/controllers/cart_state.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class HomeHeader extends StatelessWidget {
   final String userName;

@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/models.dart';
-import '../../../data/repositories.dart';
-import '../seller_product_presenter.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 import 'seller_create_product_state.dart';
 
 class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {

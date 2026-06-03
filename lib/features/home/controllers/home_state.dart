@@ -1,5 +1,5 @@
-import '../../../data/models.dart';
-import '../home_presenter.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/home/home_presenter.dart';
 
 class HomeState {
   final List<Shop> shops;

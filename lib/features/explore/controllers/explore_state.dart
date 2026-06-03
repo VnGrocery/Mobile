@@ -1,5 +1,5 @@
-import '../../../data/models.dart';
-import '../explore_presenter.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/explore/explore_presenter.dart';
 
 class ExploreState {
   final String query;

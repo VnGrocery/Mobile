@@ -23,7 +23,8 @@ class OsmTileMap extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final tileSize = math.max(constraints.maxWidth, constraints.maxHeight) / 2;
+        final tileSize =
+            math.max(constraints.maxWidth, constraints.maxHeight) / 2;
         final offsetX = (centerX - centerX.floor()) * tileSize;
         final offsetY = (centerY - centerY.floor()) * tileSize;
 
@@ -33,8 +34,12 @@ class OsmTileMap extends StatelessWidget {
               for (var dx = 0; dx < 4; dx++)
                 for (var dy = 0; dy < 4; dy++)
                   Positioned(
-                    left: (dx - 1) * tileSize - offsetX + constraints.maxWidth / 2,
-                    top: (dy - 1) * tileSize - offsetY + constraints.maxHeight / 2,
+                    left: (dx - 1) * tileSize -
+                        offsetX +
+                        constraints.maxWidth / 2,
+                    top: (dy - 1) * tileSize -
+                        offsetY +
+                        constraints.maxHeight / 2,
                     width: tileSize,
                     height: tileSize,
                     child: Image.network(
@@ -58,8 +63,7 @@ class OsmTileMap extends StatelessWidget {
 
   double _latToTileY(double lat, int zoom) {
     final latRad = lat * math.pi / 180.0;
-    return (1.0 -
-            math.log(math.tan(latRad) + 1 / math.cos(latRad)) / math.pi) /
+    return (1.0 - math.log(math.tan(latRad) + 1 / math.cos(latRad)) / math.pi) /
         2.0 *
         math.pow(2.0, zoom);
   }

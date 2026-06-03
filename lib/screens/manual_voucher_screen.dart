@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/account/controllers/session_cubit.dart';
-import '../features/vouchers/controllers/manual_voucher_cubit.dart';
-import '../features/vouchers/controllers/manual_voucher_state.dart';
-import '../features/vouchers/widgets/manual_voucher_components.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/vouchers/controllers/manual_voucher_cubit.dart';
+import 'package:vngrocery/features/vouchers/controllers/manual_voucher_state.dart';
+import 'package:vngrocery/features/vouchers/widgets/manual_voucher_components.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class ManualVoucherScreen extends StatefulWidget {
   const ManualVoucherScreen({super.key});

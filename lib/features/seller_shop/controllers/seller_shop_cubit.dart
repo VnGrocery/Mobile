@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/repositories.dart';
-import '../seller_shop_presenter.dart';
+import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/seller_shop/seller_shop_presenter.dart';
 import 'seller_shop_state.dart';
 
 class SellerShopCubit extends Cubit<SellerShopState> {

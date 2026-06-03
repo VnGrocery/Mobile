@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/validation/app_validators.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_palette.dart';
+import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 import 'change_password_strength.dart';
 
 class ChangePasswordHeaderCard extends StatelessWidget {

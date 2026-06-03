@@ -1,5 +1,5 @@
-import '../../../data/models.dart';
-import '../../../core/storage/cache_policy.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/core/storage/cache_policy.dart';
 
 class CartItem {
   final String productId;

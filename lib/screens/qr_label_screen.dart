@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../features/seller_labels/controllers/qr_label_cubit.dart';
-import '../features/seller_labels/controllers/qr_label_state.dart';
-import '../features/seller_labels/widgets/qr_label_components.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/features/seller_labels/controllers/qr_label_cubit.dart';
+import 'package:vngrocery/features/seller_labels/controllers/qr_label_state.dart';
+import 'package:vngrocery/features/seller_labels/widgets/qr_label_components.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class QrLabelScreen extends StatefulWidget {
   final String pledgeId;

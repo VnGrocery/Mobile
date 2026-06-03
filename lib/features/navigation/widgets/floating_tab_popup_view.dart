@@ -2,8 +2,8 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
-import '../../../theme/app_palette.dart';
-import '../navigation_item.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/features/navigation/navigation_item.dart';
 import 'floating_tab_item.dart';
 import 'scan_diamond_button.dart';
 

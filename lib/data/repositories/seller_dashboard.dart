@@ -1,4 +1,4 @@
-import '../models.dart';
+import 'package:vngrocery/data/models.dart';
 
 class SellerDashboard {
   final Shop shop;

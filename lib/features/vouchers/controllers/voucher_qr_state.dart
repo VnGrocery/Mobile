@@ -1,5 +1,5 @@
-import '../../../data/models.dart';
-import '../voucher_presenter.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/vouchers/voucher_presenter.dart';
 
 class VoucherQrState {
   final UserVoucher? userVoucher;

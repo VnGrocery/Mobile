@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/ui/app_feedback.dart';
-import '../data/models.dart';
-import '../features/stores/controllers/store_detail_cubit.dart';
-import '../features/stores/controllers/store_detail_state.dart';
-import '../features/stores/widgets/store_detail_components.dart';
-import '../routes/app_routes.dart';
-import '../theme/app_palette.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/stores/controllers/store_detail_cubit.dart';
+import 'package:vngrocery/features/stores/controllers/store_detail_state.dart';
+import 'package:vngrocery/features/stores/widgets/store_detail_components.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class StoreDetailScreen extends StatefulWidget {
   final String shopId;

@@ -1,4 +1,4 @@
-import '../../../data/models.dart';
+import 'package:vngrocery/data/models.dart';
 
 class ExploreMapState {
   final List<Shop> shops;

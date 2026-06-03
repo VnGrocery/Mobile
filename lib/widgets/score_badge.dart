@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import 'package:vngrocery/theme/app_colors.dart';
 
 class ScoreRingBadge extends StatelessWidget {
   final int score;
