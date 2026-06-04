@@ -1,18 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'scanner_state.dart';
 
 class ScannerCubit extends Cubit<ScannerState> {
+  final AppDelayService _delayService;
   final Duration simulateDelay;
 
   ScannerCubit({
     this.simulateDelay = const Duration(milliseconds: 900),
-  }) : super(const ScannerState());
+    AppDelayService delayService = AppDelayService.instance,
+  })  : _delayService = delayService,
+        super(const ScannerState());
 
   Future<void> simulateScan() async {
     if (state.verifying) return;
     emit(const ScannerState(verifying: true));
-    await Future<void>.delayed(simulateDelay);
+    await _delayService.waitDuration(simulateDelay);
     emit(const ScannerState(completed: true));
   }
 

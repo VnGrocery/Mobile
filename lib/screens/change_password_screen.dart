@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/auth/widgets/change_password_components.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -77,7 +78,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _saving = true);
-    await Future<void>.delayed(const Duration(milliseconds: 650));
+    await AppDelayService.instance.wait(AppDelayKind.passwordChange);
     if (!mounted) return;
     setState(() => _saving = false);
     AppFeedback.showSnackBar(context, 'Đã đổi mật khẩu demo thành công');

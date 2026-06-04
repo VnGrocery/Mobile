@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
 import 'seller_pledge_state.dart';
 
 class SellerPledgeCubit extends Cubit<SellerPledgeState> {
+  final AppDelayService _delayService;
   final AppRepositories _repositories;
   final String productId;
   final Duration analyzeDelay;
@@ -15,8 +17,10 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
     required this.productId,
     this.analyzeDelay = const Duration(milliseconds: 1500),
     this.commitDelay = const Duration(milliseconds: 900),
+    AppDelayService delayService = AppDelayService.instance,
     AppRepositories? repositories,
-  })  : _repositories = repositories ?? AppRepositories.instance,
+  })  : _delayService = delayService,
+        _repositories = repositories ?? AppRepositories.instance,
         super(SellerPledgeState.initial());
 
   void back() {
@@ -27,7 +31,7 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
   Future<void> capture() async {
     if (state.analyzing) return;
     emit(state.copyWith(analyzing: true, committed: false));
-    await Future<void>.delayed(analyzeDelay);
+    await _delayService.waitDuration(analyzeDelay);
     emit(state.copyWith(analyzing: false, step: 2));
   }
 
@@ -42,7 +46,7 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
   Future<void> commit(String rawScore) async {
     if (state.committing) return;
     emit(state.copyWith(committing: true, committed: false));
-    await Future<void>.delayed(commitDelay);
+    await _delayService.waitDuration(commitDelay);
     final score = SellerPledgePresenter.normalizedScore(rawScore);
     _repositories.pledges.add(
       productId,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/core/validation/app_validators.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/auth/widgets/auth_components.dart';
@@ -131,7 +132,7 @@ class _AuthScreenState extends State<AuthScreen> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _loading = true);
-    await Future<void>.delayed(const Duration(milliseconds: 800));
+    await AppDelayService.instance.wait(AppDelayKind.authLogin);
     context.read<SessionCubit>().login(
           email: _email.text,
           displayName: _isRegister ? _name.text : null,
@@ -143,7 +144,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Future<void> _continueWithGoogle() async {
     FocusScope.of(context).unfocus();
     setState(() => _loading = true);
-    await Future<void>.delayed(const Duration(milliseconds: 600));
+    await AppDelayService.instance.wait(AppDelayKind.authRegister);
     context.read<SessionCubit>().login(
           email: 'google.demo@vngrocery.com',
           displayName: 'Google Demo',

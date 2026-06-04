@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -15,7 +16,7 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
 
   Future<void> _analyze() async {
     setState(() => _analyzing = true);
-    await Future<void>.delayed(const Duration(seconds: 2));
+    await AppDelayService.instance.wait(AppDelayKind.freshnessAnalysis);
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, Routes.buyerCheckResult);
   }

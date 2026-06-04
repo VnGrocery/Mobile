@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 import 'seller_create_product_state.dart';
 
 class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
+  final AppDelayService _delayService;
   final AppRepositories _repositories;
   final String shopId;
   final Duration saveDelay;
@@ -13,8 +15,10 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
   SellerCreateProductCubit({
     required this.shopId,
     this.saveDelay = const Duration(milliseconds: 900),
+    AppDelayService delayService = AppDelayService.instance,
     AppRepositories? repositories,
-  })  : _repositories = repositories ?? AppRepositories.instance,
+  })  : _delayService = delayService,
+        _repositories = repositories ?? AppRepositories.instance,
         super(SellerCreateProductState.initial());
 
   void setCategory(String category) {
@@ -37,7 +41,7 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
     required String tags,
   }) async {
     emit(state.copyWith(saving: true, saved: false));
-    await Future<void>.delayed(saveDelay);
+    await _delayService.waitDuration(saveDelay);
     final product = Product(
       id: _repositories.ids.nextId(),
       shopId: shopId,

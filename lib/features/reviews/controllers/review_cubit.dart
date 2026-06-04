@@ -1,13 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'review_state.dart';
 
 class ReviewCubit extends Cubit<ReviewState> {
+  final AppDelayService _delayService;
   final Duration submitDelay;
 
   ReviewCubit({
     this.submitDelay = const Duration(milliseconds: 900),
-  }) : super(const ReviewState());
+    AppDelayService delayService = AppDelayService.instance,
+  })  : _delayService = delayService,
+        super(const ReviewState());
 
   void setRating(int rating) {
     emit(state.copyWith(rating: rating, submitted: false));
@@ -25,7 +29,7 @@ class ReviewCubit extends Cubit<ReviewState> {
   Future<void> submit(String comment) async {
     if (!state.canSubmit(comment)) return;
     emit(state.copyWith(submitting: true, submitted: false));
-    await Future<void>.delayed(submitDelay);
+    await _delayService.waitDuration(submitDelay);
     emit(state.copyWith(submitting: false, submitted: true));
   }
 }

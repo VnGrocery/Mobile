@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'voucher_qr_state.dart';
 
 class VoucherQrCubit extends Cubit<VoucherQrState> {
+  final AppDelayService _delayService;
   final AppRepositories _repositories;
   final String userVoucherId;
   final Duration markUsedDelay;
@@ -11,8 +13,10 @@ class VoucherQrCubit extends Cubit<VoucherQrState> {
   VoucherQrCubit({
     required this.userVoucherId,
     this.markUsedDelay = const Duration(milliseconds: 450),
+    AppDelayService delayService = AppDelayService.instance,
     AppRepositories? repositories,
-  })  : _repositories = repositories ?? AppRepositories.instance,
+  })  : _delayService = delayService,
+        _repositories = repositories ?? AppRepositories.instance,
         super(const VoucherQrState());
 
   void load() {
@@ -26,7 +30,7 @@ class VoucherQrCubit extends Cubit<VoucherQrState> {
   Future<void> markUsed() async {
     if (state.disabled || state.confirming) return;
     emit(state.copyWith(confirming: true));
-    await Future<void>.delayed(markUsedDelay);
+    await _delayService.waitDuration(markUsedDelay);
     _repositories.vouchers.useUserVoucher(userVoucherId);
     load();
   }
