@@ -25,6 +25,55 @@ import 'package:vngrocery/screens/voucher_wallet_screen.dart';
 import 'package:vngrocery/screens/cart_screen.dart';
 import 'route_policy.dart';
 
+class ProductDetailArgs {
+  final String shopId;
+  final String productId;
+
+  const ProductDetailArgs({required this.shopId, required this.productId});
+}
+
+class StoreDetailArgs {
+  final String shopId;
+
+  const StoreDetailArgs(this.shopId);
+}
+
+class ReviewArgs {
+  final String shopId;
+
+  const ReviewArgs(this.shopId);
+}
+
+class ExploreMapArgs {
+  final String? initialShopId;
+
+  const ExploreMapArgs({this.initialShopId});
+}
+
+class VoucherQrArgs {
+  final String userVoucherId;
+
+  const VoucherQrArgs(this.userVoucherId);
+}
+
+class QrLabelArgs {
+  final String pledgeId;
+
+  const QrLabelArgs(this.pledgeId);
+}
+
+class SellerShopArgs {
+  final String shopId;
+
+  const SellerShopArgs(this.shopId);
+}
+
+class SellerProductArgs {
+  final String productId;
+
+  const SellerProductArgs(this.productId);
+}
+
 class Routes {
   static const splash = 'splash';
   static const onboarding = 'onboarding';
@@ -57,6 +106,7 @@ class Routes {
       isSeller: session.role == 'seller',
     )) {
       final redirect = session.isLoggedIn ? main : auth;
+      if (redirect == settings.name) return _fallbackRoute(settings);
       return onGenerateRoute(RouteSettings(name: redirect));
     }
 
@@ -82,19 +132,18 @@ class Routes {
         page = const ChangePasswordScreen();
         break;
       case exploreMap:
-        page = ExploreMapScreen(initialShopId: _optionalString(args));
+        page = ExploreMapScreen(
+            initialShopId: _exploreMapArgs(args)?.initialShopId);
         break;
       case scan:
         page = const ScannerScreen();
         break;
       case productDetail:
-        final m = _stringMap(args);
-        if (m == null || m['shopId'] == null || m['productId'] == null) {
-          return _fallbackRoute(settings);
-        }
+        final detailArgs = _productDetailArgs(args);
+        if (detailArgs == null) return _fallbackRoute(settings);
         page = ProductDetailScreen(
-          shopId: m['shopId']!,
-          productId: m['productId']!,
+          shopId: detailArgs.shopId,
+          productId: detailArgs.productId,
         );
         break;
       case aiCompare:
@@ -104,48 +153,48 @@ class Routes {
         page = const BuyerCheckResultScreen();
         break;
       case storeDetail:
-        final shopId = _requiredString(args);
-        if (shopId == null) return _fallbackRoute(settings);
-        page = StoreDetailScreen(shopId: shopId);
+        final detailArgs = _storeDetailArgs(args);
+        if (detailArgs == null) return _fallbackRoute(settings);
+        page = StoreDetailScreen(shopId: detailArgs.shopId);
         break;
       case review:
-        final shopId = _requiredString(args);
-        if (shopId == null) return _fallbackRoute(settings);
-        page = ReviewScreen(shopId: shopId);
+        final reviewArgs = _reviewArgs(args);
+        if (reviewArgs == null) return _fallbackRoute(settings);
+        page = ReviewScreen(shopId: reviewArgs.shopId);
         break;
       case sellerProducts:
-        page = SellerProductListScreen(shopId: _optionalString(args));
+        page = SellerProductListScreen(shopId: _sellerShopArgs(args)?.shopId);
         break;
       case sellerCreateProduct:
-        final shopId = _requiredString(args);
-        if (shopId == null) return _fallbackRoute(settings);
-        page = SellerCreateProductScreen(shopId: shopId);
+        final shopArgs = _sellerShopArgs(args);
+        if (shopArgs == null) return _fallbackRoute(settings);
+        page = SellerCreateProductScreen(shopId: shopArgs.shopId);
         break;
       case sellerCreatePledge:
-        final productId = _requiredString(args);
-        if (productId == null) return _fallbackRoute(settings);
-        page = SellerCreatePledgeScreen(productId: productId);
+        final productArgs = _sellerProductArgs(args);
+        if (productArgs == null) return _fallbackRoute(settings);
+        page = SellerCreatePledgeScreen(productId: productArgs.productId);
         break;
       case sellerShop:
         page = const SellerShopScreen();
         break;
       case pledgeHistory:
-        final productId = _requiredString(args);
-        if (productId == null) return _fallbackRoute(settings);
-        page = PledgeHistoryScreen(productId: productId);
+        final productArgs = _sellerProductArgs(args);
+        if (productArgs == null) return _fallbackRoute(settings);
+        page = PledgeHistoryScreen(productId: productArgs.productId);
         break;
       case qrLabel:
-        final pledgeId = _requiredString(args);
-        if (pledgeId == null) return _fallbackRoute(settings);
-        page = QrLabelScreen(pledgeId: pledgeId);
+        final labelArgs = _qrLabelArgs(args);
+        if (labelArgs == null) return _fallbackRoute(settings);
+        page = QrLabelScreen(pledgeId: labelArgs.pledgeId);
         break;
       case voucherWallet:
         page = const VoucherWalletScreen();
         break;
       case voucherQr:
-        final userVoucherId = _requiredString(args);
-        if (userVoucherId == null) return _fallbackRoute(settings);
-        page = VoucherQrScreen(userVoucherId: userVoucherId);
+        final qrArgs = _voucherQrArgs(args);
+        if (qrArgs == null) return _fallbackRoute(settings);
+        page = VoucherQrScreen(userVoucherId: qrArgs.userVoucherId);
         break;
       case cart:
         page = const CartScreen();
@@ -159,9 +208,66 @@ class Routes {
   static Route<dynamic> _fallbackRoute(RouteSettings settings) {
     return MaterialPageRoute(
       builder: (_) => const MainScreen(),
-      settings: RouteSettings(name: main, arguments: settings.arguments),
+      settings: const RouteSettings(name: main),
     );
   }
+
+  static ExploreMapArgs? _exploreMapArgs(Object? value) {
+    if (value == null) return const ExploreMapArgs();
+    if (value is ExploreMapArgs) return value;
+    final initialShopId = _optionalString(value);
+    return initialShopId == null
+        ? null
+        : ExploreMapArgs(initialShopId: initialShopId);
+  }
+
+  static ProductDetailArgs? _productDetailArgs(Object? value) {
+    if (value is ProductDetailArgs) return value;
+    final m = _stringMap(value);
+    final shopId = m?['shopId'];
+    final productId = m?['productId'];
+    if (_isBlank(shopId) || _isBlank(productId)) return null;
+    return ProductDetailArgs(shopId: shopId!, productId: productId!);
+  }
+
+  static StoreDetailArgs? _storeDetailArgs(Object? value) {
+    if (value is StoreDetailArgs) return value;
+    final shopId = _requiredString(value);
+    return shopId == null ? null : StoreDetailArgs(shopId);
+  }
+
+  static ReviewArgs? _reviewArgs(Object? value) {
+    if (value is ReviewArgs) return value;
+    final shopId = _requiredString(value);
+    return shopId == null ? null : ReviewArgs(shopId);
+  }
+
+  static SellerShopArgs? _sellerShopArgs(Object? value) {
+    if (value is SellerShopArgs) return value;
+    if (value is StoreDetailArgs) return SellerShopArgs(value.shopId);
+    final shopId = _requiredString(value);
+    return shopId == null ? null : SellerShopArgs(shopId);
+  }
+
+  static SellerProductArgs? _sellerProductArgs(Object? value) {
+    if (value is SellerProductArgs) return value;
+    final productId = _requiredString(value);
+    return productId == null ? null : SellerProductArgs(productId);
+  }
+
+  static QrLabelArgs? _qrLabelArgs(Object? value) {
+    if (value is QrLabelArgs) return value;
+    final pledgeId = _requiredString(value);
+    return pledgeId == null ? null : QrLabelArgs(pledgeId);
+  }
+
+  static VoucherQrArgs? _voucherQrArgs(Object? value) {
+    if (value is VoucherQrArgs) return value;
+    final userVoucherId = _requiredString(value);
+    return userVoucherId == null ? null : VoucherQrArgs(userVoucherId);
+  }
+
+  static bool _isBlank(String? value) => value == null || value.trim().isEmpty;
 
   static String? _optionalString(Object? value) {
     return value is String && value.trim().isNotEmpty ? value : null;

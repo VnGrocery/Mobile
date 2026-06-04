@@ -25,7 +25,10 @@ class StoreProductItem extends StatelessWidget {
         onTap: () => Navigator.pushNamed(
           context,
           Routes.productDetail,
-          arguments: {'shopId': product.shopId, 'productId': product.id},
+          arguments: ProductDetailArgs(
+            shopId: product.shopId,
+            productId: product.id,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(12),

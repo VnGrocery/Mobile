@@ -30,7 +30,7 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   void setShopId(String shopId) {
-    _session.shopId = shopId;
+    _session.setShopId(shopId);
     _emitCurrent();
   }
 

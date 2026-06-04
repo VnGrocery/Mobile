@@ -10,11 +10,15 @@ class SellerProductRoutes {
     Navigator.pushNamed(
       context,
       Routes.productDetail,
-      arguments: {'shopId': product.shopId, 'productId': product.id},
+      arguments: ProductDetailArgs(
+        shopId: product.shopId,
+        productId: product.id,
+      ),
     );
   }
 
   static void openHistory(BuildContext context, Product product) {
-    Navigator.pushNamed(context, Routes.pledgeHistory, arguments: product.id);
+    Navigator.pushNamed(context, Routes.pledgeHistory,
+        arguments: SellerProductArgs(product.id));
   }
 }

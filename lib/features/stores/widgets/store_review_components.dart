@@ -88,7 +88,7 @@ class StoreReviewList extends StatelessWidget {
               onPressed: () => Navigator.pushNamed(
                 context,
                 Routes.review,
-                arguments: shopId,
+                arguments: StoreDetailArgs(shopId),
               ),
               child: const Text('Viết đánh giá'),
             ),

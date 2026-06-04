@@ -111,7 +111,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
     await Navigator.pushNamed(
       context,
       Routes.sellerCreateProduct,
-      arguments: shopId,
+      arguments: SellerShopArgs(shopId),
     );
     if (mounted) _productCubit?.load();
   }
@@ -124,7 +124,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
     await Navigator.pushNamed(
       context,
       Routes.sellerCreatePledge,
-      arguments: product.id,
+      arguments: SellerProductArgs(product.id),
     );
     if (mounted) _productCubit?.load();
   }

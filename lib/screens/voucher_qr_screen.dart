@@ -99,7 +99,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
                   onPressed: () => Navigator.pushNamed(
                     context,
                     Routes.storeDetail,
-                    arguments: shop.id,
+                    arguments: StoreDetailArgs(shop.id),
                   ),
                   child: const Text('Xem cửa hàng áp dụng'),
                 ),

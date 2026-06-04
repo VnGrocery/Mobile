@@ -36,7 +36,7 @@ class ExploreShopCard extends StatelessWidget {
         onLongPress: () => Navigator.pushNamed(
           context,
           Routes.storeDetail,
-          arguments: shop.id,
+          arguments: StoreDetailArgs(shop.id),
         ),
         child: Padding(
           padding: const EdgeInsets.all(12),

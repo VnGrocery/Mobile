@@ -74,7 +74,7 @@ class _PledgeTabState extends State<PledgeTab> {
                   onTap: () => Navigator.pushNamed(
                     context,
                     Routes.sellerProducts,
-                    arguments: shopId,
+                    arguments: shopId == null ? null : SellerShopArgs(shopId),
                   ),
                 ),
                 const SizedBox(height: 14),
@@ -82,7 +82,7 @@ class _PledgeTabState extends State<PledgeTab> {
                   onOpenProducts: () => Navigator.pushNamed(
                     context,
                     Routes.sellerProducts,
-                    arguments: shopId,
+                    arguments: shopId == null ? null : SellerShopArgs(shopId),
                   ),
                   onOpenHistory: () {
                     final firstProduct = dashboard.products.isEmpty
@@ -92,7 +92,7 @@ class _PledgeTabState extends State<PledgeTab> {
                     Navigator.pushNamed(
                       context,
                       Routes.pledgeHistory,
-                      arguments: firstProduct.id,
+                      arguments: SellerProductArgs(firstProduct.id),
                     );
                   },
                 ),

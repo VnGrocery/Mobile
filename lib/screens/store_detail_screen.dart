@@ -119,7 +119,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     Navigator.pushNamed(
       context,
       Routes.pledgeHistory,
-      arguments: latestProduct.id,
+      arguments: SellerProductArgs(latestProduct.id),
     );
   }
 }

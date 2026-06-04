@@ -34,6 +34,29 @@ void main() {
     cubit.close();
   });
 
+  test('SessionCubit updates shop id through manager API', () {
+    final cubit = SessionCubit();
+    cubit.login(email: 'seller@example.com', role: 'seller');
+
+    cubit.setShopId('s2');
+
+    expect(cubit.state.shopId, 's2');
+
+    cubit.close();
+  });
+
+  test('SessionCubit clears shop id when switching back to buyer mode', () {
+    final cubit = SessionCubit();
+    cubit.login(email: 'seller@example.com', role: 'seller');
+
+    cubit.setRole('user');
+
+    expect(cubit.state.isSeller, isFalse);
+    expect(cubit.state.shopId, isNull);
+
+    cubit.close();
+  });
+
   test('SessionCubit logout clears session state', () {
     final cubit = SessionCubit();
     cubit.login(email: 'buyer@example.com');

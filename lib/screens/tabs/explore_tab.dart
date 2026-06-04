@@ -83,7 +83,8 @@ class _ExploreTabState extends State<ExploreTab> {
                       onOpenMap: () => Navigator.pushNamed(
                         context,
                         Routes.exploreMap,
-                        arguments: selectedShop?.id,
+                        arguments:
+                            ExploreMapArgs(initialShopId: selectedShop?.id),
                       ),
                       onSelectShop: (shop) => _exploreCubit.selectShop(shop.id),
                     ),
@@ -99,7 +100,7 @@ class _ExploreTabState extends State<ExploreTab> {
                       : () => Navigator.pushNamed(
                             context,
                             Routes.storeDetail,
-                            arguments: selectedShop.id,
+                            arguments: StoreDetailArgs(selectedShop.id),
                           ),
                 ),
                 Expanded(
@@ -132,7 +133,7 @@ class _ExploreTabState extends State<ExploreTab> {
                               Navigator.pushNamed(
                                 context,
                                 Routes.storeDetail,
-                                arguments: shops[i].id,
+                                arguments: StoreDetailArgs(shops[i].id),
                               );
                             },
                           ),

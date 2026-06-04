@@ -39,7 +39,7 @@ class VoucherWalletCard extends StatelessWidget {
                 await Navigator.pushNamed(
                   context,
                   Routes.voucherQr,
-                  arguments: userVoucher.id,
+                  arguments: VoucherQrArgs(userVoucher.id),
                 );
                 onChanged();
               },

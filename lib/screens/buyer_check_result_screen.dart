@@ -118,6 +118,7 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
 
   void _openStore(Shop shop) {
     final shopId = context.read<SessionCubit>().state.shopId ?? shop.id;
-    Navigator.pushNamed(context, Routes.storeDetail, arguments: shopId);
+    Navigator.pushNamed(context, Routes.storeDetail,
+        arguments: StoreDetailArgs(shopId));
   }
 }

@@ -188,7 +188,7 @@ class ProductCounterInfo extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(
               context,
               Routes.storeDetail,
-              arguments: product.shopId,
+              arguments: StoreDetailArgs(product.shopId),
             ),
             child: const Text('Xem thông tin cửa hàng'),
           ),

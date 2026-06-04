@@ -51,7 +51,7 @@ class ExploreMapBottomSheet extends StatelessWidget {
                   onPressed: () => Navigator.pushNamed(
                     context,
                     Routes.storeDetail,
-                    arguments: selectedShop!.id,
+                    arguments: StoreDetailArgs(selectedShop!.id),
                   ),
                   child: const Text('Xem cửa hàng'),
                 ),
