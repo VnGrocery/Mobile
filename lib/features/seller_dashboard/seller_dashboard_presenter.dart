@@ -1,12 +1,12 @@
-import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/data/data_hooks.dart';
 
 class SellerDashboardPresenter {
   const SellerDashboardPresenter._();
 
-  static final AppRepositories _repos = AppRepositories.instance;
+  static final AppDataHooks _data = AppDataHooks.instance;
 
   static SellerDashboard dashboard(String? shopId) {
-    return _repos.seller.dashboard(shopId);
+    return _data.getSellerDashboard(shopId);
   }
 
   static bool canCreatePledge(SellerDashboard dashboard) {

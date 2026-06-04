@@ -1,10 +1,10 @@
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/data/data_hooks.dart';
 
 class SellerPledgePresenter {
   const SellerPledgePresenter._();
 
-  static final AppRepositories _repos = AppRepositories.instance;
+  static final AppDataHooks _data = AppDataHooks.instance;
 
   static const categories = [
     'Thịt bò',
@@ -31,7 +31,7 @@ class SellerPledgePresenter {
     required String score,
     required String category,
   }) {
-    _repos.pledges.add(
+    _data.addPledge(
       productId,
       PledgeHistoryItem(
         time: 'Vừa xong',
@@ -39,7 +39,7 @@ class SellerPledgePresenter {
         description: 'Điểm đánh giá $score/10 cho loại: $category.',
         isVerified: true,
         hasProof: true,
-        proofId: _repos.ids.nextId(),
+        proofId: _data.nextId(),
       ),
     );
   }

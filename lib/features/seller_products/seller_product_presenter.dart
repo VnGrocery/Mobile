@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/data/data_hooks.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerProductPresenter {
   const SellerProductPresenter._();
 
-  static final AppRepositories _repos = AppRepositories.instance;
+  static final AppDataHooks _data = AppDataHooks.instance;
 
   static const states = ['Tất cả', 'Published', 'Draft', 'Archived'];
   static const categories = [
@@ -66,7 +66,7 @@ class SellerProductPresenter {
     required String shopId,
     required String state,
   }) {
-    final all = _repos.products.all(shopId: shopId);
+    final all = _data.getProducts(shopId: shopId);
     if (state == states.first) return all;
     return all.where((product) => product.status == state).toList();
   }
@@ -81,7 +81,7 @@ class SellerProductPresenter {
     required String tags,
   }) {
     final product = Product(
-      id: _repos.ids.nextId(),
+      id: _data.nextId(),
       shopId: shopId,
       name: name.trim(),
       description: description.trim(),
@@ -92,7 +92,7 @@ class SellerProductPresenter {
       tags: parseTags(tags),
       status: 'Draft',
     );
-    _repos.products.add(product);
+    _data.addProduct(product);
     return product;
   }
 }

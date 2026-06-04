@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/data/data_hooks.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class BuyerCheckPresenter {
   const BuyerCheckPresenter._();
 
-  static final AppRepositories _repos = AppRepositories.instance;
+  static final AppDataHooks _data = AppDataHooks.instance;
 
   static BuyerCheckResult lastResult() {
-    return _repos.buyerChecks.lastResult;
+    return _data.getLastBuyerCheck();
   }
 
   static Product demoProduct() {
-    return _repos.products.byId('p1');
+    return _data.getProduct('p1');
   }
 
   static Shop shop(String shopId) {
-    return _repos.shops.byId(shopId);
+    return _data.getShop(shopId);
   }
 
   static VoucherCheckResult checkVoucher({
     required String code,
     required Product product,
   }) {
-    return _repos.vouchers.check(
+    return _data.checkVoucher(
       code: code,
       shopId: product.shopId,
       orderValue: product.price,
@@ -36,7 +36,7 @@ class BuyerCheckPresenter {
     required String userEmail,
     required String voucherId,
   }) {
-    _repos.vouchers.saveToWallet(
+    _data.saveVoucherToWallet(
       userEmail: userEmail,
       voucherId: voucherId,
     );

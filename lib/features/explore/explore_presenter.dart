@@ -1,10 +1,10 @@
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/data/data_hooks.dart';
 
 class ExplorePresenter {
   const ExplorePresenter._();
 
-  static final AppRepositories _repos = AppRepositories.instance;
+  static final AppDataHooks _data = AppDataHooks.instance;
 
   static const filters = [
     'Đánh giá tốt',
@@ -14,7 +14,7 @@ class ExplorePresenter {
   ];
 
   static List<Shop> shops() {
-    return _repos.shops.all();
+    return _data.getShops();
   }
 
   static List<Shop> filteredShops(String query) {

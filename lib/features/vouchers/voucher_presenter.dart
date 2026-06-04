@@ -1,14 +1,14 @@
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/data/data_hooks.dart';
 import 'package:vngrocery/utils/format.dart';
 
 class VoucherPresenter {
   const VoucherPresenter._();
 
-  static final AppRepositories _repos = AppRepositories.instance;
+  static final AppDataHooks _data = AppDataHooks.instance;
 
   static List<UserVoucher> wallet(String userEmail) {
-    return _repos.vouchers.wallet(userEmail);
+    return _data.getUserVouchers(userEmail);
   }
 
   static List<UserVoucher> visibleWallet(
@@ -23,23 +23,23 @@ class VoucherPresenter {
   }
 
   static Voucher voucher(String voucherId) {
-    return _repos.vouchers.byId(voucherId);
+    return _data.getVoucher(voucherId);
   }
 
   static UserVoucher userVoucher(String userVoucherId) {
-    return _repos.vouchers.userVoucherById(userVoucherId);
+    return _data.getUserVoucher(userVoucherId);
   }
 
   static Shop shop(String shopId) {
-    return _repos.shops.byId(shopId);
+    return _data.getShop(shopId);
   }
 
   static void useUserVoucher(String userVoucherId) {
-    _repos.vouchers.useUserVoucher(userVoucherId);
+    _data.useUserVoucher(userVoucherId);
   }
 
   static List<Shop> shops() {
-    return _repos.shops.all();
+    return _data.getShops();
   }
 
   static UserVoucher addManualVoucher({
@@ -51,7 +51,7 @@ class VoucherPresenter {
     required String codeFormat,
     required DateTime expiresAt,
   }) {
-    return _repos.vouchers.addManualToWallet(
+    return _data.addManualVoucherToWallet(
       userEmail: userEmail,
       shopId: shopId,
       code: code,

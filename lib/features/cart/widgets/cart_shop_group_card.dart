@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/utils/currency_formatter.dart';
+import 'package:vngrocery/data/data_hooks.dart';
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
@@ -40,7 +40,7 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    final shop = AppRepositories.instance.shops.byId(widget.shopId);
+    final shop = AppDataHooks.instance.getShop(widget.shopId);
     final appliedVoucher = widget.state.appliedVouchersByShop[widget.shopId];
 
     return Container(

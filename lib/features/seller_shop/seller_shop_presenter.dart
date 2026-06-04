@@ -1,10 +1,10 @@
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/data/data_hooks.dart';
 
 class SellerShopPresenter {
   const SellerShopPresenter._();
 
-  static final AppRepositories _repos = AppRepositories.instance;
+  static final AppDataHooks _data = AppDataHooks.instance;
 
   static const demoShopId = 's1';
 
@@ -13,11 +13,11 @@ class SellerShopPresenter {
   }
 
   static Shop shop(String? shopId) {
-    return _repos.shops.byId(effectiveShopId(shopId));
+    return _data.getShop(effectiveShopId(shopId));
   }
 
   static SellerDashboard dashboard(String? shopId) {
-    return _repos.seller.dashboard(shopId);
+    return _data.getSellerDashboard(shopId);
   }
 
   static Shop saveShop({
@@ -26,7 +26,7 @@ class SellerShopPresenter {
     required String description,
     required String address,
   }) {
-    return _repos.shops.save(
+    return _data.saveShop(
       shopId: effectiveShopId(shopId),
       name: name.trim(),
       description: description.trim(),
