@@ -13,6 +13,8 @@ class ProductRepository {
     return List.unmodifiable(products);
   }
 
+  Product? byIdOrNull(String id) => _db.productByIdOrNull(id);
+
   Product byId(String id) => _db.productById(id);
 
   void add(Product product) => _db.addProduct(product);

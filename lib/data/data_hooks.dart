@@ -11,11 +11,15 @@ class AppDataHooks {
 
   List<Shop> getShops() => _repos.shops.all();
 
+  Shop? getShopOrNull(String id) => _repos.shops.byIdOrNull(id);
+
   Shop getShop(String id) => _repos.shops.byId(id);
 
   List<Product> getProducts({String? shopId}) {
     return _repos.products.all(shopId: shopId);
   }
+
+  Product? getProductOrNull(String id) => _repos.products.byIdOrNull(id);
 
   Product getProduct(String id) => _repos.products.byId(id);
 
@@ -42,7 +46,15 @@ class AppDataHooks {
     return _repos.vouchers.wallet(userEmail);
   }
 
+  Voucher? getVoucherOrNull(String voucherId) {
+    return _repos.vouchers.byIdOrNull(voucherId);
+  }
+
   Voucher getVoucher(String voucherId) => _repos.vouchers.byId(voucherId);
+
+  UserVoucher? getUserVoucherOrNull(String userVoucherId) {
+    return _repos.vouchers.userVoucherByIdOrNull(userVoucherId);
+  }
 
   UserVoucher getUserVoucher(String userVoucherId) {
     return _repos.vouchers.userVoucherById(userVoucherId);
@@ -78,8 +90,8 @@ class AppDataHooks {
     );
   }
 
-  void useUserVoucher(String userVoucherId) {
-    _repos.vouchers.useUserVoucher(userVoucherId);
+  bool useUserVoucher(String userVoucherId) {
+    return _repos.vouchers.useUserVoucher(userVoucherId);
   }
 
   void addProduct(Product product) => _repos.products.add(product);

@@ -8,6 +8,8 @@ class ShopRepository {
 
   List<Shop> all() => List.unmodifiable(_db.shops);
 
+  Shop? byIdOrNull(String id) => _db.shopByIdOrNull(id);
+
   Shop byId(String id) => _db.shopById(id);
 
   Shop save({

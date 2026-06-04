@@ -37,8 +37,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     final vouchersByShop = <String, Voucher>{};
     for (final entry in voucherIdsByShop.entries) {
       if (entry.key == 'legacy') continue;
-      final voucher = _appRepositories.vouchers.byId(entry.value);
-      if (voucher.shopId == entry.key) vouchersByShop[entry.key] = voucher;
+      final voucher = _appRepositories.vouchers.byIdOrNull(entry.value);
+      if (voucher != null && voucher.shopId == entry.key) {
+        vouchersByShop[entry.key] = voucher;
+      }
     }
     emit(
       CartState(

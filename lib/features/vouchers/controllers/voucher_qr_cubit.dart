@@ -20,9 +20,18 @@ class VoucherQrCubit extends Cubit<VoucherQrState> {
         super(const VoucherQrState());
 
   void load() {
-    final userVoucher = _repositories.vouchers.userVoucherById(userVoucherId);
-    final voucher = _repositories.vouchers.byId(userVoucher.voucherId);
-    final shop = _repositories.shops.byId(voucher.shopId);
+    final userVoucher = _repositories.vouchers.userVoucherByIdOrNull(
+      userVoucherId,
+    );
+    final voucher = userVoucher == null
+        ? null
+        : _repositories.vouchers.byIdOrNull(userVoucher.voucherId);
+    final shop =
+        voucher == null ? null : _repositories.shops.byIdOrNull(voucher.shopId);
+    if (userVoucher == null || voucher == null || shop == null) {
+      emit(const VoucherQrState());
+      return;
+    }
     emit(
         VoucherQrState(userVoucher: userVoucher, voucher: voucher, shop: shop));
   }
@@ -31,7 +40,11 @@ class VoucherQrCubit extends Cubit<VoucherQrState> {
     if (state.disabled || state.confirming) return;
     emit(state.copyWith(confirming: true));
     await _delayService.waitDuration(markUsedDelay);
-    _repositories.vouchers.useUserVoucher(userVoucherId);
+    final used = _repositories.vouchers.useUserVoucher(userVoucherId);
+    if (!used) {
+      emit(const VoucherQrState());
+      return;
+    }
     load();
   }
 }

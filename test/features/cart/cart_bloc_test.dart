@@ -147,6 +147,27 @@ void main() {
       await bloc.close();
     });
 
+    test('drops stale applied voucher ids on start', () async {
+      final storage = _MemoryCartStorage()
+        ..savedItems = [CartItem.fromProduct(_product)]
+        ..savedVoucherIdsByShop = {'s1': 'missing-voucher'};
+      final bloc = CartBloc(cartRepository: storage);
+
+      bloc.add(const CartStarted());
+
+      await expectLater(
+        bloc.stream,
+        emits(
+          predicate<CartState>(
+            (state) =>
+                state.itemCount == 1 && state.appliedVouchersByShop.isEmpty,
+          ),
+        ),
+      );
+      expect(storage.savedVoucherIdsByShop, isEmpty);
+      await bloc.close();
+    });
+
     test('loads legacy cache items without addedAt', () {
       final item = CartItem.fromJson({
         'productId': 'legacy-p',
@@ -267,13 +288,11 @@ final _otherShopVoucher = Voucher(
 
 class _MemoryCartStorage implements CartStorage {
   _MemoryCartStorage({
-    List<CartItem> savedItems = const [],
-    Map<String, String> savedVoucherIdsByShop = const {},
-  })  : savedItems = savedItems,
-        savedVoucherIdsByShop = savedVoucherIdsByShop;
+    this.savedItems = const [],
+  });
 
   List<CartItem> savedItems;
-  Map<String, String> savedVoucherIdsByShop;
+  Map<String, String> savedVoucherIdsByShop = const {};
   bool cleared = false;
 
   @override

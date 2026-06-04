@@ -44,11 +44,22 @@ class MockDb {
     lastBuyerCheck = BuyerCheckResult.fromJson(_map(json['lastBuyerCheck']));
   }
 
-  Shop shopById(String id) =>
-      shops.firstWhere((s) => s.id == id, orElse: () => shops.first);
+  Shop? shopByIdOrNull(String id) => shops.where((s) => s.id == id).firstOrNull;
 
-  Product productById(String id) =>
-      products.firstWhere((p) => p.id == id, orElse: () => products.first);
+  Shop shopById(String id) {
+    final shop = shopByIdOrNull(id);
+    if (shop == null) throw StateError('Shop not found: $id');
+    return shop;
+  }
+
+  Product? productByIdOrNull(String id) =>
+      products.where((p) => p.id == id).firstOrNull;
+
+  Product productById(String id) {
+    final product = productByIdOrNull(id);
+    if (product == null) throw StateError('Product not found: $id');
+    return product;
+  }
 
   List<Product> productsOfShop(String shopId) =>
       products.where((p) => p.shopId == shopId).toList();
@@ -58,15 +69,27 @@ class MockDb {
   List<PledgeHistoryItem> pledgesOf(String productId) =>
       pledgesByProduct[productId] ?? const [];
 
-  Voucher voucherById(String id) => vouchers
-      .firstWhere((voucher) => voucher.id == id, orElse: () => vouchers.first);
+  Voucher? voucherByIdOrNull(String id) =>
+      vouchers.where((voucher) => voucher.id == id).firstOrNull;
+
+  Voucher voucherById(String id) {
+    final voucher = voucherByIdOrNull(id);
+    if (voucher == null) throw StateError('Voucher not found: $id');
+    return voucher;
+  }
 
   List<UserVoucher> userVoucherWallet(String userEmail) => userVouchers
       .where((item) => item.userEmail.toLowerCase() == userEmail.toLowerCase())
       .toList();
 
-  UserVoucher userVoucherById(String id) => userVouchers
-      .firstWhere((item) => item.id == id, orElse: () => userVouchers.first);
+  UserVoucher? userVoucherByIdOrNull(String id) =>
+      userVouchers.where((item) => item.id == id).firstOrNull;
+
+  UserVoucher userVoucherById(String id) {
+    final userVoucher = userVoucherByIdOrNull(id);
+    if (userVoucher == null) throw StateError('User voucher not found: $id');
+    return userVoucher;
+  }
 
   UserVoucher? walletItemForVoucher({
     required String userEmail,
@@ -128,11 +151,13 @@ class MockDb {
     return userVoucher;
   }
 
-  void useUserVoucher(String userVoucherId) {
-    final item = userVoucherById(userVoucherId);
-    if (item.isUsed) return;
+  bool useUserVoucher(String userVoucherId) {
+    final item = userVoucherByIdOrNull(userVoucherId);
+    if (item == null) return false;
+    if (item.isUsed) return true;
     item.used = true;
     item.usedAt = DateTime.now();
+    return true;
   }
 
   VoucherCheckResult checkVoucher({

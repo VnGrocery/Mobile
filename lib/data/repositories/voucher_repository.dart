@@ -6,7 +6,13 @@ class VoucherRepository {
 
   const VoucherRepository(this._db);
 
+  Voucher? byIdOrNull(String voucherId) => _db.voucherByIdOrNull(voucherId);
+
   Voucher byId(String voucherId) => _db.voucherById(voucherId);
+
+  UserVoucher? userVoucherByIdOrNull(String userVoucherId) {
+    return _db.userVoucherByIdOrNull(userVoucherId);
+  }
 
   UserVoucher userVoucherById(String userVoucherId) {
     return _db.userVoucherById(userVoucherId);
@@ -58,7 +64,7 @@ class VoucherRepository {
     );
   }
 
-  void useUserVoucher(String userVoucherId) {
-    _db.useUserVoucher(userVoucherId);
+  bool useUserVoucher(String userVoucherId) {
+    return _db.useUserVoucher(userVoucherId);
   }
 }

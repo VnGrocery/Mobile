@@ -6,5 +6,5 @@ String formatCurrencyVnd(int amount) {
     buffer.write(raw[i]);
   }
   final sign = amount < 0 ? '-' : '';
-  return '$sign${buffer} đ';
+  return '$sign$buffer đ';
 }

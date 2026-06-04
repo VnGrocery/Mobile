@@ -133,11 +133,11 @@ class _AuthScreenState extends State<AuthScreen> {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _loading = true);
     await AppDelayService.instance.wait(AppDelayKind.authLogin);
+    if (!mounted) return;
     context.read<SessionCubit>().login(
           email: _email.text,
           displayName: _isRegister ? _name.text : null,
         );
-    if (!mounted) return;
     Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
   }
 
@@ -145,11 +145,11 @@ class _AuthScreenState extends State<AuthScreen> {
     FocusScope.of(context).unfocus();
     setState(() => _loading = true);
     await AppDelayService.instance.wait(AppDelayKind.authRegister);
+    if (!mounted) return;
     context.read<SessionCubit>().login(
           email: 'google.demo@vngrocery.com',
           displayName: 'Google Demo',
         );
-    if (!mounted) return;
     Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
   }
 
