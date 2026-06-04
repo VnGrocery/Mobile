@@ -75,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
                 Positioned(
                   left: 0,
                   right: 0,
-                  bottom: -14,
+                  bottom: 8,
                   child: FloatingTabPopup(
                     items: NavigationConfig.bottomNavItems(isSeller),
                     selectedIndex: selectedIndex,

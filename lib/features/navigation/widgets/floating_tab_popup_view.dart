@@ -37,57 +37,94 @@ class FloatingTabPopup extends StatelessWidget {
       child: Center(
         child: SizedBox(
           width: 342,
-          height: 92,
+          height: 108,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(32),
-                  child: BackdropFilter(
-                    filter: ui.ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: palette.glass,
-                        borderRadius: BorderRadius.circular(32),
-                        border: Border.all(color: palette.glassBorder),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(
-                              alpha: isDark ? 0.28 : 0.08,
-                            ),
-                            blurRadius: 28,
-                            offset: const Offset(0, 14),
-                          ),
-                        ],
+                padding: const EdgeInsets.only(bottom: 14),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF23AA49).withValues(
+                          alpha: isDark ? 0.22 : 0.24,
+                        ),
+                        blurRadius: 26,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 10),
                       ),
-                      child: SizedBox(
-                        height: 68,
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 18),
-                            for (final i in leftItems)
-                              Expanded(
-                                child: GlassTabItem(
-                                  icon: items[i].icon,
-                                  label: items[i].label,
-                                  selected: i == selectedIndex,
-                                  onTap: () => onSelect(i),
+                      if (!isDark)
+                        BoxShadow(
+                          color:
+                              const Color(0xFF23AA49).withValues(alpha: 0.16),
+                          blurRadius: 34,
+                          spreadRadius: 5,
+                          offset: Offset.zero,
+                        ),
+                      BoxShadow(
+                        color: Colors.black.withValues(
+                          alpha: isDark ? 0.28 : 0.08,
+                        ),
+                        blurRadius: 22,
+                        offset: const Offset(0, 12),
+                      ),
+                      BoxShadow(
+                        color: Colors.black.withValues(
+                          alpha: isDark ? 0.24 : 0.13,
+                        ),
+                        blurRadius: 22,
+                        spreadRadius: -1,
+                        offset: const Offset(12, 16),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: BackdropFilter(
+                      filter: ui.ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? palette.glass.withValues(alpha: 0.74)
+                              : Colors.white.withValues(alpha: 0.76),
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: isDark
+                                ? palette.glassBorder
+                                : const Color(0xFF23AA49)
+                                    .withValues(alpha: 0.42),
+                            width: isDark ? 1 : 1.4,
+                          ),
+                        ),
+                        child: SizedBox(
+                          height: 70,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 18),
+                              for (final i in leftItems)
+                                Expanded(
+                                  child: GlassTabItem(
+                                    icon: items[i].icon,
+                                    label: items[i].label,
+                                    selected: i == selectedIndex,
+                                    onTap: () => onSelect(i),
+                                  ),
                                 ),
-                              ),
-                            const SizedBox(width: 64),
-                            for (final i in rightItems)
-                              Expanded(
-                                child: GlassTabItem(
-                                  icon: items[i].icon,
-                                  label: items[i].label,
-                                  selected: i == selectedIndex,
-                                  onTap: () => onSelect(i),
+                              const SizedBox(width: 64),
+                              for (final i in rightItems)
+                                Expanded(
+                                  child: GlassTabItem(
+                                    icon: items[i].icon,
+                                    label: items[i].label,
+                                    selected: i == selectedIndex,
+                                    onTap: () => onSelect(i),
+                                  ),
                                 ),
-                              ),
-                            const SizedBox(width: 18),
-                          ],
+                              const SizedBox(width: 18),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -95,7 +132,7 @@ class FloatingTabPopup extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 0,
+                top: 2,
                 child: ScanDiamondButton(
                   icon: centerItem.icon,
                   selected: centerIndex == selectedIndex,
