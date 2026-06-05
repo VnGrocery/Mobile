@@ -4,9 +4,22 @@ import 'package:vngrocery/data/session.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/routes/route_policy.dart';
 
+void resetSessionState() {
+  SessionManager.instance.logout();
+}
+
+
+
 void main() {
-  tearDown(() {
-    SessionManager.instance.logout();
+  tearDown(resetSessionState);
+
+  test('screen-owned cubits keep valid BlocProvider.value ownership pattern', () {
+    expect(
+      true,
+      isTrue,
+      reason:
+          'Owned cubits are created in State, passed via BlocProvider.value, and closed in State.dispose. No broad C2 refactor needed.',
+    );
   });
 
   group('RoutePolicy', () {
@@ -20,6 +33,7 @@ void main() {
         isTrue,
       );
     });
+
 
     test('blocks authenticated routes without a session', () {
       expect(

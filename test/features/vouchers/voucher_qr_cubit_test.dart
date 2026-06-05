@@ -6,6 +6,9 @@ import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/vouchers/controllers/voucher_qr_cubit.dart';
 
 void main() {
+  setUp(MockDb.instance.resetForTesting);
+  tearDown(MockDb.instance.resetForTesting);
+
   test('VoucherQrCubit loads voucher QR data', () {
     final userVoucher = AppRepositories.instance.vouchers
         .wallet('demo@vngrocery.com')
@@ -51,7 +54,6 @@ void main() {
       voucherId: 'missing-voucher-for-user-voucher',
     );
     MockDb.instance.userVouchers.insert(0, dangling);
-    addTearDown(() => MockDb.instance.userVouchers.remove(dangling));
     final cubit = VoucherQrCubit(
       userVoucherId: dangling.id,
       delayService: const NoopAppDelayService(),
@@ -83,10 +85,6 @@ void main() {
     );
     MockDb.instance.vouchers.insert(0, voucher);
     MockDb.instance.userVouchers.insert(0, userVoucher);
-    addTearDown(() {
-      MockDb.instance.vouchers.remove(voucher);
-      MockDb.instance.userVouchers.remove(userVoucher);
-    });
     final cubit = VoucherQrCubit(
       userVoucherId: userVoucher.id,
       delayService: const NoopAppDelayService(),
@@ -120,10 +118,6 @@ void main() {
       );
       MockDb.instance.vouchers.insert(0, voucher);
       MockDb.instance.userVouchers.insert(0, userVoucher);
-      addTearDown(() {
-        MockDb.instance.vouchers.remove(voucher);
-        MockDb.instance.userVouchers.remove(userVoucher);
-      });
       final cubit = VoucherQrCubit(
         userVoucherId: userVoucher.id,
         delayService: const NoopAppDelayService(),
