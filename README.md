@@ -105,10 +105,39 @@ Quan hệ chính:
 - `Product.id` ← pledge history lookup
 - `Voucher.id` ← `UserVoucher.voucherId`
 
-Backend contract hiện dùng key camelCase. Snake_case không được map tự động. Các
-field required trong model sẽ throw nếu thiếu/sai type; field optional/default xem
-constructor trong `lib/data/models/`. Date input hỗ trợ `DateTime`, epoch ms hoặc
-ISO-8601 string; giá trị invalid/null fallback về `1970-01-01`.
+### Mock backend JSON contract
+
+`lib/data/mock_json_data.dart` mô phỏng payload backend. Top-level keys app cần:
+
+- `shops`
+- `products`
+- `reviewsByShop`
+- `pledgesByProduct`
+- `vouchers`
+- `userVouchers`
+- `lastBuyerCheck`
+
+Contract dùng key camelCase. Snake_case không được map tự động. Field required
+trong model sẽ throw nếu thiếu/sai type.
+
+Required/default theo model:
+
+- `Shop`: required `id`, `name`, `address`, `rating`, `reviewCount`,
+  `description`; optional `logoUrl`.
+- `Product`: required `id`, `shopId`, `name`, `description`, `category`,
+  `freshnessScore`, `freshnessNote`, `price`, `tags`, `status`.
+- `Review`: required `id`, `userName`, `rating`, `comment`, `date`.
+- `PledgeHistoryItem`: required `time`, `title`, `description`, `isVerified`;
+  defaults `hasProof=false`, `proofId=''`.
+- `Voucher`: required `id`, `code`, `title`, `shopId`, `discountValue`,
+  `isPercent`, `minSpend`, `expiresAt`; defaults `active=true`,
+  `manual=false`, `note=''`, `codeFormat='QR'`.
+- `UserVoucher`: required `id`, `userEmail`, `voucherId`; defaults
+  `used=false`, `usedAt=null`.
+- `BuyerCheckResult`: required `actualScore`, `locationStatus`, `verdict`.
+
+Date input hỗ trợ `DateTime`, epoch ms hoặc ISO-8601 string; giá trị invalid/null
+fallback về `1970-01-01`. Contract tests: `flutter test test/data`.
 
 ## Localization
 
@@ -125,7 +154,18 @@ ISO-8601 string; giá trị invalid/null fallback về `1970-01-01`.
 - Default tiles: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`.
 - Attribution hiển thị: `© OpenStreetMap contributors`.
 - Behavior: clamp zoom/lat, wrap longitude/antimeridian x, fallback tile icon khi lỗi network.
-- Lưu ý public OSM tile usage policy; production nên dùng tile provider riêng/thương mại qua `tileUriBuilder`.
+- Lưu ý public OSM tile usage policy; production nên dùng tile provider riêng/thương mại qua `OsmTileProviderConfig`.
+
+Ví dụ provider production:
+
+```dart
+final providerConfig = OsmTileProviderConfig(
+  tileUriBuilder: (z, x, y) => Uri.parse('https://tiles.example.com/$z/$x/$y.png'),
+  attribution: '© Example Maps',
+  minZoom: 0,
+  maxZoom: 18,
+);
+```
 
 ## Lưu ý Android/Gradle
 
