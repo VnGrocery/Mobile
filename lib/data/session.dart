@@ -10,7 +10,12 @@ class SessionManager {
   String? _shopId;
   String _email = '';
   String? _displayName;
-  final ValueNotifier<String> roleNotifier = ValueNotifier<String>('user');
+  final ValueNotifier<String> _roleNotifier = ValueNotifier<String>('user');
+
+  ValueListenable<String> get roleListenable => _roleNotifier;
+
+  @Deprecated('Use roleListenable; mutate through setRole/login/logout.')
+  ValueListenable<String> get roleNotifier => _roleNotifier;
 
   String? get token => _token;
 
@@ -18,7 +23,7 @@ class SessionManager {
 
   String get email => _email;
 
-  String get role => roleNotifier.value;
+  String get role => _roleNotifier.value;
 
   bool get isLoggedIn => _token != null;
 
@@ -39,7 +44,7 @@ class SessionManager {
     _shopId = role == 'seller' ? AppDataConfig.demoShopId : null;
     _email = email.trim().isEmpty ? 'demo@vngrocery.com' : email.trim();
     _displayName = displayName?.trim();
-    roleNotifier.value = role;
+    _roleNotifier.value = role;
   }
 
   void updateProfile({required String displayName, required String email}) {
@@ -48,8 +53,8 @@ class SessionManager {
   }
 
   void setRole(String role) {
-    if (roleNotifier.value == role) return;
-    roleNotifier.value = role;
+    if (_roleNotifier.value == role) return;
+    _roleNotifier.value = role;
     if (role == 'seller') {
       _shopId ??= AppDataConfig.demoShopId;
     } else {
@@ -66,6 +71,6 @@ class SessionManager {
     _shopId = null;
     _email = '';
     _displayName = null;
-    roleNotifier.value = 'user';
+    _roleNotifier.value = 'user';
   }
 }

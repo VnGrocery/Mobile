@@ -32,27 +32,32 @@ void main() {
       );
     });
 
-    test('blocks seller routes for buyer sessions', () {
-      expect(
-        RoutePolicy.canOpen(
-          routeName: Routes.sellerProducts,
-          isLoggedIn: true,
-          isSeller: false,
-        ),
-        isFalse,
-      );
+    test('gates seller routes to seller sessions', () {
+      for (final routeName in [
+        Routes.sellerProducts,
+        Routes.pledgeHistory,
+        Routes.qrLabel,
+      ]) {
+        expect(RoutePolicy.accessFor(routeName), RouteAccess.seller);
+        expect(
+          RoutePolicy.canOpen(
+            routeName: routeName,
+            isLoggedIn: true,
+            isSeller: false,
+          ),
+          isFalse,
+        );
+        expect(
+          RoutePolicy.canOpen(
+            routeName: routeName,
+            isLoggedIn: true,
+            isSeller: true,
+          ),
+          isTrue,
+        );
+      }
     });
 
-    test('allows seller routes for seller sessions', () {
-      expect(
-        RoutePolicy.canOpen(
-          routeName: Routes.sellerProducts,
-          isLoggedIn: true,
-          isSeller: true,
-        ),
-        isTrue,
-      );
-    });
   });
 
   group('Routes', () {
@@ -143,6 +148,91 @@ void main() {
 
       expect(route.settings.name, Routes.main);
       expect(route.settings.arguments, isNull);
+    });
+
+    test('redirects protected Phase D routes by session role', () {
+      var route = Routes.onGenerateRoute(
+        const RouteSettings(
+          name: Routes.pledgeHistory,
+          arguments: SellerProductArgs('p1'),
+        ),
+      );
+      expect(route.settings.name, Routes.auth);
+
+      route = Routes.onGenerateRoute(
+        const RouteSettings(name: Routes.qrLabel, arguments: QrLabelArgs('pl1')),
+      );
+      expect(route.settings.name, Routes.auth);
+
+      SessionManager.instance.login(email: 'buyer@example.com');
+
+      route = Routes.onGenerateRoute(
+        const RouteSettings(
+          name: Routes.pledgeHistory,
+          arguments: SellerProductArgs('p1'),
+        ),
+      );
+      expect(route.settings.name, Routes.main);
+
+      route = Routes.onGenerateRoute(
+        const RouteSettings(name: Routes.qrLabel, arguments: QrLabelArgs('pl1')),
+      );
+      expect(route.settings.name, Routes.main);
+    });
+
+    test('accepts typed Phase D seller route args', () {
+      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+
+      for (final settings in const [
+        RouteSettings(
+          name: Routes.pledgeHistory,
+          arguments: SellerProductArgs('p1'),
+        ),
+        RouteSettings(name: Routes.qrLabel, arguments: QrLabelArgs('pl1')),
+      ]) {
+        final route = Routes.onGenerateRoute(settings);
+        expect(route.settings.name, settings.name);
+      }
+    });
+
+    test('accepts supported string route args', () {
+      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+
+      for (final settings in const [
+        RouteSettings(name: Routes.sellerCreateProduct, arguments: 's1'),
+        RouteSettings(name: Routes.sellerCreatePledge, arguments: 'p1'),
+        RouteSettings(name: Routes.pledgeHistory, arguments: 'p1'),
+        RouteSettings(name: Routes.qrLabel, arguments: 'pl1'),
+      ]) {
+        final route = Routes.onGenerateRoute(settings);
+        expect(route.settings.name, settings.name);
+      }
+
+      SessionManager.instance.setRole('user');
+      final route = Routes.onGenerateRoute(
+        const RouteSettings(name: Routes.voucherQr, arguments: 'uv1'),
+      );
+      expect(route.settings.name, Routes.voucherQr);
+    });
+
+    test('falls back for missing required route args', () {
+      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+
+      for (final routeName in const [
+        Routes.sellerCreateProduct,
+        Routes.sellerCreatePledge,
+        Routes.pledgeHistory,
+        Routes.qrLabel,
+      ]) {
+        final route = Routes.onGenerateRoute(RouteSettings(name: routeName));
+        expect(route.settings.name, Routes.main);
+      }
+
+      SessionManager.instance.setRole('user');
+      for (final routeName in const [Routes.review, Routes.voucherQr]) {
+        final route = Routes.onGenerateRoute(RouteSettings(name: routeName));
+        expect(route.settings.name, Routes.main);
+      }
     });
   });
 }
