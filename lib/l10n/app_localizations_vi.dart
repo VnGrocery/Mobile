@@ -97,6 +97,41 @@ class AppLocalizationsVi extends AppLocalizations {
   String get authPasswordResetDemo => 'Đã đặt lại mật khẩu demo';
 
   @override
+  String get authPasswordChangedDemo => 'Đã đổi mật khẩu demo thành công';
+
+  @override
+  String get authPasswordSecurityTitle => 'Bảo mật tài khoản';
+
+  @override
+  String get authPasswordRuleTitle => 'Yêu cầu mật khẩu';
+
+  @override
+  String get authPasswordRuleMinLength => 'Tối thiểu 8 ký tự';
+
+  @override
+  String get authPasswordRuleComplexity =>
+      'Nên có chữ hoa, số và ký tự đặc biệt';
+
+  @override
+  String get authPasswordRuleDifferentFromCurrent =>
+      'Không dùng lại mật khẩu hiện tại';
+
+  @override
+  String get authPasswordStrengthWeakHint => 'Mật khẩu mới còn yếu';
+
+  @override
+  String get authPasswordStrengthMediumHint => 'Mật khẩu mới ở mức khá';
+
+  @override
+  String get authPasswordStrengthStrongHint => 'Mật khẩu mới mạnh';
+
+  @override
+  String get authPasswordUpdateSaving => 'Đang cập nhật...';
+
+  @override
+  String get authPasswordUpdateSubmit => 'Cập nhật mật khẩu';
+
+  @override
   String get commonCancel => 'Hủy';
 
   @override
@@ -164,6 +199,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get accountHelpAndSupport => 'Hỗ trợ & Trợ giúp';
+
+  @override
+  String get accountSaveProfileChanges => 'Lưu thay đổi';
 
   @override
   String get accountHelpTitle => 'Hỗ trợ';
@@ -350,6 +388,40 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get productDetailViewStoreInfo => 'Xem thông tin cửa hàng';
+
+  @override
+  String get reviewTitle => 'Đánh giá cửa hàng';
+
+  @override
+  String get reviewIntroTitle => 'Trải nghiệm của bạn thế nào?';
+
+  @override
+  String get reviewIntroBody =>
+      'Đánh giá của bạn giúp cộng đồng chọn sản phẩm tốt hơn.';
+
+  @override
+  String get reviewCommentHint => 'Nhập nhận xét của bạn tại đây...';
+
+  @override
+  String get reviewPhotoAttached => 'Đã thêm hình ảnh';
+
+  @override
+  String get reviewPhotoAdd => 'Thêm hình ảnh';
+
+  @override
+  String get reviewSubmit => 'Gửi đánh giá';
+
+  @override
+  String get reviewSubmitted => 'Đã gửi đánh giá. Cảm ơn bạn!';
+
+  @override
+  String get reviewSubmittedWithPhoto => 'Đã gửi đánh giá kèm ảnh. Cảm ơn bạn!';
+
+  @override
+  String get reviewPhotoAttachedDemo => 'Đã đính kèm ảnh demo';
+
+  @override
+  String get reviewPhotoRemovedDemo => 'Đã bỏ ảnh đính kèm';
 
   @override
   String get scoreBadgeLabel => 'Điểm đánh giá';

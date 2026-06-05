@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 class ChangePasswordSubmitButton extends StatelessWidget {
   final bool saving;
   final VoidCallback onPressed;
@@ -12,6 +14,7 @@ class ChangePasswordSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SizedBox(
       height: 54,
       child: FilledButton.icon(
@@ -26,7 +29,9 @@ class ChangePasswordSubmitButton extends StatelessWidget {
                 ),
               )
             : const Icon(Icons.lock_reset),
-        label: Text(saving ? 'Đang cập nhật...' : 'Cập nhật mật khẩu'),
+        label: Text(
+          saving ? l10n.authPasswordUpdateSaving : l10n.authPasswordUpdateSubmit,
+        ),
       ),
     );
   }

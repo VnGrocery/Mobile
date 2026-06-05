@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'change_password_strength.dart';
@@ -14,6 +15,7 @@ class ChangePasswordHeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.palette;
     final strength = AppValidators.passwordStrength(password);
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.all(18),
@@ -38,13 +40,16 @@ class ChangePasswordHeaderCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Bảo mật tài khoản',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                Text(
+                  l10n.authPasswordSecurityTitle,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  passwordStrengthLabel(strength),
+                  passwordStrengthLabel(context, strength),
                   style: TextStyle(
                     color: passwordStrengthColor(strength),
                     fontWeight: FontWeight.w600,

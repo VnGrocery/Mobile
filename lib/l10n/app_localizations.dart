@@ -266,6 +266,72 @@ abstract class AppLocalizations {
   /// **'Demo password reset complete'**
   String get authPasswordResetDemo;
 
+  /// No description provided for @authPasswordChangedDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo password changed successfully'**
+  String get authPasswordChangedDemo;
+
+  /// No description provided for @authPasswordSecurityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account security'**
+  String get authPasswordSecurityTitle;
+
+  /// No description provided for @authPasswordRuleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password requirements'**
+  String get authPasswordRuleTitle;
+
+  /// No description provided for @authPasswordRuleMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters'**
+  String get authPasswordRuleMinLength;
+
+  /// No description provided for @authPasswordRuleComplexity.
+  ///
+  /// In en, this message translates to:
+  /// **'Should include uppercase letters, numbers, and special characters'**
+  String get authPasswordRuleComplexity;
+
+  /// No description provided for @authPasswordRuleDifferentFromCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not reuse your current password'**
+  String get authPasswordRuleDifferentFromCurrent;
+
+  /// No description provided for @authPasswordStrengthWeakHint.
+  ///
+  /// In en, this message translates to:
+  /// **'New password is still weak'**
+  String get authPasswordStrengthWeakHint;
+
+  /// No description provided for @authPasswordStrengthMediumHint.
+  ///
+  /// In en, this message translates to:
+  /// **'New password is moderate'**
+  String get authPasswordStrengthMediumHint;
+
+  /// No description provided for @authPasswordStrengthStrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'New password is strong'**
+  String get authPasswordStrengthStrongHint;
+
+  /// No description provided for @authPasswordUpdateSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating...'**
+  String get authPasswordUpdateSaving;
+
+  /// No description provided for @authPasswordUpdateSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Update password'**
+  String get authPasswordUpdateSubmit;
+
   /// No description provided for @commonCancel.
   ///
   /// In en, this message translates to:
@@ -403,6 +469,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Help & support'**
   String get accountHelpAndSupport;
+
+  /// No description provided for @accountSaveProfileChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get accountSaveProfileChanges;
 
   /// No description provided for @accountHelpTitle.
   ///
@@ -733,6 +805,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View store details'**
   String get productDetailViewStoreInfo;
+
+  /// No description provided for @reviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Store review'**
+  String get reviewTitle;
+
+  /// No description provided for @reviewIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How was your experience?'**
+  String get reviewIntroTitle;
+
+  /// No description provided for @reviewIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your review helps the community choose better products.'**
+  String get reviewIntroBody;
+
+  /// No description provided for @reviewCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your comments here...'**
+  String get reviewCommentHint;
+
+  /// No description provided for @reviewPhotoAttached.
+  ///
+  /// In en, this message translates to:
+  /// **'Image attached'**
+  String get reviewPhotoAttached;
+
+  /// No description provided for @reviewPhotoAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add image'**
+  String get reviewPhotoAdd;
+
+  /// No description provided for @reviewSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit review'**
+  String get reviewSubmit;
+
+  /// No description provided for @reviewSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Review submitted. Thank you!'**
+  String get reviewSubmitted;
+
+  /// No description provided for @reviewSubmittedWithPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Review with photo submitted. Thank you!'**
+  String get reviewSubmittedWithPhoto;
+
+  /// No description provided for @reviewPhotoAttachedDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo image attached'**
+  String get reviewPhotoAttachedDemo;
+
+  /// No description provided for @reviewPhotoRemovedDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Attached image removed'**
+  String get reviewPhotoRemovedDemo;
 
   /// No description provided for @scoreBadgeLabel.
   ///

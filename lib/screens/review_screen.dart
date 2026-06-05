@@ -5,6 +5,7 @@ import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/reviews/controllers/review_cubit.dart';
 import 'package:vngrocery/features/reviews/controllers/review_state.dart';
 import 'package:vngrocery/features/reviews/widgets/review_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class ReviewScreen extends StatefulWidget {
@@ -35,13 +36,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocProvider.value(
       value: _reviewCubit,
       child: BlocBuilder<ReviewCubit, ReviewState>(
         builder: (context, state) {
           return Scaffold(
             backgroundColor: context.palette.appBackground,
-            appBar: AppBar(title: const Text('Đánh giá cửa hàng')),
+            appBar: AppBar(title: Text(l10n.reviewTitle)),
             body: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -82,22 +84,24 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Future<void> _submit() async {
     await _reviewCubit.submit(_comment.text);
     if (!mounted || !_reviewCubit.state.submitted) return;
+    final l10n = AppLocalizations.of(context);
     AppFeedback.showSnackBar(
       context,
       _reviewCubit.state.photoAttached
-          ? 'Đã gửi đánh giá kèm ảnh. Cảm ơn bạn!'
-          : 'Đã gửi đánh giá. Cảm ơn bạn!',
+          ? l10n.reviewSubmittedWithPhoto
+          : l10n.reviewSubmitted,
     );
     Navigator.pop(context);
   }
 
   void _togglePhoto() {
     _reviewCubit.togglePhoto();
+    final l10n = AppLocalizations.of(context);
     AppFeedback.showSnackBar(
       context,
       _reviewCubit.state.photoAttached
-          ? 'Đã đính kèm ảnh demo'
-          : 'Đã bỏ ảnh đính kèm',
+          ? l10n.reviewPhotoAttachedDemo
+          : l10n.reviewPhotoRemovedDemo,
     );
   }
 }

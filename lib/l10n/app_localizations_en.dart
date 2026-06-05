@@ -97,6 +97,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPasswordResetDemo => 'Demo password reset complete';
 
   @override
+  String get authPasswordChangedDemo => 'Demo password changed successfully';
+
+  @override
+  String get authPasswordSecurityTitle => 'Account security';
+
+  @override
+  String get authPasswordRuleTitle => 'Password requirements';
+
+  @override
+  String get authPasswordRuleMinLength => 'At least 8 characters';
+
+  @override
+  String get authPasswordRuleComplexity =>
+      'Should include uppercase letters, numbers, and special characters';
+
+  @override
+  String get authPasswordRuleDifferentFromCurrent =>
+      'Do not reuse your current password';
+
+  @override
+  String get authPasswordStrengthWeakHint => 'New password is still weak';
+
+  @override
+  String get authPasswordStrengthMediumHint => 'New password is moderate';
+
+  @override
+  String get authPasswordStrengthStrongHint => 'New password is strong';
+
+  @override
+  String get authPasswordUpdateSaving => 'Updating...';
+
+  @override
+  String get authPasswordUpdateSubmit => 'Update password';
+
+  @override
   String get commonCancel => 'Cancel';
 
   @override
@@ -164,6 +199,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountHelpAndSupport => 'Help & support';
+
+  @override
+  String get accountSaveProfileChanges => 'Save changes';
 
   @override
   String get accountHelpTitle => 'Help';
@@ -349,6 +387,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get productDetailViewStoreInfo => 'View store details';
+
+  @override
+  String get reviewTitle => 'Store review';
+
+  @override
+  String get reviewIntroTitle => 'How was your experience?';
+
+  @override
+  String get reviewIntroBody =>
+      'Your review helps the community choose better products.';
+
+  @override
+  String get reviewCommentHint => 'Enter your comments here...';
+
+  @override
+  String get reviewPhotoAttached => 'Image attached';
+
+  @override
+  String get reviewPhotoAdd => 'Add image';
+
+  @override
+  String get reviewSubmit => 'Submit review';
+
+  @override
+  String get reviewSubmitted => 'Review submitted. Thank you!';
+
+  @override
+  String get reviewSubmittedWithPhoto =>
+      'Review with photo submitted. Thank you!';
+
+  @override
+  String get reviewPhotoAttachedDemo => 'Demo image attached';
+
+  @override
+  String get reviewPhotoRemovedDemo => 'Attached image removed';
 
   @override
   String get scoreBadgeLabel => 'Score';

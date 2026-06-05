@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/ui/app_sheet.dart';
 import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 class AccountEditProfileSheet extends StatefulWidget {
   final String initialName;
@@ -41,6 +42,7 @@ class _AccountEditProfileSheetState extends State<AccountEditProfileSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.fromLTRB(
         20,
@@ -56,16 +58,16 @@ class _AccountEditProfileSheetState extends State<AccountEditProfileSheet> {
           children: [
             const Center(child: AppSheetHandle()),
             const SizedBox(height: 18),
-            const Text(
-              'Sửa hồ sơ',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            Text(
+              l10n.accountEditProfile,
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _name,
-              decoration: const InputDecoration(
-                labelText: 'Tên hiển thị',
-                prefixIcon: Icon(Icons.person),
+              decoration: InputDecoration(
+                labelText: l10n.authDisplayNameLabel,
+                prefixIcon: const Icon(Icons.person),
               ),
               validator: AppValidators.displayName,
             ),
@@ -73,9 +75,9 @@ class _AccountEditProfileSheetState extends State<AccountEditProfileSheet> {
             TextFormField(
               controller: _email,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.email),
+              decoration: InputDecoration(
+                labelText: l10n.authEmailLabel,
+                prefixIcon: const Icon(Icons.email),
               ),
               validator: AppValidators.email,
             ),
@@ -88,7 +90,7 @@ class _AccountEditProfileSheetState extends State<AccountEditProfileSheet> {
                   widget.onSave(_name.text, _email.text);
                   Navigator.pop(context, true);
                 },
-                child: const Text('Lưu thay đổi'),
+                child: Text(l10n.accountSaveProfileChanges),
               ),
             ),
           ],

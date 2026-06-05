@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/auth/widgets/change_password_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -38,12 +39,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: context.palette.appBackground,
       appBar: AppBar(
-        title: const Text(
-          'Đổi mật khẩu',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          l10n.authChangePassword,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: SafeArea(
@@ -86,7 +88,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     await widget.delayService.wait(AppDelayKind.passwordChange);
     if (!mounted) return;
     setState(() => _saving = false);
-    AppFeedback.showSnackBar(context, 'Đã đổi mật khẩu demo thành công');
+    AppFeedback.showSnackBar(
+      context,
+      AppLocalizations.of(context).authPasswordChangedDemo,
+    );
     Navigator.pop(context);
   }
 }

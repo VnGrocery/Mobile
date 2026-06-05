@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'change_password_strength.dart';
@@ -14,6 +15,7 @@ class ChangePasswordRuleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.palette;
     final strength = AppValidators.passwordStrength(password);
+    final l10n = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -24,9 +26,9 @@ class ChangePasswordRuleCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Yêu cầu mật khẩu',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Text(
+            l10n.authPasswordRuleTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
           ClipRRect(
@@ -39,13 +41,9 @@ class ChangePasswordRuleCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          const PasswordRuleRow(text: 'Tối thiểu 8 ký tự'),
-          const PasswordRuleRow(
-            text: 'Nên có chữ hoa, số và ký tự đặc biệt',
-          ),
-          const PasswordRuleRow(
-            text: 'Không dùng lại mật khẩu hiện tại',
-          ),
+          PasswordRuleRow(text: l10n.authPasswordRuleMinLength),
+          PasswordRuleRow(text: l10n.authPasswordRuleComplexity),
+          PasswordRuleRow(text: l10n.authPasswordRuleDifferentFromCurrent),
         ],
       ),
     );

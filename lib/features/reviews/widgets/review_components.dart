@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -8,17 +9,18 @@ class ReviewIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final l10n = AppLocalizations.of(context);
+    return Column(
       children: [
         Text(
-          'Trải nghiệm của bạn thế nào?',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          l10n.reviewIntroTitle,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 4, bottom: 24),
+          padding: const EdgeInsets.only(top: 4, bottom: 24),
           child: Text(
-            'Đánh giá của bạn giúp cộng đồng chọn sản phẩm tốt hơn.',
-            style: TextStyle(fontSize: 14, color: Colors.grey),
+            l10n.reviewIntroBody,
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
         ),
       ],
@@ -78,8 +80,8 @@ class ReviewCommentField extends StatelessWidget {
       maxLines: null,
       minLines: 6,
       onChanged: onChanged,
-      decoration: const InputDecoration(
-        hintText: 'Nhập nhận xét của bạn tại đây...',
+      decoration: InputDecoration(
+        hintText: AppLocalizations.of(context).reviewCommentHint,
       ),
     );
   }
@@ -100,6 +102,7 @@ class ReviewPhotoAttachment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     return GestureDetector(
       onTap: enabled ? onTap : null,
       child: Container(
@@ -118,7 +121,7 @@ class ReviewPhotoAttachment extends StatelessWidget {
               color: attached ? AppColors.primaryGreen : Colors.grey,
             ),
             Text(
-              attached ? 'Đã thêm hình ảnh' : 'Thêm hình ảnh',
+              attached ? l10n.reviewPhotoAttached : l10n.reviewPhotoAdd,
               style: TextStyle(
                 color: attached ? AppColors.primaryGreen : Colors.grey,
                 fontSize: 12,
@@ -160,9 +163,9 @@ class ReviewSubmitButton extends StatelessWidget {
                   strokeWidth: 2.5,
                 ),
               )
-            : const Text(
-                'Gửi đánh giá',
-                style: TextStyle(
+            : Text(
+                AppLocalizations.of(context).reviewSubmit,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),

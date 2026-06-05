@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
-String passwordStrengthLabel(int strength) {
+String passwordStrengthLabel(BuildContext context, int strength) {
+  final l10n = AppLocalizations.of(context);
   return switch (strength) {
-    0 || 1 => 'Mật khẩu mới còn yếu',
-    2 || 3 => 'Mật khẩu mới ở mức khá',
-    _ => 'Mật khẩu mới mạnh',
+    0 || 1 => l10n.authPasswordStrengthWeakHint,
+    2 || 3 => l10n.authPasswordStrengthMediumHint,
+    _ => l10n.authPasswordStrengthStrongHint,
   };
 }
 
