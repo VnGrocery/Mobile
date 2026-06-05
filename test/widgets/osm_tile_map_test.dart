@@ -175,4 +175,31 @@ void main() {
     );
     expect(requested.every((tile) => tile.startsWith('3/')), isTrue);
   });
+
+  testWidgets('supports provider zoom boundaries at zero', (tester) async {
+    final requested = <String>[];
+    final config = OsmTileProviderConfig(
+      tileUriBuilder: (zoom, x, y) {
+        requested.add('$zoom/$x/$y');
+        return Uri.parse('https://tiles.test/$zoom/$x/$y.png');
+      },
+      attribution: '© Example Maps',
+      minZoom: 0,
+      maxZoom: 0,
+    );
+
+    await tester.pumpWidget(
+      host(
+        OsmTileMap(latitude: 0, longitude: 540, zoom: 7, providerConfig: config),
+      ),
+    );
+
+    expect(requested, isNotEmpty);
+    expect(requested.every((tile) => tile.startsWith('0/')), isTrue);
+    for (final tile in requested) {
+      final parts = tile.split('/').map(int.parse).toList();
+      expect(parts[1], 0);
+      expect(parts[2], 0);
+    }
+  });
 }

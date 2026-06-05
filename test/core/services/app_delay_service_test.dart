@@ -62,6 +62,39 @@ void main() {
       expect(stopwatch.elapsed, lessThan(const Duration(milliseconds: 100)));
     });
 
+    test('wait falls back to default duration when override missing', () async {
+      final service = AppDelayService(
+        overrides: {AppDelayKind.reviewSubmit: Duration.zero},
+      );
+
+      final stopwatch = Stopwatch()..start();
+      await service.wait(AppDelayKind.authRegister);
+      stopwatch.stop();
+
+      expect(stopwatch.elapsed, greaterThanOrEqualTo(const Duration(milliseconds: 500)));
+    });
+
+    test('waitDuration completes immediately for zero and negative durations', () async {
+      const service = AppDelayService();
+
+      final zeroStopwatch = Stopwatch()..start();
+      await service.waitDuration(Duration.zero);
+      zeroStopwatch.stop();
+
+      final negativeStopwatch = Stopwatch()..start();
+      await service.waitDuration(const Duration(milliseconds: -1));
+      negativeStopwatch.stop();
+
+      expect(
+        zeroStopwatch.elapsed,
+        lessThan(const Duration(milliseconds: 100)),
+      );
+      expect(
+        negativeStopwatch.elapsed,
+        lessThan(const Duration(milliseconds: 100)),
+      );
+    });
+
     test('noop waits complete immediately', () async {
       const service = NoopAppDelayService();
 
