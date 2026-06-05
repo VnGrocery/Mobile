@@ -147,6 +147,70 @@ class AppLocalizationsVi extends AppLocalizations {
   String get commonDecreaseQuantity => 'Giảm số lượng';
 
   @override
+  String get cartTitle => 'Giỏ tính tiền';
+
+  @override
+  String get cartClearTooltip => 'Xóa giỏ';
+
+  @override
+  String get cartEmptyBody =>
+      'Giỏ đang trống.\nThêm sản phẩm để tính tiền và kiểm tra voucher.';
+
+  @override
+  String get cartExpiryNotice =>
+      'Sản phẩm trong giỏ chỉ được giữ 24 giờ để tính tiền và kiểm tra voucher.';
+
+  @override
+  String get cartGrandSubtotal => 'Tổng tạm tính';
+
+  @override
+  String get cartGrandDiscount => 'Tổng voucher giảm';
+
+  @override
+  String get cartGrandTotal => 'Tổng tiền nếu tính hết';
+
+  @override
+  String get cartUnavailableShopName => 'Cửa hàng không khả dụng';
+
+  @override
+  String cartAppliedVoucher(Object code) {
+    return 'Đã áp dụng: $code';
+  }
+
+  @override
+  String get cartRemoveVoucher => 'Bỏ mã';
+
+  @override
+  String get cartVoucherFieldLabel => 'Mã voucher của shop';
+
+  @override
+  String get cartCheckVoucher => 'Kiểm tra';
+
+  @override
+  String get cartShopSubtotal => 'Tạm tính';
+
+  @override
+  String get cartShopDiscount => 'Voucher giảm';
+
+  @override
+  String get cartShopTotal => 'Còn lại';
+
+  @override
+  String get cartBadgeTooltip => 'Giỏ hàng';
+
+  @override
+  String get buyerCheckResultTitle => 'Kết quả kiểm tra';
+
+  @override
+  String get buyerCheckViewStore => 'Xem cửa hàng';
+
+  @override
+  String get buyerCheckRetake => 'Chụp lại';
+
+  @override
+  String get buyerCheckVoucherSaved => 'Đã lưu voucher vào ví';
+
+  @override
   String get commonIncreaseQuantity => 'Tăng số lượng';
 
   @override

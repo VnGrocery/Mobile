@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -15,14 +16,14 @@ class CartExpiryBanner extends StatelessWidget {
         color: context.palette.warningBg,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.schedule, color: AppColors.warningOrange),
-          SizedBox(width: 10),
+          const Icon(Icons.schedule, color: AppColors.warningOrange),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Sản phẩm trong giỏ chỉ được giữ 24 giờ để tính tiền và kiểm tra voucher.',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              AppLocalizations.of(context).cartExpiryNotice,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
             ),
           ),
         ],

@@ -147,6 +147,70 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonDecreaseQuantity => 'Decrease quantity';
 
   @override
+  String get cartTitle => 'Checkout cart';
+
+  @override
+  String get cartClearTooltip => 'Clear cart';
+
+  @override
+  String get cartEmptyBody =>
+      'Your cart is empty.\nAdd products to estimate totals and check vouchers.';
+
+  @override
+  String get cartExpiryNotice =>
+      'Items in the cart are kept for 24 hours for pricing and voucher checks.';
+
+  @override
+  String get cartGrandSubtotal => 'Grand subtotal';
+
+  @override
+  String get cartGrandDiscount => 'Total voucher discount';
+
+  @override
+  String get cartGrandTotal => 'Estimated grand total';
+
+  @override
+  String get cartUnavailableShopName => 'Store unavailable';
+
+  @override
+  String cartAppliedVoucher(Object code) {
+    return 'Applied: $code';
+  }
+
+  @override
+  String get cartRemoveVoucher => 'Remove code';
+
+  @override
+  String get cartVoucherFieldLabel => 'Store voucher code';
+
+  @override
+  String get cartCheckVoucher => 'Check';
+
+  @override
+  String get cartShopSubtotal => 'Subtotal';
+
+  @override
+  String get cartShopDiscount => 'Voucher discount';
+
+  @override
+  String get cartShopTotal => 'Remaining';
+
+  @override
+  String get cartBadgeTooltip => 'Cart';
+
+  @override
+  String get buyerCheckResultTitle => 'Check result';
+
+  @override
+  String get buyerCheckViewStore => 'View store';
+
+  @override
+  String get buyerCheckRetake => 'Retake';
+
+  @override
+  String get buyerCheckVoucherSaved => 'Voucher saved to wallet';
+
+  @override
   String get commonIncreaseQuantity => 'Increase quantity';
 
   @override

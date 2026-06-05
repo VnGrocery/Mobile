@@ -7,6 +7,7 @@ import 'package:vngrocery/features/cart/controllers/cart_state.dart';
 import 'package:vngrocery/features/cart/widgets/cart_expiry_banner.dart';
 import 'package:vngrocery/features/cart/widgets/cart_shop_group_card.dart';
 import 'package:vngrocery/features/cart/widgets/cart_summary_bar.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class CartScreen extends StatelessWidget {
@@ -14,13 +15,14 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: context.palette.appBackground,
       appBar: AppBar(
-        title: const Text('Giỏ tính tiền'),
+        title: Text(l10n.cartTitle),
         actions: [
           IconButton(
-            tooltip: 'Xóa giỏ',
+            tooltip: l10n.cartClearTooltip,
             onPressed: () => context.read<CartBloc>().add(const CartCleared()),
             icon: const Icon(Icons.delete_outline),
           ),
@@ -63,13 +65,13 @@ class _EmptyCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Padding(
-        padding: EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         child: Text(
-          'Giỏ đang trống.\nThêm sản phẩm để tính tiền và kiểm tra voucher.',
+          AppLocalizations.of(context).cartEmptyBody,
           textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
     );

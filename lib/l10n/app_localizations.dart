@@ -362,6 +362,126 @@ abstract class AppLocalizations {
   /// **'Decrease quantity'**
   String get commonDecreaseQuantity;
 
+  /// No description provided for @cartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout cart'**
+  String get cartTitle;
+
+  /// No description provided for @cartClearTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cart'**
+  String get cartClearTooltip;
+
+  /// No description provided for @cartEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty.\nAdd products to estimate totals and check vouchers.'**
+  String get cartEmptyBody;
+
+  /// No description provided for @cartExpiryNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Items in the cart are kept for 24 hours for pricing and voucher checks.'**
+  String get cartExpiryNotice;
+
+  /// No description provided for @cartGrandSubtotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Grand subtotal'**
+  String get cartGrandSubtotal;
+
+  /// No description provided for @cartGrandDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total voucher discount'**
+  String get cartGrandDiscount;
+
+  /// No description provided for @cartGrandTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated grand total'**
+  String get cartGrandTotal;
+
+  /// No description provided for @cartUnavailableShopName.
+  ///
+  /// In en, this message translates to:
+  /// **'Store unavailable'**
+  String get cartUnavailableShopName;
+
+  /// No description provided for @cartAppliedVoucher.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied: {code}'**
+  String cartAppliedVoucher(Object code);
+
+  /// No description provided for @cartRemoveVoucher.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove code'**
+  String get cartRemoveVoucher;
+
+  /// No description provided for @cartVoucherFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Store voucher code'**
+  String get cartVoucherFieldLabel;
+
+  /// No description provided for @cartCheckVoucher.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get cartCheckVoucher;
+
+  /// No description provided for @cartShopSubtotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get cartShopSubtotal;
+
+  /// No description provided for @cartShopDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Voucher discount'**
+  String get cartShopDiscount;
+
+  /// No description provided for @cartShopTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining'**
+  String get cartShopTotal;
+
+  /// No description provided for @cartBadgeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get cartBadgeTooltip;
+
+  /// No description provided for @buyerCheckResultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check result'**
+  String get buyerCheckResultTitle;
+
+  /// No description provided for @buyerCheckViewStore.
+  ///
+  /// In en, this message translates to:
+  /// **'View store'**
+  String get buyerCheckViewStore;
+
+  /// No description provided for @buyerCheckRetake.
+  ///
+  /// In en, this message translates to:
+  /// **'Retake'**
+  String get buyerCheckRetake;
+
+  /// No description provided for @buyerCheckVoucherSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Voucher saved to wallet'**
+  String get buyerCheckVoucherSaved;
+
   /// No description provided for @commonIncreaseQuantity.
   ///
   /// In en, this message translates to:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class CartBadgeButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class CartBadgeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: 'Giỏ hàng',
+      tooltip: AppLocalizations.of(context).cartBadgeTooltip,
       onPressed: onTap,
       icon: Stack(
         clipBehavior: Clip.none,

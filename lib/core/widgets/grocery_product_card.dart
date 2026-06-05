@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/utils/currency_formatter.dart';
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
-import 'package:vngrocery/core/utils/currency_formatter.dart';
 
 class GroceryProductCard extends StatelessWidget {
   final Product product;
@@ -87,7 +88,7 @@ class GroceryProductCard extends StatelessWidget {
               ),
               if (onAddToCart != null)
                 IconButton.filled(
-                  tooltip: 'Thêm vào giỏ',
+                  tooltip: AppLocalizations.of(context).productDetailAddToCart,
                   onPressed: onAddToCart,
                   icon: const Icon(Icons.add_shopping_cart),
                 ),

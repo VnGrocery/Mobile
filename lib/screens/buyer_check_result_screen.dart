@@ -7,6 +7,7 @@ import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/buyer_check/controllers/buyer_check_cubit.dart';
 import 'package:vngrocery/features/buyer_check/controllers/buyer_check_state.dart';
 import 'package:vngrocery/features/buyer_check/widgets/buyer_check_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -36,6 +37,7 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocProvider.value(
       value: _buyerCheckCubit,
       child: BlocBuilder<BuyerCheckCubit, BuyerCheckState>(
@@ -46,7 +48,7 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
           if (result == null || product == null || shop == null) {
             return Scaffold(
               backgroundColor: context.palette.appBackground,
-              appBar: AppBar(title: const Text('Kết quả kiểm tra')),
+              appBar: AppBar(title: Text(l10n.buyerCheckResultTitle)),
               body: const Center(child: CircularProgressIndicator()),
             );
           }
@@ -54,7 +56,7 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
           return Scaffold(
             key: const ValueKey('buyer_check_result.screen'),
             backgroundColor: context.palette.appBackground,
-            appBar: AppBar(title: const Text('Kết quả kiểm tra')),
+            appBar: AppBar(title: Text(l10n.buyerCheckResultTitle)),
             body: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -82,17 +84,17 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
                     height: 56,
                     child: FilledButton(
                       onPressed: () => _openStore(shop),
-                      child: const Text(
-                        'Xem cửa hàng',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      child: Text(
+                        l10n.buyerCheckViewStore,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'Chụp lại',
-                      style: TextStyle(color: Colors.grey),
+                    child: Text(
+                      l10n.buyerCheckRetake,
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   ),
                 ],
@@ -114,12 +116,18 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
       userEmail: context.read<SessionCubit>().state.email,
       voucher: voucher,
     );
-    AppFeedback.showSnackBar(context, 'Đã lưu voucher vào ví');
+    AppFeedback.showSnackBar(
+      context,
+      AppLocalizations.of(context).buyerCheckVoucherSaved,
+    );
   }
 
   void _openStore(Shop shop) {
     final shopId = context.read<SessionCubit>().state.shopId ?? shop.id;
-    Navigator.pushNamed(context, Routes.storeDetail,
-        arguments: StoreDetailArgs(shopId));
+    Navigator.pushNamed(
+      context,
+      Routes.storeDetail,
+      arguments: StoreDetailArgs(shopId),
+    );
   }
 }

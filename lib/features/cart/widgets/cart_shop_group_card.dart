@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/utils/currency_formatter.dart';
 import 'package:vngrocery/data/data_hooks.dart';
-import 'package:vngrocery/theme/app_colors.dart';
-import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/data/models.dart' show Voucher;
 import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_event.dart';
 import 'package:vngrocery/features/cart/controllers/cart_state.dart';
-import 'package:vngrocery/data/models.dart' show Voucher;
 import 'package:vngrocery/features/cart/models/cart_item.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 import 'cart_item_row.dart';
 
 class CartShopGroupCard extends StatefulWidget {
@@ -40,6 +41,7 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     final shop = AppDataHooks.instance.getShopOrNull(widget.shopId);
     final appliedVoucher = widget.state.appliedVouchersByShop[widget.shopId];
 
@@ -53,7 +55,9 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _ShopHeader(shopName: shop?.name ?? 'Cửa hàng không khả dụng'),
+          _ShopHeader(
+            shopName: shop?.name ?? l10n.cartUnavailableShopName,
+          ),
           const SizedBox(height: 12),
           for (final item in widget.items) ...[
             CartItemRow(item: item),
@@ -123,20 +127,21 @@ class _VoucherInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final voucher = appliedVoucher;
     if (voucher != null) {
       return Row(
         children: [
           Expanded(
             child: Text(
-              'Đã áp dụng: ${voucher.code}',
+              l10n.cartAppliedVoucher(voucher.code),
               style: const TextStyle(
                 color: AppColors.primaryGreen,
                 fontWeight: FontWeight.w700,
               ),
             ),
           ),
-          TextButton(onPressed: onRemove, child: const Text('Bỏ mã')),
+          TextButton(onPressed: onRemove, child: Text(l10n.cartRemoveVoucher)),
         ],
       );
     }
@@ -147,15 +152,15 @@ class _VoucherInput extends StatelessWidget {
           child: TextField(
             controller: controller,
             textCapitalization: TextCapitalization.characters,
-            decoration: const InputDecoration(
-              labelText: 'Mã voucher của shop',
-              prefixIcon: Icon(Icons.confirmation_number),
+            decoration: InputDecoration(
+              labelText: l10n.cartVoucherFieldLabel,
+              prefixIcon: const Icon(Icons.confirmation_number),
             ),
             onSubmitted: (_) => onApply(),
           ),
         ),
         const SizedBox(width: 8),
-        FilledButton(onPressed: onApply, child: const Text('Kiểm tra')),
+        FilledButton(onPressed: onApply, child: Text(l10n.cartCheckVoucher)),
       ],
     );
   }
@@ -169,14 +174,15 @@ class _ShopTotals extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final discount = state.shopDiscount(shopId);
     return Column(
       children: [
-        _TotalLine(label: 'Tạm tính', value: state.shopSubtotal(shopId)),
-        _TotalLine(label: 'Voucher giảm', value: -discount),
+        _TotalLine(label: l10n.cartShopSubtotal, value: state.shopSubtotal(shopId)),
+        _TotalLine(label: l10n.cartShopDiscount, value: -discount),
         const Divider(height: 18),
         _TotalLine(
-          label: 'Còn lại',
+          label: l10n.cartShopTotal,
           value: state.shopTotal(shopId),
           strong: true,
         ),

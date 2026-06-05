@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/utils/currency_formatter.dart';
+import 'package:vngrocery/features/cart/controllers/cart_state.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
-import 'package:vngrocery/features/cart/controllers/cart_state.dart';
 
 class CartSummaryBar extends StatelessWidget {
   final CartState state;
@@ -12,6 +13,7 @@ class CartSummaryBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
       decoration: BoxDecoration(
@@ -21,11 +23,11 @@ class CartSummaryBar extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _Line(label: 'Tổng tạm tính', value: state.grandSubtotal),
-          _Line(label: 'Tổng voucher giảm', value: -state.grandDiscount),
+          _Line(label: l10n.cartGrandSubtotal, value: state.grandSubtotal),
+          _Line(label: l10n.cartGrandDiscount, value: -state.grandDiscount),
           const SizedBox(height: 6),
           _Line(
-            label: 'Tổng tiền nếu tính hết',
+            label: l10n.cartGrandTotal,
             value: state.grandTotal,
             strong: true,
           ),
