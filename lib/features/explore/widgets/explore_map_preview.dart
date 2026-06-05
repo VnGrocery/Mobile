@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/widgets/osm_tile_map.dart';
@@ -29,6 +30,7 @@ class ExploreMapPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     return AspectRatio(
       aspectRatio: 1.95,
       child: DecoratedBox(
@@ -87,7 +89,7 @@ class ExploreMapPreview extends StatelessWidget {
                   color: palette.elevatedCard,
                   shape: const CircleBorder(),
                   child: IconButton(
-                    tooltip: 'Vị trí của bạn',
+                    tooltip: l10n.exploreYourLocation,
                     onPressed: onOpenMap,
                     icon: const Icon(
                       Icons.my_location,
@@ -116,14 +118,14 @@ class MapPreviewBadge extends StatelessWidget {
         color: palette.elevatedCard,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.map, size: 16, color: AppColors.primaryGreen),
-          SizedBox(width: 6),
+          const Icon(Icons.map, size: 16, color: AppColors.primaryGreen),
+          const SizedBox(width: 6),
           Text(
-            'Mở bản đồ',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            AppLocalizations.of(context).exploreOpenMap,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ],
       ),

@@ -6,6 +6,7 @@ import 'package:vngrocery/features/explore_map/controllers/explore_map_cubit.dar
 import 'package:vngrocery/features/explore_map/controllers/explore_map_state.dart';
 import 'package:vngrocery/features/explore_map/explore_map_presenter.dart';
 import 'package:vngrocery/features/explore_map/widgets/explore_map_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/widgets/osm_tile_map.dart';
 
 class ExploreMapScreen extends StatefulWidget {
@@ -105,6 +106,9 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
 
   void _locateUser() {
     _mapCubit.locateNearestDemoShop();
-    AppFeedback.showSnackBar(context, 'Đã căn về vị trí gần bạn (demo)');
+    AppFeedback.showSnackBar(
+      context,
+      AppLocalizations.of(context).exploreLocateDemo,
+    );
   }
 }

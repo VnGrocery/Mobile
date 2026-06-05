@@ -1,16 +1,17 @@
-import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/data_hooks.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 class ExplorePresenter {
   const ExplorePresenter._();
 
   static final AppDataHooks _data = AppDataHooks.instance;
 
-  static const filters = [
-    'Đánh giá tốt',
-    'Có ghi nhận',
-    'Gần bạn',
-    'Mới nhất',
+  static List<String> filters(AppLocalizations l10n) => [
+    l10n.exploreFilterTopRated,
+    l10n.exploreFilterRecorded,
+    l10n.exploreFilterNearby,
+    l10n.exploreFilterNewest,
   ];
 
   static List<Shop> shops() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -21,6 +22,7 @@ class ExploreShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     return Card(
       key: ValueKey('store.card.${shop.id}'),
       color: selected ? palette.positiveBg : palette.card,
@@ -94,7 +96,7 @@ class ExploreShopCard extends StatelessWidget {
                                 size: 12,
                               ),
                               Text(
-                                ' ${shop.rating} điểm đánh giá',
+                                l10n.exploreRatingLabel(shop.rating.toString()),
                                 style: const TextStyle(
                                   color: AppColors.trustGreen,
                                   fontSize: 11,
@@ -115,9 +117,9 @@ class ExploreShopCard extends StatelessWidget {
                               color: AppColors.meatRed.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            child: const Text(
-                              'Đánh giá tốt',
-                              style: TextStyle(
+                            child: Text(
+                              l10n.exploreTopRatedBadge,
+                              style: const TextStyle(
                                 color: AppColors.meatRed,
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,

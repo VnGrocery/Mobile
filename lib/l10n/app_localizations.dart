@@ -482,6 +482,102 @@ abstract class AppLocalizations {
   /// **'Voucher saved to wallet'**
   String get buyerCheckVoucherSaved;
 
+  /// No description provided for @exploreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore stores'**
+  String get exploreTitle;
+
+  /// No description provided for @exploreStoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get exploreStoreTitle;
+
+  /// No description provided for @exploreNearbyStoresTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores near you'**
+  String get exploreNearbyStoresTitle;
+
+  /// No description provided for @exploreAllStoresTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All stores'**
+  String get exploreAllStoresTitle;
+
+  /// No description provided for @exploreNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching stores found'**
+  String get exploreNoResults;
+
+  /// No description provided for @exploreSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by store name or address...'**
+  String get exploreSearchHint;
+
+  /// No description provided for @exploreDirections.
+  ///
+  /// In en, this message translates to:
+  /// **'Directions'**
+  String get exploreDirections;
+
+  /// No description provided for @exploreYourLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location'**
+  String get exploreYourLocation;
+
+  /// No description provided for @exploreOpenMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Open map'**
+  String get exploreOpenMap;
+
+  /// No description provided for @exploreTopRatedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Top rated'**
+  String get exploreTopRatedBadge;
+
+  /// No description provided for @exploreRatingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **' {rating} rating points'**
+  String exploreRatingLabel(Object rating);
+
+  /// No description provided for @exploreLocateDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Centered on a nearby demo location'**
+  String get exploreLocateDemo;
+
+  /// No description provided for @exploreFilterTopRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Top rated'**
+  String get exploreFilterTopRated;
+
+  /// No description provided for @exploreFilterRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded'**
+  String get exploreFilterRecorded;
+
+  /// No description provided for @exploreFilterNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby'**
+  String get exploreFilterNearby;
+
+  /// No description provided for @exploreFilterNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get exploreFilterNewest;
+
   /// No description provided for @commonIncreaseQuantity.
   ///
   /// In en, this message translates to:

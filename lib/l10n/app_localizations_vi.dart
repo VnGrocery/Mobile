@@ -211,6 +211,56 @@ class AppLocalizationsVi extends AppLocalizations {
   String get buyerCheckVoucherSaved => 'Đã lưu voucher vào ví';
 
   @override
+  String get exploreTitle => 'Khám phá cửa hàng';
+
+  @override
+  String get exploreStoreTitle => 'Cửa hàng';
+
+  @override
+  String get exploreNearbyStoresTitle => 'Cửa hàng gần bạn';
+
+  @override
+  String get exploreAllStoresTitle => 'Tất cả cửa hàng';
+
+  @override
+  String get exploreNoResults => 'Không tìm thấy cửa hàng phù hợp';
+
+  @override
+  String get exploreSearchHint => 'Tìm tên cửa hàng hoặc địa chỉ...';
+
+  @override
+  String get exploreDirections => 'Xem đường';
+
+  @override
+  String get exploreYourLocation => 'Vị trí của bạn';
+
+  @override
+  String get exploreOpenMap => 'Mở bản đồ';
+
+  @override
+  String get exploreTopRatedBadge => 'Đánh giá tốt';
+
+  @override
+  String exploreRatingLabel(Object rating) {
+    return ' $rating điểm đánh giá';
+  }
+
+  @override
+  String get exploreLocateDemo => 'Đã căn về vị trí gần bạn (demo)';
+
+  @override
+  String get exploreFilterTopRated => 'Đánh giá tốt';
+
+  @override
+  String get exploreFilterRecorded => 'Có ghi nhận';
+
+  @override
+  String get exploreFilterNearby => 'Gần bạn';
+
+  @override
+  String get exploreFilterNewest => 'Mới nhất';
+
+  @override
   String get commonIncreaseQuantity => 'Tăng số lượng';
 
   @override

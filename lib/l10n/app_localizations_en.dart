@@ -211,6 +211,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String get buyerCheckVoucherSaved => 'Voucher saved to wallet';
 
   @override
+  String get exploreTitle => 'Explore stores';
+
+  @override
+  String get exploreStoreTitle => 'Stores';
+
+  @override
+  String get exploreNearbyStoresTitle => 'Stores near you';
+
+  @override
+  String get exploreAllStoresTitle => 'All stores';
+
+  @override
+  String get exploreNoResults => 'No matching stores found';
+
+  @override
+  String get exploreSearchHint => 'Search by store name or address...';
+
+  @override
+  String get exploreDirections => 'Directions';
+
+  @override
+  String get exploreYourLocation => 'Your location';
+
+  @override
+  String get exploreOpenMap => 'Open map';
+
+  @override
+  String get exploreTopRatedBadge => 'Top rated';
+
+  @override
+  String exploreRatingLabel(Object rating) {
+    return ' $rating rating points';
+  }
+
+  @override
+  String get exploreLocateDemo => 'Centered on a nearby demo location';
+
+  @override
+  String get exploreFilterTopRated => 'Top rated';
+
+  @override
+  String get exploreFilterRecorded => 'Recorded';
+
+  @override
+  String get exploreFilterNearby => 'Nearby';
+
+  @override
+  String get exploreFilterNewest => 'Newest';
+
+  @override
   String get commonIncreaseQuantity => 'Increase quantity';
 
   @override

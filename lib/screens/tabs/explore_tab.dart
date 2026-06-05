@@ -5,6 +5,7 @@ import 'package:vngrocery/features/explore/controllers/explore_cubit.dart';
 import 'package:vngrocery/features/explore/controllers/explore_state.dart';
 import 'package:vngrocery/features/explore/explore_presenter.dart';
 import 'package:vngrocery/features/explore/widgets/explore_tab_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -43,6 +44,7 @@ class _ExploreTabState extends State<ExploreTab> {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
 
     return BlocProvider.value(
       value: _exploreCubit,
@@ -55,7 +57,7 @@ class _ExploreTabState extends State<ExploreTab> {
             backgroundColor: palette.appBackground,
             appBar: AppBar(
               title: Text(
-                widget.showMap ? 'Khám phá cửa hàng' : 'Cửa hàng',
+                widget.showMap ? l10n.exploreTitle : l10n.exploreStoreTitle,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -69,7 +71,7 @@ class _ExploreTabState extends State<ExploreTab> {
                   ),
                 ),
                 ExploreFilterBar(
-                  filters: ExplorePresenter.filters,
+                  filters: ExplorePresenter.filters(l10n),
                   selectedFilter: state.selectedFilter,
                   onSelect: _exploreCubit.setFilter,
                 ),
@@ -92,8 +94,9 @@ class _ExploreTabState extends State<ExploreTab> {
                   const SizedBox(height: 12),
                 ],
                 ExploreStoreListHeader(
-                  title:
-                      widget.showMap ? 'Cửa hàng gần bạn' : 'Tất cả cửa hàng',
+                  title: widget.showMap
+                      ? l10n.exploreNearbyStoresTitle
+                      : l10n.exploreAllStoresTitle,
                   showDirections: widget.showMap && selectedShop != null,
                   onDirections: selectedShop == null
                       ? null
@@ -105,10 +108,12 @@ class _ExploreTabState extends State<ExploreTab> {
                 ),
                 Expanded(
                   child: shops.isEmpty
-                      ? const Center(
+                      ? Center(
                           child: Text(
-                            'Không tìm thấy cửa hàng phù hợp',
-                            style: TextStyle(color: AppColors.textSecondary),
+                            l10n.exploreNoResults,
+                            style: const TextStyle(
+                              color: AppColors.textSecondary,
+                            ),
                           ),
                         )
                       : ListView.separated(

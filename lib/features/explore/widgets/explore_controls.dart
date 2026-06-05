@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -20,7 +21,7 @@ class ExploreSearchField extends StatelessWidget {
       controller: controller,
       onChanged: (_) => onChanged(),
       decoration: InputDecoration(
-        hintText: 'Tìm tên cửa hàng hoặc địa chỉ...',
+        hintText: AppLocalizations.of(context).exploreSearchHint,
         filled: true,
         fillColor: palette.field,
         prefixIcon: const Icon(Icons.search),
@@ -98,7 +99,7 @@ class ExploreStoreListHeader extends StatelessWidget {
             TextButton.icon(
               onPressed: onDirections,
               icon: const Icon(Icons.directions, size: 18),
-              label: const Text('Xem đường'),
+              label: Text(AppLocalizations.of(context).exploreDirections),
             ),
         ],
       ),

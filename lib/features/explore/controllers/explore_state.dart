@@ -1,5 +1,4 @@
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/features/explore/explore_presenter.dart';
 
 class ExploreState {
   final String query;
@@ -15,7 +14,7 @@ class ExploreState {
   });
 
   factory ExploreState.initial() {
-    return ExploreState(selectedFilter: ExplorePresenter.filters.first);
+    return const ExploreState(selectedFilter: 'top_rated');
   }
 
   Shop? get selectedShop {
