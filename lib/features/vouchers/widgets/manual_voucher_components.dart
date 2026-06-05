@@ -94,6 +94,7 @@ class ManualVoucherFields extends StatelessWidget {
     return Column(
       children: [
         TextFormField(
+          key: const ValueKey('manual_voucher.code_field'),
           controller: code,
           textCapitalization: TextCapitalization.characters,
           decoration: const InputDecoration(
@@ -107,6 +108,7 @@ class ManualVoucherFields extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         TextFormField(
+          key: const ValueKey('manual_voucher.title_field'),
           controller: title,
           decoration: const InputDecoration(
             labelText: 'Tên gợi nhớ',
@@ -116,6 +118,7 @@ class ManualVoucherFields extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         TextFormField(
+          key: const ValueKey('manual_voucher.note_field'),
           controller: note,
           maxLines: 4,
           decoration: const InputDecoration(
@@ -164,6 +167,7 @@ class ManualVoucherSaveButton extends StatelessWidget {
     return SizedBox(
       height: 56,
       child: FilledButton.icon(
+        key: const ValueKey('manual_voucher.save_button'),
         onPressed: onSave,
         icon: const Icon(Icons.save),
         label: const Text('Lưu vào ví'),

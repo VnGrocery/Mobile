@@ -71,6 +71,7 @@ class SideMenuPanel extends StatelessWidget {
                                   delayIndex: i,
                                   selected: i == selectedIndex,
                                   onTap: () => onSelect(i),
+                                  selectorKey: items[i].selectorKey,
                                 ),
                                 const SizedBox(height: 8),
                               ],

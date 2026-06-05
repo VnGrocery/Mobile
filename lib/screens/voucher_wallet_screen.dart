@@ -45,6 +45,7 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
           title: const Text('Ví voucher'),
           actions: [
             IconButton(
+              key: const ValueKey('voucher_wallet.add_manual_button'),
               tooltip: 'Thêm thủ công',
               onPressed: _openManualVoucher,
               icon: const Icon(Icons.add_card),

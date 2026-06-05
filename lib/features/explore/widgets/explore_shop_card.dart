@@ -22,6 +22,7 @@ class ExploreShopCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final palette = context.palette;
     return Card(
+      key: ValueKey('store.card.${shop.id}'),
       color: selected ? palette.positiveBg : palette.card,
       elevation: 0,
       shape: RoundedRectangleBorder(

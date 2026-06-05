@@ -9,6 +9,7 @@ class SideMenuButton extends StatelessWidget {
   final int delayIndex;
   final bool selected;
   final VoidCallback onTap;
+  final String? selectorKey;
 
   const SideMenuButton({
     super.key,
@@ -18,6 +19,7 @@ class SideMenuButton extends StatelessWidget {
     required this.delayIndex,
     required this.selected,
     required this.onTap,
+    this.selectorKey,
   });
 
   @override
@@ -35,6 +37,7 @@ class SideMenuButton extends StatelessWidget {
           color: selected ? Colors.white : Colors.transparent,
           borderRadius: BorderRadius.circular(18),
           child: InkWell(
+            key: selectorKey == null ? null : ValueKey('account.route.$selectorKey'),
             borderRadius: BorderRadius.circular(18),
             onTap: onTap,
             child: Padding(

@@ -52,6 +52,7 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
           }
 
           return Scaffold(
+            key: const ValueKey('buyer_check_result.screen'),
             backgroundColor: context.palette.appBackground,
             appBar: AppBar(title: const Text('Kết quả kiểm tra')),
             body: SingleChildScrollView(

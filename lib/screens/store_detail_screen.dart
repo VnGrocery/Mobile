@@ -51,6 +51,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           }
 
           return Scaffold(
+            key: ValueKey('store_detail.${shop.id}'),
             backgroundColor: context.palette.appBackground,
             appBar: AppBar(
               title: const Text('Chi tiết cửa hàng'),
