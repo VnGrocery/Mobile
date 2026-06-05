@@ -159,7 +159,10 @@ class _AccountTabState extends State<AccountTab> {
             label: 'Hỗ trợ & Trợ giúp',
             onTap: () => _showHelp(context),
           ),
-          AccountLogoutButton(onTap: () => _logout(context)),
+          AccountLogoutButton(
+            selectorKey: 'account.logout_button',
+            onTap: () => _logout(context),
+          ),
           const SizedBox(height: 40),
         ],
       ),

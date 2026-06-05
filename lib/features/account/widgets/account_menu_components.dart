@@ -116,12 +116,18 @@ class AccountSwitchItem extends StatelessWidget {
 
 class AccountLogoutButton extends StatelessWidget {
   final VoidCallback onTap;
+  final String? selectorKey;
 
-  const AccountLogoutButton({super.key, required this.onTap});
+  const AccountLogoutButton({
+    super.key,
+    required this.onTap,
+    this.selectorKey,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      key: selectorKey == null ? null : ValueKey(selectorKey!),
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(16),

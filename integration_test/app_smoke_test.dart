@@ -171,7 +171,7 @@ void main() {
       await tester.pump();
       await pumpMillis(tester, 500);
 
-      await tester.tap(find.text('Đăng xuất'));
+      await tester.tap(find.byKey(const ValueKey('account.logout_button')));
       await tester.pump();
       await pumpMillis(tester, 200);
 
