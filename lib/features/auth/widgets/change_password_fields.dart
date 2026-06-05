@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'auth_components.dart';
 
 class ChangePasswordFields extends StatelessWidget {
@@ -31,6 +32,7 @@ class ChangePasswordFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         AuthPasswordField(
@@ -43,19 +45,23 @@ class ChangePasswordFields extends StatelessWidget {
         const SizedBox(height: 12),
         AuthPasswordField(
           controller: newPassword,
-          label: 'Mật khẩu mới',
+          label: l10n.authNewPasswordLabel,
           visible: showNew,
           onToggle: onToggleNew,
           onChanged: onPasswordChanged,
-          validator: (value) => AppValidators.changedPassword(
-            value,
-            currentPassword.text,
-          ),
+          validator: (value) {
+            final error = AppValidators.newPassword(value);
+            if (error != null) return error;
+            return AppValidators.passwordChange(
+              currentPassword: currentPassword.text,
+              newPassword: value ?? '',
+            );
+          },
         ),
         const SizedBox(height: 12),
         AuthPasswordField(
           controller: confirmPassword,
-          label: 'Nhập lại mật khẩu mới',
+          label: l10n.authConfirmNewPasswordLabel,
           visible: showConfirm,
           onToggle: onToggleConfirm,
           validator: (value) => AppValidators.confirmPassword(

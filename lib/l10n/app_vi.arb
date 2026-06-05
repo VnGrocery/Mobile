@@ -89,4 +89,19 @@
   "productDetailAddedToCart": "Đã thêm {productName}",
   "@productDetailAddedToCart": {"placeholders": {"productName": {}}},
   "productDetailAddToCart": "Thêm vào giỏ"
+,
+  "voucherManualBadge": "Tự nhập",
+  "voucherUseTitle": "Dùng voucher",
+  "voucherManualUseWarning": "Thông tin voucher này do bạn tự nhập và chưa được cửa hàng xác thực. Hãy kiểm tra lại điều kiện tại quầy trước khi sử dụng.",
+  "voucherUsed": "Voucher đã dùng",
+  "voucherMarkUsed": "Đánh dấu đã dùng",
+  "voucherViewStore": "Xem cửa hàng áp dụng",
+  "voucherConfirmUseTitle": "Xác nhận dùng voucher",
+  "voucherConfirmUseBody": "Voucher chỉ dùng được 1 lần. Sau khi xác nhận, voucher sẽ chuyển sang trạng thái đã dùng.",
+  "voucherMarkedUsed": "Đã sử dụng voucher",
+  "voucherUsageConditions": "Điều kiện sử dụng",
+  "voucherRuleStore": "Chỉ áp dụng tại {shopName}",
+  "@voucherRuleStore": {"placeholders": {"shopName": {}}},
+  "voucherRuleMinSpend": "Đơn từ {amount}",
+  "@voucherRuleMinSpend": {"placeholders": {"amount": {}}}
 }

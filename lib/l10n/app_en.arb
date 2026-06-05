@@ -89,4 +89,19 @@
   "productDetailAddedToCart": "Added {productName}",
   "@productDetailAddedToCart": {"placeholders": {"productName": {}}},
   "productDetailAddToCart": "Add to cart"
+,
+  "voucherManualBadge": "Manual",
+  "voucherUseTitle": "Use voucher",
+  "voucherManualUseWarning": "This voucher information was entered manually and has not been verified by the store. Please re-check the conditions at checkout before using it.",
+  "voucherUsed": "Voucher used",
+  "voucherMarkUsed": "Mark as used",
+  "voucherViewStore": "View applicable store",
+  "voucherConfirmUseTitle": "Confirm voucher use",
+  "voucherConfirmUseBody": "A voucher can only be used once. After confirmation, it will move to the used state.",
+  "voucherMarkedUsed": "Voucher marked as used",
+  "voucherUsageConditions": "Usage conditions",
+  "voucherRuleStore": "Only valid at {shopName}",
+  "@voucherRuleStore": {"placeholders": {"shopName": {}}},
+  "voucherRuleMinSpend": "Orders from {amount}",
+  "@voucherRuleMinSpend": {"placeholders": {"amount": {}}}
 }

@@ -4,14 +4,14 @@ class AppValidators {
   static String? email(String? value) {
     final email = (value ?? '').trim();
     if (email.isEmpty) return 'Nhập email';
-    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(email)) {
-      return 'Email không hợp lệ';
-    }
+    final ok = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
+    if (!ok) return 'Email không hợp lệ';
     return null;
   }
 
   static String? displayName(String? value) {
-    if ((value ?? '').trim().length < 2) {
+    final name = (value ?? '').trim();
+    if (name.length < 2) {
       return 'Nhập tên hiển thị tối thiểu 2 ký tự';
     }
     return null;
@@ -32,24 +32,24 @@ class AppValidators {
   }
 
   static String? currentPassword(String? value) {
-    if ((value ?? '').trim().isEmpty) {
+    if ((value ?? '').isEmpty) {
       return 'Nhập mật khẩu hiện tại';
     }
     return null;
   }
 
-  static String? changedPassword(String? value, String currentPassword) {
-    final password = value ?? '';
-    final basicError = newPassword(password);
-    if (basicError != null) return basicError;
-    if (password == currentPassword) {
+  static String? passwordChange({
+    required String currentPassword,
+    required String newPassword,
+  }) {
+    if (newPassword == currentPassword) {
       return 'Mật khẩu mới phải khác mật khẩu hiện tại';
     }
     return null;
   }
 
   static String? confirmPassword(String? value, String password) {
-    if (value != password) {
+    if ((value ?? '') != password) {
       return 'Mật khẩu nhập lại chưa khớp';
     }
     return null;
@@ -61,6 +61,6 @@ class AppValidators {
     if (RegExp(r'[A-Z]').hasMatch(password)) score++;
     if (RegExp(r'[0-9]').hasMatch(password)) score++;
     if (RegExp(r'[^A-Za-z0-9]').hasMatch(password)) score++;
-    return score;
+    return score.clamp(0, 4);
   }
 }

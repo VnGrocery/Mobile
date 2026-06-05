@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/vouchers/voucher_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/utils/format.dart';
-import 'package:vngrocery/features/vouchers/voucher_presenter.dart';
 import 'voucher_components.dart';
 
 class VoucherUseHeader extends StatelessWidget {
@@ -147,6 +148,7 @@ class VoucherRuleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -157,14 +159,14 @@ class VoucherRuleCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Điều kiện sử dụng',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Text(
+            l10n.voucherUsageConditions,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           VoucherRuleRow(
             icon: Icons.storefront,
-            text: 'Chỉ áp dụng tại ${shop.name}',
+            text: l10n.voucherRuleStore(shop.name),
           ),
           VoucherRuleRow(
             icon: Icons.local_offer,
@@ -173,7 +175,7 @@ class VoucherRuleCard extends StatelessWidget {
           if (!voucher.isManual)
             VoucherRuleRow(
               icon: Icons.receipt_long,
-              text: 'Đơn từ ${formatVnd(voucher.minSpend)}',
+              text: l10n.voucherRuleMinSpend(formatVnd(voucher.minSpend)),
             ),
           VoucherRuleRow(
             icon: Icons.event,

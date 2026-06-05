@@ -6,6 +6,7 @@ import 'package:vngrocery/features/vouchers/controllers/voucher_qr_cubit.dart';
 import 'package:vngrocery/features/vouchers/controllers/voucher_qr_state.dart';
 import 'package:vngrocery/features/vouchers/widgets/voucher_components.dart';
 import 'package:vngrocery/features/vouchers/widgets/voucher_qr_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -36,6 +37,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
 
     return BlocProvider.value(
@@ -48,14 +50,14 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
           if (userVoucher == null || voucher == null || shop == null) {
             return Scaffold(
               backgroundColor: palette.appBackground,
-              appBar: AppBar(title: const Text('Dùng voucher')),
+              appBar: AppBar(title: Text(l10n.voucherUseTitle)),
               body: const Center(child: CircularProgressIndicator()),
             );
           }
 
           return Scaffold(
             backgroundColor: palette.appBackground,
-            appBar: AppBar(title: const Text('Dùng voucher')),
+            appBar: AppBar(title: Text(l10n.voucherUseTitle)),
             body: ListView(
               padding: const EdgeInsets.all(20),
               children: [
@@ -72,10 +74,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
                 ),
                 if (voucher.isManual) ...[
                   const SizedBox(height: 14),
-                  const VoucherNotice(
-                    text:
-                        'Thông tin voucher này do bạn tự nhập và chưa được cửa hàng xác thực. Hãy kiểm tra lại điều kiện tại quầy trước khi sử dụng.',
-                  ),
+                  VoucherNotice(text: l10n.voucherManualUseWarning),
                 ],
                 const SizedBox(height: 20),
                 VoucherRuleCard(voucher: voucher, shop: shop),
@@ -90,8 +89,8 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
                     ),
                     label: Text(
                       userVoucher.isUsed
-                          ? 'Voucher đã dùng'
-                          : 'Đánh dấu đã dùng',
+                          ? l10n.voucherUsed
+                          : l10n.voucherMarkUsed,
                     ),
                   ),
                 ),
@@ -101,7 +100,7 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
                     Routes.storeDetail,
                     arguments: StoreDetailArgs(shop.id),
                   ),
-                  child: const Text('Xem cửa hàng áp dụng'),
+                  child: Text(l10n.voucherViewStore),
                 ),
               ],
             ),
@@ -112,21 +111,20 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
   }
 
   Future<void> _markUsed() async {
+    final l10n = AppLocalizations.of(context);
     final ok = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Xác nhận dùng voucher'),
-        content: const Text(
-          'Voucher chỉ dùng được 1 lần. Sau khi xác nhận, voucher sẽ chuyển sang trạng thái đã dùng.',
-        ),
+        title: Text(l10n.voucherConfirmUseTitle),
+        content: Text(l10n.voucherConfirmUseBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Hủy'),
+            child: Text(l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Xác nhận'),
+            child: Text(l10n.commonConfirm),
           ),
         ],
       ),
@@ -134,6 +132,6 @@ class _VoucherQrScreenState extends State<VoucherQrScreen> {
     if (ok != true) return;
     await _voucherQrCubit.markUsed();
     if (!mounted) return;
-    AppFeedback.showSnackBar(context, 'Đã sử dụng voucher');
+    AppFeedback.showSnackBar(context, l10n.voucherMarkedUsed);
   }
 }

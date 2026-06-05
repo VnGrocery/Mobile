@@ -282,4 +282,46 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get productDetailAddToCart => 'Thêm vào giỏ';
+
+  @override
+  String get voucherManualBadge => 'Tự nhập';
+
+  @override
+  String get voucherUseTitle => 'Dùng voucher';
+
+  @override
+  String get voucherManualUseWarning =>
+      'Thông tin voucher này do bạn tự nhập và chưa được cửa hàng xác thực. Hãy kiểm tra lại điều kiện tại quầy trước khi sử dụng.';
+
+  @override
+  String get voucherUsed => 'Voucher đã dùng';
+
+  @override
+  String get voucherMarkUsed => 'Đánh dấu đã dùng';
+
+  @override
+  String get voucherViewStore => 'Xem cửa hàng áp dụng';
+
+  @override
+  String get voucherConfirmUseTitle => 'Xác nhận dùng voucher';
+
+  @override
+  String get voucherConfirmUseBody =>
+      'Voucher chỉ dùng được 1 lần. Sau khi xác nhận, voucher sẽ chuyển sang trạng thái đã dùng.';
+
+  @override
+  String get voucherMarkedUsed => 'Đã sử dụng voucher';
+
+  @override
+  String get voucherUsageConditions => 'Điều kiện sử dụng';
+
+  @override
+  String voucherRuleStore(Object shopName) {
+    return 'Chỉ áp dụng tại $shopName';
+  }
+
+  @override
+  String voucherRuleMinSpend(Object amount) {
+    return 'Đơn từ $amount';
+  }
 }

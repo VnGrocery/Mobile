@@ -281,4 +281,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get productDetailAddToCart => 'Add to cart';
+
+  @override
+  String get voucherManualBadge => 'Manual';
+
+  @override
+  String get voucherUseTitle => 'Use voucher';
+
+  @override
+  String get voucherManualUseWarning =>
+      'This voucher information was entered manually and has not been verified by the store. Please re-check the conditions at checkout before using it.';
+
+  @override
+  String get voucherUsed => 'Voucher used';
+
+  @override
+  String get voucherMarkUsed => 'Mark as used';
+
+  @override
+  String get voucherViewStore => 'View applicable store';
+
+  @override
+  String get voucherConfirmUseTitle => 'Confirm voucher use';
+
+  @override
+  String get voucherConfirmUseBody =>
+      'A voucher can only be used once. After confirmation, it will move to the used state.';
+
+  @override
+  String get voucherMarkedUsed => 'Voucher marked as used';
+
+  @override
+  String get voucherUsageConditions => 'Usage conditions';
+
+  @override
+  String voucherRuleStore(Object shopName) {
+    return 'Only valid at $shopName';
+  }
+
+  @override
+  String voucherRuleMinSpend(Object amount) {
+    return 'Orders from $amount';
+  }
 }

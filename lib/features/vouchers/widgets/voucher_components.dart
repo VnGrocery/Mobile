@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -72,8 +73,8 @@ class ManualVoucherBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const VoucherPill(
-      label: 'Tự nhập',
+    return VoucherPill(
+      label: AppLocalizations.of(context).voucherManualBadge,
       color: AppColors.warningOrange,
     );
   }

@@ -619,6 +619,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add to cart'**
   String get productDetailAddToCart;
+
+  /// No description provided for @voucherManualBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get voucherManualBadge;
+
+  /// No description provided for @voucherUseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use voucher'**
+  String get voucherUseTitle;
+
+  /// No description provided for @voucherManualUseWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This voucher information was entered manually and has not been verified by the store. Please re-check the conditions at checkout before using it.'**
+  String get voucherManualUseWarning;
+
+  /// No description provided for @voucherUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Voucher used'**
+  String get voucherUsed;
+
+  /// No description provided for @voucherMarkUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as used'**
+  String get voucherMarkUsed;
+
+  /// No description provided for @voucherViewStore.
+  ///
+  /// In en, this message translates to:
+  /// **'View applicable store'**
+  String get voucherViewStore;
+
+  /// No description provided for @voucherConfirmUseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm voucher use'**
+  String get voucherConfirmUseTitle;
+
+  /// No description provided for @voucherConfirmUseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A voucher can only be used once. After confirmation, it will move to the used state.'**
+  String get voucherConfirmUseBody;
+
+  /// No description provided for @voucherMarkedUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Voucher marked as used'**
+  String get voucherMarkedUsed;
+
+  /// No description provided for @voucherUsageConditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage conditions'**
+  String get voucherUsageConditions;
+
+  /// No description provided for @voucherRuleStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Only valid at {shopName}'**
+  String voucherRuleStore(Object shopName);
+
+  /// No description provided for @voucherRuleMinSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders from {amount}'**
+  String voucherRuleMinSpend(Object amount);
 }
 
 class _AppLocalizationsDelegate
