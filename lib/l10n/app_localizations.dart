@@ -290,6 +290,18 @@ abstract class AppLocalizations {
   /// **'Date'**
   String get commonDate;
 
+  /// No description provided for @commonDecreaseQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Decrease quantity'**
+  String get commonDecreaseQuantity;
+
+  /// No description provided for @commonIncreaseQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase quantity'**
+  String get commonIncreaseQuantity;
+
   /// No description provided for @accountProfileTitle.
   ///
   /// In en, this message translates to:
@@ -445,6 +457,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add manually'**
   String get voucherWalletAddManualTooltip;
+
+  /// No description provided for @voucherWalletUsableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} vouchers ready to use'**
+  String voucherWalletUsableCount(Object count);
+
+  /// No description provided for @voucherWalletTotalCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} vouchers in wallet'**
+  String voucherWalletTotalCount(Object count);
+
+  /// No description provided for @voucherWalletEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching vouchers yet'**
+  String get voucherWalletEmptyTitle;
+
+  /// No description provided for @voucherWalletEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan products, enter a code, or add vouchers manually to save them here.'**
+  String get voucherWalletEmptyBody;
+
+  /// No description provided for @voucherWalletSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your vouchers'**
+  String get voucherWalletSectionTitle;
+
+  /// No description provided for @voucherWalletShowUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Show used'**
+  String get voucherWalletShowUsed;
+
+  /// No description provided for @voucherCodeLabelInline.
+  ///
+  /// In en, this message translates to:
+  /// **'Code: {code}'**
+  String voucherCodeLabelInline(Object code);
 
   /// No description provided for @manualVoucherTitle.
   ///
@@ -619,6 +673,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add to cart'**
   String get productDetailAddToCart;
+
+  /// No description provided for @productDetailCounterImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Counter image'**
+  String get productDetailCounterImage;
+
+  /// No description provided for @productDetailPricePerKg.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: {price} /kg'**
+  String productDetailPricePerKg(Object price);
+
+  /// No description provided for @productDetailLatestScoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LATEST SCORE'**
+  String get productDetailLatestScoreTitle;
+
+  /// No description provided for @productDetailLatestScoreSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on recorded images and product details'**
+  String get productDetailLatestScoreSubtitle;
+
+  /// No description provided for @productDetailCheckAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit product photo for review'**
+  String get productDetailCheckAction;
+
+  /// No description provided for @productDetailCheckActionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo of the price board or product to compare with the latest recorded data.'**
+  String get productDetailCheckActionHint;
+
+  /// No description provided for @productDetailCounterInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Counter information'**
+  String get productDetailCounterInfoTitle;
+
+  /// No description provided for @productDetailShopCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Store code'**
+  String get productDetailShopCodeLabel;
+
+  /// No description provided for @productDetailFreshnessNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Product note'**
+  String get productDetailFreshnessNoteLabel;
+
+  /// No description provided for @productDetailViewStoreInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'View store details'**
+  String get productDetailViewStoreInfo;
+
+  /// No description provided for @scoreBadgeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Score'**
+  String get scoreBadgeLabel;
 
   /// No description provided for @voucherManualBadge.
   ///

@@ -109,6 +109,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonDate => 'Date';
 
   @override
+  String get commonDecreaseQuantity => 'Decrease quantity';
+
+  @override
+  String get commonIncreaseQuantity => 'Increase quantity';
+
+  @override
   String get accountProfileTitle => 'Profile';
 
   @override
@@ -188,6 +194,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voucherWalletAddManualTooltip => 'Add manually';
+
+  @override
+  String voucherWalletUsableCount(Object count) {
+    return '$count vouchers ready to use';
+  }
+
+  @override
+  String voucherWalletTotalCount(Object count) {
+    return '$count vouchers in wallet';
+  }
+
+  @override
+  String get voucherWalletEmptyTitle => 'No matching vouchers yet';
+
+  @override
+  String get voucherWalletEmptyBody =>
+      'Scan products, enter a code, or add vouchers manually to save them here.';
+
+  @override
+  String get voucherWalletSectionTitle => 'Your vouchers';
+
+  @override
+  String get voucherWalletShowUsed => 'Show used';
+
+  @override
+  String voucherCodeLabelInline(Object code) {
+    return 'Code: $code';
+  }
 
   @override
   String get manualVoucherTitle => 'Add manual voucher';
@@ -281,6 +315,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get productDetailAddToCart => 'Add to cart';
+
+  @override
+  String get productDetailCounterImage => 'Counter image';
+
+  @override
+  String productDetailPricePerKg(Object price) {
+    return 'Price: $price /kg';
+  }
+
+  @override
+  String get productDetailLatestScoreTitle => 'LATEST SCORE';
+
+  @override
+  String get productDetailLatestScoreSubtitle =>
+      'Based on recorded images and product details';
+
+  @override
+  String get productDetailCheckAction => 'Submit product photo for review';
+
+  @override
+  String get productDetailCheckActionHint =>
+      'Take a photo of the price board or product to compare with the latest recorded data.';
+
+  @override
+  String get productDetailCounterInfoTitle => 'Counter information';
+
+  @override
+  String get productDetailShopCodeLabel => 'Store code';
+
+  @override
+  String get productDetailFreshnessNoteLabel => 'Product note';
+
+  @override
+  String get productDetailViewStoreInfo => 'View store details';
+
+  @override
+  String get scoreBadgeLabel => 'Score';
 
   @override
   String get voucherManualBadge => 'Manual';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -16,6 +17,7 @@ class VoucherSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -35,7 +37,7 @@ class VoucherSummaryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '$usableCount voucher có thể dùng',
+                  l10n.voucherWalletUsableCount(usableCount),
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w900,
@@ -43,7 +45,7 @@ class VoucherSummaryCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Tổng cộng $total voucher trong ví',
+                  l10n.voucherWalletTotalCount(total),
                   style: TextStyle(color: palette.textSecondary),
                 ),
               ],
@@ -61,25 +63,26 @@ class VoucherEmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
         color: palette.card,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const Column(
+      child: Column(
         children: [
-          Icon(Icons.local_offer_outlined, size: 48, color: Colors.grey),
-          SizedBox(height: 10),
+          const Icon(Icons.local_offer_outlined, size: 48, color: Colors.grey),
+          const SizedBox(height: 10),
           Text(
-            'Chưa có voucher phù hợp',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            l10n.voucherWalletEmptyTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
-            'Quét sản phẩm, nhập mã hoặc thêm thủ công để lưu voucher vào ví.',
+            l10n.voucherWalletEmptyBody,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),
@@ -99,18 +102,19 @@ class VoucherWalletToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
-        const Expanded(
+        Expanded(
           child: Text(
-            'Voucher của bạn',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            l10n.voucherWalletSectionTitle,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         FilterChip(
           selected: showUsed,
           showCheckmark: false,
-          label: const Text('Hiện đã dùng'),
+          label: Text(l10n.voucherWalletShowUsed),
           onSelected: onShowUsedChanged,
         ),
       ],

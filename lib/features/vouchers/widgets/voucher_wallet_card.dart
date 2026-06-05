@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -164,11 +165,12 @@ class VoucherWalletCodeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         Expanded(
           child: Text(
-            'Mã: ${voucher.code}',
+            l10n.voucherCodeLabelInline(voucher.code),
             style: const TextStyle(
               fontWeight: FontWeight.w800,
               letterSpacing: 0.4,

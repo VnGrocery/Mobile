@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 class QuantitySelector extends StatelessWidget {
   final int quantity;
   final ValueChanged<int> onChanged;
@@ -18,6 +20,7 @@ class QuantitySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final canDecrease = quantity > min;
     final canIncrease = quantity < max;
+    final l10n = AppLocalizations.of(context);
 
     return SizedBox(
       height: 36,
@@ -30,7 +33,7 @@ class QuantitySelector extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              tooltip: 'Giảm số lượng',
+              tooltip: l10n.commonDecreaseQuantity,
               visualDensity: VisualDensity.compact,
               onPressed: canDecrease ? () => onChanged(quantity - 1) : null,
               icon: const Icon(Icons.remove, size: 18),
@@ -44,7 +47,7 @@ class QuantitySelector extends StatelessWidget {
               ),
             ),
             IconButton(
-              tooltip: 'Tăng số lượng',
+              tooltip: l10n.commonIncreaseQuantity,
               visualDensity: VisualDensity.compact,
               onPressed: canIncrease ? () => onChanged(quantity + 1) : null,
               icon: const Icon(Icons.add, size: 18),

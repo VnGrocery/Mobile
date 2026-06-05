@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -14,6 +15,7 @@ class ProductHeroImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     return Stack(
       children: [
         Container(
@@ -32,9 +34,9 @@ class ProductHeroImage extends StatelessWidget {
               color: Colors.black.withValues(alpha: 0.6),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Text(
-              'Ảnh từ quầy',
-              style: TextStyle(color: Colors.white, fontSize: 10),
+            child: Text(
+              l10n.productDetailCounterImage,
+              style: const TextStyle(color: Colors.white, fontSize: 10),
             ),
           ),
         ),
@@ -50,6 +52,7 @@ class ProductTitleBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -58,7 +61,7 @@ class ProductTitleBlock extends StatelessWidget {
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         Text(
-          'Giá: ${formatVnd(product.price)} /kg',
+          l10n.productDetailPricePerKg(formatVnd(product.price)),
           style: const TextStyle(
             fontSize: 18,
             color: AppColors.priceRed,
@@ -77,6 +80,7 @@ class ProductScoreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -87,21 +91,21 @@ class ProductScoreCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'ĐIỂM ĐÁNH GIÁ GẦN NHẤT',
-                  style: TextStyle(
+                  l10n.productDetailLatestScoreTitle,
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: AppColors.meatRed,
                   ),
                 ),
                 Text(
-                  'Dựa trên ảnh và thông tin đã ghi nhận',
-                  style: TextStyle(fontSize: 11, color: Colors.grey),
+                  l10n.productDetailLatestScoreSubtitle,
+                  style: const TextStyle(fontSize: 11, color: Colors.grey),
                 ),
               ],
             ),
@@ -124,6 +128,7 @@ class ProductCheckAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         SizedBox(
@@ -136,18 +141,18 @@ class ProductCheckAction extends StatelessWidget {
               minimumSize: const Size.fromHeight(56),
             ),
             icon: const Icon(Icons.photo_camera),
-            label: const Text(
-              'Gửi ảnh kiểm tra sản phẩm',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            label: Text(
+              l10n.productDetailCheckAction,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.only(top: 8, left: 4, right: 4),
+        Padding(
+          padding: const EdgeInsets.only(top: 8, left: 4, right: 4),
           child: Text(
-            'Hãy chụp ảnh bảng giá hoặc sản phẩm để so với dữ liệu gần nhất.',
+            l10n.productDetailCheckActionHint,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ),
       ],
@@ -162,22 +167,23 @@ class ProductCounterInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Thông tin quầy hàng',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        Text(
+          l10n.productDetailCounterInfoTitle,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         InfoRow(
           icon: Icons.store,
-          label: 'Mã cửa hàng',
+          label: l10n.productDetailShopCodeLabel,
           value: product.shopId,
         ),
         InfoRow(
           icon: Icons.description,
-          label: 'Ghi chú sản phẩm',
+          label: l10n.productDetailFreshnessNoteLabel,
           value: product.freshnessNote,
         ),
         const SizedBox(height: 16),
@@ -190,7 +196,7 @@ class ProductCounterInfo extends StatelessWidget {
               Routes.storeDetail,
               arguments: StoreDetailArgs(product.shopId),
             ),
-            child: const Text('Xem thông tin cửa hàng'),
+            child: Text(l10n.productDetailViewStoreInfo),
           ),
         ),
       ],

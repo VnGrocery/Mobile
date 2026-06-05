@@ -2,7 +2,10 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
+
+const _defaultLabel = 'Điểm đánh giá';
 
 class ScoreRingBadge extends StatelessWidget {
   final int score;
@@ -17,7 +20,7 @@ class ScoreRingBadge extends StatelessWidget {
     required this.score,
     this.size = 48,
     this.strokeWidth = 2,
-    this.label = 'Điểm đánh giá',
+    this.label = _defaultLabel,
     this.scoreFontSize = 18,
     this.labelFontSize = 9,
   });
@@ -25,6 +28,9 @@ class ScoreRingBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scoreColor = scoreTrustColor(score);
+    final resolvedLabel = label == _defaultLabel
+        ? AppLocalizations.of(context).scoreBadgeLabel
+        : label;
     return SizedBox(
       width: size + 26,
       child: Column(
@@ -53,7 +59,7 @@ class ScoreRingBadge extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            label,
+            resolvedLabel,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

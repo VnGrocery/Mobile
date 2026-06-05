@@ -109,6 +109,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get commonDate => 'Ngày';
 
   @override
+  String get commonDecreaseQuantity => 'Giảm số lượng';
+
+  @override
+  String get commonIncreaseQuantity => 'Tăng số lượng';
+
+  @override
   String get accountProfileTitle => 'Hồ sơ cá nhân';
 
   @override
@@ -188,6 +194,34 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get voucherWalletAddManualTooltip => 'Thêm thủ công';
+
+  @override
+  String voucherWalletUsableCount(Object count) {
+    return '$count voucher có thể dùng';
+  }
+
+  @override
+  String voucherWalletTotalCount(Object count) {
+    return 'Tổng cộng $count voucher trong ví';
+  }
+
+  @override
+  String get voucherWalletEmptyTitle => 'Chưa có voucher phù hợp';
+
+  @override
+  String get voucherWalletEmptyBody =>
+      'Quét sản phẩm, nhập mã hoặc thêm thủ công để lưu voucher vào ví.';
+
+  @override
+  String get voucherWalletSectionTitle => 'Voucher của bạn';
+
+  @override
+  String get voucherWalletShowUsed => 'Hiện đã dùng';
+
+  @override
+  String voucherCodeLabelInline(Object code) {
+    return 'Mã: $code';
+  }
 
   @override
   String get manualVoucherTitle => 'Thêm voucher thủ công';
@@ -282,6 +316,43 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get productDetailAddToCart => 'Thêm vào giỏ';
+
+  @override
+  String get productDetailCounterImage => 'Ảnh từ quầy';
+
+  @override
+  String productDetailPricePerKg(Object price) {
+    return 'Giá: $price /kg';
+  }
+
+  @override
+  String get productDetailLatestScoreTitle => 'ĐIỂM ĐÁNH GIÁ GẦN NHẤT';
+
+  @override
+  String get productDetailLatestScoreSubtitle =>
+      'Dựa trên ảnh và thông tin đã ghi nhận';
+
+  @override
+  String get productDetailCheckAction => 'Gửi ảnh kiểm tra sản phẩm';
+
+  @override
+  String get productDetailCheckActionHint =>
+      'Hãy chụp ảnh bảng giá hoặc sản phẩm để so với dữ liệu gần nhất.';
+
+  @override
+  String get productDetailCounterInfoTitle => 'Thông tin quầy hàng';
+
+  @override
+  String get productDetailShopCodeLabel => 'Mã cửa hàng';
+
+  @override
+  String get productDetailFreshnessNoteLabel => 'Ghi chú sản phẩm';
+
+  @override
+  String get productDetailViewStoreInfo => 'Xem thông tin cửa hàng';
+
+  @override
+  String get scoreBadgeLabel => 'Điểm đánh giá';
 
   @override
   String get voucherManualBadge => 'Tự nhập';
