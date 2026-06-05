@@ -10,28 +10,21 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
   final AppDelayService _delayService;
   final AppRepositories _repositories;
   final String shopId;
-  final Duration saveDelay;
 
   SellerCreateProductCubit({
     required this.shopId,
-    this.saveDelay = const Duration(milliseconds: 900),
     AppDelayService delayService = AppDelayService.instance,
     AppRepositories? repositories,
-  })  : _delayService = delayService,
-        _repositories = repositories ?? AppRepositories.instance,
-        super(SellerCreateProductState.initial());
+  }) : _delayService = delayService,
+       _repositories = repositories ?? AppRepositories.instance,
+       super(SellerCreateProductState.initial());
 
   void setCategory(String category) {
     emit(state.copyWith(category: category, saved: false));
   }
 
   void toggleImage() {
-    emit(
-      state.copyWith(
-        imageSelected: !state.imageSelected,
-        saved: false,
-      ),
-    );
+    emit(state.copyWith(imageSelected: !state.imageSelected, saved: false));
   }
 
   Future<Product> save({
@@ -41,7 +34,7 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
     required String tags,
   }) async {
     emit(state.copyWith(saving: true, saved: false));
-    await _delayService.waitDuration(saveDelay);
+    await _delayService.wait(AppDelayKind.productSave);
     final product = Product(
       id: _repositories.ids.nextId(),
       shopId: shopId,
@@ -49,9 +42,7 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
       description: description.trim(),
       category: state.category,
       freshnessScore: 80,
-      freshnessNote: SellerProductPresenter.freshnessNote(
-        state.imageSelected,
-      ),
+      freshnessNote: SellerProductPresenter.freshnessNote(state.imageSelected),
       price: SellerProductPresenter.parsePrice(price),
       tags: SellerProductPresenter.parseTags(tags),
       status: 'Draft',

@@ -5,18 +5,15 @@ import 'scanner_state.dart';
 
 class ScannerCubit extends Cubit<ScannerState> {
   final AppDelayService _delayService;
-  final Duration simulateDelay;
 
-  ScannerCubit({
-    this.simulateDelay = const Duration(milliseconds: 900),
-    AppDelayService delayService = AppDelayService.instance,
-  })  : _delayService = delayService,
-        super(const ScannerState());
+  ScannerCubit({AppDelayService delayService = AppDelayService.instance})
+    : _delayService = delayService,
+      super(const ScannerState());
 
   Future<void> simulateScan() async {
     if (state.verifying) return;
     emit(const ScannerState(verifying: true));
-    await _delayService.waitDuration(simulateDelay);
+    await _delayService.wait(AppDelayKind.scannerVerification);
     emit(const ScannerState(completed: true));
   }
 

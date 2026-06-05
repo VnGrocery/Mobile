@@ -5,7 +5,12 @@ import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class AiFreshnessScreen extends StatefulWidget {
-  const AiFreshnessScreen({super.key});
+  const AiFreshnessScreen({
+    super.key,
+    this.delayService = AppDelayService.instance,
+  });
+
+  final AppDelayService delayService;
 
   @override
   State<AiFreshnessScreen> createState() => _AiFreshnessScreenState();
@@ -16,7 +21,7 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
 
   Future<void> _analyze() async {
     setState(() => _analyzing = true);
-    await AppDelayService.instance.wait(AppDelayKind.freshnessAnalysis);
+    await widget.delayService.wait(AppDelayKind.freshnessAnalysis);
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, Routes.buyerCheckResult);
   }
@@ -31,9 +36,11 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Chụp ảnh sản phẩm tại quầy',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              'Chụp ảnh sản phẩm tại quầy',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             const Text(
               'Ảnh này giúp so với thông tin đã ghi nhận gần đây.',
@@ -54,12 +61,17 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
                         children: const [
                           CircularProgressIndicator(color: Colors.white),
                           SizedBox(height: 16),
-                          Text('Đang so với dữ liệu gần nhất...',
-                              style: TextStyle(color: Colors.white)),
+                          Text(
+                            'Đang so với dữ liệu gần nhất...',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ],
                       )
-                    : const Icon(Icons.photo_camera,
-                        size: 64, color: Color(0xFF555555)),
+                    : const Icon(
+                        Icons.photo_camera,
+                        size: 64,
+                        color: Color(0xFF555555),
+                      ),
               ),
             ),
             const SizedBox(height: 32),
@@ -67,8 +79,10 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
               height: 56,
               child: FilledButton(
                 onPressed: _analyzing ? null : _analyze,
-                child: const Text('Chụp ảnh & kiểm tra',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                child: const Text(
+                  'Chụp ảnh & kiểm tra',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],

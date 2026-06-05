@@ -1,33 +1,29 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({super.key, this.delayService = AppDelayService.instance});
+
+  final AppDelayService delayService;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  Timer? _timer;
-
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 2), () {
-      if (!mounted) return;
-      Navigator.pushReplacementNamed(context, Routes.onboarding);
-    });
+    _navigateAfterDelay();
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+  Future<void> _navigateAfterDelay() async {
+    await widget.delayService.wait(AppDelayKind.splash);
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(context, Routes.onboarding);
   }
 
   @override
@@ -66,7 +62,9 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Text(
                 'Dữ liệu từ quầy hàng và cộng đồng',
                 style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.5), fontSize: 12),
+                  color: Colors.white.withValues(alpha: 0.5),
+                  fontSize: 12,
+                ),
               ),
             ),
           ),

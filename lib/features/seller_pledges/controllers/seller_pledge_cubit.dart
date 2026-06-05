@@ -10,18 +10,14 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
   final AppDelayService _delayService;
   final AppRepositories _repositories;
   final String productId;
-  final Duration analyzeDelay;
-  final Duration commitDelay;
 
   SellerPledgeCubit({
     required this.productId,
-    this.analyzeDelay = const Duration(milliseconds: 1500),
-    this.commitDelay = const Duration(milliseconds: 900),
     AppDelayService delayService = AppDelayService.instance,
     AppRepositories? repositories,
-  })  : _delayService = delayService,
-        _repositories = repositories ?? AppRepositories.instance,
-        super(SellerPledgeState.initial());
+  }) : _delayService = delayService,
+       _repositories = repositories ?? AppRepositories.instance,
+       super(SellerPledgeState.initial());
 
   void back() {
     if (state.step <= 1) return;
@@ -31,7 +27,7 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
   Future<void> capture() async {
     if (state.analyzing) return;
     emit(state.copyWith(analyzing: true, committed: false));
-    await _delayService.waitDuration(analyzeDelay);
+    await _delayService.wait(AppDelayKind.pledgeAnalysis);
     emit(state.copyWith(analyzing: false, step: 2));
   }
 
@@ -46,7 +42,7 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
   Future<void> commit(String rawScore) async {
     if (state.committing) return;
     emit(state.copyWith(committing: true, committed: false));
-    await _delayService.waitDuration(commitDelay);
+    await _delayService.wait(AppDelayKind.pledgeCommit);
     final score = SellerPledgePresenter.normalizedScore(rawScore);
     _repositories.pledges.add(
       productId,

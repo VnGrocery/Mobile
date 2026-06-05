@@ -1,3 +1,4 @@
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/data/app_data_config.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_cubit.dart';
@@ -6,7 +7,7 @@ void main() {
   test('SellerCreateProductCubit updates category and image state', () {
     final cubit = SellerCreateProductCubit(
       shopId: AppDataConfig.demoShopId,
-      saveDelay: Duration.zero,
+      delayService: const NoopAppDelayService(),
     );
 
     cubit.setCategory('Khác');
@@ -21,7 +22,7 @@ void main() {
   test('SellerCreateProductCubit saves draft product', () async {
     final cubit = SellerCreateProductCubit(
       shopId: AppDataConfig.demoShopId,
-      saveDelay: Duration.zero,
+      delayService: const NoopAppDelayService(),
     );
 
     final product = await cubit.save(

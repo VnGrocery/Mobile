@@ -6,7 +6,12 @@ import 'package:vngrocery/features/auth/widgets/change_password_components.dart'
 import 'package:vngrocery/theme/app_palette.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
-  const ChangePasswordScreen({super.key});
+  const ChangePasswordScreen({
+    super.key,
+    this.delayService = AppDelayService.instance,
+  });
+
+  final AppDelayService delayService;
 
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
@@ -78,7 +83,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _saving = true);
-    await AppDelayService.instance.wait(AppDelayKind.passwordChange);
+    await widget.delayService.wait(AppDelayKind.passwordChange);
     if (!mounted) return;
     setState(() => _saving = false);
     AppFeedback.showSnackBar(context, 'Đã đổi mật khẩu demo thành công');

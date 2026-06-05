@@ -1,9 +1,10 @@
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/features/reviews/controllers/review_cubit.dart';
 
 void main() {
   test('ReviewCubit tracks rating and photo state', () {
-    final cubit = ReviewCubit(submitDelay: Duration.zero);
+    final cubit = ReviewCubit(delayService: const NoopAppDelayService());
 
     cubit.setRating(4);
     cubit.togglePhoto();
@@ -16,7 +17,7 @@ void main() {
   });
 
   test('ReviewCubit submits only valid reviews', () async {
-    final cubit = ReviewCubit(submitDelay: Duration.zero);
+    final cubit = ReviewCubit(delayService: const NoopAppDelayService());
 
     await cubit.submit('Missing rating');
     expect(cubit.state.submitted, isFalse);

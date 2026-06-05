@@ -1,3 +1,4 @@
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_cubit.dart';
@@ -6,8 +7,7 @@ void main() {
   test('SellerPledgeCubit advances capture flow to evaluate step', () async {
     final cubit = SellerPledgeCubit(
       productId: 'p1',
-      analyzeDelay: Duration.zero,
-      commitDelay: Duration.zero,
+      delayService: const NoopAppDelayService(),
     );
 
     await cubit.capture();
@@ -23,8 +23,7 @@ void main() {
     final before = AppRepositories.instance.pledges.ofProduct(productId).length;
     final cubit = SellerPledgeCubit(
       productId: productId,
-      analyzeDelay: Duration.zero,
-      commitDelay: Duration.zero,
+      delayService: const NoopAppDelayService(),
     );
 
     cubit.setCategory('Khác');

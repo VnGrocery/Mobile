@@ -10,7 +10,9 @@ import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+  const AuthScreen({super.key, this.delayService = AppDelayService.instance});
+
+  final AppDelayService delayService;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -58,10 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
               const SizedBox(height: 24),
               AuthInfoCard(register: _isRegister),
               const SizedBox(height: 18),
-              RegisterNameField(
-                visible: _isRegister,
-                controller: _name,
-              ),
+              RegisterNameField(visible: _isRegister, controller: _name),
               AuthTextField(
                 controller: _email,
                 label: 'Email',
@@ -76,10 +75,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 visible: _showPassword,
                 onToggle: () => setState(() => _showPassword = !_showPassword),
                 onChanged: (_) => setState(() {}),
-                validator: (value) => AppValidators.password(
-                  value,
-                  register: _isRegister,
-                ),
+                validator: (value) =>
+                    AppValidators.password(value, register: _isRegister),
               ),
               if (_isRegister) ...[
                 const SizedBox(height: 14),
@@ -91,10 +88,8 @@ class _AuthScreenState extends State<AuthScreen> {
                     () => _showConfirmPassword = !_showConfirmPassword,
                   ),
                   onChanged: (_) => setState(() {}),
-                  validator: (value) => AppValidators.confirmPassword(
-                    value,
-                    _password.text,
-                  ),
+                  validator: (value) =>
+                      AppValidators.confirmPassword(value, _password.text),
                 ),
                 const SizedBox(height: 14),
                 PasswordRules(password: _password.text),
@@ -132,24 +127,24 @@ class _AuthScreenState extends State<AuthScreen> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _loading = true);
-    await AppDelayService.instance.wait(AppDelayKind.authLogin);
+    await widget.delayService.wait(AppDelayKind.authLogin);
     if (!mounted) return;
     context.read<SessionCubit>().login(
-          email: _email.text,
-          displayName: _isRegister ? _name.text : null,
-        );
+      email: _email.text,
+      displayName: _isRegister ? _name.text : null,
+    );
     Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
   }
 
   Future<void> _continueWithGoogle() async {
     FocusScope.of(context).unfocus();
     setState(() => _loading = true);
-    await AppDelayService.instance.wait(AppDelayKind.authRegister);
+    await widget.delayService.wait(AppDelayKind.authRegister);
     if (!mounted) return;
     context.read<SessionCubit>().login(
-          email: 'google.demo@vngrocery.com',
-          displayName: 'Google Demo',
-        );
+      email: 'google.demo@vngrocery.com',
+      displayName: 'Google Demo',
+    );
     Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
   }
 

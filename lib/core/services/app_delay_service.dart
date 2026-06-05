@@ -9,6 +9,7 @@ enum AppDelayKind {
   authRegister,
   passwordChange,
   freshnessAnalysis,
+  splash,
 }
 
 class AppDelayService {
@@ -48,6 +49,8 @@ class AppDelayService {
       case AppDelayKind.passwordChange:
         return const Duration(milliseconds: 650);
       case AppDelayKind.freshnessAnalysis:
+        return const Duration(seconds: 2);
+      case AppDelayKind.splash:
         return const Duration(seconds: 2);
     }
   }
