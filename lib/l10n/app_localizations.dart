@@ -265,6 +265,360 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Demo password reset complete'**
   String get authPasswordResetDemo;
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get commonCancel;
+
+  /// No description provided for @commonConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get commonConfirm;
+
+  /// No description provided for @commonSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get commonSave;
+
+  /// No description provided for @commonDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get commonDate;
+
+  /// No description provided for @accountProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get accountProfileTitle;
+
+  /// No description provided for @accountProfileUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get accountProfileUpdated;
+
+  /// No description provided for @accountLogoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get accountLogoutTitle;
+
+  /// No description provided for @accountLogoutPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get accountLogoutPrompt;
+
+  /// No description provided for @accountModeSwitchedSeller.
+  ///
+  /// In en, this message translates to:
+  /// **'Switched to seller mode'**
+  String get accountModeSwitchedSeller;
+
+  /// No description provided for @accountModeSwitchedBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Switched to buyer mode'**
+  String get accountModeSwitchedBuyer;
+
+  /// No description provided for @accountCurrentMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Current mode'**
+  String get accountCurrentMode;
+
+  /// No description provided for @accountSellerManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller management'**
+  String get accountSellerManagement;
+
+  /// No description provided for @accountBuyerActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer activity'**
+  String get accountBuyerActivity;
+
+  /// No description provided for @accountSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get accountSettings;
+
+  /// No description provided for @accountMyProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'My products'**
+  String get accountMyProducts;
+
+  /// No description provided for @accountStoreInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Store information'**
+  String get accountStoreInfo;
+
+  /// No description provided for @accountExploreStores.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore stores'**
+  String get accountExploreStores;
+
+  /// No description provided for @accountScanProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan products'**
+  String get accountScanProducts;
+
+  /// No description provided for @accountDarkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark mode'**
+  String get accountDarkMode;
+
+  /// No description provided for @accountEditProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get accountEditProfile;
+
+  /// No description provided for @accountHelpAndSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & support'**
+  String get accountHelpAndSupport;
+
+  /// No description provided for @accountHelpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get accountHelpTitle;
+
+  /// No description provided for @accountHelpScanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan products'**
+  String get accountHelpScanTitle;
+
+  /// No description provided for @accountHelpScanBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture products and QR codes to verify recorded data.'**
+  String get accountHelpScanBody;
+
+  /// No description provided for @accountHelpStoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get accountHelpStoreTitle;
+
+  /// No description provided for @accountHelpStoreBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse stores, ratings, and recent products.'**
+  String get accountHelpStoreBody;
+
+  /// No description provided for @accountHelpContactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get accountHelpContactTitle;
+
+  /// No description provided for @accountHelpContactBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Email support@vngrocery.local when you need help.'**
+  String get accountHelpContactBody;
+
+  /// No description provided for @voucherWalletTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Voucher wallet'**
+  String get voucherWalletTitle;
+
+  /// No description provided for @voucherWalletAddManualTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Add manually'**
+  String get voucherWalletAddManualTooltip;
+
+  /// No description provided for @manualVoucherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add manual voucher'**
+  String get manualVoucherTitle;
+
+  /// No description provided for @manualVoucherDemoCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied demo {format} code into the code field'**
+  String manualVoucherDemoCopied(Object format);
+
+  /// No description provided for @manualVoucherSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual voucher added to wallet'**
+  String get manualVoucherSaved;
+
+  /// No description provided for @manualVoucherNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual vouchers are details you enter yourself for storage and use at checkout. This content has not been verified by the store, so you are responsible for usage conditions.'**
+  String get manualVoucherNotice;
+
+  /// No description provided for @manualVoucherShopLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Applicable store'**
+  String get manualVoucherShopLabel;
+
+  /// No description provided for @manualVoucherScanQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR'**
+  String get manualVoucherScanQr;
+
+  /// No description provided for @manualVoucherScanBarcode.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan barcode'**
+  String get manualVoucherScanBarcode;
+
+  /// No description provided for @manualVoucherCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Voucher code'**
+  String get manualVoucherCodeLabel;
+
+  /// No description provided for @manualVoucherCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter voucher code'**
+  String get manualVoucherCodeRequired;
+
+  /// No description provided for @manualVoucherTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference title'**
+  String get manualVoucherTitleLabel;
+
+  /// No description provided for @manualVoucherTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. 20% off weekend meat purchase'**
+  String get manualVoucherTitleHint;
+
+  /// No description provided for @manualVoucherNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your notes'**
+  String get manualVoucherNoteLabel;
+
+  /// No description provided for @manualVoucherNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage conditions, where you got the code, checkout notes...'**
+  String get manualVoucherNoteHint;
+
+  /// No description provided for @manualVoucherExpiryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry date'**
+  String get manualVoucherExpiryLabel;
+
+  /// No description provided for @manualVoucherChangeDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Change date'**
+  String get manualVoucherChangeDate;
+
+  /// No description provided for @manualVoucherSaveToWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to wallet'**
+  String get manualVoucherSaveToWallet;
+
+  /// No description provided for @storeDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Store details'**
+  String get storeDetailTitle;
+
+  /// No description provided for @storeDetailRecentCheckedProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently checked products'**
+  String get storeDetailRecentCheckedProducts;
+
+  /// No description provided for @storeDetailCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Store details copied'**
+  String get storeDetailCopied;
+
+  /// No description provided for @storeDetailNoReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'This store has no product receipt yet'**
+  String get storeDetailNoReceipt;
+
+  /// No description provided for @storeDetailLatestReceiptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently verified product'**
+  String get storeDetailLatestReceiptTitle;
+
+  /// No description provided for @storeDetailLatestReceiptSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt available in history'**
+  String get storeDetailLatestReceiptSubtitle;
+
+  /// No description provided for @storeDetailViewReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'View receipt'**
+  String get storeDetailViewReceipt;
+
+  /// No description provided for @storeDetailProductsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get storeDetailProductsTab;
+
+  /// No description provided for @storeDetailReviewsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get storeDetailReviewsTab;
+
+  /// No description provided for @storeDetailWriteReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Write review'**
+  String get storeDetailWriteReview;
+
+  /// No description provided for @productDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product details'**
+  String get productDetailTitle;
+
+  /// No description provided for @productDetailAddedToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Added {productName}'**
+  String productDetailAddedToCart(Object productName);
+
+  /// No description provided for @productDetailAddToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to cart'**
+  String get productDetailAddToCart;
 }
 
 class _AppLocalizationsDelegate

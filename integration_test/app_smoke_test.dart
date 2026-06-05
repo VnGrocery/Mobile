@@ -161,4 +161,29 @@ void main() {
         defaultTargetPlatform != TargetPlatform.android &&
         defaultTargetPlatform != TargetPlatform.iOS,
   );
+
+  testWidgets(
+    'buyer auth entry reaches main shell and can logout',
+    (tester) async {
+      await launchAsBuyer(tester);
+
+      await tester.tap(navTab('account'));
+      await tester.pump();
+      await pumpMillis(tester, 500);
+
+      await tester.tap(find.text('Đăng xuất'));
+      await tester.pump();
+      await pumpMillis(tester, 200);
+
+      expect(find.text('Bạn có chắc muốn đăng xuất?'), findsOneWidget);
+      await tester.tap(find.text('Đăng xuất').last);
+      await tester.pump();
+      await pumpSeconds(tester, 1);
+
+      expect(find.byKey(const ValueKey('auth.google_sign_in_button')), findsOneWidget);
+    },
+    skip:
+        defaultTargetPlatform != TargetPlatform.android &&
+        defaultTargetPlatform != TargetPlatform.iOS,
+  );
 }

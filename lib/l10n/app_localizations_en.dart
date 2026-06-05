@@ -95,4 +95,190 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authPasswordResetDemo => 'Demo password reset complete';
+
+  @override
+  String get commonCancel => 'Cancel';
+
+  @override
+  String get commonConfirm => 'Confirm';
+
+  @override
+  String get commonSave => 'Save';
+
+  @override
+  String get commonDate => 'Date';
+
+  @override
+  String get accountProfileTitle => 'Profile';
+
+  @override
+  String get accountProfileUpdated => 'Profile updated';
+
+  @override
+  String get accountLogoutTitle => 'Sign out';
+
+  @override
+  String get accountLogoutPrompt => 'Are you sure you want to sign out?';
+
+  @override
+  String get accountModeSwitchedSeller => 'Switched to seller mode';
+
+  @override
+  String get accountModeSwitchedBuyer => 'Switched to buyer mode';
+
+  @override
+  String get accountCurrentMode => 'Current mode';
+
+  @override
+  String get accountSellerManagement => 'Seller management';
+
+  @override
+  String get accountBuyerActivity => 'Buyer activity';
+
+  @override
+  String get accountSettings => 'Settings';
+
+  @override
+  String get accountMyProducts => 'My products';
+
+  @override
+  String get accountStoreInfo => 'Store information';
+
+  @override
+  String get accountExploreStores => 'Explore stores';
+
+  @override
+  String get accountScanProducts => 'Scan products';
+
+  @override
+  String get accountDarkMode => 'Dark mode';
+
+  @override
+  String get accountEditProfile => 'Edit profile';
+
+  @override
+  String get accountHelpAndSupport => 'Help & support';
+
+  @override
+  String get accountHelpTitle => 'Help';
+
+  @override
+  String get accountHelpScanTitle => 'Scan products';
+
+  @override
+  String get accountHelpScanBody =>
+      'Capture products and QR codes to verify recorded data.';
+
+  @override
+  String get accountHelpStoreTitle => 'Stores';
+
+  @override
+  String get accountHelpStoreBody =>
+      'Browse stores, ratings, and recent products.';
+
+  @override
+  String get accountHelpContactTitle => 'Contact';
+
+  @override
+  String get accountHelpContactBody =>
+      'Email support@vngrocery.local when you need help.';
+
+  @override
+  String get voucherWalletTitle => 'Voucher wallet';
+
+  @override
+  String get voucherWalletAddManualTooltip => 'Add manually';
+
+  @override
+  String get manualVoucherTitle => 'Add manual voucher';
+
+  @override
+  String manualVoucherDemoCopied(Object format) {
+    return 'Copied demo $format code into the code field';
+  }
+
+  @override
+  String get manualVoucherSaved => 'Manual voucher added to wallet';
+
+  @override
+  String get manualVoucherNotice =>
+      'Manual vouchers are details you enter yourself for storage and use at checkout. This content has not been verified by the store, so you are responsible for usage conditions.';
+
+  @override
+  String get manualVoucherShopLabel => 'Applicable store';
+
+  @override
+  String get manualVoucherScanQr => 'Scan QR';
+
+  @override
+  String get manualVoucherScanBarcode => 'Scan barcode';
+
+  @override
+  String get manualVoucherCodeLabel => 'Voucher code';
+
+  @override
+  String get manualVoucherCodeRequired => 'Enter voucher code';
+
+  @override
+  String get manualVoucherTitleLabel => 'Reference title';
+
+  @override
+  String get manualVoucherTitleHint => 'E.g. 20% off weekend meat purchase';
+
+  @override
+  String get manualVoucherNoteLabel => 'Your notes';
+
+  @override
+  String get manualVoucherNoteHint =>
+      'Usage conditions, where you got the code, checkout notes...';
+
+  @override
+  String get manualVoucherExpiryLabel => 'Expiry date';
+
+  @override
+  String get manualVoucherChangeDate => 'Change date';
+
+  @override
+  String get manualVoucherSaveToWallet => 'Save to wallet';
+
+  @override
+  String get storeDetailTitle => 'Store details';
+
+  @override
+  String get storeDetailRecentCheckedProducts => 'Recently checked products';
+
+  @override
+  String get storeDetailCopied => 'Store details copied';
+
+  @override
+  String get storeDetailNoReceipt => 'This store has no product receipt yet';
+
+  @override
+  String get storeDetailLatestReceiptTitle => 'Recently verified product';
+
+  @override
+  String get storeDetailLatestReceiptSubtitle => 'Receipt available in history';
+
+  @override
+  String get storeDetailViewReceipt => 'View receipt';
+
+  @override
+  String get storeDetailProductsTab => 'Products';
+
+  @override
+  String get storeDetailReviewsTab => 'Reviews';
+
+  @override
+  String get storeDetailWriteReview => 'Write review';
+
+  @override
+  String get productDetailTitle => 'Product details';
+
+  @override
+  String productDetailAddedToCart(Object productName) {
+    return 'Added $productName';
+  }
+
+  @override
+  String get productDetailAddToCart => 'Add to cart';
 }

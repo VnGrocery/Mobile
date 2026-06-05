@@ -95,4 +95,191 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get authPasswordResetDemo => 'Đã đặt lại mật khẩu demo';
+
+  @override
+  String get commonCancel => 'Hủy';
+
+  @override
+  String get commonConfirm => 'Xác nhận';
+
+  @override
+  String get commonSave => 'Lưu';
+
+  @override
+  String get commonDate => 'Ngày';
+
+  @override
+  String get accountProfileTitle => 'Hồ sơ cá nhân';
+
+  @override
+  String get accountProfileUpdated => 'Đã cập nhật hồ sơ';
+
+  @override
+  String get accountLogoutTitle => 'Đăng xuất';
+
+  @override
+  String get accountLogoutPrompt => 'Bạn có chắc muốn đăng xuất?';
+
+  @override
+  String get accountModeSwitchedSeller => 'Đã chuyển sang chế độ người bán';
+
+  @override
+  String get accountModeSwitchedBuyer => 'Đã chuyển sang chế độ người mua';
+
+  @override
+  String get accountCurrentMode => 'Chế độ hiện tại';
+
+  @override
+  String get accountSellerManagement => 'Quản lý bán hàng';
+
+  @override
+  String get accountBuyerActivity => 'Hoạt động mua hàng';
+
+  @override
+  String get accountSettings => 'Cài đặt';
+
+  @override
+  String get accountMyProducts => 'Sản phẩm của tôi';
+
+  @override
+  String get accountStoreInfo => 'Thông tin cửa hàng';
+
+  @override
+  String get accountExploreStores => 'Khám phá cửa hàng';
+
+  @override
+  String get accountScanProducts => 'Quét sản phẩm';
+
+  @override
+  String get accountDarkMode => 'Chế độ tối';
+
+  @override
+  String get accountEditProfile => 'Sửa hồ sơ';
+
+  @override
+  String get accountHelpAndSupport => 'Hỗ trợ & Trợ giúp';
+
+  @override
+  String get accountHelpTitle => 'Hỗ trợ';
+
+  @override
+  String get accountHelpScanTitle => 'Quét sản phẩm';
+
+  @override
+  String get accountHelpScanBody =>
+      'Chụp sản phẩm và mã QR để kiểm tra dữ liệu đã ghi nhận.';
+
+  @override
+  String get accountHelpStoreTitle => 'Cửa hàng';
+
+  @override
+  String get accountHelpStoreBody =>
+      'Xem danh sách cửa hàng, đánh giá và sản phẩm gần đây.';
+
+  @override
+  String get accountHelpContactTitle => 'Liên hệ';
+
+  @override
+  String get accountHelpContactBody =>
+      'Gửi email tới support@vngrocery.local khi cần hỗ trợ.';
+
+  @override
+  String get voucherWalletTitle => 'Ví voucher';
+
+  @override
+  String get voucherWalletAddManualTooltip => 'Thêm thủ công';
+
+  @override
+  String get manualVoucherTitle => 'Thêm voucher thủ công';
+
+  @override
+  String manualVoucherDemoCopied(Object format) {
+    return 'Đã copy mã $format demo vào ô mã';
+  }
+
+  @override
+  String get manualVoucherSaved => 'Đã thêm voucher thủ công vào ví';
+
+  @override
+  String get manualVoucherNotice =>
+      'Voucher thủ công là thông tin do bạn tự nhập để lưu trữ và sử dụng tại quầy. Nội dung này chưa được cửa hàng xác thực, bạn tự chịu trách nhiệm về điều kiện sử dụng.';
+
+  @override
+  String get manualVoucherShopLabel => 'Cửa hàng áp dụng';
+
+  @override
+  String get manualVoucherScanQr => 'Quét QR';
+
+  @override
+  String get manualVoucherScanBarcode => 'Quét mã vạch';
+
+  @override
+  String get manualVoucherCodeLabel => 'Mã voucher';
+
+  @override
+  String get manualVoucherCodeRequired => 'Nhập mã voucher';
+
+  @override
+  String get manualVoucherTitleLabel => 'Tên gợi nhớ';
+
+  @override
+  String get manualVoucherTitleHint => 'VD: Giảm 20% mua thịt cuối tuần';
+
+  @override
+  String get manualVoucherNoteLabel => 'Ghi chú của bạn';
+
+  @override
+  String get manualVoucherNoteHint =>
+      'Điều kiện sử dụng, nguồn nhận mã, lưu ý tại quầy...';
+
+  @override
+  String get manualVoucherExpiryLabel => 'Hạn dùng';
+
+  @override
+  String get manualVoucherChangeDate => 'Đổi ngày';
+
+  @override
+  String get manualVoucherSaveToWallet => 'Lưu vào ví';
+
+  @override
+  String get storeDetailTitle => 'Chi tiết cửa hàng';
+
+  @override
+  String get storeDetailRecentCheckedProducts => 'Sản phẩm mới kiểm tra';
+
+  @override
+  String get storeDetailCopied => 'Đã sao chép thông tin cửa hàng';
+
+  @override
+  String get storeDetailNoReceipt => 'Cửa hàng chưa có biên lai sản phẩm';
+
+  @override
+  String get storeDetailLatestReceiptTitle =>
+      'Sản phẩm đã được kiểm tra gần đây';
+
+  @override
+  String get storeDetailLatestReceiptSubtitle => 'Có biên lai trong lịch sử';
+
+  @override
+  String get storeDetailViewReceipt => 'Xem biên lai';
+
+  @override
+  String get storeDetailProductsTab => 'Sản phẩm';
+
+  @override
+  String get storeDetailReviewsTab => 'Đánh giá';
+
+  @override
+  String get storeDetailWriteReview => 'Viết đánh giá';
+
+  @override
+  String get productDetailTitle => 'Thông tin sản phẩm';
+
+  @override
+  String productDetailAddedToCart(Object productName) {
+    return 'Đã thêm $productName';
+  }
+
+  @override
+  String get productDetailAddToCart => 'Thêm vào giỏ';
 }

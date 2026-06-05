@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -122,16 +123,16 @@ class AccountLogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: const Padding(
-        padding: EdgeInsets.all(16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.logout, color: AppColors.meatRed),
-            SizedBox(width: 8),
+            const Icon(Icons.logout, color: AppColors.meatRed),
+            const SizedBox(width: 8),
             Text(
-              'Đăng xuất',
-              style: TextStyle(
+              AppLocalizations.of(context).accountLogoutTitle,
+              style: const TextStyle(
                 color: AppColors.meatRed,
                 fontWeight: FontWeight.bold,
               ),
