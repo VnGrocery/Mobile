@@ -137,6 +137,7 @@ class FloatingTabPopup extends StatelessWidget {
                   icon: centerItem.icon,
                   selected: centerIndex == selectedIndex,
                   onTap: () => onSelect(centerIndex),
+                  semanticsLabel: centerItem.label,
                 ),
               ),
             ],
