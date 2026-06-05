@@ -61,7 +61,7 @@ class OsmTileMap extends StatelessWidget {
                     child: Image.network(
                       tileUriBuilder(
                         safeZoom,
-                        (baseX + dx).clamp(0, maxTile),
+                        _wrapTileX(baseX + dx, safeZoom),
                         (baseY + dy).clamp(0, maxTile),
                       ).toString(),
                       semanticLabel: 'OpenStreetMap tile',
@@ -85,9 +85,15 @@ class OsmTileMap extends StatelessWidget {
     return ((lon + 180.0) / 360.0) * math.pow(2.0, zoom);
   }
 
+  int _wrapTileX(int x, int zoom) {
+    final tileCount = math.pow(2, zoom).toInt();
+    return x.remainder(tileCount) < 0
+        ? x.remainder(tileCount) + tileCount
+        : x.remainder(tileCount);
+  }
+
   double _wrapLongitude(double lon) {
-    final wrapped = ((lon + 180.0) % 360.0) - 180.0;
-    return wrapped == -180.0 ? 180.0 : wrapped;
+    return ((lon + 180.0) % 360.0) - 180.0;
   }
 
   double _latToTileY(double lat, int zoom) {

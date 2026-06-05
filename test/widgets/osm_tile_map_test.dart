@@ -27,6 +27,23 @@ void main() {
     expect(requested.last, '13/6526/3851');
   });
 
+  testWidgets('wraps antimeridian tile x coordinates', (tester) async {
+    final requested = <String>[];
+
+    await tester.pumpWidget(host(OsmTileMap(
+      latitude: 0,
+      longitude: -540,
+      zoom: 2,
+      tileUriBuilder: (zoom, x, y) {
+        requested.add('$zoom/$x/$y');
+        return Uri.parse('https://tiles.test/$zoom/$x/$y.png');
+      },
+    )));
+
+    expect(requested.map((tile) => tile.split('/')[1]),
+        containsAll(<String>['3', '0', '1', '2']));
+  });
+
   testWidgets('clamps zoom, latitude, and tile bounds', (tester) async {
     final requested = <String>[];
 
