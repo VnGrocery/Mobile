@@ -78,6 +78,30 @@ flutter run
   - `lib/data/mock_data.dart`
 - Khi tích hợp backend, thay implementation trong `AppDataHooks` để giữ nguyên UI flow.
 
+## Mô hình dữ liệu
+
+Source of truth hiện nằm trong `lib/data/`:
+
+- `lib/data/models/`: entity UI dùng trực tiếp.
+- `lib/data/mock_json_data.dart`: seed data dạng JSON-like map.
+- `lib/data/repositories/`: query/mutation theo domain.
+- `lib/data/data_hooks.dart`: façade để UI lấy/ghi dữ liệu.
+
+Entity chính: `Shop`, `Product`, `Review`, `PledgeHistoryItem`, `Voucher`,
+`UserVoucher`, `VoucherCheckResult`, `BuyerCheckResult`.
+
+Quan hệ chính:
+
+- `Shop.id` ← `Product.shopId`
+- `Shop.id` ← `Voucher.shopId`
+- `Product.id` ← pledge history lookup
+- `Voucher.id` ← `UserVoucher.voucherId`
+
+Backend contract hiện dùng key camelCase. Snake_case không được map tự động. Các
+field required trong model sẽ throw nếu thiếu/sai type; field optional/default xem
+constructor trong `lib/data/models/`. Date input hỗ trợ `DateTime`, epoch ms hoặc
+ISO-8601 string; giá trị invalid/null fallback về `1970-01-01`.
+
 ## Lưu ý Android/Gradle
 
 - App đang cấu hình theo AGP mới.
