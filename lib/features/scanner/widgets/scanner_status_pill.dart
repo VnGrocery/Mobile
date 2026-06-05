@@ -8,6 +8,9 @@ class ScannerStatusPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: ValueKey(
+        verifying ? 'scanner.status.verifying' : 'scanner.status.ready',
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.2),

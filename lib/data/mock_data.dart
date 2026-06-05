@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'app_data_config.dart';
 import 'mock_json_data.dart';
 import 'models.dart';
@@ -19,6 +21,12 @@ class MockDb {
   final List<UserVoucher> userVouchers = [];
 
   late BuyerCheckResult lastBuyerCheck;
+
+  @visibleForTesting
+  void resetForTesting() {
+    _seq = 2000;
+    _seed(appMockJson);
+  }
 
   void _seed(Map<String, Object?> json) {
     shops
@@ -107,8 +115,10 @@ class MockDb {
     required String userEmail,
     required String voucherId,
   }) {
-    final existing =
-        walletItemForVoucher(userEmail: userEmail, voucherId: voucherId);
+    final existing = walletItemForVoucher(
+      userEmail: userEmail,
+      voucherId: voucherId,
+    );
     if (existing != null) return existing;
     final created = UserVoucher(
       id: nextId(),
@@ -262,7 +272,7 @@ Map<String, List<T>> _groupedList<T>(
   Object? value,
   T Function(Map<String, Object?> json) parse,
 ) {
-  return _map(value).map(
-    (key, item) => MapEntry(key, _list(item).map(parse).toList()),
-  );
+  return _map(
+    value,
+  ).map((key, item) => MapEntry(key, _list(item).map(parse).toList()));
 }

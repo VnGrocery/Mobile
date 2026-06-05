@@ -20,6 +20,7 @@ class ScannerBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
+      key: const ValueKey('scanner.body'),
       child: Padding(
         padding: EdgeInsets.only(bottom: bottomContentInset),
         child: Column(
@@ -47,6 +48,7 @@ class ScannerBody extends StatelessWidget {
             ScannerStatusPill(verifying: verifying),
             const SizedBox(height: 12),
             ElevatedButton(
+              key: const ValueKey('scanner.simulate_scan_button'),
               onPressed: verifying ? null : onSimulate,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,

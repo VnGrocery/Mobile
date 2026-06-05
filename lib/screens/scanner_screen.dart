@@ -51,13 +51,22 @@ class _ScannerScreenState extends State<ScannerScreen>
         child: BlocBuilder<ScannerCubit, ScannerState>(
           builder: (context, state) {
             return Scaffold(
+              key: const ValueKey('scanner.screen'),
               backgroundColor: Colors.black,
               body: Stack(
+                key: const ValueKey('scanner.stack'),
                 children: [
-                  const Center(
-                    child: Text(
-                      'Camera Preview...',
-                      style: TextStyle(color: Color(0xFF555555), fontSize: 18),
+                  Center(
+                    child: Semantics(
+                      key: const ValueKey('scanner.camera_preview'),
+                      label: 'scanner.camera_preview',
+                      child: const Text(
+                        'Camera Preview...',
+                        style: TextStyle(
+                          color: Color(0xFF555555),
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                   ),
                   ScannerBody(
@@ -70,7 +79,10 @@ class _ScannerScreenState extends State<ScannerScreen>
                     onBack: () => Navigator.pop(context),
                     onFlash: () {},
                   ),
-                  if (state.verifying) const ScannerVerifyingOverlay(),
+                  if (state.verifying)
+                    const ScannerVerifyingOverlay(
+                      key: ValueKey('scanner.verifying_overlay'),
+                    ),
                 ],
               ),
             );
