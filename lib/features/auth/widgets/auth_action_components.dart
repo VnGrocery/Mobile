@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'auth_segment_item.dart';
 
@@ -16,6 +17,7 @@ class AuthSegmentedControl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
     return Container(
       height: 54,
       padding: const EdgeInsets.all(4),
@@ -28,8 +30,9 @@ class AuthSegmentedControl extends StatelessWidget {
           AnimatedAlign(
             duration: const Duration(milliseconds: 220),
             curve: Curves.easeOutCubic,
-            alignment:
-                value == 0 ? Alignment.centerLeft : Alignment.centerRight,
+            alignment: value == 0
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
             child: FractionallySizedBox(
               widthFactor: 0.5,
               heightFactor: 1,
@@ -51,13 +54,13 @@ class AuthSegmentedControl extends StatelessWidget {
           Row(
             children: [
               AuthSegmentItem(
-                label: 'Đăng nhập',
+                label: l10n.authLoginTab,
                 index: 0,
                 active: value == 0,
                 onTap: onChanged,
               ),
               AuthSegmentItem(
-                label: 'Đăng ký',
+                label: l10n.authRegisterTab,
                 index: 1,
                 active: value == 1,
                 onTap: onChanged,
@@ -84,6 +87,7 @@ class AuthSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SizedBox(
       height: 56,
       child: FilledButton(
@@ -98,7 +102,7 @@ class AuthSubmitButton extends StatelessWidget {
                 ),
               )
             : Text(
-                register ? 'Tạo tài khoản' : 'Đăng nhập',
+                register ? l10n.authCreateAccount : l10n.authSignIn,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -130,7 +134,7 @@ class GoogleSignInButton extends StatelessWidget {
           side: BorderSide(color: context.palette.border),
         ),
         icon: const Icon(Icons.g_mobiledata, size: 26),
-        label: const Text('Tiếp tục với Google'),
+        label: Text(AppLocalizations.of(context).authContinueWithGoogle),
       ),
     );
   }

@@ -36,7 +36,7 @@ class VnMeatApp extends StatelessWidget {
             BlocProvider(create: (_) => CartBloc()..add(const CartStarted())),
           ],
           child: MaterialApp(
-            title: 'VnGrocery',
+            onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -97,8 +97,9 @@ class _AppBackdropState extends State<_AppBackdrop>
       systemNavigationBarColor: background,
       systemNavigationBarDividerColor: background,
       statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-      systemNavigationBarIconBrightness:
-          isDark ? Brightness.light : Brightness.dark,
+      systemNavigationBarIconBrightness: isDark
+          ? Brightness.light
+          : Brightness.dark,
     );
 
     SystemChrome.setSystemUIOverlayStyle(barStyle);
@@ -217,7 +218,11 @@ class _DongSonMotifPainter extends CustomPainter {
   }
 
   void _drawBirdRing(
-      Canvas canvas, Offset center, double ringRadius, Paint paint) {
+    Canvas canvas,
+    Offset center,
+    double ringRadius,
+    Paint paint,
+  ) {
     for (var i = 0; i < 12; i++) {
       final angle = i * math.pi * 2 / 12;
       canvas.save();

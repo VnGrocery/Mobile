@@ -117,6 +117,7 @@ ISO-8601 string; giá trị invalid/null fallback về `1970-01-01`.
 - Generated: `lib/l10n/app_localizations*.dart`.
 - Dependencies: `flutter_localizations`, `intl`.
 - App hỗ trợ `en`, `vi`; cập nhật ARB rồi regenerate.
+- `l10n.yaml` bật `nullable-getter: false`; file `untranslated_messages.json` sinh ra khi có message thiếu bản dịch.
 
 ## OpenStreetMap
 

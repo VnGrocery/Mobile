@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/core/ui/app_sheet.dart';
 import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'auth_components.dart';
 
@@ -38,11 +39,15 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
       return;
     }
     Navigator.pop(context);
-    AppFeedback.showSnackBar(context, 'Đã đặt lại mật khẩu demo');
+    AppFeedback.showSnackBar(
+      context,
+      AppLocalizations.of(context).authPasswordResetDemo,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.only(
         left: 20,
@@ -59,21 +64,23 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
             const Center(child: AppSheetHandle()),
             const SizedBox(height: 18),
             Text(
-              _step == 0 ? 'Quên mật khẩu' : 'Đặt lại mật khẩu',
+              _step == 0
+                  ? l10n.authForgotPasswordTitle
+                  : l10n.authResetPasswordTitle,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 6),
             Text(
               _step == 0
-                  ? 'Nhập email tài khoản để xác minh demo.'
-                  : 'Tạo mật khẩu mới để tiếp tục đăng nhập.',
+                  ? l10n.authForgotPasswordSubtitle
+                  : l10n.authResetPasswordSubtitle,
               style: const TextStyle(color: AppColors.textSecondary),
             ),
             const SizedBox(height: 18),
             if (_step == 0)
               AuthTextField(
                 controller: _email,
-                label: 'Email',
+                label: l10n.authEmailLabel,
                 icon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
                 validator: AppValidators.email,
@@ -81,7 +88,7 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
             else ...[
               AuthPasswordField(
                 controller: _newPassword,
-                label: 'Mật khẩu mới',
+                label: l10n.authNewPasswordLabel,
                 visible: _showNew,
                 onToggle: () => setState(() => _showNew = !_showNew),
                 validator: AppValidators.newPassword,
@@ -89,13 +96,11 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
               const SizedBox(height: 12),
               AuthPasswordField(
                 controller: _confirmPassword,
-                label: 'Nhập lại mật khẩu mới',
+                label: l10n.authConfirmNewPasswordLabel,
                 visible: _showConfirm,
                 onToggle: () => setState(() => _showConfirm = !_showConfirm),
-                validator: (value) => AppValidators.confirmPassword(
-                  value,
-                  _newPassword.text,
-                ),
+                validator: (value) =>
+                    AppValidators.confirmPassword(value, _newPassword.text),
               ),
             ],
             const SizedBox(height: 20),
@@ -103,7 +108,9 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
               height: 52,
               child: FilledButton(
                 onPressed: _next,
-                child: Text(_step == 0 ? 'Tiếp tục' : 'Đổi mật khẩu'),
+                child: Text(
+                  _step == 0 ? l10n.authContinue : l10n.authChangePassword,
+                ),
               ),
             ),
           ],

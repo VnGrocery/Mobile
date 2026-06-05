@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/core/validation/app_validators.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/features/auth/widgets/auth_components.dart';
 import 'package:vngrocery/features/auth/widgets/forgot_password_sheet.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -63,7 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
               RegisterNameField(visible: _isRegister, controller: _name),
               AuthTextField(
                 controller: _email,
-                label: 'Email',
+                label: AppLocalizations.of(context).authEmailLabel,
                 icon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
                 validator: AppValidators.email,
@@ -71,7 +72,7 @@ class _AuthScreenState extends State<AuthScreen> {
               const SizedBox(height: 14),
               AuthPasswordField(
                 controller: _password,
-                label: 'Mật khẩu',
+                label: AppLocalizations.of(context).authPasswordLabel,
                 visible: _showPassword,
                 onToggle: () => setState(() => _showPassword = !_showPassword),
                 onChanged: (_) => setState(() {}),
@@ -82,7 +83,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(height: 14),
                 AuthPasswordField(
                   controller: _confirmPassword,
-                  label: 'Nhập lại mật khẩu',
+                  label: AppLocalizations.of(context).authConfirmPasswordLabel,
                   visible: _showConfirmPassword,
                   onToggle: () => setState(
                     () => _showConfirmPassword = !_showConfirmPassword,
@@ -99,9 +100,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: _forgotPassword,
-                    child: const Text(
-                      'Quên mật khẩu?',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    child: Text(
+                      AppLocalizations.of(context).authForgotPassword,
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
                     ),
                   ),
                 ),

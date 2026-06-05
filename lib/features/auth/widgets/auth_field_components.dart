@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/validation/app_validators.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class AuthTextField extends StatelessWidget {
@@ -25,10 +26,7 @@ class AuthTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon),
-      ),
+      decoration: InputDecoration(labelText: label, prefixIcon: Icon(icon)),
     );
   }
 }
@@ -90,7 +88,7 @@ class RegisterNameField extends StatelessWidget {
               children: [
                 AuthTextField(
                   controller: controller,
-                  label: 'Tên hiển thị',
+                  label: AppLocalizations.of(context).authDisplayNameLabel,
                   icon: Icons.person,
                   validator: AppValidators.displayName,
                 ),
@@ -123,14 +121,18 @@ class PasswordRules extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Độ mạnh mật khẩu',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  AppLocalizations.of(context).authPasswordStrength,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               Text(
-                strength >= 4 ? 'Mạnh' : (strength >= 2 ? 'Khá' : 'Yếu'),
+                strength >= 4
+                    ? AppLocalizations.of(context).authPasswordStrong
+                    : (strength >= 2
+                          ? AppLocalizations.of(context).authPasswordMedium
+                          : AppLocalizations.of(context).authPasswordWeak),
                 style: TextStyle(
                   color: _strengthColor(strength),
                   fontWeight: FontWeight.bold,

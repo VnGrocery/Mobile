@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class AuthBrandHeader extends StatelessWidget {
@@ -30,8 +31,8 @@ class AuthSubtitle extends StatelessWidget {
     return Center(
       child: Text(
         register
-            ? 'Tạo tài khoản để lưu kiểm chứng sản phẩm'
-            : 'Chào mừng bạn quay lại',
+            ? AppLocalizations.of(context).authRegisterSubtitle
+            : AppLocalizations.of(context).authWelcomeBack,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 16, color: Colors.grey),
       ),
@@ -66,8 +67,8 @@ class AuthInfoCard extends StatelessWidget {
           Expanded(
             child: Text(
               register
-                  ? 'Tài khoản demo sẽ dùng dữ liệu ảo cho đến khi gắn API thật.'
-                  : 'Đăng nhập demo để kiểm tra sản phẩm, xem bản đồ và giá tại cửa hàng.',
+                  ? AppLocalizations.of(context).authRegisterInfo
+                  : AppLocalizations.of(context).authLoginInfo,
               style: const TextStyle(height: 1.35),
             ),
           ),
