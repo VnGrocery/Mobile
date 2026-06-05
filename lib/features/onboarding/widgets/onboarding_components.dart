@@ -16,6 +16,7 @@ class OnboardingSkipButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: TextButton(
+          key: const ValueKey('onboarding.skip_button'),
           onPressed: onSkip,
           child: const Text('Bỏ qua', style: TextStyle(color: Colors.grey)),
         ),

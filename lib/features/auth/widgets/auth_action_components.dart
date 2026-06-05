@@ -128,6 +128,7 @@ class GoogleSignInButton extends StatelessWidget {
     return SizedBox(
       height: 56,
       child: OutlinedButton.icon(
+        key: const ValueKey('auth.google_sign_in_button'),
         onPressed: loading ? null : onPressed,
         style: OutlinedButton.styleFrom(
           foregroundColor: Theme.of(context).colorScheme.onSurface,

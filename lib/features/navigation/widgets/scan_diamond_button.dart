@@ -7,6 +7,7 @@ class ScanDiamondButton extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
   final String? semanticsLabel;
+  final String? selectorKey;
 
   const ScanDiamondButton({
     super.key,
@@ -14,6 +15,7 @@ class ScanDiamondButton extends StatelessWidget {
     required this.selected,
     required this.onTap,
     this.semanticsLabel,
+    this.selectorKey,
   });
 
   @override
@@ -24,6 +26,7 @@ class ScanDiamondButton extends StatelessWidget {
         label: semanticsLabel,
         button: true,
         child: InkWell(
+          key: selectorKey == null ? null : ValueKey('nav.tab.$selectorKey'),
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
           ),

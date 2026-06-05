@@ -7,6 +7,7 @@ class GlassTabItem extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
+  final String selectorKey;
 
   const GlassTabItem({
     super.key,
@@ -14,6 +15,7 @@ class GlassTabItem extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onTap,
+    required this.selectorKey,
   });
 
   @override
@@ -23,6 +25,7 @@ class GlassTabItem extends StatelessWidget {
         isDark ? const Color(0xFF9CAEA0) : const Color(0xFF8BA1B2);
 
     return InkWell(
+      key: ValueKey('nav.tab.$selectorKey'),
       borderRadius: BorderRadius.circular(20),
       onTap: onTap,
       child: Padding(

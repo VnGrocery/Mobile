@@ -132,14 +132,36 @@ class Routes {
         page = const ChangePasswordScreen();
         break;
       case exploreMap:
-        page = ExploreMapScreen(
-            initialShopId: _exploreMapArgs(args)?.initialShopId);
+        final mapArgs =
+            _routeArgs<ExploreMapArgs>(
+              args,
+              typed: (value) => value,
+              fallback: (value) {
+                final initialShopId = _optionalString(value);
+                return initialShopId == null
+                    ? null
+                    : ExploreMapArgs(initialShopId: initialShopId);
+              },
+              empty: const ExploreMapArgs(),
+            ) ??
+            const ExploreMapArgs();
+        page = ExploreMapScreen(initialShopId: mapArgs.initialShopId);
         break;
       case scan:
         page = const ScannerScreen();
         break;
       case productDetail:
-        final detailArgs = _productDetailArgs(args);
+        final detailArgs = _routeArgs<ProductDetailArgs>(
+          args,
+          typed: (value) => value,
+          fallback: (value) {
+            final m = _stringMap(value);
+            final shopId = m?['shopId'];
+            final productId = m?['productId'];
+            if (_isBlank(shopId) || _isBlank(productId)) return null;
+            return ProductDetailArgs(shopId: shopId!, productId: productId!);
+          },
+        );
         if (detailArgs == null) return _fallbackRoute(settings);
         page = ProductDetailScreen(
           shopId: detailArgs.shopId,
@@ -153,25 +175,57 @@ class Routes {
         page = const BuyerCheckResultScreen();
         break;
       case storeDetail:
-        final detailArgs = _storeDetailArgs(args);
+        final detailArgs = _singleStringRouteArg(
+          args,
+          typed: (value) => value,
+          fromString: StoreDetailArgs.new,
+        );
         if (detailArgs == null) return _fallbackRoute(settings);
         page = StoreDetailScreen(shopId: detailArgs.shopId);
         break;
       case review:
-        final reviewArgs = _reviewArgs(args);
+        final reviewArgs = _singleStringRouteArg(
+          args,
+          typed: (value) => value,
+          fromString: ReviewArgs.new,
+        );
         if (reviewArgs == null) return _fallbackRoute(settings);
         page = ReviewScreen(shopId: reviewArgs.shopId);
         break;
       case sellerProducts:
-        page = SellerProductListScreen(shopId: _sellerShopArgs(args)?.shopId);
+        page = SellerProductListScreen(
+          shopId: _singleStringRouteArg(
+            args,
+            typed: (value) => value,
+            aliases: [
+              (value) => value is StoreDetailArgs
+                  ? SellerShopArgs(value.shopId)
+                  : null,
+            ],
+            fromString: SellerShopArgs.new,
+          )?.shopId,
+        );
         break;
       case sellerCreateProduct:
-        final shopArgs = _sellerShopArgs(args);
+        final shopArgs = _singleStringRouteArg(
+          args,
+          typed: (value) => value,
+          aliases: [
+            (value) => value is StoreDetailArgs
+                ? SellerShopArgs(value.shopId)
+                : null,
+          ],
+          fromString: SellerShopArgs.new,
+        );
         if (shopArgs == null) return _fallbackRoute(settings);
         page = SellerCreateProductScreen(shopId: shopArgs.shopId);
         break;
       case sellerCreatePledge:
-        final productArgs = _sellerProductArgs(args);
+        final productArgs = _singleStringRouteArg(
+          args,
+          typed: (value) => value,
+          fromString: SellerProductArgs.new,
+        );
         if (productArgs == null) return _fallbackRoute(settings);
         page = SellerCreatePledgeScreen(productId: productArgs.productId);
         break;
@@ -179,12 +233,20 @@ class Routes {
         page = const SellerShopScreen();
         break;
       case pledgeHistory:
-        final productArgs = _sellerProductArgs(args);
+        final productArgs = _singleStringRouteArg(
+          args,
+          typed: (value) => value,
+          fromString: SellerProductArgs.new,
+        );
         if (productArgs == null) return _fallbackRoute(settings);
         page = PledgeHistoryScreen(productId: productArgs.productId);
         break;
       case qrLabel:
-        final labelArgs = _qrLabelArgs(args);
+        final labelArgs = _singleStringRouteArg(
+          args,
+          typed: (value) => value,
+          fromString: QrLabelArgs.new,
+        );
         if (labelArgs == null) return _fallbackRoute(settings);
         page = QrLabelScreen(pledgeId: labelArgs.pledgeId);
         break;
@@ -192,7 +254,11 @@ class Routes {
         page = const VoucherWalletScreen();
         break;
       case voucherQr:
-        final qrArgs = _voucherQrArgs(args);
+        final qrArgs = _singleStringRouteArg(
+          args,
+          typed: (value) => value,
+          fromString: VoucherQrArgs.new,
+        );
         if (qrArgs == null) return _fallbackRoute(settings);
         page = VoucherQrScreen(userVoucherId: qrArgs.userVoucherId);
         break;
@@ -212,59 +278,35 @@ class Routes {
     );
   }
 
-  static ExploreMapArgs? _exploreMapArgs(Object? value) {
-    if (value == null) return const ExploreMapArgs();
-    if (value is ExploreMapArgs) return value;
-    final initialShopId = _optionalString(value);
-    return initialShopId == null
-        ? null
-        : ExploreMapArgs(initialShopId: initialShopId);
+  static T? _routeArgs<T>(
+    Object? value, {
+    required T? Function(T value) typed,
+    required T? Function(Object? value) fallback,
+    T? empty,
+  }) {
+    if (value == null) return empty;
+    if (value is T) return typed(value as T);
+    return fallback(value);
   }
 
-  static ProductDetailArgs? _productDetailArgs(Object? value) {
-    if (value is ProductDetailArgs) return value;
-    final m = _stringMap(value);
-    final shopId = m?['shopId'];
-    final productId = m?['productId'];
-    if (_isBlank(shopId) || _isBlank(productId)) return null;
-    return ProductDetailArgs(shopId: shopId!, productId: productId!);
-  }
-
-  static StoreDetailArgs? _storeDetailArgs(Object? value) {
-    if (value is StoreDetailArgs) return value;
-    final shopId = _requiredString(value);
-    return shopId == null ? null : StoreDetailArgs(shopId);
-  }
-
-  static ReviewArgs? _reviewArgs(Object? value) {
-    if (value is ReviewArgs) return value;
-    final shopId = _requiredString(value);
-    return shopId == null ? null : ReviewArgs(shopId);
-  }
-
-  static SellerShopArgs? _sellerShopArgs(Object? value) {
-    if (value is SellerShopArgs) return value;
-    if (value is StoreDetailArgs) return SellerShopArgs(value.shopId);
-    final shopId = _requiredString(value);
-    return shopId == null ? null : SellerShopArgs(shopId);
-  }
-
-  static SellerProductArgs? _sellerProductArgs(Object? value) {
-    if (value is SellerProductArgs) return value;
-    final productId = _requiredString(value);
-    return productId == null ? null : SellerProductArgs(productId);
-  }
-
-  static QrLabelArgs? _qrLabelArgs(Object? value) {
-    if (value is QrLabelArgs) return value;
-    final pledgeId = _requiredString(value);
-    return pledgeId == null ? null : QrLabelArgs(pledgeId);
-  }
-
-  static VoucherQrArgs? _voucherQrArgs(Object? value) {
-    if (value is VoucherQrArgs) return value;
-    final userVoucherId = _requiredString(value);
-    return userVoucherId == null ? null : VoucherQrArgs(userVoucherId);
+  static T? _singleStringRouteArg<T>(
+    Object? value, {
+    required T? Function(T value) typed,
+    required T Function(String value) fromString,
+    List<T? Function(Object? value)> aliases = const [],
+  }) {
+    return _routeArgs<T>(
+      value,
+      typed: typed,
+      fallback: (raw) {
+        for (final alias in aliases) {
+          final resolved = alias(raw);
+          if (resolved != null) return resolved;
+        }
+        final stringValue = _requiredString(raw);
+        return stringValue == null ? null : fromString(stringValue);
+      },
+    );
   }
 
   static bool _isBlank(String? value) => value == null || value.trim().isEmpty;

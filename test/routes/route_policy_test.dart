@@ -125,6 +125,26 @@ void main() {
       expect(route.settings.name, Routes.storeDetail);
     });
 
+    test('accepts alias route args where routes share a typed id carrier', () {
+      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+
+      final sellerProducts = Routes.onGenerateRoute(
+        const RouteSettings(
+          name: Routes.sellerProducts,
+          arguments: StoreDetailArgs('s1'),
+        ),
+      );
+      expect(sellerProducts.settings.name, Routes.sellerProducts);
+
+      final createProduct = Routes.onGenerateRoute(
+        const RouteSettings(
+          name: Routes.sellerCreateProduct,
+          arguments: StoreDetailArgs('s1'),
+        ),
+      );
+      expect(createProduct.settings.name, Routes.sellerCreateProduct);
+    });
+
     test('accepts typed seller product list args', () {
       SessionManager.instance
           .login(email: 'seller@example.com', role: 'seller');

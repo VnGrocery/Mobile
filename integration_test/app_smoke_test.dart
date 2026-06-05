@@ -30,20 +30,22 @@ void main() {
     }
   }
 
+  Finder navTab(String key) => find.byKey(ValueKey('nav.tab.$key'));
+
   Future<void> launchAsBuyer(WidgetTester tester) async {
     await resetHarnessState();
     await app.main();
     await tester.pump();
     await tester.pump(const Duration(seconds: 3));
 
-    final skip = find.text('Bỏ qua');
+    final skip = find.byKey(const ValueKey('onboarding.skip_button'));
     if (skip.evaluate().isNotEmpty) {
       await tester.tap(skip);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
     }
 
-    final google = find.text('Tiếp tục với Google');
+    final google = find.byKey(const ValueKey('auth.google_sign_in_button'));
     if (google.evaluate().isNotEmpty) {
       await tester.tap(google);
       await tester.pump();
@@ -62,12 +64,12 @@ void main() {
     (tester) async {
       await launchAsBuyer(tester);
 
-      expect(find.text('Trang chủ'), findsWidgets);
-      expect(find.text('Khám phá'), findsWidgets);
-      expect(find.text('Cửa hàng'), findsWidgets);
-      expect(find.text('Tài khoản'), findsWidgets);
+      expect(navTab('home'), findsOneWidget);
+      expect(navTab('explore'), findsOneWidget);
+      expect(navTab('stores'), findsOneWidget);
+      expect(navTab('account'), findsOneWidget);
 
-      await tester.tap(find.bySemanticsLabel('Quét sản phẩm'));
+      await tester.tap(navTab('scan'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
 
@@ -79,6 +81,32 @@ void main() {
         find.byKey(const ValueKey('scanner.simulate_scan_button')),
         findsOneWidget,
       );
+    },
+    skip:
+        defaultTargetPlatform != TargetPlatform.android &&
+        defaultTargetPlatform != TargetPlatform.iOS,
+  );
+
+  testWidgets(
+    'buyer can switch between stable bottom-nav tabs',
+    (tester) async {
+      await launchAsBuyer(tester);
+
+      await tester.tap(navTab('explore'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.byKey(const ValueKey('explore_map')), findsOneWidget);
+
+      await tester.tap(navTab('stores'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.byKey(const ValueKey('store_list')), findsOneWidget);
+
+      await tester.tap(navTab('home'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.byKey(const ValueKey('explore_map')), findsNothing);
+      expect(find.byKey(const ValueKey('store_list')), findsNothing);
     },
     skip:
         defaultTargetPlatform != TargetPlatform.android &&
