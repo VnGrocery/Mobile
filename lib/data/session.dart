@@ -14,9 +14,6 @@ class SessionManager {
 
   ValueListenable<String> get roleListenable => _roleNotifier;
 
-  @Deprecated('Use roleListenable; mutate through setRole/login/logout.')
-  ValueListenable<String> get roleNotifier => _roleNotifier;
-
   String? get token => _token;
 
   String? get shopId => _shopId;

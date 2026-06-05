@@ -78,7 +78,13 @@ flutter test integration_test/app_smoke_test.dart
 flutter run
 ```
 
-`integration_test/app_smoke_test.dart` dùng `integration_test`; có thể chạy thiết bị/emulator bằng `flutter test integration_test`.
+`integration_test/app_smoke_test.dart` dùng `integration_test`; cần Android/iOS device hoặc emulator. Lệnh chuẩn:
+
+```bash
+flutter test integration_test/app_smoke_test.dart
+```
+
+Nếu chưa có device, `flutter test` thường báo `No supported devices connected`.
 
 ## Trạng thái dữ liệu
 

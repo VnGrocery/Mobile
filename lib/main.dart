@@ -19,11 +19,11 @@ import 'theme/theme_controller.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveStorageService.init();
-  runApp(const VnMeatApp());
+  runApp(const VnGroceryApp());
 }
 
-class VnMeatApp extends StatelessWidget {
-  const VnMeatApp({super.key});
+class VnGroceryApp extends StatelessWidget {
+  const VnGroceryApp({super.key});
 
   @override
   Widget build(BuildContext context) {
