@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/utils/currency_formatter.dart';
 import 'package:vngrocery/data/data_hooks.dart';
-import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_event.dart';
 import 'package:vngrocery/features/cart/controllers/cart_state.dart';
+import 'package:vngrocery/data/models.dart' show Voucher;
 import 'package:vngrocery/features/cart/models/cart_item.dart';
 import 'cart_item_row.dart';
 
@@ -40,7 +40,7 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    final shop = AppDataHooks.instance.getShop(widget.shopId);
+    final shop = AppDataHooks.instance.getShopOrNull(widget.shopId);
     final appliedVoucher = widget.state.appliedVouchersByShop[widget.shopId];
 
     return Container(
@@ -53,7 +53,7 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _ShopHeader(shop: shop),
+          _ShopHeader(shopName: shop?.name ?? 'Cửa hàng không khả dụng'),
           const SizedBox(height: 12),
           for (final item in widget.items) ...[
             CartItemRow(item: item),
@@ -85,9 +85,9 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
 }
 
 class _ShopHeader extends StatelessWidget {
-  final Shop shop;
+  final String shopName;
 
-  const _ShopHeader({required this.shop});
+  const _ShopHeader({required this.shopName});
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class _ShopHeader extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            shop.name,
+            shopName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),

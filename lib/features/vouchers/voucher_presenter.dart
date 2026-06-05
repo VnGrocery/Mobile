@@ -34,8 +34,8 @@ class VoucherPresenter {
     return _data.getShop(shopId);
   }
 
-  static void useUserVoucher(String userVoucherId) {
-    _data.useUserVoucher(userVoucherId);
+  static bool useUserVoucher(String userVoucherId) {
+    return _data.useUserVoucher(userVoucherId);
   }
 
   static List<Shop> shops() {
