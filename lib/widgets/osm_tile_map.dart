@@ -2,6 +2,29 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+class OsmTileProviderConfig {
+  final Uri Function(int zoom, int x, int y) tileUriBuilder;
+  final String attribution;
+  final int minZoom;
+  final int maxZoom;
+  final String semanticLabel;
+
+  const OsmTileProviderConfig({
+    required this.tileUriBuilder,
+    required this.attribution,
+    required this.minZoom,
+    required this.maxZoom,
+    this.semanticLabel = 'OpenStreetMap tile',
+  });
+
+  static const openStreetMap = OsmTileProviderConfig(
+    tileUriBuilder: OsmTileMap.defaultTileUriBuilder,
+    attribution: '© OpenStreetMap contributors',
+    minZoom: 0,
+    maxZoom: 19,
+  );
+}
+
 class OsmTileMap extends StatelessWidget {
   static const minZoom = 0;
   static const maxZoom = 19;
@@ -11,14 +34,16 @@ class OsmTileMap extends StatelessWidget {
   final double latitude;
   final double longitude;
   final int zoom;
-  final Uri Function(int zoom, int x, int y) tileUriBuilder;
+  final OsmTileProviderConfig providerConfig;
+  final Uri Function(int zoom, int x, int y)? tileUriBuilder;
 
   const OsmTileMap({
     super.key,
     required this.latitude,
     required this.longitude,
     this.zoom = 13,
-    this.tileUriBuilder = defaultTileUriBuilder,
+    this.providerConfig = OsmTileProviderConfig.openStreetMap,
+    @Deprecated('Use providerConfig instead.') this.tileUriBuilder,
   });
 
   static Uri defaultTileUriBuilder(int zoom, int x, int y) {
@@ -27,7 +52,9 @@ class OsmTileMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final safeZoom = zoom.clamp(minZoom, maxZoom);
+    final safeZoom = zoom.clamp(providerConfig.minZoom, providerConfig.maxZoom);
+    final effectiveTileUriBuilder =
+        tileUriBuilder ?? providerConfig.tileUriBuilder;
     final centerX = _lonToTileX(_wrapLongitude(longitude), safeZoom);
     final centerY = _latToTileY(
       latitude.clamp(minLatitude, maxLatitude).toDouble(),
@@ -50,29 +77,31 @@ class OsmTileMap extends StatelessWidget {
               for (var dx = 0; dx < 4; dx++)
                 for (var dy = 0; dy < 4; dy++)
                   Positioned(
-                    left: (dx - 1) * tileSize -
+                    left:
+                        (dx - 1) * tileSize -
                         offsetX +
                         constraints.maxWidth / 2,
-                    top: (dy - 1) * tileSize -
+                    top:
+                        (dy - 1) * tileSize -
                         offsetY +
                         constraints.maxHeight / 2,
                     width: tileSize,
                     height: tileSize,
                     child: Image.network(
-                      tileUriBuilder(
+                      effectiveTileUriBuilder(
                         safeZoom,
                         _wrapTileX(baseX + dx, safeZoom),
                         (baseY + dy).clamp(0, maxTile),
                       ).toString(),
-                      semanticLabel: 'OpenStreetMap tile',
+                      semanticLabel: providerConfig.semanticLabel,
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => const _MapTileError(),
                     ),
                   ),
-              const Positioned(
+              Positioned(
                 right: 8,
                 bottom: 6,
-                child: _OsmAttribution(),
+                child: _OsmAttribution(providerConfig.attribution),
               ),
             ],
           ),
@@ -124,7 +153,9 @@ class _MapTileError extends StatelessWidget {
 }
 
 class _OsmAttribution extends StatelessWidget {
-  const _OsmAttribution();
+  final String attribution;
+
+  const _OsmAttribution(this.attribution);
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +164,11 @@ class _OsmAttribution extends StatelessWidget {
         color: Colors.white70,
         borderRadius: BorderRadius.circular(4),
       ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         child: Text(
-          '© OpenStreetMap contributors',
-          style: TextStyle(fontSize: 10, color: Color(0xFF355241)),
+          attribution,
+          style: const TextStyle(fontSize: 10, color: Color(0xFF355241)),
         ),
       ),
     );
