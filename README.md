@@ -16,23 +16,31 @@
   - Quản lý sản phẩm.
   - Tạo cam kết chất lượng.
   - Quản lý thông tin cửa hàng.
-- Toàn bộ dữ liệu đang chạy bằng mock data qua lớp hook.
+- Toàn bộ dữ liệu đang chạy bằng mock JSON qua `MockDb` → repositories → `AppDataHooks`.
 
 ## Công nghệ
 
 - Flutter (Material 3)
-- Dart SDK: `>=3.0.0 <4.0.0`
+- Dart SDK: `>=3.10.3 <4.0.0`
 - Không dùng backend thật ở bản hiện tại
 
 ## Cấu trúc thư mục
 
-- `lib/main.dart`: entrypoint app.
-- `lib/routes/app_routes.dart`: khai báo toàn bộ route.
-- `lib/screens/`: các màn hình.
-- `lib/screens/tabs/`: các tab chính trong `MainScreen`.
-- `lib/data/`: models, session, mock DB, data hooks.
-- `lib/theme/`: màu sắc và theme app.
-- `assets/images/`: ảnh dùng trong giao diện.
+- `lib/main.dart`: entrypoint, `MultiBlocProvider`, localization delegates/locales.
+- `lib/routes/app_routes.dart`: named routes + typed/defensive arguments.
+- `lib/data/models/`: JSON-backed UI/domain models.
+- `lib/data/repositories/`: domain repositories over mock DB.
+- `lib/data/data_hooks.dart`: UI façade/backend seam.
+- `lib/features/*/controllers/`: BLoC/Cubit state.
+- `lib/features/cart/repositories/cart_repository.dart`: Hive cart persistence.
+- `lib/screens/`: app screens.
+- `lib/screens/tabs/`: main tabs in `MainScreen`.
+- `lib/widgets/osm_tile_map.dart`: reusable OSM tile renderer.
+- `lib/l10n/`: ARB sources and generated localization files.
+- `integration_test/`: integration smoke tests.
+- `test/`: unit/widget tests.
+- `lib/theme/`: app colors/theme.
+- `assets/images/`: UI images.
 
 ## Danh sách route
 
@@ -40,6 +48,7 @@
 - `onboarding`
 - `auth`
 - `main`
+- `manual_voucher`
 - `change_password`
 - `explore_map`
 - `scan`
@@ -54,29 +63,28 @@
 - `seller_shop`
 - `pledge_history`
 - `qr_label`
+- `voucher_wallet`
+- `voucher_qr`
+- `cart`
 
 ## Cài đặt và chạy
 
-1. Cài Flutter SDK theo hướng dẫn chính thức.
-2. Trong thư mục dự án, chạy:
-
 ```bash
 flutter pub get
-```
-
-3. Chạy ứng dụng:
-
-```bash
+flutter gen-l10n # hoặc sinh qua flutter pub get khi flutter.generate=true
+flutter analyze
+flutter test
+flutter test integration_test/app_smoke_test.dart
 flutter run
 ```
+
+`integration_test/app_smoke_test.dart` dùng `integration_test`; có thể chạy thiết bị/emulator bằng `flutter test integration_test`.
 
 ## Trạng thái dữ liệu
 
 - Dữ liệu đang là mock, không gọi API thật.
-- Điểm nối dữ liệu tập trung ở:
-  - `lib/data/data_hooks.dart`
-  - `lib/data/mock_data.dart`
-- Khi tích hợp backend, thay implementation trong `AppDataHooks` để giữ nguyên UI flow.
+- Luồng dữ liệu hiện tại: mock JSON → `MockDb` → repositories → `AppDataHooks`.
+- Backend replacement nên giữ contract repository/data hook để không đổi UI flow.
 
 ## Mô hình dữ liệu
 
@@ -101,6 +109,22 @@ Backend contract hiện dùng key camelCase. Snake_case không được map tự
 field required trong model sẽ throw nếu thiếu/sai type; field optional/default xem
 constructor trong `lib/data/models/`. Date input hỗ trợ `DateTime`, epoch ms hoặc
 ISO-8601 string; giá trị invalid/null fallback về `1970-01-01`.
+
+## Localization
+
+- Config: `l10n.yaml`.
+- Sources: `lib/l10n/app_en.arb`, `lib/l10n/app_vi.arb`.
+- Generated: `lib/l10n/app_localizations*.dart`.
+- Dependencies: `flutter_localizations`, `intl`.
+- App hỗ trợ `en`, `vi`; cập nhật ARB rồi regenerate.
+
+## OpenStreetMap
+
+- Renderer: `lib/widgets/osm_tile_map.dart`.
+- Default tiles: `https://tile.openstreetmap.org/{z}/{x}/{y}.png`.
+- Attribution hiển thị: `© OpenStreetMap contributors`.
+- Behavior: clamp zoom/lat, wrap longitude/antimeridian x, fallback tile icon khi lỗi network.
+- Lưu ý public OSM tile usage policy; production nên dùng tile provider riêng/thương mại qua `tileUriBuilder`.
 
 ## Lưu ý Android/Gradle
 
