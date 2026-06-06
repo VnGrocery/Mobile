@@ -740,6 +740,42 @@ abstract class AppLocalizations {
   /// **'Scan products'**
   String get accountScanProducts;
 
+  /// No description provided for @scannerFrameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Place the QR code or product tag inside the frame'**
+  String get scannerFrameHint;
+
+  /// No description provided for @scannerCheckingAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get scannerCheckingAction;
+
+  /// No description provided for @scannerSimulateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate product scan'**
+  String get scannerSimulateAction;
+
+  /// No description provided for @scannerStatusVerifying.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking counter location...'**
+  String get scannerStatusVerifying;
+
+  /// No description provided for @scannerStatusReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to verify product'**
+  String get scannerStatusReady;
+
+  /// No description provided for @scannerOverlayVerifying.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking product...'**
+  String get scannerOverlayVerifying;
+
   /// No description provided for @accountDarkMode.
   ///
   /// In en, this message translates to:

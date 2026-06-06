@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 class ScannerStatusPill extends StatelessWidget {
   final bool verifying;
 
@@ -7,6 +9,7 @@ class ScannerStatusPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       key: ValueKey(
         verifying ? 'scanner.status.verifying' : 'scanner.status.ready',
@@ -27,8 +30,8 @@ class ScannerStatusPill extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             verifying
-                ? 'Đang kiểm tra vị trí quầy hàng...'
-                : 'Sẵn sàng kiểm tra sản phẩm',
+                ? l10n.scannerStatusVerifying
+                : l10n.scannerStatusReady,
             style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
         ],

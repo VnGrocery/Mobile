@@ -347,6 +347,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountScanProducts => 'Scan products';
 
   @override
+  String get scannerFrameHint =>
+      'Place the QR code or product tag inside the frame';
+
+  @override
+  String get scannerCheckingAction => 'Checking...';
+
+  @override
+  String get scannerSimulateAction => 'Simulate product scan';
+
+  @override
+  String get scannerStatusVerifying => 'Checking counter location...';
+
+  @override
+  String get scannerStatusReady => 'Ready to verify product';
+
+  @override
+  String get scannerOverlayVerifying => 'Checking product...';
+
+  @override
   String get accountDarkMode => 'Dark mode';
 
   @override

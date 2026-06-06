@@ -347,6 +347,24 @@ class AppLocalizationsVi extends AppLocalizations {
   String get accountScanProducts => 'Quét sản phẩm';
 
   @override
+  String get scannerFrameHint => 'Đưa mã QR hoặc tem sản phẩm vào khung hình';
+
+  @override
+  String get scannerCheckingAction => 'Đang kiểm tra...';
+
+  @override
+  String get scannerSimulateAction => 'Giả lập quét sản phẩm';
+
+  @override
+  String get scannerStatusVerifying => 'Đang kiểm tra vị trí quầy hàng...';
+
+  @override
+  String get scannerStatusReady => 'Sẵn sàng kiểm tra sản phẩm';
+
+  @override
+  String get scannerOverlayVerifying => 'Đang kiểm tra sản phẩm...';
+
+  @override
   String get accountDarkMode => 'Chế độ tối';
 
   @override

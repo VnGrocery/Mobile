@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 import 'scanner_frame.dart';
 import 'scanner_status_pill.dart';
 
@@ -19,6 +21,7 @@ class ScannerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Center(
       key: const ValueKey('scanner.body'),
       child: Padding(
@@ -26,9 +29,9 @@ class ScannerBody extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Quét sản phẩm',
-              style: TextStyle(
+            Text(
+              l10n.accountScanProducts,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -36,7 +39,7 @@ class ScannerBody extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Đưa mã QR hoặc tem sản phẩm vào khung hình',
+              l10n.scannerFrameHint,
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.7),
                 fontSize: 14,
@@ -59,7 +62,9 @@ class ScannerBody extends StatelessWidget {
                 ),
               ),
               child: Text(
-                verifying ? 'Đang kiểm tra...' : 'Giả lập quét sản phẩm',
+                verifying
+                    ? l10n.scannerCheckingAction
+                    : l10n.scannerSimulateAction,
               ),
             ),
           ],
