@@ -16,7 +16,7 @@
   - Quản lý sản phẩm.
   - Tạo cam kết chất lượng.
   - Quản lý thông tin cửa hàng.
-- Toàn bộ dữ liệu đang chạy bằng mock JSON qua `MockDb` → repositories; `AppDataHooks` hiện vẫn tồn tại như UI façade/seam legacy ở một số presenter/widget.
+- Toàn bộ dữ liệu đang chạy bằng mock JSON qua `MockDb` → repositories; UI feature code hiện đọc/ghi qua repository/cubit boundary thay vì `AppDataHooks`.
 
 ## Công nghệ
 
@@ -30,7 +30,7 @@
 - `lib/routes/app_routes.dart`: named routes + typed/defensive arguments + session-aware route factory.
 - `lib/data/models/`: JSON-backed UI/domain models.
 - `lib/data/repositories/`: domain repositories over mock DB.
-- `lib/data/data_hooks.dart`: UI façade/backend seam.
+- `lib/data/data_hooks.dart`: legacy compatibility stub; code mới nên đi thẳng qua repositories.
 - `lib/features/*/controllers/`: BLoC/Cubit state.
 - `lib/features/cart/repositories/cart_repository.dart`: Hive cart persistence.
 - `lib/screens/`: app screens.
@@ -90,8 +90,8 @@ Widget/unit test thuần vẫn chạy được bằng `flutter test`.
 ## Trạng thái dữ liệu
 
 - Dữ liệu đang là mock, không gọi API thật.
-- Luồng dữ liệu hiện tại: mock JSON → `MockDb` → repositories; một phần UI/presenter cũ vẫn đi qua `AppDataHooks`.
-- Backend replacement nên ưu tiên giữ contract repository; `AppDataHooks` có thể tiếp tục được thu gọn dần như lớp compatibility.
+- Luồng dữ liệu hiện tại: mock JSON → `MockDb` → repositories.
+- Backend replacement nên ưu tiên giữ contract repository; tránh thêm data façade mới ở UI layer.
 
 ## Mô hình dữ liệu
 
@@ -100,7 +100,7 @@ Source of truth hiện nằm trong `lib/data/`:
 - `lib/data/models/`: entity UI dùng trực tiếp.
 - `lib/data/mock_json_data.dart`: seed data dạng JSON-like map.
 - `lib/data/repositories/`: query/mutation theo domain.
-- `lib/data/data_hooks.dart`: façade để UI lấy/ghi dữ liệu.
+- `lib/data/data_hooks.dart`: stub legacy, giữ tạm để tương thích; không dùng cho code mới.
 
 Entity chính: `Shop`, `Product`, `Review`, `PledgeHistoryItem`, `Voucher`,
 `UserVoucher`, `VoucherCheckResult`, `BuyerCheckResult`.
