@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 class VoucherCheckInputRow extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onCheck;
@@ -12,6 +14,7 @@ class VoucherCheckInputRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,10 +22,10 @@ class VoucherCheckInputRow extends StatelessWidget {
           child: TextField(
             controller: controller,
             textCapitalization: TextCapitalization.characters,
-            decoration: const InputDecoration(
-              labelText: 'Mã voucher',
-              hintText: 'VD: FRESH20',
-              prefixIcon: Icon(Icons.confirmation_number),
+            decoration: InputDecoration(
+              labelText: l10n.manualVoucherCodeLabel,
+              hintText: l10n.buyerCheckVoucherCodeHint,
+              prefixIcon: const Icon(Icons.confirmation_number),
             ),
             onSubmitted: (_) => onCheck(),
           ),
@@ -30,8 +33,10 @@ class VoucherCheckInputRow extends StatelessWidget {
         const SizedBox(width: 10),
         SizedBox(
           height: 56,
-          child:
-              FilledButton(onPressed: onCheck, child: const Text('Kiểm tra')),
+          child: FilledButton(
+            onPressed: onCheck,
+            child: Text(l10n.cartCheckVoucher),
+          ),
         ),
       ],
     );

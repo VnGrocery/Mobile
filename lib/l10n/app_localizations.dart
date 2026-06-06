@@ -482,6 +482,78 @@ abstract class AppLocalizations {
   /// **'Voucher saved to wallet'**
   String get buyerCheckVoucherSaved;
 
+  /// No description provided for @buyerCheckLocationNear.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded at the counter'**
+  String get buyerCheckLocationNear;
+
+  /// No description provided for @buyerCheckLocationNeedsMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More confirmations needed'**
+  String get buyerCheckLocationNeedsMore;
+
+  /// No description provided for @buyerCheckLocationNearBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You are near the store. This check is counted in recent store data.'**
+  String get buyerCheckLocationNearBody;
+
+  /// No description provided for @buyerCheckLocationNeedsMoreBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not near the store. This check is for reference only.'**
+  String get buyerCheckLocationNeedsMoreBody;
+
+  /// No description provided for @buyerCheckVerdictTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compared with the latest data'**
+  String get buyerCheckVerdictTitle;
+
+  /// No description provided for @buyerCheckVerdictValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Result: {verdict}'**
+  String buyerCheckVerdictValue(Object verdict);
+
+  /// No description provided for @buyerCheckVerdictBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This result is based on the photo you submitted and the recorded information.'**
+  String get buyerCheckVerdictBody;
+
+  /// No description provided for @buyerCheckVoucherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check voucher'**
+  String get buyerCheckVoucherTitle;
+
+  /// No description provided for @buyerCheckVoucherCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. FRESH20'**
+  String get buyerCheckVoucherCodeHint;
+
+  /// No description provided for @buyerCheckVoucherDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get buyerCheckVoucherDiscount;
+
+  /// No description provided for @buyerCheckVoucherRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining'**
+  String get buyerCheckVoucherRemaining;
+
+  /// No description provided for @buyerCheckOpenWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Open wallet'**
+  String get buyerCheckOpenWallet;
+
   /// No description provided for @exploreTitle.
   ///
   /// In en, this message translates to:

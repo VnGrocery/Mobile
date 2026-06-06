@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/buyer_check/buyer_check_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
-import 'package:vngrocery/features/buyer_check/buyer_check_presenter.dart';
 
 class BuyerScoreSummary extends StatelessWidget {
   final BuyerCheckResult result;
@@ -12,6 +13,7 @@ class BuyerScoreSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     final scheme = Theme.of(context).colorScheme;
     final color = BuyerCheckPresenter.locationColor(result);
@@ -37,9 +39,9 @@ class BuyerScoreSummary extends StatelessWidget {
                   color: scheme.onSurface,
                 ),
               ),
-              const Text(
-                'Điểm đánh giá',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+              Text(
+                l10n.scoreBadgeLabel,
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
               ),
             ],
           ),
@@ -63,7 +65,7 @@ class BuyerScoreSummary extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                BuyerCheckPresenter.locationLabel(result),
+                BuyerCheckPresenter.locationLabel(result, l10n),
                 style: TextStyle(fontWeight: FontWeight.bold, color: color),
               ),
             ],
@@ -72,7 +74,7 @@ class BuyerScoreSummary extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(32, 8, 32, 0),
           child: Text(
-            BuyerCheckPresenter.locationDescription(result),
+            BuyerCheckPresenter.locationDescription(result, l10n),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),

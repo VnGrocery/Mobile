@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -11,6 +12,7 @@ class BuyerVerdictCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Card(
       color: palette.card,
@@ -21,9 +23,9 @@ class BuyerVerdictCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'So với dữ liệu gần nhất',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              l10n.buyerCheckVerdictTitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Row(
@@ -39,7 +41,7 @@ class BuyerVerdictCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    'Kết quả: ${result.verdict}',
+                    l10n.buyerCheckVerdictValue(result.verdict),
                     style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -48,7 +50,7 @@ class BuyerVerdictCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                'Kết quả dựa trên ảnh bạn gửi và thông tin đã ghi nhận.',
+                l10n.buyerCheckVerdictBody,
                 style: TextStyle(fontSize: 14, color: palette.textSecondary),
               ),
             ),

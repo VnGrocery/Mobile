@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/buyer_check/buyer_check_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 void main() {
@@ -32,18 +33,38 @@ void main() {
       );
     });
 
-    test('location labels and descriptions reflect distance state', () {
-      expect(BuyerCheckPresenter.locationLabel(near), 'Ghi nhận tại quầy');
+    testWidgets('location labels and descriptions reflect distance state', (
+      tester,
+    ) async {
+      late AppLocalizations l10n;
+      await tester.pumpWidget(
+        MaterialApp(
+          locale: const Locale('vi'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(
+            builder: (context) {
+              l10n = AppLocalizations.of(context);
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
       expect(
-        BuyerCheckPresenter.locationLabel(far),
+        BuyerCheckPresenter.locationLabel(near, l10n),
+        'Ghi nhận tại quầy',
+      );
+      expect(
+        BuyerCheckPresenter.locationLabel(far, l10n),
         'Cần thêm lượt xác nhận',
       );
       expect(
-        BuyerCheckPresenter.locationDescription(near),
+        BuyerCheckPresenter.locationDescription(near, l10n),
         'Bạn đang ở gần cửa hàng. Ghi nhận này được tính vào dữ liệu gần đây.',
       );
       expect(
-        BuyerCheckPresenter.locationDescription(far),
+        BuyerCheckPresenter.locationDescription(far, l10n),
         'Bạn không ở gần cửa hàng. Ghi nhận này chỉ dùng để tham khảo.',
       );
     });

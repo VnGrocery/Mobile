@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/utils/format.dart';
+
 import 'buyer_voucher_price_line.dart';
 
 class VoucherCheckResultContent extends StatelessWidget {
@@ -21,6 +23,7 @@ class VoucherCheckResultContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -43,12 +46,12 @@ class VoucherCheckResultContent extends StatelessWidget {
         if (result.valid) ...[
           const SizedBox(height: 8),
           PriceLine(
-            label: 'Giảm',
+            label: l10n.buyerCheckVoucherDiscount,
             value: '-${formatVnd(result.discountAmount)}',
             color: AppColors.primaryGreen,
           ),
           PriceLine(
-            label: 'Còn lại',
+            label: l10n.buyerCheckVoucherRemaining,
             value: formatVnd(result.finalPrice),
             color: AppColors.priceRed,
           ),
@@ -59,7 +62,7 @@ class VoucherCheckResultContent extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: () => onSaveVoucher(result.voucher!),
                   icon: const Icon(Icons.wallet),
-                  label: const Text('Lưu vào ví'),
+                  label: Text(l10n.manualVoucherSaveToWallet),
                 ),
               ),
               const SizedBox(width: 8),
@@ -67,7 +70,7 @@ class VoucherCheckResultContent extends StatelessWidget {
                 child: FilledButton.icon(
                   onPressed: onOpenWallet,
                   icon: const Icon(Icons.qr_code),
-                  label: const Text('Mở ví'),
+                  label: Text(l10n.buyerCheckOpenWallet),
                 ),
               ),
             ],

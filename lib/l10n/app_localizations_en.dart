@@ -211,6 +211,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String get buyerCheckVoucherSaved => 'Voucher saved to wallet';
 
   @override
+  String get buyerCheckLocationNear => 'Recorded at the counter';
+
+  @override
+  String get buyerCheckLocationNeedsMore => 'More confirmations needed';
+
+  @override
+  String get buyerCheckLocationNearBody =>
+      'You are near the store. This check is counted in recent store data.';
+
+  @override
+  String get buyerCheckLocationNeedsMoreBody =>
+      'You are not near the store. This check is for reference only.';
+
+  @override
+  String get buyerCheckVerdictTitle => 'Compared with the latest data';
+
+  @override
+  String buyerCheckVerdictValue(Object verdict) {
+    return 'Result: $verdict';
+  }
+
+  @override
+  String get buyerCheckVerdictBody =>
+      'This result is based on the photo you submitted and the recorded information.';
+
+  @override
+  String get buyerCheckVoucherTitle => 'Check voucher';
+
+  @override
+  String get buyerCheckVoucherCodeHint => 'E.g. FRESH20';
+
+  @override
+  String get buyerCheckVoucherDiscount => 'Discount';
+
+  @override
+  String get buyerCheckVoucherRemaining => 'Remaining';
+
+  @override
+  String get buyerCheckOpenWallet => 'Open wallet';
+
+  @override
   String get exploreTitle => 'Explore stores';
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/utils/format.dart';
@@ -17,6 +18,7 @@ class VoucherCheckHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,10 +27,10 @@ class VoucherCheckHeader extends StatelessWidget {
           children: [
             const Icon(Icons.local_offer, color: AppColors.primaryGreen),
             const SizedBox(width: 8),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Kiểm tra voucher',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                l10n.buyerCheckVoucherTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),
             Text(

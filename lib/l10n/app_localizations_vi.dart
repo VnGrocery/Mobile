@@ -211,6 +211,47 @@ class AppLocalizationsVi extends AppLocalizations {
   String get buyerCheckVoucherSaved => 'Đã lưu voucher vào ví';
 
   @override
+  String get buyerCheckLocationNear => 'Ghi nhận tại quầy';
+
+  @override
+  String get buyerCheckLocationNeedsMore => 'Cần thêm lượt xác nhận';
+
+  @override
+  String get buyerCheckLocationNearBody =>
+      'Bạn đang ở gần cửa hàng. Ghi nhận này được tính vào dữ liệu gần đây.';
+
+  @override
+  String get buyerCheckLocationNeedsMoreBody =>
+      'Bạn không ở gần cửa hàng. Ghi nhận này chỉ dùng để tham khảo.';
+
+  @override
+  String get buyerCheckVerdictTitle => 'So với dữ liệu gần nhất';
+
+  @override
+  String buyerCheckVerdictValue(Object verdict) {
+    return 'Kết quả: $verdict';
+  }
+
+  @override
+  String get buyerCheckVerdictBody =>
+      'Kết quả dựa trên ảnh bạn gửi và thông tin đã ghi nhận.';
+
+  @override
+  String get buyerCheckVoucherTitle => 'Kiểm tra voucher';
+
+  @override
+  String get buyerCheckVoucherCodeHint => 'VD: FRESH20';
+
+  @override
+  String get buyerCheckVoucherDiscount => 'Giảm';
+
+  @override
+  String get buyerCheckVoucherRemaining => 'Còn lại';
+
+  @override
+  String get buyerCheckOpenWallet => 'Mở ví';
+
+  @override
   String get exploreTitle => 'Khám phá cửa hàng';
 
   @override

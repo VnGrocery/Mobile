@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/data_hooks.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class BuyerCheckPresenter {
@@ -54,13 +55,21 @@ class BuyerCheckPresenter {
     return isNearStore(result) ? AppColors.trustGreen : AppColors.warningOrange;
   }
 
-  static String locationLabel(BuyerCheckResult result) {
-    return isNearStore(result) ? 'Ghi nhận tại quầy' : 'Cần thêm lượt xác nhận';
+  static String locationLabel(
+    BuyerCheckResult result,
+    AppLocalizations l10n,
+  ) {
+    return isNearStore(result)
+        ? l10n.buyerCheckLocationNear
+        : l10n.buyerCheckLocationNeedsMore;
   }
 
-  static String locationDescription(BuyerCheckResult result) {
+  static String locationDescription(
+    BuyerCheckResult result,
+    AppLocalizations l10n,
+  ) {
     return isNearStore(result)
-        ? 'Bạn đang ở gần cửa hàng. Ghi nhận này được tính vào dữ liệu gần đây.'
-        : 'Bạn không ở gần cửa hàng. Ghi nhận này chỉ dùng để tham khảo.';
+        ? l10n.buyerCheckLocationNearBody
+        : l10n.buyerCheckLocationNeedsMoreBody;
   }
 }
