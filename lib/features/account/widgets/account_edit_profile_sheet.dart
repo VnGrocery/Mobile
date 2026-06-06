@@ -69,7 +69,7 @@ class _AccountEditProfileSheetState extends State<AccountEditProfileSheet> {
                 labelText: l10n.authDisplayNameLabel,
                 prefixIcon: const Icon(Icons.person),
               ),
-              validator: AppValidators.displayName,
+              validator: (value) => AppValidators.displayName(value, l10n),
             ),
             const SizedBox(height: 12),
             TextFormField(
@@ -79,7 +79,7 @@ class _AccountEditProfileSheetState extends State<AccountEditProfileSheet> {
                 labelText: l10n.authEmailLabel,
                 prefixIcon: const Icon(Icons.email),
               ),
-              validator: AppValidators.email,
+              validator: (value) => AppValidators.email(value, l10n),
             ),
             const SizedBox(height: 20),
             SizedBox(

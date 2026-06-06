@@ -90,7 +90,10 @@ class RegisterNameField extends StatelessWidget {
                   controller: controller,
                   label: AppLocalizations.of(context).authDisplayNameLabel,
                   icon: Icons.person,
-                  validator: AppValidators.displayName,
+                  validator: (value) => AppValidators.displayName(
+                    value,
+                    AppLocalizations.of(context),
+                  ),
                 ),
                 const SizedBox(height: 14),
               ],

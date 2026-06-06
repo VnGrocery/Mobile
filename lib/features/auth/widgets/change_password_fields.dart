@@ -37,10 +37,10 @@ class ChangePasswordFields extends StatelessWidget {
       children: [
         AuthPasswordField(
           controller: currentPassword,
-          label: 'Mật khẩu hiện tại',
+          label: l10n.validationCurrentPasswordLabel,
           visible: showCurrent,
           onToggle: onToggleCurrent,
-          validator: AppValidators.currentPassword,
+          validator: (value) => AppValidators.currentPassword(value, l10n),
         ),
         const SizedBox(height: 12),
         AuthPasswordField(
@@ -50,11 +50,12 @@ class ChangePasswordFields extends StatelessWidget {
           onToggle: onToggleNew,
           onChanged: onPasswordChanged,
           validator: (value) {
-            final error = AppValidators.newPassword(value);
+            final error = AppValidators.newPassword(value, l10n);
             if (error != null) return error;
             return AppValidators.passwordChange(
               currentPassword: currentPassword.text,
               newPassword: value ?? '',
+              l10n: l10n,
             );
           },
         ),
@@ -67,6 +68,7 @@ class ChangePasswordFields extends StatelessWidget {
           validator: (value) => AppValidators.confirmPassword(
             value,
             newPassword.text,
+            l10n,
           ),
         ),
       ],

@@ -83,7 +83,7 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
                 label: l10n.authEmailLabel,
                 icon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
-                validator: AppValidators.email,
+                validator: (value) => AppValidators.email(value, l10n),
               )
             else ...[
               AuthPasswordField(
@@ -91,7 +91,7 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
                 label: l10n.authNewPasswordLabel,
                 visible: _showNew,
                 onToggle: () => setState(() => _showNew = !_showNew),
-                validator: AppValidators.newPassword,
+                validator: (value) => AppValidators.newPassword(value, l10n),
               ),
               const SizedBox(height: 12),
               AuthPasswordField(
@@ -99,8 +99,11 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
                 label: l10n.authConfirmNewPasswordLabel,
                 visible: _showConfirm,
                 onToggle: () => setState(() => _showConfirm = !_showConfirm),
-                validator: (value) =>
-                    AppValidators.confirmPassword(value, _newPassword.text),
+                validator: (value) => AppValidators.confirmPassword(
+                  value,
+                  _newPassword.text,
+                  l10n,
+                ),
               ),
             ],
             const SizedBox(height: 20),

@@ -182,6 +182,66 @@ abstract class AppLocalizations {
   /// **'Display name'**
   String get authDisplayNameLabel;
 
+  /// No description provided for @validationEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email'**
+  String get validationEmailRequired;
+
+  /// No description provided for @validationEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get validationEmailInvalid;
+
+  /// No description provided for @validationDisplayNameTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a display name with at least 2 characters'**
+  String get validationDisplayNameTooShort;
+
+  /// No description provided for @validationPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters'**
+  String get validationPasswordTooShort;
+
+  /// No description provided for @validationPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter password'**
+  String get validationPasswordRequired;
+
+  /// No description provided for @validationNewPasswordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'New password must be at least 8 characters'**
+  String get validationNewPasswordTooShort;
+
+  /// No description provided for @validationCurrentPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter current password'**
+  String get validationCurrentPasswordRequired;
+
+  /// No description provided for @validationCurrentPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get validationCurrentPasswordLabel;
+
+  /// No description provided for @validationPasswordMustDiffer.
+  ///
+  /// In en, this message translates to:
+  /// **'New password must be different from current password'**
+  String get validationPasswordMustDiffer;
+
+  /// No description provided for @validationConfirmPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get validationConfirmPasswordMismatch;
+
   /// No description provided for @authForgotPassword.
   ///
   /// In en, this message translates to:

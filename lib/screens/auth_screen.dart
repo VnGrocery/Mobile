@@ -44,6 +44,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: context.palette.appBackground,
       body: SafeArea(
@@ -67,7 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 label: AppLocalizations.of(context).authEmailLabel,
                 icon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
-                validator: AppValidators.email,
+                validator: (value) => AppValidators.email(value, l10n),
               ),
               const SizedBox(height: 14),
               AuthPasswordField(
@@ -76,8 +77,11 @@ class _AuthScreenState extends State<AuthScreen> {
                 visible: _showPassword,
                 onToggle: () => setState(() => _showPassword = !_showPassword),
                 onChanged: (_) => setState(() {}),
-                validator: (value) =>
-                    AppValidators.password(value, register: _isRegister),
+                validator: (value) => AppValidators.password(
+                  value,
+                  register: _isRegister,
+                  l10n: l10n,
+                ),
               ),
               if (_isRegister) ...[
                 const SizedBox(height: 14),
@@ -89,8 +93,11 @@ class _AuthScreenState extends State<AuthScreen> {
                     () => _showConfirmPassword = !_showConfirmPassword,
                   ),
                   onChanged: (_) => setState(() {}),
-                  validator: (value) =>
-                      AppValidators.confirmPassword(value, _password.text),
+                  validator: (value) => AppValidators.confirmPassword(
+                    value,
+                    _password.text,
+                    l10n,
+                  ),
                 ),
                 const SizedBox(height: 14),
                 PasswordRules(password: _password.text),

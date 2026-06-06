@@ -1,39 +1,47 @@
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 class AppValidators {
   const AppValidators._();
 
-  static String? email(String? value) {
+  static String? email(String? value, AppLocalizations l10n) {
     final email = (value ?? '').trim();
-    if (email.isEmpty) return 'Nhập email';
+    if (email.isEmpty) return l10n.validationEmailRequired;
     final ok = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
-    if (!ok) return 'Email không hợp lệ';
+    if (!ok) return l10n.validationEmailInvalid;
     return null;
   }
 
-  static String? displayName(String? value) {
+  static String? displayName(String? value, AppLocalizations l10n) {
     final name = (value ?? '').trim();
     if (name.length < 2) {
-      return 'Nhập tên hiển thị tối thiểu 2 ký tự';
+      return l10n.validationDisplayNameTooShort;
     }
     return null;
   }
 
-  static String? password(String? value, {required bool register}) {
+  static String? password(
+    String? value, {
+    required bool register,
+    required AppLocalizations l10n,
+  }) {
     if ((value ?? '').length < (register ? 8 : 1)) {
-      return register ? 'Mật khẩu tối thiểu 8 ký tự' : 'Nhập mật khẩu';
+      return register
+          ? l10n.validationPasswordTooShort
+          : l10n.validationPasswordRequired;
     }
     return null;
   }
 
-  static String? newPassword(String? value) {
+  static String? newPassword(String? value, AppLocalizations l10n) {
     if ((value ?? '').length < 8) {
-      return 'Mật khẩu mới tối thiểu 8 ký tự';
+      return l10n.validationNewPasswordTooShort;
     }
     return null;
   }
 
-  static String? currentPassword(String? value) {
+  static String? currentPassword(String? value, AppLocalizations l10n) {
     if ((value ?? '').isEmpty) {
-      return 'Nhập mật khẩu hiện tại';
+      return l10n.validationCurrentPasswordRequired;
     }
     return null;
   }
@@ -41,16 +49,21 @@ class AppValidators {
   static String? passwordChange({
     required String currentPassword,
     required String newPassword,
+    required AppLocalizations l10n,
   }) {
     if (newPassword == currentPassword) {
-      return 'Mật khẩu mới phải khác mật khẩu hiện tại';
+      return l10n.validationPasswordMustDiffer;
     }
     return null;
   }
 
-  static String? confirmPassword(String? value, String password) {
+  static String? confirmPassword(
+    String? value,
+    String password,
+    AppLocalizations l10n,
+  ) {
     if ((value ?? '') != password) {
-      return 'Mật khẩu nhập lại chưa khớp';
+      return l10n.validationConfirmPasswordMismatch;
     }
     return null;
   }

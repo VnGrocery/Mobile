@@ -53,6 +53,38 @@ class AppLocalizationsVi extends AppLocalizations {
   String get authDisplayNameLabel => 'Tên hiển thị';
 
   @override
+  String get validationEmailRequired => 'Nhập email';
+
+  @override
+  String get validationEmailInvalid => 'Email không hợp lệ';
+
+  @override
+  String get validationDisplayNameTooShort =>
+      'Nhập tên hiển thị tối thiểu 2 ký tự';
+
+  @override
+  String get validationPasswordTooShort => 'Mật khẩu tối thiểu 8 ký tự';
+
+  @override
+  String get validationPasswordRequired => 'Nhập mật khẩu';
+
+  @override
+  String get validationNewPasswordTooShort => 'Mật khẩu mới tối thiểu 8 ký tự';
+
+  @override
+  String get validationCurrentPasswordRequired => 'Nhập mật khẩu hiện tại';
+
+  @override
+  String get validationCurrentPasswordLabel => 'Mật khẩu hiện tại';
+
+  @override
+  String get validationPasswordMustDiffer =>
+      'Mật khẩu mới phải khác mật khẩu hiện tại';
+
+  @override
+  String get validationConfirmPasswordMismatch => 'Mật khẩu nhập lại chưa khớp';
+
+  @override
   String get authForgotPassword => 'Quên mật khẩu?';
 
   @override

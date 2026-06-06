@@ -53,6 +53,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authDisplayNameLabel => 'Display name';
 
   @override
+  String get validationEmailRequired => 'Enter email';
+
+  @override
+  String get validationEmailInvalid => 'Invalid email';
+
+  @override
+  String get validationDisplayNameTooShort =>
+      'Enter a display name with at least 2 characters';
+
+  @override
+  String get validationPasswordTooShort =>
+      'Password must be at least 8 characters';
+
+  @override
+  String get validationPasswordRequired => 'Enter password';
+
+  @override
+  String get validationNewPasswordTooShort =>
+      'New password must be at least 8 characters';
+
+  @override
+  String get validationCurrentPasswordRequired => 'Enter current password';
+
+  @override
+  String get validationCurrentPasswordLabel => 'Current password';
+
+  @override
+  String get validationPasswordMustDiffer =>
+      'New password must be different from current password';
+
+  @override
+  String get validationConfirmPasswordMismatch => 'Passwords do not match';
+
+  @override
   String get authForgotPassword => 'Forgot password?';
 
   @override
