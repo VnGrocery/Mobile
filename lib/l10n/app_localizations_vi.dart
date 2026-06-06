@@ -123,6 +123,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get authContinue => 'Tiếp tục';
 
   @override
+  String get onboardingSkip => 'Bỏ qua';
+
+  @override
+  String get onboardingContinue => 'Tiếp tục';
+
+  @override
+  String get onboardingStart => 'Bắt đầu';
+
+  @override
   String get authChangePassword => 'Đổi mật khẩu';
 
   @override

@@ -125,6 +125,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authContinue => 'Continue';
 
   @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingContinue => 'Continue';
+
+  @override
+  String get onboardingStart => 'Get started';
+
+  @override
   String get authChangePassword => 'Change password';
 
   @override

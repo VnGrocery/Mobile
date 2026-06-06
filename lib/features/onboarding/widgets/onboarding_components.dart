@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/features/onboarding/onboarding_page_data.dart';
@@ -11,6 +12,7 @@ class OnboardingSkipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Align(
       alignment: Alignment.centerRight,
       child: Padding(
@@ -18,7 +20,10 @@ class OnboardingSkipButton extends StatelessWidget {
         child: TextButton(
           key: const ValueKey('onboarding.skip_button'),
           onPressed: onSkip,
-          child: const Text('Bỏ qua', style: TextStyle(color: Colors.grey)),
+          child: Text(
+            l10n.onboardingSkip,
+            style: const TextStyle(color: Colors.grey),
+          ),
         ),
       ),
     );
@@ -103,6 +108,7 @@ class OnboardingBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final isLast = page == OnboardingPages.items.length - 1;
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -111,11 +117,16 @@ class OnboardingBottomBar extends StatelessWidget {
         children: [
           OnboardingDots(page: page),
           FilledButton(
+            key: ValueKey(
+              isLast
+                  ? 'onboarding.finish_button'
+                  : 'onboarding.continue_button',
+            ),
             onPressed: onNext,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(isLast ? 'Bắt đầu' : 'Tiếp tục'),
+                Text(isLast ? l10n.onboardingStart : l10n.onboardingContinue),
                 if (!isLast) ...[
                   const SizedBox(width: 8),
                   const Icon(Icons.arrow_forward, size: 16),
