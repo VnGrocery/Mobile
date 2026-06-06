@@ -175,8 +175,13 @@ void main() {
       await tester.pump();
       await pumpMillis(tester, 200);
 
-      expect(find.text('Bạn có chắc muốn đăng xuất?'), findsOneWidget);
-      await tester.tap(find.text('Đăng xuất').last);
+      expect(
+        find.byKey(const ValueKey('account.logout_dialog.confirm_button')),
+        findsOneWidget,
+      );
+      await tester.tap(
+        find.byKey(const ValueKey('account.logout_dialog.confirm_button')),
+      );
       await tester.pump();
       await pumpSeconds(tester, 1);
 

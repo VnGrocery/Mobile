@@ -61,10 +61,12 @@ class _AccountTabState extends State<AccountTab> {
         content: Text(l10n.accountLogoutPrompt),
         actions: [
           TextButton(
+            key: const ValueKey('account.logout_dialog.cancel_button'),
             onPressed: () => Navigator.pop(context, false),
             child: Text(l10n.commonCancel),
           ),
           TextButton(
+            key: const ValueKey('account.logout_dialog.confirm_button'),
             onPressed: () => Navigator.pop(context, true),
             child: Text(
               l10n.accountLogoutTitle,
