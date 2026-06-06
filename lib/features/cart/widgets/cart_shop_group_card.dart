@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/utils/currency_formatter.dart';
-import 'package:vngrocery/data/data_hooks.dart';
 import 'package:vngrocery/data/models.dart' show Voucher;
 import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_event.dart';
@@ -42,7 +41,8 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
   Widget build(BuildContext context) {
     final palette = context.palette;
     final l10n = AppLocalizations.of(context);
-    final shop = AppDataHooks.instance.getShopOrNull(widget.shopId);
+    final shopName =
+        widget.state.shopNameOrNull(widget.shopId) ?? l10n.cartUnavailableShopName;
     final appliedVoucher = widget.state.appliedVouchersByShop[widget.shopId];
 
     return Container(
@@ -55,9 +55,7 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _ShopHeader(
-            shopName: shop?.name ?? l10n.cartUnavailableShopName,
-          ),
+          _ShopHeader(shopName: shopName),
           const SizedBox(height: 12),
           for (final item in widget.items) ...[
             CartItemRow(item: item),

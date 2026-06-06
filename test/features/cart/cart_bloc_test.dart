@@ -160,7 +160,68 @@ void main() {
         emits(
           predicate<CartState>(
             (state) =>
-                state.itemCount == 1 && state.appliedVouchersByShop.isEmpty,
+                state.itemCount == 1 &&
+                state.appliedVouchersByShop.isEmpty &&
+                state.shopNameOrNull('s1') != null,
+          ),
+        ),
+      );
+      expect(storage.savedVoucherIdsByShop, isEmpty);
+      await bloc.close();
+    });
+
+    test('keeps cart stable when a cached item shop no longer exists', () async {
+      final missingShopProduct = Product(
+        id: 'p-missing-shop',
+        shopId: 'missing-shop',
+        name: 'Hàng mồ côi',
+        description: 'Demo',
+        category: 'Khác',
+        freshnessScore: 50,
+        freshnessNote: 'Không rõ',
+        price: 12000,
+        tags: const ['Demo'],
+        status: 'Published',
+      );
+      final storage = _MemoryCartStorage(
+        savedItems: [CartItem.fromProduct(missingShopProduct)],
+      );
+      final bloc = CartBloc(cartRepository: storage);
+
+      bloc.add(const CartStarted());
+
+      await expectLater(
+        bloc.stream,
+        emits(
+          predicate<CartState>(
+            (state) =>
+                state.itemCount == 1 &&
+                state.shopNameOrNull('missing-shop') == null &&
+                state.hasMissingShopData,
+          ),
+        ),
+      );
+      await bloc.close();
+    });
+
+    test('removes orphan voucher entries when last shop item disappears', () async {
+      final storage = _MemoryCartStorage();
+      final bloc = CartBloc(cartRepository: storage);
+
+      bloc.add(CartAddRequested(product: _product));
+      await bloc.stream.first;
+      bloc.add(CartVoucherApplied(shopId: 's1', voucher: _voucher));
+      await bloc.stream.first;
+      bloc.add(const CartRemoveRequested('p-test'));
+
+      await expectLater(
+        bloc.stream,
+        emits(
+          predicate<CartState>(
+            (state) =>
+                state.isEmpty &&
+                state.appliedVouchersByShop.isEmpty &&
+                state.shopsById.isEmpty,
           ),
         ),
       );

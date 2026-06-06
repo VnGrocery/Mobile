@@ -4,18 +4,64 @@ import 'package:vngrocery/features/cart/models/cart_item.dart';
 class CartState {
   final List<CartItem> items;
   final Map<String, Voucher> appliedVouchersByShop;
+  final Map<String, Shop> shopsById;
   final bool isRestored;
 
   const CartState({
     required this.items,
     this.appliedVouchersByShop = const {},
+    this.shopsById = const {},
     this.isRestored = false,
   });
 
   const CartState.initial()
       : items = const [],
         appliedVouchersByShop = const {},
+        shopsById = const {},
         isRestored = false;
+
+  Shop? shopOrNull(String shopId) => shopsById[shopId];
+
+  String? shopNameOrNull(String shopId) => shopOrNull(shopId)?.name;
+
+  List<String> get orderedShopIds => itemsByShop.keys.toList();
+
+  Map<String, Shop> resolveShops(Iterable<String> shopIds, Iterable<Shop> shops) {
+    final next = <String, Shop>{};
+    for (final shopId in shopIds) {
+      final shop = shopsById[shopId];
+      if (shop != null) {
+        next[shopId] = shop;
+        continue;
+      }
+      final resolved = shops.where((shop) => shop.id == shopId).firstOrNull;
+      if (resolved != null) next[shopId] = resolved;
+    }
+    return next;
+  }
+
+  CartState withResolvedShops(Iterable<Shop> shops) {
+    return copyWith(shopsById: resolveShops(itemsByShop.keys, shops));
+  }
+
+  CartState pruneOrphanVoucherShops() {
+    final validShopIds = itemsByShop.keys.toSet();
+    final vouchers = Map<String, Voucher>.fromEntries(
+      appliedVouchersByShop.entries.where(
+        (entry) => validShopIds.contains(entry.key),
+      ),
+    );
+    final shops = Map<String, Shop>.fromEntries(
+      shopsById.entries.where((entry) => validShopIds.contains(entry.key)),
+    );
+    if (vouchers.length == appliedVouchersByShop.length &&
+        shops.length == shopsById.length) {
+      return this;
+    }
+    return copyWith(appliedVouchersByShop: vouchers, shopsById: shops);
+  }
+
+  bool get hasMissingShopData => itemsByShop.keys.any((shopId) => !shopsById.containsKey(shopId));
 
   int get itemCount => items.fold(0, (total, item) => total + item.quantity);
 
@@ -70,13 +116,20 @@ class CartState {
   CartState copyWith({
     List<CartItem>? items,
     Map<String, Voucher>? appliedVouchersByShop,
+    Map<String, Shop>? shopsById,
     bool? isRestored,
   }) {
     return CartState(
       items: items ?? this.items,
       appliedVouchersByShop:
           appliedVouchersByShop ?? this.appliedVouchersByShop,
+      shopsById: shopsById ?? this.shopsById,
       isRestored: isRestored ?? this.isRestored,
     );
   }
 }
+
+extension<E> on Iterable<E> {
+  E? get firstOrNull => isEmpty ? null : first;
+}
+

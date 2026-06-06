@@ -42,16 +42,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         vouchersByShop[entry.key] = voucher;
       }
     }
-    emit(
-      CartState(
-        items: items,
-        appliedVouchersByShop: vouchersByShop,
-        isRestored: true,
-      ),
-    );
-    await _cartRepository.saveCart(
+    final state = CartState(
       items: items,
-      appliedVoucherIdsByShop: _voucherIds(vouchersByShop),
+      appliedVouchersByShop: vouchersByShop,
+      isRestored: true,
+    ).withResolvedShops(_appRepositories.shops.all()).pruneOrphanVoucherShops();
+    emit(state);
+    await _cartRepository.saveCart(
+      items: state.items,
+      appliedVoucherIdsByShop: _voucherIds(state.appliedVouchersByShop),
     );
   }
 
@@ -143,10 +142,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Future<void> _emitAndPersist(Emitter<CartState> emit, CartState next) async {
-    emit(next);
+    final resolved = next
+        .withResolvedShops(_appRepositories.shops.all())
+        .pruneOrphanVoucherShops();
+    emit(resolved);
     await _cartRepository.saveCart(
-      items: next.items,
-      appliedVoucherIdsByShop: _voucherIds(next.appliedVouchersByShop),
+      items: resolved.items,
+      appliedVoucherIdsByShop: _voucherIds(resolved.appliedVouchersByShop),
     );
   }
 
