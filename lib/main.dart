@@ -9,6 +9,7 @@ import 'l10n/app_localizations.dart';
 
 import 'core/storage/hive_storage_service.dart';
 import 'features/account/controllers/session_cubit.dart';
+import 'features/account/controllers/session_state.dart';
 import 'features/cart/controllers/cart_bloc.dart';
 import 'features/cart/controllers/cart_event.dart';
 import 'routes/app_routes.dart';
@@ -35,24 +36,28 @@ class VnGroceryApp extends StatelessWidget {
             BlocProvider(create: (_) => SessionCubit()),
             BlocProvider(create: (_) => CartBloc()..add(const CartStarted())),
           ],
-          child: MaterialApp(
-            onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.light,
-            darkTheme: AppTheme.dark,
-            themeMode: themeMode,
-            builder: (context, child) =>
-                _AppBackdrop(child: child ?? const SizedBox()),
-            scrollBehavior: const _AppScrollBehavior(),
-            initialRoute: Routes.splash,
-            onGenerateRoute: Routes.onGenerateRoute,
+          child: BlocBuilder<SessionCubit, SessionState>(
+            builder: (context, session) {
+              return MaterialApp(
+                onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: AppLocalizations.supportedLocales,
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.light,
+                darkTheme: AppTheme.dark,
+                themeMode: themeMode,
+                builder: (context, child) =>
+                    _AppBackdrop(child: child ?? const SizedBox()),
+                scrollBehavior: const _AppScrollBehavior(),
+                initialRoute: Routes.splash,
+                onGenerateRoute: Routes.routeFactory(session),
+              );
+            },
           ),
         );
       },

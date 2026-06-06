@@ -16,12 +16,16 @@ class SessionState {
   });
 
   factory SessionState.fromManager(SessionManager session) {
+    return SessionState.fromSnapshot(session.current);
+  }
+
+  factory SessionState.fromSnapshot(SessionSnapshot snapshot) {
     return SessionState(
-      token: session.token,
-      shopId: session.shopId,
-      email: session.email,
-      displayName: session.displayName,
-      role: session.role,
+      token: snapshot.token,
+      shopId: snapshot.shopId,
+      email: snapshot.email,
+      displayName: snapshot.displayName,
+      role: snapshot.role,
     );
   }
 

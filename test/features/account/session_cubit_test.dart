@@ -129,12 +129,14 @@ void main() {
     cubit.close();
   });
 
-  test('SessionManager exposes role updates as read-only listenable', () {
+  test('SessionManager exposes immutable current snapshot listenable', () {
     final session = SessionManager.instance;
 
     session.setRole('seller');
-    expect(session.roleListenable.value, 'seller');
+    expect(session.currentListenable.value.role, 'seller');
+    expect(session.currentListenable.value.isSeller, isTrue);
     session.logout();
-    expect(session.roleListenable.value, 'user');
+    expect(session.currentListenable.value.role, 'user');
+    expect(session.currentListenable.value.isLoggedIn, isFalse);
   });
 }

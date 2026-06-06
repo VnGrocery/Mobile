@@ -8,7 +8,7 @@ class SessionCubit extends Cubit<SessionState> {
 
   SessionCubit({SessionManager? session})
       : _session = session ?? SessionManager.instance,
-        super(SessionState.fromManager(session ?? SessionManager.instance));
+        super(SessionState.fromSnapshot((session ?? SessionManager.instance).current));
 
   void login({
     required String email,
@@ -40,6 +40,6 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   void _emitCurrent() {
-    emit(SessionState.fromManager(_session));
+    emit(SessionState.fromSnapshot(_session.current));
   }
 }

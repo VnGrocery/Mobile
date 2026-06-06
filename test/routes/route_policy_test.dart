@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/data/session.dart';
+import 'package:vngrocery/features/account/controllers/session_state.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/routes/route_policy.dart';
 
 void resetSessionState() {
   SessionManager.instance.logout();
+}
+
+SessionState currentSession() => SessionState.fromManager(SessionManager.instance);
+
+Route<dynamic> buildRoute(RouteSettings settings) {
+  return Routes.onGenerateRoute(settings, session: currentSession());
 }
 
 
@@ -108,6 +115,13 @@ void main() {
 
       final route = Routes.onGenerateRoute(
         const RouteSettings(name: Routes.productDetail, arguments: 'bad'),
+        session: const SessionState(
+          token: 'token',
+          shopId: null,
+          email: 'buyer@example.com',
+          displayName: 'buyer',
+          role: 'user',
+        ),
       );
 
       expect(route.settings.name, Routes.main);
@@ -116,7 +130,7 @@ void main() {
     test('accepts typed product detail args', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(
           name: Routes.productDetail,
           arguments: ProductDetailArgs(shopId: 's1', productId: 'p1'),
@@ -127,7 +141,7 @@ void main() {
     });
 
     test('redirects logged-out protected routes to auth', () {
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.cart),
       );
 
@@ -137,7 +151,7 @@ void main() {
     test('redirects buyer sessions away from seller routes', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.sellerProducts),
       );
 
@@ -147,7 +161,7 @@ void main() {
     test('redirects seller sessions away from buyer review route', () {
       SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
       );
 
@@ -157,7 +171,7 @@ void main() {
     test('accepts buyer review route with typed args', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
       );
 
@@ -165,7 +179,7 @@ void main() {
     });
 
     test('redirects logged-out review route to auth', () {
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
       );
 
@@ -175,7 +189,7 @@ void main() {
     test('seller shop route derives session shop when args are missing', () {
       SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.sellerShop),
       );
 
@@ -185,7 +199,7 @@ void main() {
     test('falls back to main when required string arg is missing', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.storeDetail),
       );
 
@@ -195,7 +209,7 @@ void main() {
     test('accepts typed store detail args', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(
           name: Routes.storeDetail,
           arguments: StoreDetailArgs('s1'),
@@ -208,7 +222,7 @@ void main() {
     test('accepts alias route args where routes share a typed id carrier', () {
       SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
 
-      final sellerProducts = Routes.onGenerateRoute(
+      final sellerProducts = buildRoute(
         const RouteSettings(
           name: Routes.sellerProducts,
           arguments: StoreDetailArgs('s1'),
@@ -216,7 +230,7 @@ void main() {
       );
       expect(sellerProducts.settings.name, Routes.sellerProducts);
 
-      final createProduct = Routes.onGenerateRoute(
+      final createProduct = buildRoute(
         const RouteSettings(
           name: Routes.sellerCreateProduct,
           arguments: StoreDetailArgs('s1'),
@@ -229,7 +243,7 @@ void main() {
       SessionManager.instance
           .login(email: 'seller@example.com', role: 'seller');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(
           name: Routes.sellerProducts,
           arguments: SellerShopArgs('s1'),
@@ -242,7 +256,7 @@ void main() {
     test('drops invalid args when falling back to main', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.storeDetail, arguments: 42),
       );
 
@@ -251,7 +265,7 @@ void main() {
     });
 
     test('redirects protected Phase D routes by session role', () {
-      var route = Routes.onGenerateRoute(
+      var route = buildRoute(
         const RouteSettings(
           name: Routes.pledgeHistory,
           arguments: SellerProductArgs('p1'),
@@ -259,14 +273,14 @@ void main() {
       );
       expect(route.settings.name, Routes.auth);
 
-      route = Routes.onGenerateRoute(
+      route = buildRoute(
         const RouteSettings(name: Routes.qrLabel, arguments: QrLabelArgs('pl1')),
       );
       expect(route.settings.name, Routes.auth);
 
       SessionManager.instance.login(email: 'buyer@example.com');
 
-      route = Routes.onGenerateRoute(
+      route = buildRoute(
         const RouteSettings(
           name: Routes.pledgeHistory,
           arguments: SellerProductArgs('p1'),
@@ -274,7 +288,7 @@ void main() {
       );
       expect(route.settings.name, Routes.main);
 
-      route = Routes.onGenerateRoute(
+      route = buildRoute(
         const RouteSettings(name: Routes.qrLabel, arguments: QrLabelArgs('pl1')),
       );
       expect(route.settings.name, Routes.main);
@@ -290,7 +304,7 @@ void main() {
         ),
         RouteSettings(name: Routes.qrLabel, arguments: QrLabelArgs('pl1')),
       ]) {
-        final route = Routes.onGenerateRoute(settings);
+        final route = buildRoute(settings);
         expect(route.settings.name, settings.name);
       }
     });
@@ -304,12 +318,12 @@ void main() {
         RouteSettings(name: Routes.pledgeHistory, arguments: 'p1'),
         RouteSettings(name: Routes.qrLabel, arguments: 'pl1'),
       ]) {
-        final route = Routes.onGenerateRoute(settings);
+        final route = buildRoute(settings);
         expect(route.settings.name, settings.name);
       }
 
       SessionManager.instance.setRole('user');
-      final route = Routes.onGenerateRoute(
+      final route = buildRoute(
         const RouteSettings(name: Routes.voucherQr, arguments: 'uv1'),
       );
       expect(route.settings.name, Routes.voucherQr);
@@ -324,13 +338,13 @@ void main() {
         Routes.pledgeHistory,
         Routes.qrLabel,
       ]) {
-        final route = Routes.onGenerateRoute(RouteSettings(name: routeName));
+        final route = buildRoute(RouteSettings(name: routeName));
         expect(route.settings.name, Routes.main);
       }
 
       SessionManager.instance.setRole('user');
       for (final routeName in const [Routes.review, Routes.voucherQr]) {
-        final route = Routes.onGenerateRoute(RouteSettings(name: routeName));
+        final route = buildRoute(RouteSettings(name: routeName));
         expect(route.settings.name, Routes.main);
       }
     });

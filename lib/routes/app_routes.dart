@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:vngrocery/data/session.dart';
+import 'package:vngrocery/features/account/controllers/session_state.dart';
 import 'package:vngrocery/screens/splash_screen.dart';
 import 'package:vngrocery/screens/onboarding_screen.dart';
 import 'package:vngrocery/screens/auth_screen.dart';
@@ -98,16 +98,22 @@ class Routes {
   static const voucherQr = 'voucher_qr';
   static const cart = 'cart';
 
-  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    final session = SessionManager.instance;
+  static RouteFactory routeFactory(SessionState session) {
+    return (settings) => onGenerateRoute(settings, session: session);
+  }
+
+  static Route<dynamic> onGenerateRoute(
+    RouteSettings settings, {
+    required SessionState session,
+  }) {
     if (!RoutePolicy.canOpen(
       routeName: settings.name,
       isLoggedIn: session.isLoggedIn,
-      isSeller: session.role == 'seller',
+      isSeller: session.isSeller,
     )) {
       final redirect = session.isLoggedIn ? main : auth;
       if (redirect == settings.name) return _fallbackRoute(settings);
-      return onGenerateRoute(RouteSettings(name: redirect));
+      return onGenerateRoute(RouteSettings(name: redirect), session: session);
     }
 
     final args = settings.arguments;
