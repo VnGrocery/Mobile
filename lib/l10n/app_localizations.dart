@@ -794,6 +794,54 @@ abstract class AppLocalizations {
   /// **'Store information'**
   String get accountStoreInfo;
 
+  /// No description provided for @sellerShopSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo store information saved'**
+  String get sellerShopSaved;
+
+  /// No description provided for @sellerShopNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Store name'**
+  String get sellerShopNameLabel;
+
+  /// No description provided for @sellerShopDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get sellerShopDescriptionLabel;
+
+  /// No description provided for @sellerShopAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get sellerShopAddressLabel;
+
+  /// No description provided for @sellerShopFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'This information is shown on the store page and product labels.'**
+  String get sellerShopFootnote;
+
+  /// No description provided for @sellerShopGradeSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade {grade} - {rating} points'**
+  String sellerShopGradeSummary(Object grade, Object rating);
+
+  /// No description provided for @sellerShopPledgesMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledges'**
+  String get sellerShopPledgesMetric;
+
+  /// No description provided for @sellerShopWarningsMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Warnings'**
+  String get sellerShopWarningsMetric;
+
   /// No description provided for @accountExploreStores.
   ///
   /// In en, this message translates to:

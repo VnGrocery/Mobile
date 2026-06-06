@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 import 'seller_shop_text_field.dart';
 
 class SellerShopFields extends StatelessWidget {
@@ -18,18 +20,19 @@ class SellerShopFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         SellerShopTextField(
           controller: name,
-          label: 'Tên cửa hàng',
+          label: l10n.sellerShopNameLabel,
           icon: Icons.storefront,
           onChanged: onChanged,
         ),
         const SizedBox(height: 12),
         SellerShopTextField(
           controller: description,
-          label: 'Mô tả',
+          label: l10n.sellerShopDescriptionLabel,
           icon: Icons.notes,
           maxLines: 4,
           onChanged: onChanged,
@@ -37,7 +40,7 @@ class SellerShopFields extends StatelessWidget {
         const SizedBox(height: 12),
         SellerShopTextField(
           controller: address,
-          label: 'Địa chỉ',
+          label: l10n.sellerShopAddressLabel,
           icon: Icons.location_on,
           onChanged: onChanged,
         ),

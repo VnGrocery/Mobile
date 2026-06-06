@@ -376,6 +376,33 @@ class AppLocalizationsVi extends AppLocalizations {
   String get accountStoreInfo => 'Thông tin cửa hàng';
 
   @override
+  String get sellerShopSaved => 'Đã lưu thông tin cửa hàng demo';
+
+  @override
+  String get sellerShopNameLabel => 'Tên cửa hàng';
+
+  @override
+  String get sellerShopDescriptionLabel => 'Mô tả';
+
+  @override
+  String get sellerShopAddressLabel => 'Địa chỉ';
+
+  @override
+  String get sellerShopFootnote =>
+      'Thông tin này dùng để hiển thị trên trang cửa hàng và tem sản phẩm.';
+
+  @override
+  String sellerShopGradeSummary(Object grade, Object rating) {
+    return 'Hạng $grade - $rating điểm';
+  }
+
+  @override
+  String get sellerShopPledgesMetric => 'Ghi nhận';
+
+  @override
+  String get sellerShopWarningsMetric => 'Cảnh báo';
+
+  @override
   String get accountExploreStores => 'Khám phá cửa hàng';
 
   @override

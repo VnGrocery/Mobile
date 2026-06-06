@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class SellerShopFootnote extends StatelessWidget {
@@ -7,9 +8,9 @@ class SellerShopFootnote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Thông tin này dùng để hiển thị trên trang cửa hàng và tem sản phẩm.',
-      style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+    return Text(
+      AppLocalizations.of(context).sellerShopFootnote,
+      style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
     );
   }
 }

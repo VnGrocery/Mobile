@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 class SellerShopSaveButton extends StatelessWidget {
   final bool saving;
   final bool enabled;
@@ -28,7 +30,11 @@ class SellerShopSaveButton extends StatelessWidget {
                 ),
               )
             : const Icon(Icons.save),
-        label: Text(saving ? 'Đang lưu...' : 'Lưu thay đổi'),
+        label: Text(
+          saving
+              ? AppLocalizations.of(context).authPasswordUpdateSaving
+              : AppLocalizations.of(context).accountSaveProfileChanges,
+        ),
       ),
     );
   }

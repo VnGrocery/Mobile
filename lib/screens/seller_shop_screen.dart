@@ -6,6 +6,7 @@ import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/seller_shop/controllers/seller_shop_cubit.dart';
 import 'package:vngrocery/features/seller_shop/controllers/seller_shop_state.dart';
 import 'package:vngrocery/features/seller_shop/widgets/seller_shop_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerShopScreen extends StatefulWidget {
@@ -53,11 +54,12 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
       value: _shopCubit,
       child: BlocBuilder<SellerShopCubit, SellerShopState>(
         builder: (context, state) {
+          final l10n = AppLocalizations.of(context);
           final dashboard = state.dashboard;
           if (dashboard == null) {
             return Scaffold(
               backgroundColor: context.palette.appBackground,
-              appBar: AppBar(title: const Text('Thông tin cửa hàng')),
+              appBar: AppBar(title: Text(l10n.accountStoreInfo)),
               body: const Center(child: CircularProgressIndicator()),
             );
           }
@@ -65,9 +67,9 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
           return Scaffold(
             backgroundColor: context.palette.appBackground,
             appBar: AppBar(
-              title: const Text(
-                'Thông tin cửa hàng',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              title: Text(
+                l10n.accountStoreInfo,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             body: ListView(
@@ -111,6 +113,6 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
     final shop = _shopCubit.state.shop;
     if (!mounted || shop == null) return;
     context.read<SessionCubit>().setShopId(shop.id);
-    AppFeedback.showSnackBar(context, 'Đã lưu thông tin cửa hàng demo');
+    AppFeedback.showSnackBar(context, AppLocalizations.of(context).sellerShopSaved);
   }
 }

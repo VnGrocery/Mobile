@@ -378,6 +378,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountStoreInfo => 'Store information';
 
   @override
+  String get sellerShopSaved => 'Demo store information saved';
+
+  @override
+  String get sellerShopNameLabel => 'Store name';
+
+  @override
+  String get sellerShopDescriptionLabel => 'Description';
+
+  @override
+  String get sellerShopAddressLabel => 'Address';
+
+  @override
+  String get sellerShopFootnote =>
+      'This information is shown on the store page and product labels.';
+
+  @override
+  String sellerShopGradeSummary(Object grade, Object rating) {
+    return 'Grade $grade - $rating points';
+  }
+
+  @override
+  String get sellerShopPledgesMetric => 'Pledges';
+
+  @override
+  String get sellerShopWarningsMetric => 'Warnings';
+
+  @override
   String get accountExploreStores => 'Explore stores';
 
   @override

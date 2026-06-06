@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'seller_shop_metric.dart';
@@ -12,6 +13,7 @@ class SellerShopSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Container(
       padding: const EdgeInsets.all(18),
@@ -44,7 +46,10 @@ class SellerShopSummaryCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Hạng ${dashboard.trustGrade} - ${dashboard.shop.rating} điểm',
+                      l10n.sellerShopGradeSummary(
+                        dashboard.trustGrade,
+                        dashboard.shop.rating.toString(),
+                      ),
                       style: const TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 12,
@@ -58,9 +63,18 @@ class SellerShopSummaryCard extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              SellerShopMetric('Sản phẩm', '${dashboard.products.length}'),
-              SellerShopMetric('Ghi nhận', '${dashboard.pledges.length}'),
-              SellerShopMetric('Cảnh báo', '${dashboard.warningCount}'),
+              SellerShopMetric(
+                l10n.accountMyProducts,
+                '${dashboard.products.length}',
+              ),
+              SellerShopMetric(
+                l10n.sellerShopPledgesMetric,
+                '${dashboard.pledges.length}',
+              ),
+              SellerShopMetric(
+                l10n.sellerShopWarningsMetric,
+                '${dashboard.warningCount}',
+              ),
             ],
           ),
         ],
