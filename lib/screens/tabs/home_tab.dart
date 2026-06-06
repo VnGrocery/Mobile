@@ -5,6 +5,7 @@ import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/home/controllers/home_cubit.dart';
 import 'package:vngrocery/features/home/controllers/home_state.dart';
 import 'package:vngrocery/features/home/widgets/home_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -25,14 +26,9 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   final _search = TextEditingController();
   late final HomeCubit _homeCubit;
-  String _category = 'Tất cả';
+  static const _allCategory = 'all';
+  String _category = _allCategory;
 
-  static const _categories = [
-    HomeCategory('Thịt heo', Icons.kebab_dining),
-    HomeCategory('Thịt bò', Icons.lunch_dining),
-    HomeCategory('Gia cầm', Icons.egg_alt),
-    HomeCategory('Hải sản', Icons.set_meal),
-  ];
 
   @override
   void initState() {
@@ -49,7 +45,14 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final userName = context.watch<SessionCubit>().state.displayName;
+    final categories = [
+      HomeCategory(l10n.homeCategoryPork, Icons.kebab_dining),
+      HomeCategory(l10n.homeCategoryBeef, Icons.lunch_dining),
+      HomeCategory(l10n.homeCategoryPoultry, Icons.egg_alt),
+      HomeCategory(l10n.homeCategorySeafood, Icons.set_meal),
+    ];
 
     return BlocProvider.value(
       value: _homeCubit,
@@ -85,18 +88,18 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const HomeSectionTitle('Danh mục', showAction: false),
+                  HomeSectionTitle(l10n.homeCategoriesTitle, showAction: false),
                   const SizedBox(height: 12),
                   HomeCategoryList(
-                    categories: _categories,
+                    categories: categories,
                     selectedCategory: _category,
                     onSelect: (category) => setState(() {
-                      _category = category == _category ? 'Tất cả' : category;
+                      _category = category == _category ? _allCategory : category;
                     }),
                   ),
                   const SizedBox(height: 28),
-                  const HomeSectionTitle(
-                    'Cửa hàng được đánh giá tốt',
+                  HomeSectionTitle(
+                    l10n.homeTopRatedStoresTitle,
                     showAction: false,
                   ),
                   const SizedBox(height: 12),
@@ -113,7 +116,7 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   const SizedBox(height: 30),
                   HomeSectionTitle(
-                    'Sản phẩm mới kiểm tra',
+                    l10n.homeRecentChecksTitle,
                     onSeeAll: () =>
                         showHomePledgeSheet(context, state.pledgeItems),
                   ),

@@ -5,6 +5,7 @@ import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_cubit.dart';
 import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_state.dart';
 import 'package:vngrocery/features/seller_dashboard/widgets/seller_dashboard_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -36,6 +37,7 @@ class _PledgeTabState extends State<PledgeTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final shopId = context.watch<SessionCubit>().state.shopId;
 
     return BlocProvider.value(
@@ -46,7 +48,7 @@ class _PledgeTabState extends State<PledgeTab> {
           if (dashboard == null) {
             return Scaffold(
               backgroundColor: context.palette.appBackground,
-              appBar: AppBar(title: const Text('Tổng quan bán hàng')),
+              appBar: AppBar(title: Text(l10n.pledgeOverviewTitle)),
               body: const Center(child: CircularProgressIndicator()),
             );
           }
@@ -54,9 +56,9 @@ class _PledgeTabState extends State<PledgeTab> {
           return Scaffold(
             backgroundColor: context.palette.appBackground,
             appBar: AppBar(
-              title: const Text(
-                'Tổng quan bán hàng',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              title: Text(
+                l10n.pledgeOverviewTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             body: ListView(
@@ -97,18 +99,18 @@ class _PledgeTabState extends State<PledgeTab> {
                   },
                 ),
                 const SizedBox(height: 22),
-                const Text(
-                  'Chỉ số cửa hàng',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Text(
+                  l10n.pledgeOverviewMetricsTitle,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
                 SellerMetricGrid(dashboard: dashboard),
                 const SizedBox(height: 22),
                 SellerStatusCard(dashboard: dashboard),
                 const SizedBox(height: 22),
-                const Text(
-                  'Chụp ảnh trong điều kiện đủ sáng để điểm đánh giá ổn định. Mỗi ghi nhận demo sẽ lưu tạm cho đến khi gắn dữ liệu thật.',
-                  style: TextStyle(
+                Text(
+                  l10n.pledgeOverviewHint,
+                  style: const TextStyle(
                     color: AppColors.textSecondary,
                     height: 1.35,
                   ),

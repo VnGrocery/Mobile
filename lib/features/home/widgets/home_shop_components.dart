@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -12,6 +13,7 @@ class HomeTrustShopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return SizedBox(
       width: 170,
@@ -62,7 +64,7 @@ class HomeTrustShopCard extends StatelessWidget {
                       size: 14,
                     ),
                     Text(
-                      ' ${shop.rating}',
+                      l10n.homeShopRatingValue(shop.rating.toString()),
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -70,7 +72,7 @@ class HomeTrustShopCard extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      '${shop.reviewCount} đánh giá',
+                      l10n.homeShopReviewCount(shop.reviewCount),
                       style: const TextStyle(
                         fontSize: 10,
                         color: AppColors.textSecondary,

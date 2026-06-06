@@ -643,6 +643,92 @@ class AppLocalizationsEn extends AppLocalizations {
       'Email support@vngrocery.local when you need help.';
 
   @override
+  String get commonBuyer => 'Buyer';
+
+  @override
+  String get commonSeller => 'Seller';
+
+  @override
+  String get accountSellerModeBody =>
+      'Seller mode: manage store, products, and pledges.';
+
+  @override
+  String get accountBuyerModeBody =>
+      'Buyer mode: explore, scan codes, and check products.';
+
+  @override
+  String get homeGreeting => 'Hello,';
+
+  @override
+  String get homeLocationDistrict1 => 'District 1';
+
+  @override
+  String get homeSearchHint => 'Search stores, products...';
+
+  @override
+  String get homeScanHeroBody => 'Check against recorded data';
+
+  @override
+  String get homeSeeAll => 'See all';
+
+  @override
+  String get homeCategoriesTitle => 'Categories';
+
+  @override
+  String get homeCategoryPork => 'Pork';
+
+  @override
+  String get homeCategoryBeef => 'Beef';
+
+  @override
+  String get homeCategoryPoultry => 'Poultry';
+
+  @override
+  String get homeCategorySeafood => 'Seafood';
+
+  @override
+  String get homeTopRatedStoresTitle => 'Top-rated stores';
+
+  @override
+  String get homeRecentChecksTitle => 'Recently checked products';
+
+  @override
+  String homeShopRatingValue(Object rating) {
+    return ' $rating';
+  }
+
+  @override
+  String homeShopReviewCount(Object count) {
+    return '$count reviews';
+  }
+
+  @override
+  String get aiFreshnessTitle => 'Submit check photo';
+
+  @override
+  String get aiFreshnessHeading => 'Take a product photo at the counter';
+
+  @override
+  String get aiFreshnessBody =>
+      'This photo helps compare with recently recorded information.';
+
+  @override
+  String get aiFreshnessAnalyzing => 'Comparing with latest data...';
+
+  @override
+  String get aiFreshnessAction => 'Take photo & check';
+
+  @override
+  String get pledgeOverviewTitle => 'Seller overview';
+
+  @override
+  String get pledgeOverviewMetricsTitle => 'Store metrics';
+
+  @override
+  String get pledgeOverviewHint =>
+      'Capture photos in good lighting to keep scores stable. Each demo pledge is stored temporarily until real data is connected.';
+
+  @override
   String get voucherWalletTitle => 'Voucher wallet';
 
   @override

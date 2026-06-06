@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/services/app_delay_service.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -28,24 +29,25 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: context.palette.appBackground,
-      appBar: AppBar(title: const Text('Gửi ảnh kiểm tra')),
+      appBar: AppBar(title: Text(l10n.aiFreshnessTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Chụp ảnh sản phẩm tại quầy',
+            Text(
+              l10n.aiFreshnessHeading,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Ảnh này giúp so với thông tin đã ghi nhận gần đây.',
+            Text(
+              l10n.aiFreshnessBody,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             Container(
@@ -58,12 +60,12 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
                 child: _analyzing
                     ? Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          CircularProgressIndicator(color: Colors.white),
-                          SizedBox(height: 16),
+                        children: [
+                          const CircularProgressIndicator(color: Colors.white),
+                          const SizedBox(height: 16),
                           Text(
-                            'Đang so với dữ liệu gần nhất...',
-                            style: TextStyle(color: Colors.white),
+                            l10n.aiFreshnessAnalyzing,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ],
                       )
@@ -79,9 +81,9 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
               height: 56,
               child: FilledButton(
                 onPressed: _analyzing ? null : _analyze,
-                child: const Text(
-                  'Chụp ảnh & kiểm tra',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                child: Text(
+                  l10n.aiFreshnessAction,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ),

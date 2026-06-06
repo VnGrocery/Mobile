@@ -1292,6 +1292,162 @@ abstract class AppLocalizations {
   /// **'Email support@vngrocery.local when you need help.'**
   String get accountHelpContactBody;
 
+  /// No description provided for @commonBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get commonBuyer;
+
+  /// No description provided for @commonSeller.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller'**
+  String get commonSeller;
+
+  /// No description provided for @accountSellerModeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller mode: manage store, products, and pledges.'**
+  String get accountSellerModeBody;
+
+  /// No description provided for @accountBuyerModeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer mode: explore, scan codes, and check products.'**
+  String get accountBuyerModeBody;
+
+  /// No description provided for @homeGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello,'**
+  String get homeGreeting;
+
+  /// No description provided for @homeLocationDistrict1.
+  ///
+  /// In en, this message translates to:
+  /// **'District 1'**
+  String get homeLocationDistrict1;
+
+  /// No description provided for @homeSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search stores, products...'**
+  String get homeSearchHint;
+
+  /// No description provided for @homeScanHeroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check against recorded data'**
+  String get homeScanHeroBody;
+
+  /// No description provided for @homeSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get homeSeeAll;
+
+  /// No description provided for @homeCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get homeCategoriesTitle;
+
+  /// No description provided for @homeCategoryPork.
+  ///
+  /// In en, this message translates to:
+  /// **'Pork'**
+  String get homeCategoryPork;
+
+  /// No description provided for @homeCategoryBeef.
+  ///
+  /// In en, this message translates to:
+  /// **'Beef'**
+  String get homeCategoryBeef;
+
+  /// No description provided for @homeCategoryPoultry.
+  ///
+  /// In en, this message translates to:
+  /// **'Poultry'**
+  String get homeCategoryPoultry;
+
+  /// No description provided for @homeCategorySeafood.
+  ///
+  /// In en, this message translates to:
+  /// **'Seafood'**
+  String get homeCategorySeafood;
+
+  /// No description provided for @homeTopRatedStoresTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Top-rated stores'**
+  String get homeTopRatedStoresTitle;
+
+  /// No description provided for @homeRecentChecksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently checked products'**
+  String get homeRecentChecksTitle;
+
+  /// No description provided for @homeShopRatingValue.
+  ///
+  /// In en, this message translates to:
+  /// **' {rating}'**
+  String homeShopRatingValue(Object rating);
+
+  /// No description provided for @homeShopReviewCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} reviews'**
+  String homeShopReviewCount(Object count);
+
+  /// No description provided for @aiFreshnessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit check photo'**
+  String get aiFreshnessTitle;
+
+  /// No description provided for @aiFreshnessHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a product photo at the counter'**
+  String get aiFreshnessHeading;
+
+  /// No description provided for @aiFreshnessBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This photo helps compare with recently recorded information.'**
+  String get aiFreshnessBody;
+
+  /// No description provided for @aiFreshnessAnalyzing.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparing with latest data...'**
+  String get aiFreshnessAnalyzing;
+
+  /// No description provided for @aiFreshnessAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo & check'**
+  String get aiFreshnessAction;
+
+  /// No description provided for @pledgeOverviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller overview'**
+  String get pledgeOverviewTitle;
+
+  /// No description provided for @pledgeOverviewMetricsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Store metrics'**
+  String get pledgeOverviewMetricsTitle;
+
+  /// No description provided for @pledgeOverviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture photos in good lighting to keep scores stable. Each demo pledge is stored temporarily until real data is connected.'**
+  String get pledgeOverviewHint;
+
   /// No description provided for @voucherWalletTitle.
   ///
   /// In en, this message translates to:

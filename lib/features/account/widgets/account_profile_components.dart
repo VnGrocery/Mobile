@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class AccountProfileSummary extends StatelessWidget {
@@ -75,6 +76,7 @@ class AccountRoleSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
     return Container(
       height: 48,
@@ -86,13 +88,13 @@ class AccountRoleSwitch extends StatelessWidget {
       child: Row(
         children: [
           AccountRoleItem(
-            label: 'Người mua',
+            label: l10n.commonBuyer,
             icon: Icons.person,
             selected: !isSeller,
             onTap: () => onRoleChanged('user'),
           ),
           AccountRoleItem(
-            label: 'Người bán',
+            label: l10n.commonSeller,
             icon: Icons.storefront,
             selected: isSeller,
             onTap: () => onRoleChanged('seller'),
@@ -163,6 +165,7 @@ class AccountModeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -182,8 +185,8 @@ class AccountModeCard extends StatelessWidget {
             Expanded(
               child: Text(
                 isSeller
-                    ? 'Chế độ người bán: quản lý cửa hàng, sản phẩm và ghi nhận.'
-                    : 'Chế độ người mua: khám phá, quét mã và kiểm tra sản phẩm.',
+                    ? l10n.accountSellerModeBody
+                    : l10n.accountBuyerModeBody,
                 style: const TextStyle(height: 1.3),
               ),
             ),

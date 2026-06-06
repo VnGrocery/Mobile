@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/core/widgets/cart_badge_button.dart';
 import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_state.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -20,6 +21,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
@@ -50,9 +52,9 @@ class HomeHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Xin chào,',
-                  style: TextStyle(
+                Text(
+                  l10n.homeGreeting,
+                  style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.textSecondary,
                     fontWeight: FontWeight.w500,
@@ -77,21 +79,21 @@ class HomeHeader extends StatelessWidget {
               color: palette.card,
               borderRadius: BorderRadius.circular(24),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.location_on,
                   color: AppColors.primaryGreen,
                   size: 16,
                 ),
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 Text(
-                  'Quận 1',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  l10n.homeLocationDistrict1,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
                 ),
-                SizedBox(width: 2),
-                Icon(
+                const SizedBox(width: 2),
+                const Icon(
                   Icons.keyboard_arrow_down,
                   color: AppColors.primaryGreen,
                   size: 16,

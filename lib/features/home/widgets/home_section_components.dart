@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class HomeSectionTitle extends StatelessWidget {
@@ -33,9 +34,9 @@ class HomeSectionTitle extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: const Text(
-                'Xem tất cả',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context).homeSeeAll,
+                style: const TextStyle(
                   fontSize: 13,
                   color: AppColors.primaryGreen,
                   fontWeight: FontWeight.w700,

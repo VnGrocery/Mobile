@@ -640,6 +640,92 @@ class AppLocalizationsVi extends AppLocalizations {
       'Gửi email tới support@vngrocery.local khi cần hỗ trợ.';
 
   @override
+  String get commonBuyer => 'Người mua';
+
+  @override
+  String get commonSeller => 'Người bán';
+
+  @override
+  String get accountSellerModeBody =>
+      'Chế độ người bán: quản lý cửa hàng, sản phẩm và ghi nhận.';
+
+  @override
+  String get accountBuyerModeBody =>
+      'Chế độ người mua: khám phá, quét mã và kiểm tra sản phẩm.';
+
+  @override
+  String get homeGreeting => 'Xin chào,';
+
+  @override
+  String get homeLocationDistrict1 => 'Quận 1';
+
+  @override
+  String get homeSearchHint => 'Tìm shop, sản phẩm...';
+
+  @override
+  String get homeScanHeroBody => 'Kiểm tra với dữ liệu đã ghi nhận';
+
+  @override
+  String get homeSeeAll => 'Xem tất cả';
+
+  @override
+  String get homeCategoriesTitle => 'Danh mục';
+
+  @override
+  String get homeCategoryPork => 'Thịt heo';
+
+  @override
+  String get homeCategoryBeef => 'Thịt bò';
+
+  @override
+  String get homeCategoryPoultry => 'Gia cầm';
+
+  @override
+  String get homeCategorySeafood => 'Hải sản';
+
+  @override
+  String get homeTopRatedStoresTitle => 'Cửa hàng được đánh giá tốt';
+
+  @override
+  String get homeRecentChecksTitle => 'Sản phẩm mới kiểm tra';
+
+  @override
+  String homeShopRatingValue(Object rating) {
+    return ' $rating';
+  }
+
+  @override
+  String homeShopReviewCount(Object count) {
+    return '$count đánh giá';
+  }
+
+  @override
+  String get aiFreshnessTitle => 'Gửi ảnh kiểm tra';
+
+  @override
+  String get aiFreshnessHeading => 'Chụp ảnh sản phẩm tại quầy';
+
+  @override
+  String get aiFreshnessBody =>
+      'Ảnh này giúp so với thông tin đã ghi nhận gần đây.';
+
+  @override
+  String get aiFreshnessAnalyzing => 'Đang so với dữ liệu gần nhất...';
+
+  @override
+  String get aiFreshnessAction => 'Chụp ảnh & kiểm tra';
+
+  @override
+  String get pledgeOverviewTitle => 'Tổng quan bán hàng';
+
+  @override
+  String get pledgeOverviewMetricsTitle => 'Chỉ số cửa hàng';
+
+  @override
+  String get pledgeOverviewHint =>
+      'Chụp ảnh trong điều kiện đủ sáng để điểm đánh giá ổn định. Mỗi ghi nhận demo sẽ lưu tạm cho đến khi gắn dữ liệu thật.';
+
+  @override
   String get voucherWalletTitle => 'Ví voucher';
 
   @override

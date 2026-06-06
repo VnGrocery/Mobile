@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class HomeSearchBar extends StatelessWidget {
@@ -16,11 +17,12 @@ class HomeSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return TextField(
       controller: controller,
       onChanged: (_) => onChanged(),
       decoration: InputDecoration(
-        hintText: 'Tìm shop, sản phẩm...',
+        hintText: l10n.homeSearchHint,
         prefixIcon: const Icon(Icons.search),
         suffixIcon: controller.text.isEmpty
             ? null
@@ -40,6 +42,7 @@ class HomeScanHeroCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Material(
       borderRadius: BorderRadius.circular(20),
       child: Ink(
@@ -62,16 +65,16 @@ class HomeScanHeroCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.auto_awesome, color: Colors.white),
                       const SizedBox(height: 8),
-                      const Text(
-                        'Quét sản phẩm',
-                        style: TextStyle(
+                      Text(
+                        l10n.accountScanProducts,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        'Kiểm tra với dữ liệu đã ghi nhận',
+                        l10n.homeScanHeroBody,
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.85),
                           fontSize: 12,
