@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -10,6 +11,7 @@ class LatestReceiptCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Card(
       color: context.palette.card,
       elevation: 0,
@@ -20,21 +22,24 @@ class LatestReceiptCard extends StatelessWidget {
           children: [
             const Icon(Icons.verified_user, color: AppColors.meatRed),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Sản phẩm đã được kiểm tra gần đây',
+                    l10n.storeDetailLatestReceiptTitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
                   ),
                   Text(
-                    'Có biên lai trong lịch sử',
+                    l10n.storeDetailLatestReceiptSubtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ],
               ),
@@ -46,9 +51,9 @@ class LatestReceiptCard extends StatelessWidget {
                 minimumSize: const Size(0, 36),
                 padding: const EdgeInsets.symmetric(horizontal: 8),
               ),
-              child: const Text(
-                'Xem biên lai',
-                style: TextStyle(color: AppColors.meatRed),
+              child: Text(
+                l10n.storeDetailViewReceipt,
+                style: const TextStyle(color: AppColors.meatRed),
               ),
             ),
           ],
@@ -70,9 +75,12 @@ class StoreDetailTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: List.generate(2, (index) {
-        final title = index == 0 ? 'Sản phẩm' : 'Đánh giá';
+        final title = index == 0
+            ? l10n.storeDetailProductsTab
+            : l10n.storeDetailReviewsTab;
         final selected = value == index;
         return Expanded(
           child: InkWell(

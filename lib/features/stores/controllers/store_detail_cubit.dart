@@ -21,7 +21,7 @@ class StoreDetailCubit extends Cubit<StoreDetailState> {
     );
   }
 
-  String shareText(Shop shop) {
-    return '${shop.name}\n${shop.address}\n${shop.rating} điểm đánh giá - ${shop.reviewCount} lượt đánh giá';
+  String shareText(Shop shop, String summary) {
+    return '${shop.name}\n${shop.address}\n$summary';
   }
 }

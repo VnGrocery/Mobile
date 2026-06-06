@@ -572,6 +572,21 @@ class AppLocalizationsVi extends AppLocalizations {
   String get storeDetailWriteReview => 'Viết đánh giá';
 
   @override
+  String storeShareSummary(Object rating, Object reviewCount) {
+    return '$rating điểm đánh giá - $reviewCount lượt đánh giá';
+  }
+
+  @override
+  String storeProductShopLabel(Object shopId) {
+    return 'Cửa hàng: $shopId';
+  }
+
+  @override
+  String storeProductScore(Object score) {
+    return '$score điểm';
+  }
+
+  @override
   String get productDetailTitle => 'Thông tin sản phẩm';
 
   @override

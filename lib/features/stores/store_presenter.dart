@@ -1,5 +1,6 @@
-import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/data_hooks.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 class StorePresenter {
   const StorePresenter._();
@@ -18,7 +19,7 @@ class StorePresenter {
     return _data.getReviews(shopId);
   }
 
-  static String shareText(Shop shop) {
-    return '${shop.name}\n${shop.address}\n${shop.rating} điểm đánh giá - ${shop.reviewCount} lượt đánh giá';
+  static String shareText(Shop shop, AppLocalizations l10n) {
+    return '${shop.name}\n${shop.address}\n${l10n.storeShareSummary(shop.rating.toString(), shop.reviewCount)}';
   }
 }

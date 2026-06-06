@@ -574,6 +574,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get storeDetailWriteReview => 'Write review';
 
   @override
+  String storeShareSummary(Object rating, Object reviewCount) {
+    return '$rating rating points - $reviewCount reviews';
+  }
+
+  @override
+  String storeProductShopLabel(Object shopId) {
+    return 'Store: $shopId';
+  }
+
+  @override
+  String storeProductScore(Object score) {
+    return '$score points';
+  }
+
+  @override
   String get productDetailTitle => 'Product details';
 
   @override

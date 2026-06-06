@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -11,6 +12,7 @@ class StoreHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Stack(
       clipBehavior: Clip.none,
@@ -66,7 +68,7 @@ class StoreHeader extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '${shop.rating} điểm đánh giá',
+                      l10n.exploreRatingLabel(shop.rating.toString()),
                       style: const TextStyle(
                         fontWeight: FontWeight.w900,
                         color: AppColors.trustGreen,

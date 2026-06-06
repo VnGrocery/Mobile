@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -14,6 +15,7 @@ class StoreProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     final scheme = Theme.of(context).colorScheme;
     return Card(
@@ -57,7 +59,7 @@ class StoreProductItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Cửa hàng: ${product.shopId}',
+                      l10n.storeProductShopLabel(product.shopId),
                       style: const TextStyle(fontSize: 13, color: Colors.grey),
                     ),
                     const SizedBox(height: 4),
@@ -100,7 +102,7 @@ class StoreProductItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${product.freshnessScore} điểm',
+                          l10n.storeProductScore(product.freshnessScore),
                           style: TextStyle(
                             color: scoreTrustColor(product.freshnessScore),
                             fontWeight: FontWeight.bold,

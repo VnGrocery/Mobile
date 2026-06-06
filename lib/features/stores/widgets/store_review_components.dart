@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -90,7 +91,7 @@ class StoreReviewList extends StatelessWidget {
                 Routes.review,
                 arguments: StoreDetailArgs(shopId),
               ),
-              child: const Text('Viết đánh giá'),
+              child: Text(AppLocalizations.of(context).storeDetailWriteReview),
             ),
           ),
         ),

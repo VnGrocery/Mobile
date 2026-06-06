@@ -1154,6 +1154,24 @@ abstract class AppLocalizations {
   /// **'Write review'**
   String get storeDetailWriteReview;
 
+  /// No description provided for @storeShareSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{rating} rating points - {reviewCount} reviews'**
+  String storeShareSummary(Object rating, Object reviewCount);
+
+  /// No description provided for @storeProductShopLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Store: {shopId}'**
+  String storeProductShopLabel(Object shopId);
+
+  /// No description provided for @storeProductScore.
+  ///
+  /// In en, this message translates to:
+  /// **'{score} points'**
+  String storeProductScore(Object score);
+
   /// No description provided for @productDetailTitle.
   ///
   /// In en, this message translates to:

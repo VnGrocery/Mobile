@@ -106,11 +106,16 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   }
 
   void _shareShop(Shop shop) {
-    Clipboard.setData(ClipboardData(text: _storeCubit.shareText(shop)));
-    AppFeedback.showSnackBar(
-      context,
-      AppLocalizations.of(context).storeDetailCopied,
+    final l10n = AppLocalizations.of(context);
+    Clipboard.setData(
+      ClipboardData(
+        text: _storeCubit.shareText(
+          shop,
+          l10n.storeShareSummary(shop.rating.toString(), shop.reviewCount),
+        ),
+      ),
     );
+    AppFeedback.showSnackBar(context, l10n.storeDetailCopied);
   }
 
   void _openLatestReceipt(StoreDetailState state) {

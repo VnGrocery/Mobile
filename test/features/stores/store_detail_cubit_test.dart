@@ -20,7 +20,7 @@ void main() {
     final cubit = StoreDetailCubit()..load(AppDataConfig.demoShopId);
     final shop = cubit.state.shop!;
 
-    final text = cubit.shareText(shop);
+    final text = cubit.shareText(shop, '4.7 điểm đánh giá - 128 lượt đánh giá');
 
     expect(text, contains(shop.name));
     expect(text, contains(shop.address));
