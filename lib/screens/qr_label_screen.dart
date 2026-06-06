@@ -6,6 +6,7 @@ import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/seller_labels/controllers/qr_label_cubit.dart';
 import 'package:vngrocery/features/seller_labels/controllers/qr_label_state.dart';
 import 'package:vngrocery/features/seller_labels/widgets/qr_label_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class QrLabelScreen extends StatefulWidget {
@@ -38,9 +39,10 @@ class _QrLabelScreenState extends State<QrLabelScreen> {
       value: _labelCubit,
       child: BlocBuilder<QrLabelCubit, QrLabelState>(
         builder: (context, state) {
+          final l10n = AppLocalizations.of(context);
           return Scaffold(
             backgroundColor: context.palette.appBackground,
-            appBar: AppBar(title: const Text('Mã QR sản phẩm')),
+            appBar: AppBar(title: Text(l10n.qrLabelTitle)),
             body: Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -67,24 +69,28 @@ class _QrLabelScreenState extends State<QrLabelScreen> {
 
   void _downloadLabel(BuildContext context, QrLabelState state) {
     Clipboard.setData(ClipboardData(text: state.clipboardText));
-    AppFeedback.showSnackBar(context, 'Đã sao chép nội dung tem QR');
+    AppFeedback.showSnackBar(
+      context,
+      AppLocalizations.of(context).qrLabelCopied,
+    );
   }
 
   void _printLabel(BuildContext context) {
     showDialog<void>(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('In tem QR'),
-        content: const Text(
-          'Tem QR đã được đưa vào hàng đợi in demo. Kiểm tra máy in tại quầy trước khi dán lên sản phẩm.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Đóng'),
-          ),
-        ],
-      ),
+      builder: (_) {
+        final l10n = AppLocalizations.of(context);
+        return AlertDialog(
+          title: Text(l10n.qrLabelPrintTitle),
+          content: Text(l10n.qrLabelPrintBody),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.commonClose),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:vngrocery/features/cart/controllers/cart_event.dart';
 import 'package:vngrocery/features/products/controllers/product_detail_cubit.dart';
 import 'package:vngrocery/features/products/controllers/product_detail_state.dart';
 import 'package:vngrocery/features/products/widgets/product_detail_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -40,6 +41,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocProvider.value(
       value: _productCubit,
       child: BlocBuilder<ProductDetailCubit, ProductDetailState>(
@@ -48,7 +50,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           if (product == null) {
             return Scaffold(
               backgroundColor: context.palette.appBackground,
-              appBar: AppBar(title: const Text('Thông tin sản phẩm')),
+              appBar: AppBar(title: Text(l10n.productDetailTitle)),
               body: const Center(child: CircularProgressIndicator()),
             );
           }
@@ -77,12 +79,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 .add(CartAddRequested(product: product));
                             AppFeedback.showSnackBar(
                               context,
-                              'Đã thêm ${product.name}',
+                              l10n.productDetailAddedToCart(product.name),
                               icon: Icons.add_shopping_cart_rounded,
                             );
                           },
                           icon: const Icon(Icons.add_shopping_cart),
-                          label: const Text('Thêm vào giỏ'),
+                          label: Text(l10n.productDetailAddToCart),
                         ),
                       ),
                       const SizedBox(height: 16),

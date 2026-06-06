@@ -6,6 +6,7 @@ import 'package:vngrocery/features/vouchers/controllers/voucher_wallet_cubit.dar
 import 'package:vngrocery/features/vouchers/controllers/voucher_wallet_state.dart';
 import 'package:vngrocery/features/vouchers/voucher_presenter.dart';
 import 'package:vngrocery/features/vouchers/widgets/voucher_wallet_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -35,6 +36,7 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
 
     return BlocProvider.value(
@@ -42,11 +44,11 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
       child: Scaffold(
         backgroundColor: palette.appBackground,
         appBar: AppBar(
-          title: const Text('Ví voucher'),
+          title: Text(l10n.voucherWalletTitle),
           actions: [
             IconButton(
               key: const ValueKey('voucher_wallet.add_manual_button'),
-              tooltip: 'Thêm thủ công',
+              tooltip: l10n.voucherWalletAddManualTooltip,
               onPressed: _openManualVoucher,
               icon: const Icon(Icons.add_card),
             ),

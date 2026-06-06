@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/services/app_delay_service.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
@@ -28,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: AppColors.meatRed,
       body: Stack(
@@ -45,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
                 Text(
-                  'Kiểm tra giá và sản phẩm gần bạn',
+                  l10n.splashSubtitle,
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.8),
                     fontSize: 16,
@@ -60,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 48),
               child: Text(
-                'Dữ liệu từ quầy hàng và cộng đồng',
+                l10n.splashFootnote,
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.5),
                   fontSize: 12,

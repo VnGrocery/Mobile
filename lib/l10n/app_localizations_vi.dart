@@ -173,6 +173,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get commonSave => 'Lưu';
 
   @override
+  String get commonClose => 'Đóng';
+
+  @override
   String get commonDate => 'Ngày';
 
   @override
@@ -437,6 +440,25 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get voucherWalletAddManualTooltip => 'Thêm thủ công';
+
+  @override
+  String get qrLabelTitle => 'Mã QR sản phẩm';
+
+  @override
+  String get qrLabelCopied => 'Đã sao chép nội dung tem QR';
+
+  @override
+  String get qrLabelPrintTitle => 'In tem QR';
+
+  @override
+  String get qrLabelPrintBody =>
+      'Tem QR đã được đưa vào hàng đợi in demo. Kiểm tra máy in tại quầy trước khi dán lên sản phẩm.';
+
+  @override
+  String get splashSubtitle => 'Kiểm tra giá và sản phẩm gần bạn';
+
+  @override
+  String get splashFootnote => 'Dữ liệu từ quầy hàng và cộng đồng';
 
   @override
   String voucherWalletUsableCount(Object count) {

@@ -410,6 +410,12 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get commonSave;
 
+  /// No description provided for @commonClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get commonClose;
+
   /// No description provided for @commonDate.
   ///
   /// In en, this message translates to:
@@ -913,6 +919,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add manually'**
   String get voucherWalletAddManualTooltip;
+
+  /// No description provided for @qrLabelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product QR code'**
+  String get qrLabelTitle;
+
+  /// No description provided for @qrLabelCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'QR label content copied'**
+  String get qrLabelCopied;
+
+  /// No description provided for @qrLabelPrintTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Print QR label'**
+  String get qrLabelPrintTitle;
+
+  /// No description provided for @qrLabelPrintBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The QR label has been queued for demo printing. Check the printer at the counter before attaching it to the product.'**
+  String get qrLabelPrintBody;
+
+  /// No description provided for @splashSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check prices and products near you'**
+  String get splashSubtitle;
+
+  /// No description provided for @splashFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from store counters and the community'**
+  String get splashFootnote;
 
   /// No description provided for @voucherWalletUsableCount.
   ///

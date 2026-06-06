@@ -6,6 +6,7 @@ import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/vouchers/controllers/manual_voucher_cubit.dart';
 import 'package:vngrocery/features/vouchers/controllers/manual_voucher_state.dart';
 import 'package:vngrocery/features/vouchers/widgets/manual_voucher_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class ManualVoucherScreen extends StatefulWidget {
@@ -43,9 +44,10 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
       value: _manualVoucherCubit,
       child: BlocBuilder<ManualVoucherCubit, ManualVoucherState>(
         builder: (context, state) {
+          final l10n = AppLocalizations.of(context);
           return Scaffold(
             backgroundColor: context.palette.appBackground,
-            appBar: AppBar(title: const Text('Thêm voucher thủ công')),
+            appBar: AppBar(title: Text(l10n.manualVoucherTitle)),
             body: Form(
               key: _formKey,
               child: ListView(
@@ -79,8 +81,9 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
   }
 
   void _scanDemo(String format) {
+    final l10n = AppLocalizations.of(context);
     _code.text = _manualVoucherCubit.scanDemo(format);
-    AppFeedback.showSnackBar(context, 'Đã copy mã $format demo vào ô mã');
+    AppFeedback.showSnackBar(context, l10n.manualVoucherDemoCopied(format));
   }
 
   Future<void> _pickExpiry() async {
@@ -103,7 +106,10 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
       note: _note.text,
     );
     if (saved == null) return;
-    AppFeedback.showSnackBar(context, 'Đã thêm voucher thủ công vào ví');
+    AppFeedback.showSnackBar(
+      context,
+      AppLocalizations.of(context).manualVoucherSaved,
+    );
     Navigator.pop(context, true);
   }
 }

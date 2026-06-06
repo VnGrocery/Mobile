@@ -175,6 +175,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonSave => 'Save';
 
   @override
+  String get commonClose => 'Close';
+
+  @override
   String get commonDate => 'Date';
 
   @override
@@ -440,6 +443,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voucherWalletAddManualTooltip => 'Add manually';
+
+  @override
+  String get qrLabelTitle => 'Product QR code';
+
+  @override
+  String get qrLabelCopied => 'QR label content copied';
+
+  @override
+  String get qrLabelPrintTitle => 'Print QR label';
+
+  @override
+  String get qrLabelPrintBody =>
+      'The QR label has been queued for demo printing. Check the printer at the counter before attaching it to the product.';
+
+  @override
+  String get splashSubtitle => 'Check prices and products near you';
+
+  @override
+  String get splashFootnote => 'Data from store counters and the community';
 
   @override
   String voucherWalletUsableCount(Object count) {

@@ -7,6 +7,7 @@ import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_cubit.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_state.dart';
 import 'package:vngrocery/features/stores/widgets/store_detail_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -41,11 +42,12 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
       value: _storeCubit,
       child: BlocBuilder<StoreDetailCubit, StoreDetailState>(
         builder: (context, state) {
+          final l10n = AppLocalizations.of(context);
           final shop = state.shop;
           if (shop == null) {
             return Scaffold(
               backgroundColor: context.palette.appBackground,
-              appBar: AppBar(title: const Text('Chi tiết cửa hàng')),
+              appBar: AppBar(title: Text(l10n.storeDetailTitle)),
               body: const Center(child: CircularProgressIndicator()),
             );
           }
@@ -54,7 +56,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             key: ValueKey('store_detail.${shop.id}'),
             backgroundColor: context.palette.appBackground,
             appBar: AppBar(
-              title: const Text('Chi tiết cửa hàng'),
+              title: Text(l10n.storeDetailTitle),
               actions: [
                 IconButton(
                   onPressed: () => _shareShop(shop),
@@ -71,9 +73,9 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Sản phẩm mới kiểm tra',
-                        style: TextStyle(
+                      Text(
+                        l10n.storeDetailRecentCheckedProducts,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -105,7 +107,10 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
 
   void _shareShop(Shop shop) {
     Clipboard.setData(ClipboardData(text: _storeCubit.shareText(shop)));
-    AppFeedback.showSnackBar(context, 'Đã sao chép thông tin cửa hàng');
+    AppFeedback.showSnackBar(
+      context,
+      AppLocalizations.of(context).storeDetailCopied,
+    );
   }
 
   void _openLatestReceipt(StoreDetailState state) {
@@ -113,7 +118,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     if (latestProduct == null) {
       AppFeedback.showSnackBar(
         context,
-        'Cửa hàng chưa có biên lai sản phẩm',
+        AppLocalizations.of(context).storeDetailNoReceipt,
       );
       return;
     }
