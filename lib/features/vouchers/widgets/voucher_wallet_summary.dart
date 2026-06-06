@@ -14,11 +14,14 @@ class VoucherSummaryCard extends StatelessWidget {
     required this.total,
   });
 
+  static const selectorKey = ValueKey('voucher_wallet.summary_card');
+
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
     final l10n = AppLocalizations.of(context);
     return Container(
+      key: selectorKey,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: palette.positiveBg,
@@ -60,11 +63,14 @@ class VoucherSummaryCard extends StatelessWidget {
 class VoucherEmptyState extends StatelessWidget {
   const VoucherEmptyState({super.key});
 
+  static const selectorKey = ValueKey('voucher_wallet.empty_state');
+
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
     final l10n = AppLocalizations.of(context);
     return Container(
+      key: selectorKey,
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
         color: palette.card,
@@ -100,6 +106,8 @@ class VoucherWalletToolbar extends StatelessWidget {
     required this.onShowUsedChanged,
   });
 
+  static const selectorKey = ValueKey('voucher_wallet.show_used_filter');
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -112,6 +120,7 @@ class VoucherWalletToolbar extends StatelessWidget {
           ),
         ),
         FilterChip(
+          key: selectorKey,
           selected: showUsed,
           showCheckmark: false,
           label: Text(l10n.voucherWalletShowUsed),

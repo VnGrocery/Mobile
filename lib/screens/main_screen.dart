@@ -62,12 +62,14 @@ class _MainScreenState extends State<MainScreen> {
               ),
               if (_menuOpen)
                 SideMenuCloseOverlay(
+                  selectorKey: 'navigation.menu_close_overlay',
                   onTap: () => setState(() => _menuOpen = false),
                   onDragUpdate: _closeMenuFromDrag,
                   onDragEnd: _resetMenuDrag,
                 ),
               if (!_menuOpen)
                 SideMenuOpenDragHandle(
+                  selectorKey: 'navigation.menu_open_handle',
                   onDragUpdate: _openMenuFromDrag,
                   onDragEnd: _resetMenuDrag,
                 ),

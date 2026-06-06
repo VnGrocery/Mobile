@@ -33,6 +33,7 @@ class VoucherWalletCard extends StatelessWidget {
         userVoucher.isUsed || expired ? Colors.grey : AppColors.primaryGreen;
 
     return Material(
+      key: ValueKey('voucher_wallet.card.${userVoucher.id}'),
       color: palette.card,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(

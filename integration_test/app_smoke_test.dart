@@ -49,8 +49,38 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   Finder navTab(String key) => find.byKey(ValueKey('nav.tab.$key'));
-
+  Finder sideMenuRoute(String key) => find.byKey(ValueKey('account.route.$key'));
+  Finder sideMenuOpenHandle() =>
+      find.byKey(const ValueKey('navigation.menu_open_handle'));
+  Finder sideMenuCloseOverlay() =>
+      find.byKey(const ValueKey('navigation.menu_close_overlay'));
   Finder storeCard(String shopId) => find.byKey(ValueKey('store.card.$shopId'));
+  Finder voucherWalletCard(String userVoucherId) =>
+      find.byKey(ValueKey('voucher_wallet.card.$userVoucherId'));
+  Finder voucherWalletAddManualButton() =>
+      find.byKey(const ValueKey('voucher_wallet.add_manual_button'));
+  Finder manualVoucherTitleField() =>
+      find.byKey(const ValueKey('manual_voucher.title_field'));
+  Finder manualVoucherNoteField() =>
+      find.byKey(const ValueKey('manual_voucher.note_field'));
+  Finder manualVoucherCodeField() =>
+      find.byKey(const ValueKey('manual_voucher.code_field'));
+  Finder accountLogoutButton() =>
+      find.byKey(const ValueKey('account.logout_button'));
+  Finder accountLogoutConfirmButton() =>
+      find.byKey(const ValueKey('account.logout_dialog.confirm_button'));
+
+  Finder manualVoucherScanQrButton() =>
+      find.byKey(const ValueKey('manual_voucher.scan_qr_button'));
+  Finder manualVoucherSaveButton() =>
+      find.byKey(const ValueKey('manual_voucher.save_button'));
+  Finder voucherWalletSummaryCard() =>
+      find.byKey(const ValueKey('voucher_wallet.summary_card'));
+  Finder voucherWalletShowUsedFilter() =>
+      find.byKey(const ValueKey('voucher_wallet.show_used_filter'));
+  Finder voucherWalletEmptyState() =>
+      find.byKey(const ValueKey('voucher_wallet.empty_state'));
+
 
   Future<void> pumpSeconds(WidgetTester tester, int seconds) async {
     await pumpFor(tester, Duration(seconds: seconds));
@@ -163,6 +193,63 @@ void main() {
   );
 
   testWidgets(
+    'buyer can open voucher wallet from side menu and add manual voucher',
+    (tester) async {
+      await launchAsBuyer(tester);
+
+      await tester.drag(sideMenuOpenHandle(), const Offset(80, 0));
+      await tester.pump();
+      await pumpMillis(tester, 500);
+
+      expect(sideMenuRoute('wallet'), findsOneWidget);
+      await tester.tap(sideMenuRoute('wallet'));
+      await tester.pump();
+      await pumpMillis(tester, 500);
+
+      expect(voucherWalletSummaryCard(), findsOneWidget);
+      await tester.tap(voucherWalletAddManualButton());
+      await tester.pump();
+      await pumpMillis(tester, 500);
+
+      expect(manualVoucherScanQrButton(), findsOneWidget);
+      expect(manualVoucherCodeField(), findsOneWidget);
+      await tester.tap(manualVoucherScanQrButton());
+      await tester.pump();
+      await pumpMillis(tester, 200);
+
+      await tester.enterText(
+        manualVoucherTitleField(),
+        'Voucher smoke test',
+      );
+      await tester.enterText(
+        manualVoucherNoteField(),
+        'Lưu từ integration smoke',
+      );
+      await tester.tap(manualVoucherSaveButton());
+      await tester.pump();
+      await pumpMillis(tester, 500);
+
+      expect(voucherWalletCard('g2001'), findsOneWidget);
+      expect(voucherWalletEmptyState(), findsNothing);
+      await tester.tap(voucherWalletShowUsedFilter());
+      await tester.pump();
+      await pumpMillis(tester, 200);
+      expect(voucherWalletSummaryCard(), findsOneWidget);
+
+      await tester.drag(sideMenuOpenHandle(), const Offset(80, 0));
+      await tester.pump();
+      await pumpMillis(tester, 500);
+      expect(sideMenuCloseOverlay(), findsOneWidget);
+      await tester.tap(sideMenuCloseOverlay());
+      await tester.pump();
+      await pumpMillis(tester, 200);
+    },
+    skip:
+        defaultTargetPlatform != TargetPlatform.android &&
+        defaultTargetPlatform != TargetPlatform.iOS,
+  );
+
+  testWidgets(
     'buyer auth entry reaches main shell and can logout',
     (tester) async {
       await launchAsBuyer(tester);
@@ -171,17 +258,12 @@ void main() {
       await tester.pump();
       await pumpMillis(tester, 500);
 
-      await tester.tap(find.byKey(const ValueKey('account.logout_button')));
+      await tester.tap(accountLogoutButton());
       await tester.pump();
       await pumpMillis(tester, 200);
 
-      expect(
-        find.byKey(const ValueKey('account.logout_dialog.confirm_button')),
-        findsOneWidget,
-      );
-      await tester.tap(
-        find.byKey(const ValueKey('account.logout_dialog.confirm_button')),
-      );
+      expect(accountLogoutConfirmButton(), findsOneWidget);
+      await tester.tap(accountLogoutConfirmButton());
       await tester.pump();
       await pumpSeconds(tester, 1);
 

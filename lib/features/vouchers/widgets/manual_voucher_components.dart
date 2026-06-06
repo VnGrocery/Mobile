@@ -59,6 +59,7 @@ class ManualVoucherScanActions extends StatelessWidget {
       children: [
         Expanded(
           child: OutlinedButton.icon(
+            key: const ValueKey('manual_voucher.scan_qr_button'),
             onPressed: () => onScanDemo('QR'),
             icon: const Icon(Icons.qr_code_scanner),
             label: const Text('Quét QR'),
@@ -67,6 +68,7 @@ class ManualVoucherScanActions extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: OutlinedButton.icon(
+            key: const ValueKey('manual_voucher.scan_barcode_button'),
             onPressed: () => onScanDemo('Mã vạch'),
             icon: const Icon(Icons.document_scanner),
             label: const Text('Quét mã vạch'),
