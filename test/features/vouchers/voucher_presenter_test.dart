@@ -5,25 +5,6 @@ import 'package:vngrocery/features/vouchers/voucher_presenter.dart';
 
 void main() {
   group('VoucherPresenter', () {
-    test('visibleWallet filters used items unless explicitly shown', () {
-      final wallet = [
-        UserVoucher(
-          id: 'uv-1',
-          userEmail: 'demo@vngrocery.com',
-          voucherId: 'v1',
-        ),
-        UserVoucher(
-          id: 'uv-2',
-          userEmail: 'demo@vngrocery.com',
-          voucherId: 'v2',
-        )..used = true,
-      ];
-
-      expect(VoucherPresenter.visibleWallet(wallet, showUsed: false), [wallet.first]);
-      expect(VoucherPresenter.visibleWallet(wallet, showUsed: true), wallet);
-      expect(VoucherPresenter.usableCount(wallet), 1);
-    });
-
     test('labels and payload reflect voucher type and state', () {
       final manual = Voucher(
         id: 'v-manual',

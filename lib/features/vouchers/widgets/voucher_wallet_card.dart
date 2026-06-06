@@ -11,19 +11,22 @@ import 'voucher_components.dart';
 class VoucherWalletCard extends StatelessWidget {
   final UserVoucher userVoucher;
   final Voucher voucher;
+  final Shop? shop;
   final VoidCallback onChanged;
 
   const VoucherWalletCard({
     super.key,
     required this.userVoucher,
     required this.voucher,
+    required this.shop,
     required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    final shop = VoucherPresenter.shop(voucher.shopId);
     final palette = context.palette;
+    final l10n = AppLocalizations.of(context);
+    final shopName = shop?.name ?? l10n.cartUnavailableShopName;
     final expired = VoucherPresenter.isExpired(voucher);
     final disabled = VoucherPresenter.isDisabled(userVoucher, voucher);
     final statusColor =
@@ -52,7 +55,7 @@ class VoucherWalletCard extends StatelessWidget {
               VoucherWalletHeader(
                 userVoucher: userVoucher,
                 voucher: voucher,
-                shop: shop,
+                shopName: shopName,
                 disabled: disabled,
                 statusColor: statusColor,
               ),
@@ -97,7 +100,7 @@ class VoucherWalletCard extends StatelessWidget {
 class VoucherWalletHeader extends StatelessWidget {
   final UserVoucher userVoucher;
   final Voucher voucher;
-  final Shop shop;
+  final String shopName;
   final bool disabled;
   final Color statusColor;
 
@@ -105,7 +108,7 @@ class VoucherWalletHeader extends StatelessWidget {
     super.key,
     required this.userVoucher,
     required this.voucher,
-    required this.shop,
+    required this.shopName,
     required this.disabled,
     required this.statusColor,
   });
@@ -137,7 +140,7 @@ class VoucherWalletHeader extends StatelessWidget {
                 ),
               ),
               Text(
-                shop.name,
+                shopName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

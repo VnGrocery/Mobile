@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/vouchers/controllers/voucher_wallet_cubit.dart';
 import 'package:vngrocery/features/vouchers/controllers/voucher_wallet_state.dart';
-import 'package:vngrocery/features/vouchers/voucher_presenter.dart';
 import 'package:vngrocery/features/vouchers/widgets/voucher_wallet_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -74,14 +73,16 @@ class _VoucherWalletScreenState extends State<VoucherWalletScreen> {
                   const VoucherEmptyState()
                 else
                   for (final item in visibleWallet)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: VoucherWalletCard(
-                        userVoucher: item,
-                        voucher: VoucherPresenter.voucher(item.voucherId),
-                        onChanged: _walletCubit.load,
+                    if (state.voucherOrNull(item.voucherId) case final voucher?)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: VoucherWalletCard(
+                          userVoucher: item,
+                          voucher: voucher,
+                          shop: state.shopOrNull(voucher.shopId),
+                          onChanged: _walletCubit.load,
+                        ),
                       ),
-                    ),
               ],
             );
           },

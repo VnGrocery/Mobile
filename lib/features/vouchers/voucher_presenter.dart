@@ -1,65 +1,16 @@
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/data/data_hooks.dart';
+import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/utils/format.dart';
 
 class VoucherPresenter {
   const VoucherPresenter._();
 
-  static final AppDataHooks _data = AppDataHooks.instance;
-
-  static List<UserVoucher> wallet(String userEmail) {
-    return _data.getUserVouchers(userEmail);
-  }
-
-  static List<UserVoucher> visibleWallet(
-    List<UserVoucher> wallet, {
-    required bool showUsed,
+  static bool useUserVoucher(
+    String userVoucherId, {
+    AppRepositories? repositories,
   }) {
-    return wallet.where((item) => showUsed || !item.isUsed).toList();
-  }
-
-  static int usableCount(List<UserVoucher> wallet) {
-    return wallet.where((item) => !item.isUsed).length;
-  }
-
-  static Voucher voucher(String voucherId) {
-    return _data.getVoucher(voucherId);
-  }
-
-  static UserVoucher userVoucher(String userVoucherId) {
-    return _data.getUserVoucher(userVoucherId);
-  }
-
-  static Shop shop(String shopId) {
-    return _data.getShop(shopId);
-  }
-
-  static bool useUserVoucher(String userVoucherId) {
-    return _data.useUserVoucher(userVoucherId);
-  }
-
-  static List<Shop> shops() {
-    return _data.getShops();
-  }
-
-  static UserVoucher addManualVoucher({
-    required String userEmail,
-    required String shopId,
-    required String code,
-    required String title,
-    required String note,
-    required String codeFormat,
-    required DateTime expiresAt,
-  }) {
-    return _data.addManualVoucherToWallet(
-      userEmail: userEmail,
-      shopId: shopId,
-      code: code,
-      title: title,
-      note: note,
-      codeFormat: codeFormat,
-      expiresAt: expiresAt,
-    );
+    final repos = repositories ?? AppRepositories.instance;
+    return repos.vouchers.useUserVoucher(userVoucherId);
   }
 
   static bool isExpired(Voucher voucher, {DateTime? now}) {
