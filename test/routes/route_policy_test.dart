@@ -72,6 +72,34 @@ void main() {
       }
     });
 
+    test('gates buyer review route away from sellers', () {
+      expect(RoutePolicy.accessFor(Routes.review), RouteAccess.buyer);
+      expect(
+        RoutePolicy.canOpen(
+          routeName: Routes.review,
+          isLoggedIn: false,
+          isSeller: false,
+        ),
+        isFalse,
+      );
+      expect(
+        RoutePolicy.canOpen(
+          routeName: Routes.review,
+          isLoggedIn: true,
+          isSeller: false,
+        ),
+        isTrue,
+      );
+      expect(
+        RoutePolicy.canOpen(
+          routeName: Routes.review,
+          isLoggedIn: true,
+          isSeller: true,
+        ),
+        isFalse,
+      );
+    });
+
   });
 
   group('Routes', () {
@@ -114,6 +142,44 @@ void main() {
       );
 
       expect(route.settings.name, Routes.main);
+    });
+
+    test('redirects seller sessions away from buyer review route', () {
+      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+
+      final route = Routes.onGenerateRoute(
+        const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
+      );
+
+      expect(route.settings.name, Routes.main);
+    });
+
+    test('accepts buyer review route with typed args', () {
+      SessionManager.instance.login(email: 'buyer@example.com');
+
+      final route = Routes.onGenerateRoute(
+        const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
+      );
+
+      expect(route.settings.name, Routes.review);
+    });
+
+    test('redirects logged-out review route to auth', () {
+      final route = Routes.onGenerateRoute(
+        const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
+      );
+
+      expect(route.settings.name, Routes.auth);
+    });
+
+    test('seller shop route derives session shop when args are missing', () {
+      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+
+      final route = Routes.onGenerateRoute(
+        const RouteSettings(name: Routes.sellerShop),
+      );
+
+      expect(route.settings.name, Routes.sellerShop);
     });
 
     test('falls back to main when required string arg is missing', () {

@@ -1,6 +1,7 @@
 enum RouteAccess {
   public,
   authenticated,
+  buyer,
   seller,
 }
 
@@ -11,6 +12,10 @@ class RoutePolicy {
     'splash',
     'onboarding',
     'auth',
+  };
+
+  static const buyerRoutes = {
+    'review',
   };
 
   static const sellerRoutes = {
@@ -24,6 +29,7 @@ class RoutePolicy {
 
   static RouteAccess accessFor(String? routeName) {
     if (publicRoutes.contains(routeName)) return RouteAccess.public;
+    if (buyerRoutes.contains(routeName)) return RouteAccess.buyer;
     if (sellerRoutes.contains(routeName)) return RouteAccess.seller;
     return RouteAccess.authenticated;
   }
@@ -38,6 +44,8 @@ class RoutePolicy {
         return true;
       case RouteAccess.authenticated:
         return isLoggedIn;
+      case RouteAccess.buyer:
+        return isLoggedIn && !isSeller;
       case RouteAccess.seller:
         return isLoggedIn && isSeller;
     }

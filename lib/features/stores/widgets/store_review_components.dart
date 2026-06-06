@@ -69,11 +69,13 @@ class StoreReviewItem extends StatelessWidget {
 class StoreReviewList extends StatelessWidget {
   final String shopId;
   final List<Review> reviews;
+  final bool canWriteReview;
 
   const StoreReviewList({
     super.key,
     required this.shopId,
     required this.reviews,
+    required this.canWriteReview,
   });
 
   @override
@@ -81,20 +83,21 @@ class StoreReviewList extends StatelessWidget {
     return Column(
       children: [
         for (final review in reviews) StoreReviewItem(review: review),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: () => Navigator.pushNamed(
-                context,
-                Routes.review,
-                arguments: StoreDetailArgs(shopId),
+        if (canWriteReview)
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  Routes.review,
+                  arguments: StoreDetailArgs(shopId),
+                ),
+                child: Text(AppLocalizations.of(context).storeDetailWriteReview),
               ),
-              child: Text(AppLocalizations.of(context).storeDetailWriteReview),
             ),
           ),
-        ),
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_cubit.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_state.dart';
 import 'package:vngrocery/features/stores/widgets/store_detail_components.dart';
@@ -95,7 +96,11 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                   StoreProductList(products: state.products)
                 else
                   StoreReviewList(
-                      shopId: widget.shopId, reviews: state.reviews),
+                    shopId: widget.shopId,
+                    reviews: state.reviews,
+                    canWriteReview:
+                        !context.watch<SessionCubit>().state.isSeller,
+                  ),
                 const SizedBox(height: 80),
               ],
             ),
@@ -119,6 +124,23 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   }
 
   void _openLatestReceipt(StoreDetailState state) {
+    if (context.read<SessionCubit>().state.isSeller) {
+      final latestProduct = state.latestProduct;
+      if (latestProduct == null) {
+        AppFeedback.showSnackBar(
+          context,
+          AppLocalizations.of(context).storeDetailNoReceipt,
+        );
+        return;
+      }
+      Navigator.pushNamed(
+        context,
+        Routes.pledgeHistory,
+        arguments: SellerProductArgs(latestProduct.id),
+      );
+      return;
+    }
+
     final latestProduct = state.latestProduct;
     if (latestProduct == null) {
       AppFeedback.showSnackBar(
@@ -129,8 +151,11 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     }
     Navigator.pushNamed(
       context,
-      Routes.pledgeHistory,
-      arguments: SellerProductArgs(latestProduct.id),
+      Routes.productDetail,
+      arguments: ProductDetailArgs(
+        shopId: widget.shopId,
+        productId: latestProduct.id,
+      ),
     );
   }
 }

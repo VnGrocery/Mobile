@@ -230,6 +230,21 @@ class Routes {
         page = SellerCreatePledgeScreen(productId: productArgs.productId);
         break;
       case sellerShop:
+        final shopArgs = _singleStringRouteArg(
+              args,
+              typed: (value) => value,
+              aliases: [
+                (value) => value is StoreDetailArgs
+                    ? SellerShopArgs(value.shopId)
+                    : null,
+              ],
+              fromString: SellerShopArgs.new,
+              empty: session.shopId == null
+                  ? null
+                  : SellerShopArgs(session.shopId!),
+            ) ??
+            (session.shopId == null ? null : SellerShopArgs(session.shopId!));
+        if (shopArgs == null) return _fallbackRoute(settings);
         page = const SellerShopScreen();
         break;
       case pledgeHistory:
@@ -294,10 +309,12 @@ class Routes {
     required T? Function(T value) typed,
     required T Function(String value) fromString,
     List<T? Function(Object? value)> aliases = const [],
+    T? empty,
   }) {
     return _routeArgs<T>(
       value,
       typed: typed,
+      empty: empty,
       fallback: (raw) {
         for (final alias in aliases) {
           final resolved = alias(raw);
