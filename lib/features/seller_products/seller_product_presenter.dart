@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:vngrocery/data/data_hooks.dart';
-import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerProductPresenter {
   const SellerProductPresenter._();
-
-  static final AppDataHooks _data = AppDataHooks.instance;
 
   static const allState = 'all';
   static const draftState = 'Draft';
@@ -96,38 +92,4 @@ class SellerProductPresenter {
         .toList();
   }
 
-  static List<Product> filteredProducts({
-    required String shopId,
-    required String state,
-  }) {
-    final all = _data.getProducts(shopId: shopId);
-    if (state == allState) return all;
-    return all.where((product) => product.status == state).toList();
-  }
-
-  static Product addProduct({
-    required String shopId,
-    required String name,
-    required String description,
-    required String category,
-    required bool hasImage,
-    required String price,
-    required String tags,
-    required AppLocalizations l10n,
-  }) {
-    final product = Product(
-      id: _data.nextId(),
-      shopId: shopId,
-      name: name.trim(),
-      description: description.trim(),
-      category: category,
-      freshnessScore: 80,
-      freshnessNote: freshnessNote(hasImage, l10n),
-      price: parsePrice(price),
-      tags: parseTags(tags),
-      status: 'Draft',
-    );
-    _data.addProduct(product);
-    return product;
-  }
 }
