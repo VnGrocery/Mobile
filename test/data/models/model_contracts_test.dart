@@ -52,6 +52,34 @@ void main() {
         );
         expect(json['tags'], isA<List<String>>());
       }
+
+      final coercedTags = Product.fromJson({
+        'id': 'p-test',
+        'shopId': 's-test',
+        'name': 'N',
+        'description': 'D',
+        'category': 'C',
+        'freshnessScore': 90,
+        'freshnessNote': 'F',
+        'price': 1,
+        'tags': ['fresh', 1, null, 'clean'],
+        'status': 'Published',
+      });
+      expect(coercedTags.tags, ['fresh', 'clean']);
+
+      final nonListTags = Product.fromJson({
+        'id': 'p-test-2',
+        'shopId': 's-test',
+        'name': 'N',
+        'description': 'D',
+        'category': 'C',
+        'freshnessScore': 90,
+        'freshnessNote': 'F',
+        'price': 1,
+        'tags': 'fresh,clean',
+        'status': 'Published',
+      });
+      expect(nonListTags.tags, isEmpty);
     });
 
     test('parses grouped reviews with stable keys', () {
@@ -116,6 +144,36 @@ void main() {
         expect(json['note'], isA<String>());
         expect(json['codeFormat'], isA<String>());
       }
+
+      final minimal = Voucher.fromJson({
+        'id': 'v-test',
+        'code': 'TEST',
+        'title': 'T',
+        'shopId': 's-test',
+        'discountValue': 10,
+        'isPercent': true,
+        'minSpend': 0,
+        'expiresAt': '2026-06-01T00:00:00Z',
+      });
+      expect(minimal.isActive, isTrue);
+      expect(minimal.isManual, isFalse);
+      expect(minimal.note, isEmpty);
+      expect(minimal.codeFormat, 'QR');
+
+      final invalidDate = Voucher.fromJson({
+        'id': 'v-invalid',
+        'code': 'BADDATE',
+        'title': 'T',
+        'shopId': 's-test',
+        'discountValue': 10,
+        'isPercent': true,
+        'minSpend': 0,
+        'expiresAt': 'not-a-date',
+      });
+      expect(
+        invalidDate.expiresAt,
+        DateTime.fromMillisecondsSinceEpoch(0),
+      );
     });
 
     test('parses user vouchers and emits nullable ISO usedAt', () {
@@ -137,6 +195,17 @@ void main() {
       });
       expect(minimal.isUsed, isFalse);
       expect(minimal.usedAt, isNull);
+
+      final invalidDate = UserVoucher.fromJson({
+        'id': 'uv-invalid',
+        'userEmail': 'demo@example.com',
+        'voucherId': 'v-test',
+        'usedAt': 'not-a-date',
+      });
+      expect(
+        invalidDate.usedAt,
+        DateTime.fromMillisecondsSinceEpoch(0),
+      );
     });
 
     test('parses last buyer check', () {
@@ -168,6 +237,21 @@ void main() {
 
       expect(
         () => Shop.fromJson({'id': 's-test', 'name': 'N'}),
+        throwsA(isA<TypeError>()),
+      );
+
+      expect(
+        () => Voucher.fromJson({'id': 'v-test'}),
+        throwsA(isA<TypeError>()),
+      );
+
+      expect(
+        () => UserVoucher.fromJson({'id': 'uv-test'}),
+        throwsA(isA<TypeError>()),
+      );
+
+      expect(
+        () => BuyerCheckResult.fromJson({'actualScore': 90}),
         throwsA(isA<TypeError>()),
       );
     });

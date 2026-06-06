@@ -113,8 +113,9 @@ Quan hệ chính:
 
 ### Mock backend JSON contract
 
-`lib/data/mock_json_data.dart` mô phỏng payload backend. Top-level keys app cần:
+`lib/data/mock_json_data.dart` mô phỏng payload backend. Top-level keys app dùng hiện tại:
 
+- `demoShopId`
 - `shops`
 - `products`
 - `reviewsByShop`
@@ -131,7 +132,8 @@ Required/default theo model:
 - `Shop`: required `id`, `name`, `address`, `rating`, `reviewCount`,
   `description`; optional `logoUrl`.
 - `Product`: required `id`, `shopId`, `name`, `description`, `category`,
-  `freshnessScore`, `freshnessNote`, `price`, `tags`, `status`.
+  `freshnessScore`, `freshnessNote`, `price`, `tags`, `status`. `tags` chỉ giữ
+  phần tử kiểu `String`; giá trị không phải list fallback về `[]`.
 - `Review`: required `id`, `userName`, `rating`, `comment`, `date`.
 - `PledgeHistoryItem`: required `time`, `title`, `description`, `isVerified`;
   defaults `hasProof=false`, `proofId=''`.
@@ -142,8 +144,10 @@ Required/default theo model:
   `used=false`, `usedAt=null`.
 - `BuyerCheckResult`: required `actualScore`, `locationStatus`, `verdict`.
 
-Date input hỗ trợ `DateTime`, epoch ms hoặc ISO-8601 string; giá trị invalid/null
-fallback về `1970-01-01`. Contract tests: `flutter test test/data`.
+Date input hỗ trợ `DateTime`, epoch ms hoặc ISO-8601 string; giá trị invalid
+fallback về `1970-01-01`. `UserVoucher.usedAt` giữ `null` nếu field vắng mặt,
+chỉ fallback epoch khi field có mặt nhưng parse lỗi. Contract tests:
+`flutter test test/data`.
 
 ## Localization
 
