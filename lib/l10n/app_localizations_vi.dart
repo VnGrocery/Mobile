@@ -508,6 +508,78 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerProductAddPledgeShort => 'Thêm ghi nhận';
 
   @override
+  String get sellerPledgeCategoryBeef => 'Thịt bò';
+
+  @override
+  String get sellerPledgeCategoryPork => 'Thịt lợn';
+
+  @override
+  String get sellerPledgeCategoryChicken => 'Thịt gà';
+
+  @override
+  String get sellerPledgeCategorySeafood => 'Hải sản';
+
+  @override
+  String get sellerPledgeCategoryOther => 'Khác';
+
+  @override
+  String get sellerPledgeStepCapture => 'Bước 1: Chụp ảnh hàng';
+
+  @override
+  String get sellerPledgeStepEvaluate => 'Bước 2: Chấm điểm sản phẩm';
+
+  @override
+  String get sellerPledgeStepConfirm => 'Bước 3: Xác nhận ghi nhận';
+
+  @override
+  String get sellerPledgeRecordTimeJustNow => 'Vừa xong';
+
+  @override
+  String get sellerPledgeRecordTitle => 'Người bán thêm ghi nhận mới';
+
+  @override
+  String sellerPledgeRecordDescription(Object score, Object category) {
+    return 'Điểm đánh giá $score/10 cho loại: $category.';
+  }
+
+  @override
+  String get sellerPledgeCameraPreview => 'Xem trước camera';
+
+  @override
+  String get sellerPledgeCaptureAction => 'Chụp ảnh hàng hóa';
+
+  @override
+  String get sellerPledgeSuggestedScoreTitle => 'ĐIỂM GỢI Ý TỪ ẢNH';
+
+  @override
+  String get sellerPledgeSellerScoreTitle => 'ĐIỂM NGƯỜI BÁN NHẬP';
+
+  @override
+  String get sellerPledgeSellerScoreLabel => 'Nhập điểm đánh giá (0-10)';
+
+  @override
+  String get sellerPledgeContinueConfirm => 'Tiếp tục xác nhận';
+
+  @override
+  String sellerPledgeCategoryValue(Object category) {
+    return 'Loại: $category';
+  }
+
+  @override
+  String get sellerPledgeRecordContentTitle => 'NỘI DUNG GHI NHẬN';
+
+  @override
+  String sellerPledgeRecordPreview(Object score) {
+    return 'Tôi ghi nhận sản phẩm tại quầy với điểm đánh giá $score.';
+  }
+
+  @override
+  String get sellerPledgeConfirmSave => 'Xác nhận & lưu ghi nhận';
+
+  @override
+  String get sellerPledgeSaved => 'Đã lưu ghi nhận sản phẩm.';
+
+  @override
   String get accountExploreStores => 'Khám phá cửa hàng';
 
   @override

@@ -6,6 +6,7 @@ import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_cubi
 import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_state.dart';
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
 import 'package:vngrocery/features/seller_pledges/widgets/seller_pledge_steps.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerCreatePledgeScreen extends StatefulWidget {
@@ -39,6 +40,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocProvider.value(
       value: _pledgeCubit,
       child: BlocBuilder<SellerPledgeCubit, SellerPledgeState>(
@@ -46,7 +48,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
           return Scaffold(
             backgroundColor: context.palette.appBackground,
             appBar: AppBar(
-              title: Text(SellerPledgePresenter.titleForStep(state.step)),
+              title: Text(SellerPledgePresenter.titleForStep(state.step, l10n)),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () => _back(state),
@@ -90,9 +92,10 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   }
 
   Future<void> _commit() async {
-    await _pledgeCubit.commit(_sellerScore.text);
+    final l10n = AppLocalizations.of(context);
+    await _pledgeCubit.commit(_sellerScore.text, l10n);
     if (!mounted) return;
-    AppFeedback.showSnackBar(context, 'Đã lưu ghi nhận sản phẩm.');
+    AppFeedback.showSnackBar(context, l10n.sellerPledgeSaved);
     Navigator.pop(context);
   }
 }

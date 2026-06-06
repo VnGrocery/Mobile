@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 class SellerPledgeCaptureStep extends StatelessWidget {
   final bool analyzing;
   final VoidCallback onCapture;
@@ -12,6 +14,7 @@ class SellerPledgeCaptureStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -21,10 +24,10 @@ class SellerPledgeCaptureStep extends StatelessWidget {
             color: Colors.black,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
-              'Camera Preview',
-              style: TextStyle(color: Color(0xFF555555)),
+              l10n.sellerPledgeCameraPreview,
+              style: const TextStyle(color: Color(0xFF555555)),
             ),
           ),
         ),
@@ -42,14 +45,14 @@ class SellerPledgeCaptureStep extends StatelessWidget {
                       strokeWidth: 2.5,
                     ),
                   )
-                : const Row(
+                : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.photo_camera),
-                      SizedBox(width: 12),
+                      const Icon(Icons.photo_camera),
+                      const SizedBox(width: 12),
                       Text(
-                        'Chụp ảnh hàng hóa',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        l10n.sellerPledgeCaptureAction,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

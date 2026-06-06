@@ -1046,6 +1046,138 @@ abstract class AppLocalizations {
   /// **'Add pledge'**
   String get sellerProductAddPledgeShort;
 
+  /// No description provided for @sellerPledgeCategoryBeef.
+  ///
+  /// In en, this message translates to:
+  /// **'Beef'**
+  String get sellerPledgeCategoryBeef;
+
+  /// No description provided for @sellerPledgeCategoryPork.
+  ///
+  /// In en, this message translates to:
+  /// **'Pork'**
+  String get sellerPledgeCategoryPork;
+
+  /// No description provided for @sellerPledgeCategoryChicken.
+  ///
+  /// In en, this message translates to:
+  /// **'Chicken'**
+  String get sellerPledgeCategoryChicken;
+
+  /// No description provided for @sellerPledgeCategorySeafood.
+  ///
+  /// In en, this message translates to:
+  /// **'Seafood'**
+  String get sellerPledgeCategorySeafood;
+
+  /// No description provided for @sellerPledgeCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get sellerPledgeCategoryOther;
+
+  /// No description provided for @sellerPledgeStepCapture.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 1: Capture product photo'**
+  String get sellerPledgeStepCapture;
+
+  /// No description provided for @sellerPledgeStepEvaluate.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 2: Evaluate product'**
+  String get sellerPledgeStepEvaluate;
+
+  /// No description provided for @sellerPledgeStepConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 3: Confirm pledge'**
+  String get sellerPledgeStepConfirm;
+
+  /// No description provided for @sellerPledgeRecordTimeJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get sellerPledgeRecordTimeJustNow;
+
+  /// No description provided for @sellerPledgeRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller added a new pledge'**
+  String get sellerPledgeRecordTitle;
+
+  /// No description provided for @sellerPledgeRecordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Score {score}/10 for category: {category}.'**
+  String sellerPledgeRecordDescription(Object score, Object category);
+
+  /// No description provided for @sellerPledgeCameraPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera preview'**
+  String get sellerPledgeCameraPreview;
+
+  /// No description provided for @sellerPledgeCaptureAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture product photo'**
+  String get sellerPledgeCaptureAction;
+
+  /// No description provided for @sellerPledgeSuggestedScoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SUGGESTED SCORE FROM IMAGE'**
+  String get sellerPledgeSuggestedScoreTitle;
+
+  /// No description provided for @sellerPledgeSellerScoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SELLER SCORE'**
+  String get sellerPledgeSellerScoreTitle;
+
+  /// No description provided for @sellerPledgeSellerScoreLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter score (0-10)'**
+  String get sellerPledgeSellerScoreLabel;
+
+  /// No description provided for @sellerPledgeContinueConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to confirm'**
+  String get sellerPledgeContinueConfirm;
+
+  /// No description provided for @sellerPledgeCategoryValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Category: {category}'**
+  String sellerPledgeCategoryValue(Object category);
+
+  /// No description provided for @sellerPledgeRecordContentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PLEDGE CONTENT'**
+  String get sellerPledgeRecordContentTitle;
+
+  /// No description provided for @sellerPledgeRecordPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'I recorded this product at the counter with a score of {score}.'**
+  String sellerPledgeRecordPreview(Object score);
+
+  /// No description provided for @sellerPledgeConfirmSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & save pledge'**
+  String get sellerPledgeConfirmSave;
+
+  /// No description provided for @sellerPledgeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Product pledge saved.'**
+  String get sellerPledgeSaved;
+
   /// No description provided for @accountExploreStores.
   ///
   /// In en, this message translates to:

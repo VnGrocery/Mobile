@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class SellerPledgeConfirmStep extends StatelessWidget {
@@ -16,6 +17,7 @@ class SellerPledgeConfirmStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -29,18 +31,16 @@ class SellerPledgeConfirmStep extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'NỘI DUNG GHI NHẬN',
-                style: TextStyle(
+              Text(
+                l10n.sellerPledgeRecordContentTitle,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppColors.meatRed,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  'Tôi ghi nhận sản phẩm tại quầy với điểm đánh giá $score.',
-                ),
+                child: Text(l10n.sellerPledgeRecordPreview(score)),
               ),
             ],
           ),
@@ -59,9 +59,9 @@ class SellerPledgeConfirmStep extends StatelessWidget {
                       strokeWidth: 2.5,
                     ),
                   )
-                : const Text(
-                    'Xác nhận & lưu ghi nhận',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                : Text(
+                    l10n.sellerPledgeConfirmSave,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
           ),
         ),

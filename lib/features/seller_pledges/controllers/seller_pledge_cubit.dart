@@ -4,6 +4,7 @@ import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'seller_pledge_state.dart';
 
 class SellerPledgeCubit extends Cubit<SellerPledgeState> {
@@ -39,7 +40,7 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
     emit(state.copyWith(step: 3, committed: false));
   }
 
-  Future<void> commit(String rawScore) async {
+  Future<void> commit(String rawScore, AppLocalizations l10n) async {
     if (state.committing) return;
     emit(state.copyWith(committing: true, committed: false));
     await _delayService.wait(AppDelayKind.pledgeCommit);
@@ -47,9 +48,13 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
     _repositories.pledges.add(
       productId,
       PledgeHistoryItem(
-        time: 'Vừa xong',
-        title: 'Người bán thêm ghi nhận mới',
-        description: 'Điểm đánh giá $score/10 cho loại: ${state.category}.',
+        time: l10n.sellerPledgeRecordTimeJustNow,
+        title: l10n.sellerPledgeRecordTitle,
+        description: SellerPledgePresenter.recordDescription(
+          score: score,
+          category: state.category,
+          l10n: l10n,
+        ),
         isVerified: true,
         hasProof: true,
         proofId: _repositories.ids.nextId(),

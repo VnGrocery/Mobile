@@ -1,7 +1,11 @@
-import 'package:vngrocery/core/services/app_delay_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_cubit.dart';
+import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 void main() {
   test('SellerPledgeCubit advances capture flow to evaluate step', () async {
@@ -18,7 +22,22 @@ void main() {
     cubit.close();
   });
 
-  test('SellerPledgeCubit commits pledge history item', () async {
+  testWidgets('SellerPledgeCubit commits pledge history item', (tester) async {
+    late AppLocalizations l10n;
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('vi'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Builder(
+          builder: (context) {
+            l10n = AppLocalizations.of(context);
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
+
     final productId = AppRepositories.instance.products.all().first.id;
     final before = AppRepositories.instance.pledges.ofProduct(productId).length;
     final cubit = SellerPledgeCubit(
@@ -26,8 +45,8 @@ void main() {
       delayService: const NoopAppDelayService(),
     );
 
-    cubit.setCategory('Khác');
-    await cubit.commit('9.1');
+    cubit.setCategory(SellerPledgePresenter.otherCategory);
+    await cubit.commit('9.1', l10n);
 
     final after = AppRepositories.instance.pledges.ofProduct(productId);
     expect(after.length, before + 1);

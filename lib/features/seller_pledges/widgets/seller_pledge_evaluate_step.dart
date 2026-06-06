@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
-import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
 
 class SellerPledgeEvaluateStep extends StatelessWidget {
   final double aiScore;
@@ -22,6 +23,7 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,9 +37,9 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                const Text(
-                  'ĐIỂM GỢI Ý TỪ ẢNH',
-                  style: TextStyle(
+                Text(
+                  l10n.sellerPledgeSuggestedScoreTitle,
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey,
@@ -60,16 +62,16 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        const Text(
-          'ĐIỂM NGƯỜI BÁN NHẬP',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        Text(
+          l10n.sellerPledgeSellerScoreTitle,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
         ),
         const SizedBox(height: 8),
         TextField(
           controller: sellerScore,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          decoration: const InputDecoration(
-            labelText: 'Nhập điểm đánh giá (0-10)',
+          decoration: InputDecoration(
+            labelText: l10n.sellerPledgeSellerScoreLabel,
           ),
         ),
         const SizedBox(height: 32),
@@ -78,9 +80,9 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
           height: 56,
           child: FilledButton(
             onPressed: onContinue,
-            child: const Text(
-              'Tiếp tục xác nhận',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            child: Text(
+              l10n.sellerPledgeContinueConfirm,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -101,12 +103,16 @@ class SellerPledgeCategoryPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return PopupMenuButton<String>(
       onSelected: onChanged,
       itemBuilder: (_) => SellerPledgePresenter.categories
           .map(
-            (category) => PopupMenuItem(value: category, child: Text(category)),
+            (category) => PopupMenuItem(
+              value: category,
+              child: Text(SellerPledgePresenter.categoryLabel(category, l10n)),
+            ),
           )
           .toList(),
       child: Container(
@@ -119,7 +125,9 @@ class SellerPledgeCategoryPill extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Loại: $category',
+              l10n.sellerPledgeCategoryValue(
+                SellerPledgePresenter.categoryLabel(category, l10n),
+              ),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const Icon(Icons.arrow_drop_down),

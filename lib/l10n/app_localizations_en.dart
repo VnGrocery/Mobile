@@ -510,6 +510,78 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerProductAddPledgeShort => 'Add pledge';
 
   @override
+  String get sellerPledgeCategoryBeef => 'Beef';
+
+  @override
+  String get sellerPledgeCategoryPork => 'Pork';
+
+  @override
+  String get sellerPledgeCategoryChicken => 'Chicken';
+
+  @override
+  String get sellerPledgeCategorySeafood => 'Seafood';
+
+  @override
+  String get sellerPledgeCategoryOther => 'Other';
+
+  @override
+  String get sellerPledgeStepCapture => 'Step 1: Capture product photo';
+
+  @override
+  String get sellerPledgeStepEvaluate => 'Step 2: Evaluate product';
+
+  @override
+  String get sellerPledgeStepConfirm => 'Step 3: Confirm pledge';
+
+  @override
+  String get sellerPledgeRecordTimeJustNow => 'Just now';
+
+  @override
+  String get sellerPledgeRecordTitle => 'Seller added a new pledge';
+
+  @override
+  String sellerPledgeRecordDescription(Object score, Object category) {
+    return 'Score $score/10 for category: $category.';
+  }
+
+  @override
+  String get sellerPledgeCameraPreview => 'Camera preview';
+
+  @override
+  String get sellerPledgeCaptureAction => 'Capture product photo';
+
+  @override
+  String get sellerPledgeSuggestedScoreTitle => 'SUGGESTED SCORE FROM IMAGE';
+
+  @override
+  String get sellerPledgeSellerScoreTitle => 'SELLER SCORE';
+
+  @override
+  String get sellerPledgeSellerScoreLabel => 'Enter score (0-10)';
+
+  @override
+  String get sellerPledgeContinueConfirm => 'Continue to confirm';
+
+  @override
+  String sellerPledgeCategoryValue(Object category) {
+    return 'Category: $category';
+  }
+
+  @override
+  String get sellerPledgeRecordContentTitle => 'PLEDGE CONTENT';
+
+  @override
+  String sellerPledgeRecordPreview(Object score) {
+    return 'I recorded this product at the counter with a score of $score.';
+  }
+
+  @override
+  String get sellerPledgeConfirmSave => 'Confirm & save pledge';
+
+  @override
+  String get sellerPledgeSaved => 'Product pledge saved.';
+
+  @override
   String get accountExploreStores => 'Explore stores';
 
   @override
