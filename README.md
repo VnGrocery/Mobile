@@ -16,7 +16,7 @@
   - Quản lý sản phẩm.
   - Tạo cam kết chất lượng.
   - Quản lý thông tin cửa hàng.
-- Toàn bộ dữ liệu đang chạy bằng mock JSON qua `MockDb` → repositories → `AppDataHooks`.
+- Toàn bộ dữ liệu đang chạy bằng mock JSON qua `MockDb` → repositories; `AppDataHooks` hiện vẫn tồn tại như UI façade/seam legacy ở một số presenter/widget.
 
 ## Công nghệ
 
@@ -26,8 +26,8 @@
 
 ## Cấu trúc thư mục
 
-- `lib/main.dart`: entrypoint, `MultiBlocProvider`, localization delegates/locales.
-- `lib/routes/app_routes.dart`: named routes + typed/defensive arguments.
+- `lib/main.dart`: entrypoint, `MultiBlocProvider`, localization delegates/locales, `Routes.routeFactory(session)` wiring.
+- `lib/routes/app_routes.dart`: named routes + typed/defensive arguments + session-aware route factory.
 - `lib/data/models/`: JSON-backed UI/domain models.
 - `lib/data/repositories/`: domain repositories over mock DB.
 - `lib/data/data_hooks.dart`: UI façade/backend seam.
@@ -78,19 +78,20 @@ flutter test integration_test/app_smoke_test.dart
 flutter run
 ```
 
-`integration_test/app_smoke_test.dart` dùng `integration_test`; cần Android/iOS device hoặc emulator. Lệnh chuẩn:
+`integration_test/app_smoke_test.dart` dùng `integration_test`; cần Android/iOS device hoặc emulator. Smoke hiện dùng stable keys cho onboarding/auth/logout flow thay vì selector text cứng. Lệnh chuẩn:
 
 ```bash
 flutter test integration_test/app_smoke_test.dart
 ```
 
-Nếu chưa có device, `flutter test` thường báo `No supported devices connected`.
+Nếu chưa có device, lệnh integration thường báo `No supported devices connected`.
+Widget/unit test thuần vẫn chạy được bằng `flutter test`.
 
 ## Trạng thái dữ liệu
 
 - Dữ liệu đang là mock, không gọi API thật.
-- Luồng dữ liệu hiện tại: mock JSON → `MockDb` → repositories → `AppDataHooks`.
-- Backend replacement nên giữ contract repository/data hook để không đổi UI flow.
+- Luồng dữ liệu hiện tại: mock JSON → `MockDb` → repositories; một phần UI/presenter cũ vẫn đi qua `AppDataHooks`.
+- Backend replacement nên ưu tiên giữ contract repository; `AppDataHooks` có thể tiếp tục được thu gọn dần như lớp compatibility.
 
 ## Mô hình dữ liệu
 
@@ -148,6 +149,14 @@ Date input hỗ trợ `DateTime`, epoch ms hoặc ISO-8601 string; giá trị in
 fallback về `1970-01-01`. `UserVoucher.usedAt` giữ `null` nếu field vắng mặt,
 chỉ fallback epoch khi field có mặt nhưng parse lỗi. Contract tests:
 `flutter test test/data`.
+
+## Session và routing
+
+- Session runtime dùng immutable `SessionSnapshot` trong `SessionManager`.
+- `SessionManager` expose `current` và `currentListenable`; mutation đi qua `login`, `logout`, `updateProfile`, `setRole`, `setShopId`.
+- `SessionCubit` map snapshot này thành `SessionState` cho UI.
+- `MaterialApp` build route qua `Routes.routeFactory(session)` thay vì để route generator tự đọc singleton session.
+- Route guards hiện chặn rõ buyer/seller/logged-out theo `RoutePolicy`.
 
 ## Localization
 
