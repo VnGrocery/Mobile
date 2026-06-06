@@ -5,6 +5,7 @@ import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_cubit.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_state.dart';
 import 'package:vngrocery/features/seller_products/widgets/seller_create_product_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerCreateProductScreen extends StatefulWidget {
@@ -45,6 +46,7 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocProvider.value(
       value: _createCubit,
       child: BlocBuilder<SellerCreateProductCubit, SellerCreateProductState>(
@@ -52,9 +54,9 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
           return Scaffold(
             backgroundColor: context.palette.appBackground,
             appBar: AppBar(
-              title: const Text(
-                'Thêm sản phẩm mới',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              title: Text(
+                l10n.sellerProductCreateTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             body: ListView(
@@ -90,24 +92,27 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   }
 
   Future<void> _save() async {
+    final l10n = AppLocalizations.of(context);
     await _createCubit.save(
       name: _name.text,
       description: _desc.text,
       price: _price.text,
       tags: _tags.text,
+      l10n: l10n,
     );
     if (!mounted) return;
-    AppFeedback.showSnackBar(context, 'Đã lưu sản phẩm nháp');
+    AppFeedback.showSnackBar(context, l10n.sellerProductSavedDraft);
     Navigator.pop(context);
   }
 
   void _toggleImage() {
+    final l10n = AppLocalizations.of(context);
     _createCubit.toggleImage();
     AppFeedback.showSnackBar(
       context,
       _createCubit.state.imageSelected
-          ? 'Đã chọn ảnh sản phẩm demo'
-          : 'Đã bỏ ảnh sản phẩm',
+          ? l10n.sellerProductImageSelectedDemo
+          : l10n.sellerProductImageRemoved,
     );
   }
 }

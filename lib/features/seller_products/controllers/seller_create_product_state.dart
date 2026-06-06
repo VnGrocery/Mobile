@@ -15,7 +15,7 @@ class SellerCreateProductState {
 
   factory SellerCreateProductState.initial() {
     return SellerCreateProductState(
-      category: SellerProductPresenter.categories.first,
+      category: SellerProductPresenter.beefCategory,
     );
   }
 

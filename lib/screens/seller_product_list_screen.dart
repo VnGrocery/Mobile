@@ -5,6 +5,7 @@ import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_product_list_cubit.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_product_list_state.dart';
 import 'package:vngrocery/features/seller_products/widgets/seller_product_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -44,19 +45,20 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final shopId = widget.shopId;
     final productCubit = _productCubit;
     if (shopId == null || shopId.isEmpty || productCubit == null) {
       return Scaffold(
         backgroundColor: context.palette.appBackground,
         appBar: AppBar(
-          title: const Text(
-            'Sản phẩm của tôi',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          title: Text(
+            l10n.accountMyProducts,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        body: const Center(
-          child: Text('Tài khoản của bạn chưa có cửa hàng.'),
+        body: Center(
+          child: Text(l10n.sellerProductNoShop),
         ),
       );
     }
@@ -66,9 +68,9 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
       child: Scaffold(
         backgroundColor: context.palette.appBackground,
         appBar: AppBar(
-          title: const Text(
-            'Sản phẩm của tôi',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          title: Text(
+            l10n.accountMyProducts,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         floatingActionButton: Padding(

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/ui/app_sheet.dart';
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
-import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 
 class SellerProductActionSheet extends StatelessWidget {
   final Product product;
@@ -36,23 +37,23 @@ class SellerProductActionSheet extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '${product.category} - ${SellerProductPresenter.stateLabel(product.status)}',
+            '${SellerProductPresenter.categoryLabel(product.category, AppLocalizations.of(context))} - ${SellerProductPresenter.stateLabel(product.status, AppLocalizations.of(context))}',
             style: const TextStyle(color: AppColors.textSecondary),
           ),
           const SizedBox(height: 16),
           SellerProductActionRow(
             icon: Icons.visibility,
-            label: 'Xem chi tiết',
+            label: AppLocalizations.of(context).sellerProductActionViewDetail,
             onTap: onOpenDetail,
           ),
           SellerProductActionRow(
             icon: Icons.history,
-            label: 'Xem lịch sử ghi nhận',
+            label: AppLocalizations.of(context).sellerProductActionViewHistory,
             onTap: onOpenHistory,
           ),
           SellerProductActionRow(
             icon: Icons.verified_user,
-            label: 'Thêm ghi nhận mới',
+            label: AppLocalizations.of(context).sellerProductActionAddPledge,
             onTap: onCreatePledge,
           ),
         ],

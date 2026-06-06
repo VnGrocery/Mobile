@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
-import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 
 class SellerProductFilterBar extends StatelessWidget {
   final String value;
@@ -28,7 +29,12 @@ class SellerProductFilterBar extends StatelessWidget {
           final state = SellerProductPresenter.states[index];
           final selected = state == value;
           return FilterChip(
-            label: Text(SellerProductPresenter.stateLabel(state)),
+            label: Text(
+              SellerProductPresenter.stateLabel(
+                state,
+                AppLocalizations.of(context),
+              ),
+            ),
             selected: selected,
             showCheckmark: false,
             selectedColor: AppColors.meatRed.withValues(alpha: 0.1),
@@ -58,9 +64,9 @@ class SellerProductEmptyState extends StatelessWidget {
             color: context.palette.textTertiary,
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Chưa có sản phẩm nào',
-            style: TextStyle(color: Colors.grey),
+          Text(
+            AppLocalizations.of(context).sellerProductEmpty,
+            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),

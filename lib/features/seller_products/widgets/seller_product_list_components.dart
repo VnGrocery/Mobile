@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerProductCard extends StatelessWidget {
   final Product product;
@@ -20,6 +21,7 @@ class SellerProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Card(
       color: palette.card,
@@ -53,7 +55,12 @@ class SellerProductCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Danh mục: ${product.category}',
+                        l10n.sellerProductCategoryValue(
+                          SellerProductPresenter.categoryLabel(
+                            product.category,
+                            l10n,
+                          ),
+                        ),
                         style: const TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
@@ -83,9 +90,9 @@ class SellerProductCard extends StatelessWidget {
                     ),
                     onPressed: onOpenHistory,
                     icon: const Icon(Icons.history, size: 16),
-                    label: const Text(
-                      'Lịch sử',
-                      style: TextStyle(fontSize: 12),
+                    label: Text(
+                      l10n.sellerProductHistoryShort,
+                      style: const TextStyle(fontSize: 12),
                     ),
                   ),
                 ),
@@ -100,9 +107,9 @@ class SellerProductCard extends StatelessWidget {
                     ),
                     onPressed: onCreatePledge,
                     icon: const Icon(Icons.verified_user, size: 16),
-                    label: const Text(
-                      'Thêm ghi nhận',
-                      style: TextStyle(fontSize: 12),
+                    label: Text(
+                      l10n.sellerProductAddPledgeShort,
+                      style: const TextStyle(fontSize: 12),
                     ),
                   ),
                 ),
@@ -157,6 +164,7 @@ class SellerProductStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final bg = SellerProductPresenter.statusBackground(context, status);
     final fg = SellerProductPresenter.statusForeground(status);
     return Container(
@@ -164,7 +172,7 @@ class SellerProductStatusBadge extends StatelessWidget {
       decoration:
           BoxDecoration(color: bg, borderRadius: BorderRadius.circular(4)),
       child: Text(
-        SellerProductPresenter.stateLabel(status),
+        SellerProductPresenter.stateLabel(status, l10n),
         style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: fg),
       ),
     );

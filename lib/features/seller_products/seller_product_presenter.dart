@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/data_hooks.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -10,23 +11,60 @@ class SellerProductPresenter {
 
   static final AppDataHooks _data = AppDataHooks.instance;
 
-  static const states = ['Tất cả', 'Published', 'Draft', 'Archived'];
-  static const categories = [
-    'Thịt bò',
-    'Thịt lợn',
-    'Thịt gà',
-    'Hải sản',
-    'Gia cầm',
-    'Khác',
+  static const allState = 'all';
+  static const draftState = 'Draft';
+  static const publishedState = 'Published';
+  static const archivedState = 'Archived';
+
+  static const states = [
+    allState,
+    publishedState,
+    draftState,
+    archivedState,
   ];
 
-  static String stateLabel(String status) {
+  static const beefCategory = 'beef';
+  static const porkCategory = 'pork';
+  static const chickenCategory = 'chicken';
+  static const seafoodCategory = 'seafood';
+  static const poultryCategory = 'poultry';
+  static const otherCategory = 'other';
+
+  static const categories = [
+    beefCategory,
+    porkCategory,
+    chickenCategory,
+    seafoodCategory,
+    poultryCategory,
+    otherCategory,
+  ];
+
+  static String stateLabel(String status, AppLocalizations l10n) {
     return switch (status) {
-      'Published' => 'Đang bán',
-      'Draft' => 'Bản nháp',
-      'Archived' => 'Đã ẩn',
+      allState => l10n.sellerProductStateAll,
+      publishedState => l10n.sellerProductStatePublished,
+      draftState => l10n.sellerProductStateDraft,
+      archivedState => l10n.sellerProductStateArchived,
       _ => status,
     };
+  }
+
+  static String categoryLabel(String category, AppLocalizations l10n) {
+    return switch (category) {
+      beefCategory => l10n.sellerCategoryBeef,
+      porkCategory => l10n.sellerCategoryPork,
+      chickenCategory => l10n.sellerCategoryChicken,
+      seafoodCategory => l10n.sellerCategorySeafood,
+      poultryCategory => l10n.sellerCategoryPoultry,
+      otherCategory => l10n.sellerCategoryOther,
+      _ => category,
+    };
+  }
+
+  static String freshnessNote(bool hasImage, AppLocalizations l10n) {
+    return hasImage
+        ? l10n.sellerProductFreshnessWithImage
+        : l10n.sellerProductFreshnessWithoutImage;
   }
 
   static Color statusBackground(BuildContext context, String status) {
@@ -58,16 +96,12 @@ class SellerProductPresenter {
         .toList();
   }
 
-  static String freshnessNote(bool hasImage) {
-    return hasImage ? 'Sản phẩm mới tạo, đã có ảnh demo.' : 'Sản phẩm mới tạo.';
-  }
-
   static List<Product> filteredProducts({
     required String shopId,
     required String state,
   }) {
     final all = _data.getProducts(shopId: shopId);
-    if (state == states.first) return all;
+    if (state == allState) return all;
     return all.where((product) => product.status == state).toList();
   }
 
@@ -79,6 +113,7 @@ class SellerProductPresenter {
     required bool hasImage,
     required String price,
     required String tags,
+    required AppLocalizations l10n,
   }) {
     final product = Product(
       id: _data.nextId(),
@@ -87,7 +122,7 @@ class SellerProductPresenter {
       description: description.trim(),
       category: category,
       freshnessScore: 80,
-      freshnessNote: freshnessNote(hasImage),
+      freshnessNote: freshnessNote(hasImage, l10n),
       price: parsePrice(price),
       tags: parseTags(tags),
       status: 'Draft',

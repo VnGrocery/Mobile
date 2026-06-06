@@ -842,6 +842,210 @@ abstract class AppLocalizations {
   /// **'Warnings'**
   String get sellerShopWarningsMetric;
 
+  /// No description provided for @sellerProductNoShop.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account does not have a store yet.'**
+  String get sellerProductNoShop;
+
+  /// No description provided for @sellerProductCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new product'**
+  String get sellerProductCreateTitle;
+
+  /// No description provided for @sellerProductSavedDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft product saved'**
+  String get sellerProductSavedDraft;
+
+  /// No description provided for @sellerProductImageSelectedDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo product image selected'**
+  String get sellerProductImageSelectedDemo;
+
+  /// No description provided for @sellerProductImageRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Product image removed'**
+  String get sellerProductImageRemoved;
+
+  /// No description provided for @sellerProductStateAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get sellerProductStateAll;
+
+  /// No description provided for @sellerProductStatePublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Published'**
+  String get sellerProductStatePublished;
+
+  /// No description provided for @sellerProductStateDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get sellerProductStateDraft;
+
+  /// No description provided for @sellerProductStateArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get sellerProductStateArchived;
+
+  /// No description provided for @sellerCategoryBeef.
+  ///
+  /// In en, this message translates to:
+  /// **'Beef'**
+  String get sellerCategoryBeef;
+
+  /// No description provided for @sellerCategoryPork.
+  ///
+  /// In en, this message translates to:
+  /// **'Pork'**
+  String get sellerCategoryPork;
+
+  /// No description provided for @sellerCategoryChicken.
+  ///
+  /// In en, this message translates to:
+  /// **'Chicken'**
+  String get sellerCategoryChicken;
+
+  /// No description provided for @sellerCategorySeafood.
+  ///
+  /// In en, this message translates to:
+  /// **'Seafood'**
+  String get sellerCategorySeafood;
+
+  /// No description provided for @sellerCategoryPoultry.
+  ///
+  /// In en, this message translates to:
+  /// **'Poultry'**
+  String get sellerCategoryPoultry;
+
+  /// No description provided for @sellerCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get sellerCategoryOther;
+
+  /// No description provided for @sellerProductFreshnessWithImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Newly created product with demo image attached.'**
+  String get sellerProductFreshnessWithImage;
+
+  /// No description provided for @sellerProductFreshnessWithoutImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Newly created product.'**
+  String get sellerProductFreshnessWithoutImage;
+
+  /// No description provided for @sellerProductImageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product image'**
+  String get sellerProductImageTitle;
+
+  /// No description provided for @sellerProductImageReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo image ready'**
+  String get sellerProductImageReady;
+
+  /// No description provided for @sellerProductImageSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select demo image'**
+  String get sellerProductImageSelect;
+
+  /// No description provided for @sellerProductNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Product name'**
+  String get sellerProductNameLabel;
+
+  /// No description provided for @sellerProductPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get sellerProductPriceLabel;
+
+  /// No description provided for @sellerProductCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get sellerProductCategoryLabel;
+
+  /// No description provided for @sellerProductDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get sellerProductDescriptionLabel;
+
+  /// No description provided for @sellerProductTagsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get sellerProductTagsLabel;
+
+  /// No description provided for @sellerProductTagsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. fresh, clean, organic'**
+  String get sellerProductTagsHint;
+
+  /// No description provided for @sellerProductSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save product'**
+  String get sellerProductSave;
+
+  /// No description provided for @sellerProductActionViewDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get sellerProductActionViewDetail;
+
+  /// No description provided for @sellerProductActionViewHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'View history'**
+  String get sellerProductActionViewHistory;
+
+  /// No description provided for @sellerProductActionAddPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'Add pledge'**
+  String get sellerProductActionAddPledge;
+
+  /// No description provided for @sellerProductEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No products yet'**
+  String get sellerProductEmpty;
+
+  /// No description provided for @sellerProductCategoryValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Category: {category}'**
+  String sellerProductCategoryValue(Object category);
+
+  /// No description provided for @sellerProductHistoryShort.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get sellerProductHistoryShort;
+
+  /// No description provided for @sellerProductAddPledgeShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Add pledge'**
+  String get sellerProductAddPledgeShort;
+
   /// No description provided for @accountExploreStores.
   ///
   /// In en, this message translates to:

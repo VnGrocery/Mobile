@@ -405,6 +405,111 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerShopWarningsMetric => 'Warnings';
 
   @override
+  String get sellerProductNoShop => 'Your account does not have a store yet.';
+
+  @override
+  String get sellerProductCreateTitle => 'Add new product';
+
+  @override
+  String get sellerProductSavedDraft => 'Draft product saved';
+
+  @override
+  String get sellerProductImageSelectedDemo => 'Demo product image selected';
+
+  @override
+  String get sellerProductImageRemoved => 'Product image removed';
+
+  @override
+  String get sellerProductStateAll => 'All';
+
+  @override
+  String get sellerProductStatePublished => 'Published';
+
+  @override
+  String get sellerProductStateDraft => 'Draft';
+
+  @override
+  String get sellerProductStateArchived => 'Archived';
+
+  @override
+  String get sellerCategoryBeef => 'Beef';
+
+  @override
+  String get sellerCategoryPork => 'Pork';
+
+  @override
+  String get sellerCategoryChicken => 'Chicken';
+
+  @override
+  String get sellerCategorySeafood => 'Seafood';
+
+  @override
+  String get sellerCategoryPoultry => 'Poultry';
+
+  @override
+  String get sellerCategoryOther => 'Other';
+
+  @override
+  String get sellerProductFreshnessWithImage =>
+      'Newly created product with demo image attached.';
+
+  @override
+  String get sellerProductFreshnessWithoutImage => 'Newly created product.';
+
+  @override
+  String get sellerProductImageTitle => 'Product image';
+
+  @override
+  String get sellerProductImageReady => 'Demo image ready';
+
+  @override
+  String get sellerProductImageSelect => 'Select demo image';
+
+  @override
+  String get sellerProductNameLabel => 'Product name';
+
+  @override
+  String get sellerProductPriceLabel => 'Price';
+
+  @override
+  String get sellerProductCategoryLabel => 'Category';
+
+  @override
+  String get sellerProductDescriptionLabel => 'Description';
+
+  @override
+  String get sellerProductTagsLabel => 'Tags';
+
+  @override
+  String get sellerProductTagsHint => 'E.g. fresh, clean, organic';
+
+  @override
+  String get sellerProductSave => 'Save product';
+
+  @override
+  String get sellerProductActionViewDetail => 'View details';
+
+  @override
+  String get sellerProductActionViewHistory => 'View history';
+
+  @override
+  String get sellerProductActionAddPledge => 'Add pledge';
+
+  @override
+  String get sellerProductEmpty => 'No products yet';
+
+  @override
+  String sellerProductCategoryValue(Object category) {
+    return 'Category: $category';
+  }
+
+  @override
+  String get sellerProductHistoryShort => 'History';
+
+  @override
+  String get sellerProductAddPledgeShort => 'Add pledge';
+
+  @override
   String get accountExploreStores => 'Explore stores';
 
   @override

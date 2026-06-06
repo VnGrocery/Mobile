@@ -403,6 +403,111 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerShopWarningsMetric => 'Cảnh báo';
 
   @override
+  String get sellerProductNoShop => 'Tài khoản của bạn chưa có cửa hàng.';
+
+  @override
+  String get sellerProductCreateTitle => 'Thêm sản phẩm mới';
+
+  @override
+  String get sellerProductSavedDraft => 'Đã lưu sản phẩm nháp';
+
+  @override
+  String get sellerProductImageSelectedDemo => 'Đã chọn ảnh sản phẩm demo';
+
+  @override
+  String get sellerProductImageRemoved => 'Đã bỏ ảnh sản phẩm';
+
+  @override
+  String get sellerProductStateAll => 'Tất cả';
+
+  @override
+  String get sellerProductStatePublished => 'Đang bán';
+
+  @override
+  String get sellerProductStateDraft => 'Bản nháp';
+
+  @override
+  String get sellerProductStateArchived => 'Đã ẩn';
+
+  @override
+  String get sellerCategoryBeef => 'Thịt bò';
+
+  @override
+  String get sellerCategoryPork => 'Thịt heo';
+
+  @override
+  String get sellerCategoryChicken => 'Thịt gà';
+
+  @override
+  String get sellerCategorySeafood => 'Hải sản';
+
+  @override
+  String get sellerCategoryPoultry => 'Gia cầm';
+
+  @override
+  String get sellerCategoryOther => 'Khác';
+
+  @override
+  String get sellerProductFreshnessWithImage =>
+      'Sản phẩm mới tạo, đã có ảnh demo.';
+
+  @override
+  String get sellerProductFreshnessWithoutImage => 'Sản phẩm mới tạo.';
+
+  @override
+  String get sellerProductImageTitle => 'Ảnh sản phẩm';
+
+  @override
+  String get sellerProductImageReady => 'Ảnh demo đã sẵn sàng';
+
+  @override
+  String get sellerProductImageSelect => 'Chọn ảnh demo';
+
+  @override
+  String get sellerProductNameLabel => 'Tên sản phẩm';
+
+  @override
+  String get sellerProductPriceLabel => 'Giá bán';
+
+  @override
+  String get sellerProductCategoryLabel => 'Danh mục';
+
+  @override
+  String get sellerProductDescriptionLabel => 'Mô tả';
+
+  @override
+  String get sellerProductTagsLabel => 'Thẻ gợi ý';
+
+  @override
+  String get sellerProductTagsHint => 'VD: tươi, sạch, hữu cơ';
+
+  @override
+  String get sellerProductSave => 'Lưu sản phẩm';
+
+  @override
+  String get sellerProductActionViewDetail => 'Xem chi tiết';
+
+  @override
+  String get sellerProductActionViewHistory => 'Xem lịch sử';
+
+  @override
+  String get sellerProductActionAddPledge => 'Thêm ghi nhận';
+
+  @override
+  String get sellerProductEmpty => 'Chưa có sản phẩm nào';
+
+  @override
+  String sellerProductCategoryValue(Object category) {
+    return 'Danh mục: $category';
+  }
+
+  @override
+  String get sellerProductHistoryShort => 'Lịch sử';
+
+  @override
+  String get sellerProductAddPledgeShort => 'Thêm ghi nhận';
+
+  @override
   String get accountExploreStores => 'Khám phá cửa hàng';
 
   @override

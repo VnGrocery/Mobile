@@ -4,6 +4,7 @@ import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'seller_create_product_state.dart';
 
 class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
@@ -32,6 +33,7 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
     required String description,
     required String price,
     required String tags,
+    required AppLocalizations l10n,
   }) async {
     emit(state.copyWith(saving: true, saved: false));
     await _delayService.wait(AppDelayKind.productSave);
@@ -42,7 +44,10 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
       description: description.trim(),
       category: state.category,
       freshnessScore: 80,
-      freshnessNote: SellerProductPresenter.freshnessNote(state.imageSelected),
+      freshnessNote: SellerProductPresenter.freshnessNote(
+        state.imageSelected,
+        l10n,
+      ),
       price: SellerProductPresenter.parsePrice(price),
       tags: SellerProductPresenter.parseTags(tags),
       status: 'Draft',

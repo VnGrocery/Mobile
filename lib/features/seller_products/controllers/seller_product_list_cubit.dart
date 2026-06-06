@@ -34,7 +34,7 @@ class SellerProductListCubit extends Cubit<SellerProductListState> {
 
   List<Product> _filteredProducts(String state) {
     final all = _repositories.products.all(shopId: shopId);
-    if (state == SellerProductPresenter.states.first) return all;
+    if (state == SellerProductPresenter.allState) return all;
     return all.where((product) => product.status == state).toList();
   }
 }

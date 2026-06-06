@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
-import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 
 class SellerProductImagePickerCard extends StatelessWidget {
   final bool selected;
@@ -16,13 +17,14 @@ class SellerProductImagePickerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Hình ảnh sản phẩm',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        Text(
+          l10n.sellerProductImageTitle,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         const SizedBox(height: 8),
         GestureDetector(
@@ -43,7 +45,9 @@ class SellerProductImagePickerCard extends StatelessWidget {
                   color: selected ? AppColors.primaryGreen : Colors.grey,
                 ),
                 Text(
-                  selected ? 'Ảnh demo đã sẵn sàng' : 'Nhấn để chọn ảnh demo',
+                  selected
+                      ? l10n.sellerProductImageReady
+                      : l10n.sellerProductImageSelect,
                   style: TextStyle(
                     color: selected ? AppColors.primaryGreen : Colors.grey,
                     fontSize: 14,
@@ -81,28 +85,31 @@ class SellerCreateProductFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         TextField(
           controller: name,
           onChanged: onRequiredChanged,
-          decoration: const InputDecoration(labelText: 'Tên sản phẩm'),
+          decoration: InputDecoration(labelText: l10n.sellerProductNameLabel),
         ),
         const SizedBox(height: 16),
         TextField(
           controller: price,
           keyboardType: TextInputType.number,
           onChanged: onRequiredChanged,
-          decoration: const InputDecoration(labelText: 'Giá niêm yết (VNĐ/kg)'),
+          decoration: InputDecoration(
+            labelText: l10n.sellerProductPriceLabel,
+          ),
         ),
         const SizedBox(height: 16),
-        const Padding(
-          padding: EdgeInsets.only(left: 4, bottom: 4),
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 4),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Danh mục',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              l10n.sellerProductCategoryLabel,
+              style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
           ),
         ),
@@ -113,7 +120,9 @@ class SellerCreateProductFields extends StatelessWidget {
               .map(
                 (category) => DropdownMenuItem(
                   value: category,
-                  child: Text(category),
+                  child: Text(
+                    SellerProductPresenter.categoryLabel(category, l10n),
+                  ),
                 ),
               )
               .toList(),
@@ -125,14 +134,16 @@ class SellerCreateProductFields extends StatelessWidget {
         TextField(
           controller: description,
           maxLines: 4,
-          decoration: const InputDecoration(labelText: 'Mô tả sản phẩm'),
+          decoration: InputDecoration(
+            labelText: l10n.sellerProductDescriptionLabel,
+          ),
         ),
         const SizedBox(height: 16),
         TextField(
           controller: tags,
-          decoration: const InputDecoration(
-            labelText: 'Tags (cách nhau bằng dấu phẩy)',
-            hintText: 'VD: Tươi sống, Nhập khẩu, Ít béo',
+          decoration: InputDecoration(
+            labelText: l10n.sellerProductTagsLabel,
+            hintText: l10n.sellerProductTagsHint,
           ),
         ),
       ],
@@ -154,6 +165,7 @@ class SellerCreateProductSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SizedBox(
       width: double.infinity,
       height: 56,
@@ -168,9 +180,9 @@ class SellerCreateProductSubmitButton extends StatelessWidget {
                   strokeWidth: 2.5,
                 ),
               )
-            : const Text(
-                'Lưu sản phẩm',
-                style: TextStyle(
+            : Text(
+                l10n.sellerProductSave,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),

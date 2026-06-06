@@ -12,7 +12,7 @@ class SellerProductListState {
 
   factory SellerProductListState.initial() {
     return SellerProductListState(
-      selectedState: SellerProductPresenter.states.first,
+      selectedState: SellerProductPresenter.allState,
     );
   }
 
