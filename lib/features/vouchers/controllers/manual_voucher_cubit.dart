@@ -8,10 +8,18 @@ class ManualVoucherCubit extends Cubit<ManualVoucherState> {
   final AppRepositories _repositories;
 
   ManualVoucherCubit({AppRepositories? repositories})
-      : _repositories = repositories ?? AppRepositories.instance,
-        super(ManualVoucherState.initial());
+    : _repositories = repositories ?? AppRepositories.instance,
+      super(ManualVoucherState.initial());
 
-  void load() {
+  Future<void> load() async {
+    _emitShops();
+    try {
+      await _repositories.shops.refresh();
+      _emitShops();
+    } catch (_) {}
+  }
+
+  void _emitShops() {
     final shops = _repositories.shops.all();
     emit(
       state.copyWith(
@@ -59,5 +67,26 @@ class ManualVoucherCubit extends Cubit<ManualVoucherState> {
     );
     emit(state.copyWith(saved: true));
     return userVoucher;
+  }
+
+  Future<UserVoucher?> saveRemote({
+    required String userEmail,
+    required String code,
+    required String title,
+    required String note,
+  }) async {
+    final shopId = state.shopId;
+    if (shopId == null) return null;
+    final item = await _repositories.vouchers.addManualToWalletRemote(
+      userEmail: userEmail,
+      shopId: shopId,
+      code: code,
+      title: title,
+      note: note,
+      codeFormat: state.codeFormat,
+      expiresAt: state.expiresAt,
+    );
+    emit(state.copyWith(saved: true));
+    return item;
   }
 }

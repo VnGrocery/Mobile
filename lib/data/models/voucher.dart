@@ -35,7 +35,7 @@ class Voucher {
 
   factory Voucher.fromJson(Map<String, Object?> json) {
     return Voucher(
-      id: json['id'] as String,
+      id: (json['voucherId'] ?? json['id']) as String,
       code: json['code'] as String,
       title: json['title'] as String,
       shopId: json['shopId'] as String,
@@ -51,17 +51,17 @@ class Voucher {
   }
 
   Map<String, Object?> toJson() => {
-        'id': id,
-        'code': code,
-        'title': title,
-        'shopId': shopId,
-        'discountValue': discountValue,
-        'isPercent': isPercent,
-        'minSpend': minSpend,
-        'expiresAt': expiresAt.toIso8601String(),
-        'active': active,
-        'manual': manual,
-        'note': note,
-        'codeFormat': codeFormat,
-      };
+    'id': id,
+    'code': code,
+    'title': title,
+    'shopId': shopId,
+    'discountValue': discountValue,
+    'isPercent': isPercent,
+    'minSpend': minSpend,
+    'expiresAt': expiresAt.toIso8601String(),
+    'active': active,
+    'manual': manual,
+    'note': note,
+    'codeFormat': codeFormat,
+  };
 }

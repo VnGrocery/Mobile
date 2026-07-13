@@ -73,10 +73,8 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
                     result: state.voucherResult,
                     onCheck: _checkVoucher,
                     onSaveVoucher: _saveVoucherToWallet,
-                    onOpenWallet: () => Navigator.pushNamed(
-                      context,
-                      Routes.voucherWallet,
-                    ),
+                    onOpenWallet: () =>
+                        Navigator.pushNamed(context, Routes.voucherWallet),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
@@ -106,16 +104,17 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
     );
   }
 
-  void _checkVoucher() {
+  Future<void> _checkVoucher() async {
     FocusScope.of(context).unfocus();
-    _buyerCheckCubit.checkVoucher(_voucher.text);
+    await _buyerCheckCubit.checkVoucherRemote(_voucher.text);
   }
 
-  void _saveVoucherToWallet(Voucher voucher) {
-    _buyerCheckCubit.saveVoucherToWallet(
+  Future<void> _saveVoucherToWallet(Voucher voucher) async {
+    await _buyerCheckCubit.saveVoucherToWalletRemote(
       userEmail: context.read<SessionCubit>().state.email,
       voucher: voucher,
     );
+    if (!mounted) return;
     AppFeedback.showSnackBar(
       context,
       AppLocalizations.of(context).buyerCheckVoucherSaved,

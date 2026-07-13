@@ -24,7 +24,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   void initState() {
     super.initState();
-    _reviewCubit = ReviewCubit();
+    _reviewCubit = ReviewCubit(shopId: widget.shopId);
   }
 
   @override

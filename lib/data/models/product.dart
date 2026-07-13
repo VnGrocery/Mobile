@@ -11,6 +11,8 @@ class Product {
   int price;
   List<String> tags;
   String status;
+  int version;
+  List<String> imageUrls;
 
   Product({
     required this.id,
@@ -23,11 +25,13 @@ class Product {
     required this.price,
     required this.tags,
     required this.status,
+    this.version = 1,
+    this.imageUrls = const [],
   });
 
   factory Product.fromJson(Map<String, Object?> json) {
     return Product(
-      id: json['id'] as String,
+      id: (json['productId'] ?? json['id']) as String,
       shopId: json['shopId'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
@@ -36,20 +40,29 @@ class Product {
       freshnessNote: json['freshnessNote'] as String,
       price: (json['price'] as num).toInt(),
       tags: stringList(json['tags']),
-      status: json['status'] as String,
+      status: _productStatus(json['status']?.toString() ?? ''),
+      version: (json['version'] as num?)?.toInt() ?? 1,
+      imageUrls: stringList(json['imageUrls']),
     );
   }
 
   Map<String, Object?> toJson() => {
-        'id': id,
-        'shopId': shopId,
-        'name': name,
-        'description': description,
-        'category': category,
-        'freshnessScore': freshnessScore,
-        'freshnessNote': freshnessNote,
-        'price': price,
-        'tags': tags,
-        'status': status,
-      };
+    'id': id,
+    'shopId': shopId,
+    'name': name,
+    'description': description,
+    'category': category,
+    'freshnessScore': freshnessScore,
+    'freshnessNote': freshnessNote,
+    'price': price,
+    'tags': tags,
+    'status': status,
+    'version': version,
+    'imageUrls': imageUrls,
+  };
+}
+
+String _productStatus(String value) {
+  if (value.isEmpty) return value;
+  return '${value[0].toUpperCase()}${value.substring(1).toLowerCase()}';
 }

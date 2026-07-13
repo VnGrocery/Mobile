@@ -8,12 +8,16 @@ class BuyerCheckCubit extends Cubit<BuyerCheckState> {
   final AppRepositories _repositories;
 
   BuyerCheckCubit({AppRepositories? repositories})
-      : _repositories = repositories ?? AppRepositories.instance,
-        super(const BuyerCheckState());
+    : _repositories = repositories ?? AppRepositories.instance,
+      super(const BuyerCheckState());
 
   void loadDemoResult() {
     final result = _repositories.buyerChecks.lastResult;
-    final product = _repositories.products.byId('p1');
+    final productId = _repositories.buyerChecks.lastProductId;
+    final product = productId == null
+        ? _repositories.products.all().firstOrNull
+        : _repositories.products.byId(productId);
+    if (product == null) return;
     final shop = _repositories.shops.byId(product.shopId);
     emit(BuyerCheckState(result: result, product: product, shop: shop));
   }
@@ -32,6 +36,20 @@ class BuyerCheckCubit extends Cubit<BuyerCheckState> {
     );
   }
 
+  Future<void> checkVoucherRemote(String code) async {
+    final product = state.product;
+    if (product == null) return;
+    emit(
+      state.copyWith(
+        voucherResult: await _repositories.vouchers.checkRemote(
+          code: code,
+          shopId: product.shopId,
+          orderValue: product.price,
+        ),
+      ),
+    );
+  }
+
   UserVoucher saveVoucherToWallet({
     required String userEmail,
     required Voucher voucher,
@@ -41,4 +59,12 @@ class BuyerCheckCubit extends Cubit<BuyerCheckState> {
       voucherId: voucher.id,
     );
   }
+
+  Future<UserVoucher> saveVoucherToWalletRemote({
+    required String userEmail,
+    required Voucher voucher,
+  }) => _repositories.vouchers.saveToWalletRemote(
+    userEmail: userEmail,
+    voucherId: voucher.id,
+  );
 }

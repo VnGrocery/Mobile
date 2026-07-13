@@ -11,15 +11,15 @@ class BuyerCheckResult {
 
   factory BuyerCheckResult.fromJson(Map<String, Object?> json) {
     return BuyerCheckResult(
-      actualScore: (json['actualScore'] as num).toInt(),
+      actualScore: (json['actualScore'] as num).round(),
       locationStatus: json['locationStatus'] as String,
       verdict: json['verdict'] as String,
     );
   }
 
   Map<String, Object?> toJson() => {
-        'actualScore': actualScore,
-        'locationStatus': locationStatus,
-        'verdict': verdict,
-      };
+    'actualScore': actualScore,
+    'locationStatus': locationStatus,
+    'verdict': verdict,
+  };
 }

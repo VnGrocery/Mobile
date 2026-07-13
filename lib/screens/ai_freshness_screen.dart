@@ -4,6 +4,9 @@ import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
+import 'package:flutter/services.dart';
+import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/data/models.dart';
 
 class AiFreshnessScreen extends StatefulWidget {
   const AiFreshnessScreen({
@@ -22,9 +25,41 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
 
   Future<void> _analyze() async {
     setState(() => _analyzing = true);
-    await widget.delayService.wait(AppDelayKind.freshnessAnalysis);
-    if (!mounted) return;
-    Navigator.pushReplacementNamed(context, Routes.buyerCheckResult);
+    final repositories = AppRepositories.instance;
+    final payload = repositories.pledges.latestQrPayload;
+    final remote = repositories.pledges.remote;
+    if (payload == null || remote == null) {
+      await widget.delayService.wait(AppDelayKind.freshnessAnalysis);
+      if (!mounted) return;
+      setState(() => _analyzing = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Hãy quét tem pledge hợp lệ trước khi kiểm tra.'),
+        ),
+      );
+      return;
+    }
+    try {
+      final data = await rootBundle.load('assets/images/meat.png');
+      final result = await remote.buyerCheck(
+        bytes: data.buffer.asUint8List(),
+        pledgeId: payload['pledgeId']?.toString() ?? '',
+        bundleId: payload['bundleId']?.toString() ?? '',
+        bundleToken: payload['bundleToken']?.toString() ?? '',
+      );
+      repositories.buyerChecks.setResult(
+        BuyerCheckResult.fromJson(result),
+        productId: result['productId']?.toString(),
+      );
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, Routes.buyerCheckResult);
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _analyzing = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.toString())));
+    }
   }
 
   @override

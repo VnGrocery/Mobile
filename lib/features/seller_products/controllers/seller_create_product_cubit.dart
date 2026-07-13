@@ -52,8 +52,8 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
       tags: SellerProductPresenter.parseTags(tags),
       status: 'Draft',
     );
-    _repositories.products.add(product);
+    final savedProduct = await _repositories.products.saveRemote(product);
     emit(state.copyWith(saving: false, saved: true));
-    return product;
+    return savedProduct;
   }
 }

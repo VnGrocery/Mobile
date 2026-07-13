@@ -97,15 +97,15 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
     _manualVoucherCubit.setExpiry(picked);
   }
 
-  void _save() {
+  Future<void> _save() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    final saved = _manualVoucherCubit.save(
+    final saved = await _manualVoucherCubit.saveRemote(
       userEmail: context.read<SessionCubit>().state.email,
       code: _code.text,
       title: _title.text,
       note: _note.text,
     );
-    if (saved == null) return;
+    if (saved == null || !mounted) return;
     AppFeedback.showSnackBar(
       context,
       AppLocalizations.of(context).manualVoucherSaved,

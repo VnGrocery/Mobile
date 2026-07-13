@@ -8,23 +8,36 @@ class SellerShopCubit extends Cubit<SellerShopState> {
   final AppRepositories _repositories;
   String? _shopId;
 
-  SellerShopCubit({
-    required String? shopId,
-    AppRepositories? repositories,
-  })  : _shopId = shopId,
-        _repositories = repositories ?? AppRepositories.instance,
-        super(const SellerShopState());
+  SellerShopCubit({required String? shopId, AppRepositories? repositories})
+    : _shopId = shopId,
+      _repositories = repositories ?? AppRepositories.instance,
+      super(const SellerShopState());
 
   String get effectiveShopId => SellerShopPresenter.effectiveShopId(_shopId);
 
-  void load() {
+  Future<void> load() async {
     final shopId = effectiveShopId;
-    emit(
-      state.copyWith(
-        shop: _repositories.shops.byId(shopId),
-        dashboard: _repositories.seller.dashboard(shopId),
-      ),
-    );
+    final cached = _repositories.shops.byIdOrNull(shopId);
+    if (cached != null) {
+      emit(
+        state.copyWith(
+          shop: cached,
+          dashboard: _repositories.seller.dashboard(shopId),
+        ),
+      );
+    }
+    try {
+      final mine = await _repositories.shops.fetchMine();
+      if (mine == null) return;
+      _shopId = mine.id;
+      await _repositories.products.refreshShop(mine.id, seller: true);
+      emit(
+        state.copyWith(
+          shop: mine,
+          dashboard: _repositories.seller.dashboard(mine.id),
+        ),
+      );
+    } catch (_) {}
   }
 
   Future<void> save({
@@ -33,8 +46,9 @@ class SellerShopCubit extends Cubit<SellerShopState> {
     required String address,
   }) async {
     emit(state.copyWith(saving: true));
-    final shop = _repositories.shops.save(
-      shopId: effectiveShopId,
+    final existingId = _repositories.shops.byIdOrNull(effectiveShopId)?.id;
+    final shop = await _repositories.shops.saveRemote(
+      shopId: existingId,
       name: name.trim(),
       description: description.trim(),
       address: address.trim(),

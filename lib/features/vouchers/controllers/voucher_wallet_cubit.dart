@@ -8,14 +8,20 @@ class VoucherWalletCubit extends Cubit<VoucherWalletState> {
   final AppRepositories _repositories;
   final String _userEmail;
 
-  VoucherWalletCubit({
-    required String userEmail,
-    AppRepositories? repositories,
-  })  : _userEmail = userEmail,
-        _repositories = repositories ?? AppRepositories.instance,
-        super(const VoucherWalletState());
+  VoucherWalletCubit({required String userEmail, AppRepositories? repositories})
+    : _userEmail = userEmail,
+      _repositories = repositories ?? AppRepositories.instance,
+      super(const VoucherWalletState());
 
-  void load() {
+  Future<void> load() async {
+    _emitCached();
+    try {
+      await _repositories.vouchers.refreshWallet(_userEmail);
+      _emitCached();
+    } catch (_) {}
+  }
+
+  void _emitCached() {
     final wallet = _repositories.vouchers.wallet(_userEmail);
     final vouchersById = _resolveVouchers(wallet);
     emit(

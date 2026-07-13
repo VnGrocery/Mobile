@@ -17,7 +17,20 @@ class VoucherQrCubit extends Cubit<VoucherQrState> {
        _repositories = repositories ?? AppRepositories.instance,
        super(const VoucherQrState());
 
-  void load() {
+  Future<void> load() async {
+    _emitCached();
+    try {
+      await _repositories.vouchers.refreshWallet(
+        _repositories.vouchers
+                .userVoucherByIdOrNull(userVoucherId)
+                ?.userEmail ??
+            '',
+      );
+      _emitCached();
+    } catch (_) {}
+  }
+
+  void _emitCached() {
     final userVoucher = _repositories.vouchers.userVoucherByIdOrNull(
       userVoucherId,
     );
@@ -40,11 +53,13 @@ class VoucherQrCubit extends Cubit<VoucherQrState> {
     if (state.disabled || state.confirming) return;
     emit(state.copyWith(confirming: true));
     await _delayService.wait(AppDelayKind.voucherMarkUsed);
-    final used = _repositories.vouchers.useUserVoucher(userVoucherId);
+    final used = await _repositories.vouchers.useUserVoucherRemote(
+      userVoucherId,
+    );
     if (!used) {
       emit(const VoucherQrState());
       return;
     }
-    load();
+    await load();
   }
 }

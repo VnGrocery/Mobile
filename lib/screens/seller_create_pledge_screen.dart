@@ -22,7 +22,6 @@ class SellerCreatePledgeScreen extends StatefulWidget {
 class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   late final SellerPledgeCubit _pledgeCubit;
 
-  final double _aiScore = 8.2;
   final _sellerScore = TextEditingController(text: '8.5');
 
   @override
@@ -58,23 +57,23 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
               padding: const EdgeInsets.all(16),
               child: switch (state.step) {
                 1 => SellerPledgeCaptureStep(
-                    analyzing: state.analyzing,
-                    onCapture: _pledgeCubit.capture,
-                  ),
+                  analyzing: state.analyzing,
+                  onCapture: _pledgeCubit.capture,
+                ),
                 2 => SellerPledgeEvaluateStep(
-                    aiScore: _aiScore,
-                    sellerScore: _sellerScore,
-                    category: state.category,
-                    onCategoryChanged: _pledgeCubit.setCategory,
-                    onContinue: _pledgeCubit.continueToConfirm,
-                  ),
+                  aiScore: state.aiScore,
+                  sellerScore: _sellerScore,
+                  category: state.category,
+                  onCategoryChanged: _pledgeCubit.setCategory,
+                  onContinue: _pledgeCubit.continueToConfirm,
+                ),
                 _ => SellerPledgeConfirmStep(
-                    score: SellerPledgePresenter.normalizedScore(
-                      _sellerScore.text,
-                    ),
-                    loading: state.committing,
-                    onCommit: _commit,
+                  score: SellerPledgePresenter.normalizedScore(
+                    _sellerScore.text,
                   ),
+                  loading: state.committing,
+                  onCommit: _commit,
+                ),
               },
             ),
           );
@@ -93,9 +92,13 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
 
   Future<void> _commit() async {
     final l10n = AppLocalizations.of(context);
-    await _pledgeCubit.commit(_sellerScore.text, l10n);
+    final pledgeId = await _pledgeCubit.commit(_sellerScore.text, l10n);
     if (!mounted) return;
     AppFeedback.showSnackBar(context, l10n.sellerPledgeSaved);
-    Navigator.pop(context);
+    if (pledgeId == null) {
+      Navigator.pop(context);
+    } else {
+      Navigator.pushReplacementNamed(context, 'qr_label', arguments: pledgeId);
+    }
   }
 }

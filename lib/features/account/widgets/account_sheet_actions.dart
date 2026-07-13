@@ -8,7 +8,7 @@ Future<bool?> showAccountEditProfileSheet(
   BuildContext context, {
   required String initialName,
   required String initialEmail,
-  required void Function(String name, String email) onSave,
+  required Future<void> Function(String name, String email) onSave,
 }) {
   return showModalBottomSheet<bool>(
     context: context,

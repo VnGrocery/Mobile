@@ -6,6 +6,7 @@ class SessionState {
   final String email;
   final String displayName;
   final String role;
+  final int version;
 
   const SessionState({
     required this.token,
@@ -13,6 +14,7 @@ class SessionState {
     required this.email,
     required this.displayName,
     required this.role,
+    this.version = 1,
   });
 
   factory SessionState.fromManager(SessionManager session) {
@@ -26,6 +28,7 @@ class SessionState {
       email: snapshot.email,
       displayName: snapshot.displayName,
       role: snapshot.role,
+      version: snapshot.version,
     );
   }
 

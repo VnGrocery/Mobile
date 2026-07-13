@@ -6,6 +6,7 @@ import 'package:vngrocery/core/validation/app_validators.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'auth_components.dart';
+import 'package:vngrocery/data/session.dart';
 
 class ForgotPasswordSheet extends StatefulWidget {
   const ForgotPasswordSheet({super.key});
@@ -23,6 +24,7 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
   int _step = 0;
   bool _showNew = false;
   bool _showConfirm = false;
+  String _resetToken = '';
 
   @override
   void dispose() {
@@ -32,12 +34,29 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
     super.dispose();
   }
 
-  void _next() {
+  Future<void> _next() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     if (_step == 0) {
+      try {
+        _resetToken = await SessionManager.instance.forgotPassword(_email.text);
+      } catch (error) {
+        if (mounted) AppFeedback.showSnackBar(context, error.toString());
+        return;
+      }
+      if (!mounted) return;
       setState(() => _step = 1);
       return;
     }
+    try {
+      await SessionManager.instance.resetPassword(
+        _resetToken,
+        _newPassword.text,
+      );
+    } catch (error) {
+      if (mounted) AppFeedback.showSnackBar(context, error.toString());
+      return;
+    }
+    if (!mounted) return;
     Navigator.pop(context);
     AppFeedback.showSnackBar(
       context,

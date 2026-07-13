@@ -6,6 +6,10 @@ class SellerPledgeState {
   final bool committing;
   final bool committed;
   final String category;
+  final double aiScore;
+  final double confidence;
+  final String imageHash;
+  final String imageCid;
 
   const SellerPledgeState({
     this.step = 1,
@@ -13,12 +17,14 @@ class SellerPledgeState {
     this.committing = false,
     this.committed = false,
     required this.category,
+    this.aiScore = 8.2,
+    this.confidence = 0,
+    this.imageHash = '',
+    this.imageCid = '',
   });
 
   factory SellerPledgeState.initial() {
-    return SellerPledgeState(
-      category: SellerPledgePresenter.categories.first,
-    );
+    return SellerPledgeState(category: SellerPledgePresenter.categories.first);
   }
 
   SellerPledgeState copyWith({
@@ -27,6 +33,10 @@ class SellerPledgeState {
     bool? committing,
     bool? committed,
     String? category,
+    double? aiScore,
+    double? confidence,
+    String? imageHash,
+    String? imageCid,
   }) {
     return SellerPledgeState(
       step: step ?? this.step,
@@ -34,6 +44,10 @@ class SellerPledgeState {
       committing: committing ?? this.committing,
       committed: committed ?? this.committed,
       category: category ?? this.category,
+      aiScore: aiScore ?? this.aiScore,
+      confidence: confidence ?? this.confidence,
+      imageHash: imageHash ?? this.imageHash,
+      imageCid: imageCid ?? this.imageCid,
     );
   }
 }

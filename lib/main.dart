@@ -16,10 +16,27 @@ import 'routes/app_routes.dart';
 import 'theme/app_theme.dart';
 import 'theme/app_palette.dart';
 import 'theme/theme_controller.dart';
+import 'core/network/api_client.dart';
+import 'data/api/auth_api.dart';
+import 'data/api/remote_data_source.dart';
+import 'data/repositories.dart';
+import 'data/session.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HiveStorageService.init();
+  await SessionManager.instance.restore();
+  final apiClient = ApiClient(
+    baseUrl: ApiClient.defaultBaseUrl,
+    tokenReader: () => SessionManager.instance.token,
+  );
+  SessionManager.instance.configure(AuthApi(apiClient));
+  apiClient.setUnauthorizedHandler(SessionManager.instance.refreshAccessToken);
+  AppRepositories.configureRemote(RemoteDataSource(apiClient));
+  if (SessionManager.instance.isLoggedIn) {
+    final shop = await AppRepositories.instance.shops.fetchMine();
+    if (shop != null) SessionManager.instance.setShopId(shop.id);
+  }
   runApp(const VnGroceryApp());
 }
 
@@ -39,7 +56,8 @@ class VnGroceryApp extends StatelessWidget {
           child: BlocBuilder<SessionCubit, SessionState>(
             builder: (context, session) {
               return MaterialApp(
-                onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+                onGenerateTitle: (context) =>
+                    AppLocalizations.of(context).appTitle,
                 localizationsDelegates: const [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,

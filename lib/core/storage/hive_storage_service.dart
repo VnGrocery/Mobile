@@ -22,6 +22,11 @@ class HiveStorageService {
 
   static Box<Object> metadataBox() => Hive.box<Object>(metadataBoxName);
 
+  static Box<Object>? tryMetadataBox() {
+    if (!Hive.isBoxOpen(metadataBoxName)) return null;
+    return Hive.box<Object>(metadataBoxName);
+  }
+
   static Box<Map> cartBox() => Hive.box<Map>(cartBoxName);
 
   static Box<Map> productBox() => Hive.box<Map>(productBoxName);

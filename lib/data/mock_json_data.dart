@@ -121,7 +121,7 @@ const Map<String, Object?> appMockJson = {
       'discountValue': 20,
       'isPercent': true,
       'minSpend': 150000,
-      'expiresAt': '2026-06-30T23:59:00',
+      'expiresAt': '2027-06-30T23:59:00',
     },
     {
       'id': 'v2',
@@ -131,7 +131,7 @@ const Map<String, Object?> appMockJson = {
       'discountValue': 50000,
       'isPercent': false,
       'minSpend': 250000,
-      'expiresAt': '2026-06-15T23:59:00',
+      'expiresAt': '2027-06-15T23:59:00',
     },
     {
       'id': 'v3',
@@ -151,7 +151,7 @@ const Map<String, Object?> appMockJson = {
       'discountValue': 15,
       'isPercent': true,
       'minSpend': 100000,
-      'expiresAt': '2026-06-28T23:59:00',
+      'expiresAt': '2027-06-28T23:59:00',
     },
   ],
   'userVouchers': [

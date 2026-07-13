@@ -7,10 +7,19 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
   final AppRepositories _repositories;
 
   ProductDetailCubit({AppRepositories? repositories})
-      : _repositories = repositories ?? AppRepositories.instance,
-        super(const ProductDetailState());
+    : _repositories = repositories ?? AppRepositories.instance,
+      super(const ProductDetailState());
 
-  void load(String productId) {
-    emit(ProductDetailState(product: _repositories.products.byId(productId)));
+  Future<void> load(String productId) async {
+    final cached = _repositories.products.byIdOrNull(productId);
+    if (cached != null) emit(ProductDetailState(product: cached));
+    if (cached == null) return;
+    try {
+      emit(
+        ProductDetailState(
+          product: await _repositories.products.fetch(cached.shopId, productId),
+        ),
+      );
+    } catch (_) {}
   }
 }

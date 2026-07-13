@@ -8,6 +8,8 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/features/auth/widgets/auth_components.dart';
 import 'package:vngrocery/features/auth/widgets/forgot_password_sheet.dart';
 import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/data/repositories.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -135,25 +137,56 @@ class _AuthScreenState extends State<AuthScreen> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _loading = true);
-    await widget.delayService.wait(AppDelayKind.authLogin);
-    if (!mounted) return;
-    context.read<SessionCubit>().login(
-      email: _email.text,
-      displayName: _isRegister ? _name.text : null,
-    );
-    Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
+    try {
+      await context.read<SessionCubit>().authenticate(
+        email: _email.text,
+        password: _password.text,
+        register: _isRegister,
+        displayName: _name.text,
+      );
+      if (!mounted) return;
+      final shop = await AppRepositories.instance.shops.fetchMine();
+      if (!mounted) return;
+      if (shop != null) {
+        context.read<SessionCubit>().setShopId(shop.id);
+      }
+      Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _loading = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.toString())));
+    }
   }
 
   Future<void> _continueWithGoogle() async {
     FocusScope.of(context).unfocus();
     setState(() => _loading = true);
-    await widget.delayService.wait(AppDelayKind.authRegister);
-    if (!mounted) return;
-    context.read<SessionCubit>().login(
-      email: 'google.demo@vngrocery.com',
-      displayName: 'Google Demo',
-    );
-    Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
+    try {
+      const clientId = String.fromEnvironment('GOOGLE_CLIENT_ID');
+      final account = await GoogleSignIn(
+        serverClientId: clientId.isEmpty ? null : clientId,
+      ).signIn();
+      final token = (await account?.authentication)?.idToken;
+      if (token == null || token.isEmpty) {
+        throw StateError('Không lấy được Google ID token');
+      }
+      if (!mounted) return;
+      await context.read<SessionCubit>().authenticateGoogle(token);
+      final shop = await AppRepositories.instance.shops.fetchMine();
+      if (!mounted) return;
+      if (shop != null) {
+        context.read<SessionCubit>().setShopId(shop.id);
+      }
+      Navigator.pushNamedAndRemoveUntil(context, Routes.main, (r) => false);
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _loading = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(error.toString())));
+    }
   }
 
   void _forgotPassword() {

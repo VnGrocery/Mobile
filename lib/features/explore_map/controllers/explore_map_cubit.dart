@@ -6,14 +6,16 @@ import 'explore_map_state.dart';
 class ExploreMapCubit extends Cubit<ExploreMapState> {
   final AppRepositories _repositories;
 
-  ExploreMapCubit({
-    String? initialShopId,
-    AppRepositories? repositories,
-  })  : _repositories = repositories ?? AppRepositories.instance,
-        super(ExploreMapState(selectedShopId: initialShopId));
+  ExploreMapCubit({String? initialShopId, AppRepositories? repositories})
+    : _repositories = repositories ?? AppRepositories.instance,
+      super(ExploreMapState(selectedShopId: initialShopId));
 
-  void load() {
+  Future<void> load() async {
     emit(state.copyWith(shops: _repositories.shops.all()));
+    try {
+      final shops = await _repositories.shops.refresh();
+      emit(state.copyWith(shops: shops));
+    } catch (_) {}
   }
 
   void selectShop(String shopId) {

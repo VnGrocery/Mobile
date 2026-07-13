@@ -15,19 +15,20 @@ class Review {
 
   factory Review.fromJson(Map<String, Object?> json) {
     return Review(
-      id: json['id'] as String,
-      userName: json['userName'] as String,
+      id: (json['reviewId'] ?? json['id']) as String,
+      userName: (json['userName'] ?? json['reviewerUserId'] ?? 'Người dùng')
+          .toString(),
       rating: (json['rating'] as num).toInt(),
       comment: json['comment'] as String,
-      date: json['date'] as String,
+      date: (json['date'] ?? json['createdAt'] ?? '').toString(),
     );
   }
 
   Map<String, Object?> toJson() => {
-        'id': id,
-        'userName': userName,
-        'rating': rating,
-        'comment': comment,
-        'date': date,
-      };
+    'id': id,
+    'userName': userName,
+    'rating': rating,
+    'comment': comment,
+    'date': date,
+  };
 }

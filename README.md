@@ -1,10 +1,10 @@
 # VnGrocery
 
-Ứng dụng Flutter demo cho bài toán minh bạch chất lượng thực phẩm: buyer có thể khám phá cửa hàng, quét sản phẩm, so sánh cam kết; seller có thể quản lý cửa hàng, sản phẩm và cam kết.
+Ứng dụng Flutter cho bài toán minh bạch chất lượng thực phẩm, tích hợp trực tiếp với VnGrocery Server.
 
 ## Tính năng chính
 
-- Xác thực demo: đăng nhập, đăng ký, quên mật khẩu, đổi mật khẩu.
+- Xác thực API: đăng nhập, đăng ký, quên mật khẩu, đổi mật khẩu và lưu session.
 - Chuyển chế độ User/Seller ngay trong tab tài khoản.
 - Buyer flow:
   - Khám phá cửa hàng.
@@ -16,13 +16,14 @@
   - Quản lý sản phẩm.
   - Tạo cam kết chất lượng.
   - Quản lý thông tin cửa hàng.
-- Toàn bộ dữ liệu đang chạy bằng mock JSON qua `MockDb` → repositories; UI feature code hiện đọc/ghi qua repository/cubit boundary thay vì `AppDataHooks`.
+- Runtime dùng REST API cho auth, shop, product, review, pledge, buyer check và voucher. `MockDb` chỉ còn là test double cho unit/widget test.
 
 ## Công nghệ
 
 - Flutter (Material 3)
 - Dart SDK: `>=3.10.3 <4.0.0`
-- Không dùng backend thật ở bản hiện tại
+- REST client: package `http`
+- Hive lưu session và cart trên thiết bị
 
 ## Cấu trúc thư mục
 
@@ -78,6 +79,21 @@ flutter test integration_test/app_smoke_test.dart
 flutter run
 ```
 
+API mặc định trên Android emulator là `http://10.0.2.2:8080`. Có thể đổi bằng compile-time define:
+
+```bash
+flutter run --dart-define=API_BASE_URL=http://192.168.1.10:8080
+flutter build apk --dart-define=API_BASE_URL=https://api.example.com
+```
+
+Google login cần cấu hình OAuth native theo `google_sign_in` và truyền web client ID dùng để Server xác minh:
+
+```bash
+flutter run --dart-define=GOOGLE_CLIENT_ID=your-web-client-id.apps.googleusercontent.com
+```
+
+Thiết bị thật phải dùng địa chỉ LAN/HTTPS mà thiết bị truy cập được. HTTP cleartext chỉ được bật trong Android debug manifest; production nên dùng HTTPS.
+
 `integration_test/app_smoke_test.dart` dùng `integration_test`; cần Android/iOS device hoặc emulator. Smoke hiện dùng stable keys cho onboarding/auth/logout flow thay vì selector text cứng. Lệnh chuẩn:
 
 ```bash
@@ -89,9 +105,9 @@ Widget/unit test thuần vẫn chạy được bằng `flutter test`.
 
 ## Trạng thái dữ liệu
 
-- Dữ liệu đang là mock, không gọi API thật.
-- Luồng dữ liệu hiện tại: mock JSON → `MockDb` → repositories.
-- Backend replacement nên ưu tiên giữ contract repository; tránh thêm data façade mới ở UI layer.
+- Runtime: Server REST API → `RemoteDataSource` → repositories → Cubit/BLoC.
+- Test: mock JSON → `MockDb` → cùng repository/Cubit boundary.
+- Cart tiếp tục lưu local bằng Hive vì Server chưa có nghiệp vụ order/checkout.
 
 ## Mô hình dữ liệu
 

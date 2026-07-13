@@ -1,4 +1,5 @@
 import 'package:vngrocery/data/mock_data.dart';
+import 'package:vngrocery/data/api/remote_data_source.dart';
 import 'buyer_check_repository.dart';
 import 'id_repository.dart';
 import 'pledge_repository.dart';
@@ -9,17 +10,27 @@ import 'shop_repository.dart';
 import 'voucher_repository.dart';
 
 class AppRepositories {
-  AppRepositories._(MockDb db)
-      : shops = ShopRepository(db),
-        products = ProductRepository(db),
-        reviews = ReviewRepository(db),
-        pledges = PledgeRepository(db),
-        buyerChecks = BuyerCheckRepository(db),
-        vouchers = VoucherRepository(db),
-        seller = SellerRepository(db),
-        ids = IdRepository(db);
+  AppRepositories._(MockDb db, [RemoteDataSource? remote])
+    : shops = ShopRepository(db, remote),
+      products = ProductRepository(db, remote),
+      reviews = ReviewRepository(db, remote),
+      pledges = PledgeRepository(db, remote),
+      buyerChecks = BuyerCheckRepository(db),
+      vouchers = VoucherRepository(db, remote),
+      seller = SellerRepository(db),
+      ids = IdRepository(db);
 
-  static final AppRepositories instance = AppRepositories._(MockDb.instance);
+  static AppRepositories instance = AppRepositories._(MockDb.instance);
+
+  static void configureRemote(RemoteDataSource remote) {
+    MockDb.instance.shops.clear();
+    MockDb.instance.products.clear();
+    MockDb.instance.reviewsByShop.clear();
+    MockDb.instance.pledgesByProduct.clear();
+    MockDb.instance.vouchers.clear();
+    MockDb.instance.userVouchers.clear();
+    instance = AppRepositories._(MockDb.instance, remote);
+  }
 
   final ShopRepository shops;
   final ProductRepository products;

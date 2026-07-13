@@ -9,18 +9,16 @@ class SellerProductListCubit extends Cubit<SellerProductListState> {
   final AppRepositories _repositories;
   final String shopId;
 
-  SellerProductListCubit({
-    required this.shopId,
-    AppRepositories? repositories,
-  })  : _repositories = repositories ?? AppRepositories.instance,
-        super(SellerProductListState.initial());
+  SellerProductListCubit({required this.shopId, AppRepositories? repositories})
+    : _repositories = repositories ?? AppRepositories.instance,
+      super(SellerProductListState.initial());
 
-  void load() {
-    emit(
-      state.copyWith(
-        products: _filteredProducts(state.selectedState),
-      ),
-    );
+  Future<void> load() async {
+    emit(state.copyWith(products: _filteredProducts(state.selectedState)));
+    try {
+      await _repositories.products.refreshShop(shopId, seller: true);
+      emit(state.copyWith(products: _filteredProducts(state.selectedState)));
+    } catch (_) {}
   }
 
   void setStateFilter(String value) {

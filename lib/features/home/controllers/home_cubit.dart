@@ -8,10 +8,21 @@ class HomeCubit extends Cubit<HomeState> {
   final AppRepositories _repositories;
 
   HomeCubit({AppRepositories? repositories})
-      : _repositories = repositories ?? AppRepositories.instance,
-        super(const HomeState());
+    : _repositories = repositories ?? AppRepositories.instance,
+      super(const HomeState());
 
-  void load() {
+  Future<void> load() async {
+    _emitCached();
+    try {
+      final shops = await _repositories.shops.refresh();
+      for (final shop in shops) {
+        await _repositories.products.refreshShop(shop.id);
+      }
+      _emitCached();
+    } catch (_) {}
+  }
+
+  void _emitCached() {
     final shops = _repositories.shops.all();
     final products = _repositories.products.all();
     final pledgeItems = products
@@ -23,12 +34,6 @@ class HomeCubit extends Cubit<HomeState> {
         )
         .toList();
 
-    emit(
-      HomeState(
-        shops: shops,
-        products: products,
-        pledgeItems: pledgeItems,
-      ),
-    );
+    emit(HomeState(shops: shops, products: products, pledgeItems: pledgeItems));
   }
 }

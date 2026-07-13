@@ -14,11 +14,7 @@ class AccountTab extends StatefulWidget {
   final double bottomContentInset;
   final ValueChanged<int>? onSelectTab;
 
-  const AccountTab({
-    super.key,
-    this.bottomContentInset = 0,
-    this.onSelectTab,
-  });
+  const AccountTab({super.key, this.bottomContentInset = 0, this.onSelectTab});
 
   @override
   State<AccountTab> createState() => _AccountTabState();
@@ -33,10 +29,10 @@ class _AccountTabState extends State<AccountTab> {
       context,
       initialName: session.displayName,
       initialEmail: session.email,
-      onSave: (name, email) {
-        context
-            .read<SessionCubit>()
-            .updateProfile(displayName: name, email: email);
+      onSave: (name, email) async {
+        await context.read<SessionCubit>().updateProfileRemote(
+          displayName: name,
+        );
       },
     );
 
@@ -77,7 +73,8 @@ class _AccountTabState extends State<AccountTab> {
       ),
     );
     if (ok == true && context.mounted) {
-      context.read<SessionCubit>().logout();
+      await context.read<SessionCubit>().logoutRemote();
+      if (!context.mounted) return;
       Navigator.pushNamedAndRemoveUntil(context, Routes.auth, (r) => false);
     }
   }

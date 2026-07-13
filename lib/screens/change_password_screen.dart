@@ -5,6 +5,7 @@ import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/auth/widgets/change_password_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/data/session.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({
@@ -85,13 +86,22 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _saving = true);
-    await widget.delayService.wait(AppDelayKind.passwordChange);
-    if (!mounted) return;
-    setState(() => _saving = false);
-    AppFeedback.showSnackBar(
-      context,
-      AppLocalizations.of(context).authPasswordChangedDemo,
-    );
-    Navigator.pop(context);
+    try {
+      await SessionManager.instance.changePassword(
+        _currentPassword.text,
+        _newPassword.text,
+      );
+      if (!mounted) return;
+      setState(() => _saving = false);
+      AppFeedback.showSnackBar(
+        context,
+        AppLocalizations.of(context).authPasswordChangedDemo,
+      );
+      Navigator.pop(context);
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _saving = false);
+      AppFeedback.showSnackBar(context, error.toString());
+    }
   }
 }

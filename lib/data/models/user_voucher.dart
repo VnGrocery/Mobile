@@ -19,8 +19,8 @@ class UserVoucher {
 
   factory UserVoucher.fromJson(Map<String, Object?> json) {
     return UserVoucher(
-      id: json['id'] as String,
-      userEmail: json['userEmail'] as String,
+      id: (json['userVoucherId'] ?? json['id']) as String,
+      userEmail: json['userEmail']?.toString() ?? '',
       voucherId: json['voucherId'] as String,
       used: json['used'] as bool? ?? false,
       usedAt: json['usedAt'] == null ? null : dateTime(json['usedAt']),
@@ -28,10 +28,10 @@ class UserVoucher {
   }
 
   Map<String, Object?> toJson() => {
-        'id': id,
-        'userEmail': userEmail,
-        'voucherId': voucherId,
-        'used': used,
-        'usedAt': usedAt?.toIso8601String(),
-      };
+    'id': id,
+    'userEmail': userEmail,
+    'voucherId': voucherId,
+    'used': used,
+    'usedAt': usedAt?.toIso8601String(),
+  };
 }

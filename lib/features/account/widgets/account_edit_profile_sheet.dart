@@ -7,7 +7,7 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 class AccountEditProfileSheet extends StatefulWidget {
   final String initialName;
   final String initialEmail;
-  final void Function(String name, String email) onSave;
+  final Future<void> Function(String name, String email) onSave;
 
   const AccountEditProfileSheet({
     super.key,
@@ -85,9 +85,10 @@ class _AccountEditProfileSheetState extends State<AccountEditProfileSheet> {
             SizedBox(
               height: 52,
               child: FilledButton(
-                onPressed: () {
+                onPressed: () async {
                   if (!(_formKey.currentState?.validate() ?? false)) return;
-                  widget.onSave(_name.text, _email.text);
+                  await widget.onSave(_name.text, _email.text);
+                  if (!context.mounted) return;
                   Navigator.pop(context, true);
                 },
                 child: Text(l10n.accountSaveProfileChanges),
