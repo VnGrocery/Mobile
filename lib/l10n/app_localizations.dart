@@ -1223,7 +1223,7 @@ abstract class AppLocalizations {
   /// No description provided for @scannerSimulateAction.
   ///
   /// In en, this message translates to:
-  /// **'Simulate product scan'**
+  /// **'Capture & analyze with AI'**
   String get scannerSimulateAction;
 
   /// No description provided for @scannerStatusVerifying.

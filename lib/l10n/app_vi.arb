@@ -199,7 +199,7 @@
   "accountScanProducts": "Quét sản phẩm",
   "scannerFrameHint": "Đưa mã QR hoặc tem sản phẩm vào khung hình",
   "scannerCheckingAction": "Đang kiểm tra...",
-  "scannerSimulateAction": "Giả lập quét sản phẩm",
+  "scannerSimulateAction": "Chụp & phân tích AI",
   "scannerStatusVerifying": "Đang kiểm tra vị trí quầy hàng...",
   "scannerStatusReady": "Sẵn sàng kiểm tra sản phẩm",
   "scannerOverlayVerifying": "Đang kiểm tra sản phẩm...",

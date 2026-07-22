@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/services/app_delay_service.dart';
+import 'package:vngrocery/core/services/food_ai_service.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -22,9 +23,25 @@ class AiFreshnessScreen extends StatefulWidget {
 
 class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
   bool _analyzing = false;
+  FoodAiResult? _aiResult;
 
   Future<void> _analyze() async {
     setState(() => _analyzing = true);
+    try {
+      final data = await rootBundle.load('assets/images/meat.png');
+      final localResult = await FoodAiService.instance.predict(
+        data.buffer.asUint8List(),
+      );
+      if (mounted) setState(() => _aiResult = localResult);
+    } catch (error) {
+      if (mounted) {
+        setState(() => _analyzing = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('AI local error: $error')),
+        );
+      }
+      return;
+    }
     final repositories = AppRepositories.instance;
     final payload = repositories.pledges.latestQrPayload;
     final remote = repositories.pledges.remote;
@@ -111,6 +128,14 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
                       ),
               ),
             ),
+            if (_aiResult != null) ...[
+              const SizedBox(height: 16),
+              Text(
+                'Local AI: ${_aiResult!.category} · ${_aiResult!.freshness}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
             const SizedBox(height: 32),
             SizedBox(
               height: 56,

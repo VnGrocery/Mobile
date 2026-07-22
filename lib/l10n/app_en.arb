@@ -199,7 +199,7 @@
   "accountScanProducts": "Scan products",
   "scannerFrameHint": "Place the QR code or product tag inside the frame",
   "scannerCheckingAction": "Checking...",
-  "scannerSimulateAction": "Simulate product scan",
+  "scannerSimulateAction": "Capture & analyze with AI",
   "scannerStatusVerifying": "Checking counter location...",
   "scannerStatusReady": "Ready to verify product",
   "scannerOverlayVerifying": "Checking product...",

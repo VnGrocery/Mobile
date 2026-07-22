@@ -604,7 +604,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scannerCheckingAction => 'Checking...';
 
   @override
-  String get scannerSimulateAction => 'Simulate product scan';
+  String get scannerSimulateAction => 'Capture & analyze with AI';
 
   @override
   String get scannerStatusVerifying => 'Checking counter location...';

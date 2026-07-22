@@ -601,7 +601,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get scannerCheckingAction => 'Đang kiểm tra...';
 
   @override
-  String get scannerSimulateAction => 'Giả lập quét sản phẩm';
+  String get scannerSimulateAction => 'Chụp & phân tích AI';
 
   @override
   String get scannerStatusVerifying => 'Đang kiểm tra vị trí quầy hàng...';
