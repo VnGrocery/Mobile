@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/widgets/trust_score_card.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -70,11 +71,12 @@ class ExploreShopCard extends StatelessWidget {
                       shop.address,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey,
-                      ),
+                      style: const TextStyle(fontSize: 13, color: Colors.grey),
                     ),
+                    if (shop.trustSummary != null) ...[
+                      const SizedBox(height: 6),
+                      TrustGradeChip(summary: shop.trustSummary!),
+                    ],
                     const SizedBox(height: 6),
                     Row(
                       children: [

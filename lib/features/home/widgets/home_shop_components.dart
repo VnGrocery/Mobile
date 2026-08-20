@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/widgets/trust_score_card.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -56,6 +57,10 @@ class HomeTrustShopCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
+                if (shop.trustSummary != null) ...[
+                  TrustGradeChip(summary: shop.trustSummary!),
+                  const SizedBox(height: 6),
+                ],
                 Row(
                   children: [
                     const Icon(
