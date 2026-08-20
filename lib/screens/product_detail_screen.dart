@@ -9,6 +9,7 @@ import 'package:vngrocery/features/products/controllers/product_detail_cubit.dar
 import 'package:vngrocery/features/products/controllers/product_detail_state.dart';
 import 'package:vngrocery/features/products/widgets/product_detail_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -73,11 +74,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(height: 12),
                         TrustBadge(
                           proof: state.proof!,
-                          onTap: state.proof!.canRetry
-                              ? () => context
-                                    .read<ProductDetailCubit>()
-                                    .loadProof()
-                              : null,
+                          // The certificate screen is otherwise unreachable for
+                          // buyers: pledge history is a seller-only route.
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            Routes.blockchainProof,
+                            arguments: BlockchainProofArgs(
+                              shopId: product.shopId,
+                              pledgeId: state.proof!.pledgeId,
+                            ),
+                          ),
                         ),
                       ],
                       const SizedBox(height: 12),
