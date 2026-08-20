@@ -16,10 +16,10 @@ class Review {
   factory Review.fromJson(Map<String, Object?> json) {
     return Review(
       id: (json['reviewId'] ?? json['id']) as String,
-      // Falling back to reviewerUserId printed a raw UUID as the author name.
-      // The server sends no display name for reviewers, so this stays empty and
-      // the UI supplies a generic label in the reader's language.
-      userName: (json['userName'] ?? '').toString(),
+      // `reviewerName` is the server's field; it is empty when the account has
+      // no display name. Never fall back to reviewerUserId — that printed a raw
+      // UUID as the author. The UI supplies a generic label for the empty case.
+      userName: (json['reviewerName'] ?? json['userName'] ?? '').toString(),
       rating: (json['rating'] as num).toInt(),
       comment: json['comment'] as String,
       date: (json['date'] ?? json['createdAt'] ?? '').toString(),
