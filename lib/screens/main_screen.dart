@@ -27,7 +27,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  static const double _bottomNavContentInset = 92;
+  /// Space the tabs must keep clear at the bottom so the floating nav does not
+  /// sit on top of the last item.
+  ///
+  /// FloatingTabPopup is 108 tall and is positioned 8 above the bottom edge, so
+  /// it occupies 116; the extra 8 keeps content from touching it. This used to
+  /// be 92, which is exactly why the last row of every tab was covered.
+  static const double _bottomNavContentInset = 124;
   static const int _buyerVoucherWalletMenuIndex = 4;
 
   int _index = 0;
