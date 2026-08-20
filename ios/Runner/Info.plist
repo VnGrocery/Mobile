@@ -24,6 +24,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera dùng để chụp ảnh thực phẩm cho AI kiểm tra.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Vị trí dùng để ưu tiên cửa hàng gần bạn nhất.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

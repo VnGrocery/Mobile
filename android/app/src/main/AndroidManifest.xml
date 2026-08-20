@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
    <uses-permission android:name="android.permission.INTERNET" />
    <uses-permission android:name="android.permission.CAMERA" />
+   <!-- Coarse is enough to rank shops by a few kilometres; fine is requested
+        so a user who grants it gets a tighter "within 5 km" ring. -->
+   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
         android:label="VnGrocery"
         android:name="${applicationName}"

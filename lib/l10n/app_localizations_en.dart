@@ -1546,4 +1546,28 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeEmptyMessage =>
       'Products appear here once sellers record their freshness.';
+
+  @override
+  String get homeLocationUnknown => 'Turn on location';
+
+  @override
+  String get homeLocationSearching => 'Finding you…';
+
+  @override
+  String get homeLocationNearby => 'Near you';
+
+  @override
+  String get homeLocationOffHint =>
+      'Turn on location to see the shops closest to you first.';
+
+  @override
+  String get homeLocationBlockedHint =>
+      'Allow location for this app in Settings.';
+
+  @override
+  String get homeNoShopNearbyTitle => 'No shops near you';
+
+  @override
+  String get homeNoShopNearbyMessage =>
+      'Nothing found within 20 km of where you are.';
 }

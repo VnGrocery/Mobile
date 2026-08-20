@@ -14,12 +14,29 @@ class HomeHeader extends StatelessWidget {
   final String userName;
   final VoidCallback? onOpenMenu;
 
-  const HomeHeader({super.key, required this.userName, this.onOpenMenu});
+  /// Name of the area the reader is in. Empty while unknown.
+  final String areaName;
+
+  /// True once the app has a position but no name for it — the ranking works,
+  /// only the label is missing.
+  final bool located;
+
+  /// Retries locating. The chip used to carry a dropdown arrow suggesting a
+  /// picker that did not exist.
+  final VoidCallback? onRefreshLocation;
+
+  const HomeHeader({
+    super.key,
+    required this.userName,
+    this.onOpenMenu,
+    this.areaName = '',
+    this.located = false,
+    this.onRefreshLocation,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final palette = context.palette;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       child: Row(
@@ -55,36 +72,14 @@ class HomeHeader extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: palette.card,
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.location_on,
-                  color: AppColors.primaryGreen,
-                  size: 16,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  l10n.homeLocationDistrict1,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(width: 2),
-                const Icon(
-                  Icons.keyboard_arrow_down,
-                  color: AppColors.primaryGreen,
-                  size: 16,
-                ),
-              ],
-            ),
+          _LocationChip(
+            label: areaName.isNotEmpty
+                ? areaName
+                : located
+                ? l10n.homeLocationNearby
+                : l10n.homeLocationUnknown,
+            located: located,
+            onTap: onRefreshLocation,
           ),
           const SizedBox(width: 8),
           BlocBuilder<CartBloc, CartState>(
@@ -96,6 +91,59 @@ class HomeHeader extends StatelessWidget {
             },
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Shows where the reader is, and offers to look again when it does not know.
+class _LocationChip extends StatelessWidget {
+  final String label;
+  final bool located;
+  final VoidCallback? onTap;
+
+  const _LocationChip({required this.label, required this.located, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    return Material(
+      color: palette.card,
+      borderRadius: BorderRadius.circular(24),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                located ? Icons.location_on : Icons.location_off_outlined,
+                color: located
+                    ? AppColors.primaryGreen
+                    : AppColors.textSecondary,
+                size: 16,
+              ),
+              const SizedBox(width: 4),
+              ConstrainedBox(
+                // A district name can be long ("Thành phố Thủ Đức") and must
+                // not push the cart button off the row.
+                constraints: const BoxConstraints(maxWidth: 110),
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: located ? null : AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

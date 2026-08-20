@@ -16,17 +16,20 @@ void main() {
     cubit.close();
   });
 
-  test('a finished load is marked ready so the tab stops showing a spinner', () async {
-    final cubit = HomeCubit();
+  test(
+    'a finished load is marked ready so the tab stops showing a spinner',
+    () async {
+      final cubit = HomeCubit();
 
-    expect(cubit.state.status, HomeStatus.loading);
-    await cubit.load();
+      expect(cubit.state.status, HomeStatus.loading);
+      await cubit.load();
 
-    expect(cubit.state.status, HomeStatus.ready);
-    expect(cubit.state.isEmpty, isFalse);
+      expect(cubit.state.status, HomeStatus.ready);
+      expect(cubit.state.isEmpty, isFalse);
 
-    cubit.close();
-  });
+      cubit.close();
+    },
+  );
 
   test('leaving the tab mid-load does not emit into a closed cubit', () async {
     final cubit = HomeCubit();

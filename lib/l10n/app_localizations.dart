@@ -2905,6 +2905,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Products appear here once sellers record their freshness.'**
   String get homeEmptyMessage;
+
+  /// Location-aware home copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on location'**
+  String get homeLocationUnknown;
+
+  /// Location-aware home copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding you…'**
+  String get homeLocationSearching;
+
+  /// Location-aware home copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Near you'**
+  String get homeLocationNearby;
+
+  /// Location-aware home copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on location to see the shops closest to you first.'**
+  String get homeLocationOffHint;
+
+  /// Location-aware home copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow location for this app in Settings.'**
+  String get homeLocationBlockedHint;
+
+  /// Location-aware home copy.
+  ///
+  /// In en, this message translates to:
+  /// **'No shops near you'**
+  String get homeNoShopNearbyTitle;
+
+  /// Location-aware home copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found within 20 km of where you are.'**
+  String get homeNoShopNearbyMessage;
 }
 
 class _AppLocalizationsDelegate

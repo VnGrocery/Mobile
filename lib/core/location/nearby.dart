@@ -65,7 +65,9 @@ List<Nearby<T>> rankByDistance<T>(
       .toList();
   final ring = near.isNotEmpty
       ? near
-      : located.where((entry) => entry.distanceKm! <= NearbyRadius.far).toList();
+      : located
+            .where((entry) => entry.distanceKm! <= NearbyRadius.far)
+            .toList();
 
   return [...ring, ...unlocated];
 }

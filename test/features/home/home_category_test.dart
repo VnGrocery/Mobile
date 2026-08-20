@@ -142,10 +142,10 @@ void main() {
       ]);
 
       final produce = state.featuredPledgeItems(category: 'fresh_produce');
-      expect(produce.map((i) => i.product.id), ['1', '3']);
+      expect(produce.map((e) => e.item.product.id), ['1', '3']);
 
       final meat = state.featuredPledgeItems(category: 'meat');
-      expect(meat.map((i) => i.product.id), ['2']);
+      expect(meat.map((e) => e.item.product.id), ['2']);
     });
 
     test('no selection shows everything, still capped by the limit', () {

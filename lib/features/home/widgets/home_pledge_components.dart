@@ -16,7 +16,11 @@ import 'package:vngrocery/features/home/home_presenter.dart';
 class HomePledgeCard extends StatelessWidget {
   final HomePledgeItem item;
 
-  const HomePledgeCard({super.key, required this.item});
+  /// How far the shop is from the reader. Null when the app has no location,
+  /// in which case no distance is shown rather than a guessed one.
+  final double? distanceKm;
+
+  const HomePledgeCard({super.key, required this.item, this.distanceKm});
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +58,37 @@ class HomePledgeCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      shop.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.textSecondary,
-                      ),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            shop.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                        if (distanceKm != null) ...[
+                          const Text(
+                            ' · ',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          Text(
+                            formatDistance(distanceKm!),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primaryGreen,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     const SizedBox(height: 6),
                     Text(

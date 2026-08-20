@@ -29,7 +29,9 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void initState() {
     super.initState();
-    _homeCubit = HomeCubit()..load();
+    _homeCubit = HomeCubit()
+      ..load()
+      ..locateReader();
   }
 
   @override
@@ -52,6 +54,12 @@ class _HomeTabState extends State<HomeTab> {
               ? _category
               : _allCategory;
           final topRatedShops = state.topRatedShops;
+          // Everything loaded, the reader is located, and none of it is close
+          // enough to be worth showing.
+          final outOfRange =
+              state.location != null &&
+              state.pledgeItems.isNotEmpty &&
+              state.nearbyPledgeItems.isEmpty;
           final featuredPledgeItems = state.featuredPledgeItems(
             category: activeCategory == _allCategory ? null : activeCategory,
           );
@@ -63,7 +71,13 @@ class _HomeTabState extends State<HomeTab> {
               child: ListView(
                 padding: EdgeInsets.only(bottom: widget.bottomContentInset),
                 children: [
-                  HomeHeader(userName: userName, onOpenMenu: widget.onOpenMenu),
+                  HomeHeader(
+                    userName: userName,
+                    onOpenMenu: widget.onOpenMenu,
+                    areaName: state.location?.areaName ?? '',
+                    located: state.location != null,
+                    onRefreshLocation: _homeCubit.locateReader,
+                  ),
                   const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -154,19 +168,31 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                     const SizedBox(height: 12),
                     if (featuredPledgeItems.isEmpty)
-                      HomeStatusMessage(
-                        icon: Icons.inventory_2_outlined,
-                        title: l10n.homeEmptyTitle,
-                        message: l10n.homeEmptyMessage,
-                      )
+                      // There is a catalogue, so an empty list here means
+                      // nothing of it is within reach — a different problem
+                      // from having no products at all.
+                      outOfRange
+                          ? HomeStatusMessage(
+                              icon: Icons.location_searching,
+                              title: l10n.homeNoShopNearbyTitle,
+                              message: l10n.homeNoShopNearbyMessage,
+                            )
+                          : HomeStatusMessage(
+                              icon: Icons.inventory_2_outlined,
+                              title: l10n.homeEmptyTitle,
+                              message: l10n.homeEmptyMessage,
+                            )
                     else
                       ...featuredPledgeItems.map(
-                        (item) => Padding(
+                        (entry) => Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,
                             vertical: 5,
                           ),
-                          child: HomePledgeCard(item: item),
+                          child: HomePledgeCard(
+                            item: entry.item,
+                            distanceKm: entry.distanceKm,
+                          ),
                         ),
                       ),
                     const SizedBox(height: 30),

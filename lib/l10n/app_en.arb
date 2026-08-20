@@ -1117,5 +1117,33 @@
   "homeEmptyMessage": "Products appear here once sellers record their freshness.",
   "@homeEmptyMessage": {
     "description": "Home tab empty and error states."
+  },
+  "homeLocationUnknown": "Turn on location",
+  "@homeLocationUnknown": {
+    "description": "Location-aware home copy."
+  },
+  "homeLocationSearching": "Finding you…",
+  "@homeLocationSearching": {
+    "description": "Location-aware home copy."
+  },
+  "homeLocationNearby": "Near you",
+  "@homeLocationNearby": {
+    "description": "Location-aware home copy."
+  },
+  "homeLocationOffHint": "Turn on location to see the shops closest to you first.",
+  "@homeLocationOffHint": {
+    "description": "Location-aware home copy."
+  },
+  "homeLocationBlockedHint": "Allow location for this app in Settings.",
+  "@homeLocationBlockedHint": {
+    "description": "Location-aware home copy."
+  },
+  "homeNoShopNearbyTitle": "No shops near you",
+  "@homeNoShopNearbyTitle": {
+    "description": "Location-aware home copy."
+  },
+  "homeNoShopNearbyMessage": "Nothing found within 20 km of where you are.",
+  "@homeNoShopNearbyMessage": {
+    "description": "Location-aware home copy."
   }
 }

@@ -22,3 +22,16 @@ String formatShortDate(String isoOrText) {
   final month = local.month.toString().padLeft(2, '0');
   return '$day/$month/${local.year}';
 }
+
+/// Distance from the reader, in the unit that reads naturally at that range.
+///
+/// Under a kilometre people think in metres ("cách 400 m"), above it in
+/// kilometres with one decimal. Rounded to the nearest 10 m so a GPS fix
+/// jittering by a few metres does not make the label flicker.
+String formatDistance(double km) {
+  if (km < 1) {
+    final metres = (km * 1000 / 10).round() * 10;
+    return '$metres m';
+  }
+  return '${km.toStringAsFixed(1)} km';
+}

@@ -1537,4 +1537,28 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get homeEmptyMessage =>
       'Khi người bán ghi nhận độ tươi, sản phẩm sẽ hiện ở đây.';
+
+  @override
+  String get homeLocationUnknown => 'Bật vị trí';
+
+  @override
+  String get homeLocationSearching => 'Đang định vị…';
+
+  @override
+  String get homeLocationNearby => 'Gần bạn';
+
+  @override
+  String get homeLocationOffHint =>
+      'Bật định vị để xem cửa hàng gần bạn trước.';
+
+  @override
+  String get homeLocationBlockedHint =>
+      'Vào Cài đặt để cho phép ứng dụng dùng vị trí.';
+
+  @override
+  String get homeNoShopNearbyTitle => 'Chưa có cửa hàng gần bạn';
+
+  @override
+  String get homeNoShopNearbyMessage =>
+      'Không tìm thấy cửa hàng nào trong bán kính 20 km.';
 }

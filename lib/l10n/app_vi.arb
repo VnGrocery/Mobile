@@ -613,5 +613,33 @@
   "homeEmptyMessage": "Khi người bán ghi nhận độ tươi, sản phẩm sẽ hiện ở đây.",
   "@homeEmptyMessage": {
     "description": "Home tab empty and error states."
+  },
+  "homeLocationUnknown": "Bật vị trí",
+  "@homeLocationUnknown": {
+    "description": "Location-aware home copy."
+  },
+  "homeLocationSearching": "Đang định vị…",
+  "@homeLocationSearching": {
+    "description": "Location-aware home copy."
+  },
+  "homeLocationNearby": "Gần bạn",
+  "@homeLocationNearby": {
+    "description": "Location-aware home copy."
+  },
+  "homeLocationOffHint": "Bật định vị để xem cửa hàng gần bạn trước.",
+  "@homeLocationOffHint": {
+    "description": "Location-aware home copy."
+  },
+  "homeLocationBlockedHint": "Vào Cài đặt để cho phép ứng dụng dùng vị trí.",
+  "@homeLocationBlockedHint": {
+    "description": "Location-aware home copy."
+  },
+  "homeNoShopNearbyTitle": "Chưa có cửa hàng gần bạn",
+  "@homeNoShopNearbyTitle": {
+    "description": "Location-aware home copy."
+  },
+  "homeNoShopNearbyMessage": "Không tìm thấy cửa hàng nào trong bán kính 20 km.",
+  "@homeNoShopNearbyMessage": {
+    "description": "Location-aware home copy."
   }
 }

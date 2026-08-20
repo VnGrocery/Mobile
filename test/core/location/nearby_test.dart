@@ -30,7 +30,10 @@ void main() {
 
     test('is symmetric', () {
       const other = GeoPoint(10.4114, 106.9548);
-      expect(distanceKm(_origin, other), closeTo(distanceKm(other, _origin), 1e-9));
+      expect(
+        distanceKm(_origin, other),
+        closeTo(distanceKm(other, _origin), 1e-9),
+      );
     });
   });
 
@@ -67,7 +70,9 @@ void main() {
     test('drops anything past the far ring', () {
       // Cần Giờ is ~40 km out; past 20 km it is not "nearby" in any useful
       // sense, so it is left out rather than shown as a suggestion.
-      final ranked = _rank(const [_Shop('canGio', GeoPoint(10.4114, 106.9548))]);
+      final ranked = _rank(const [
+        _Shop('canGio', GeoPoint(10.4114, 106.9548)),
+      ]);
 
       expect(ranked, isEmpty);
     });

@@ -2,16 +2,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
+import 'package:vngrocery/core/location/location_service.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/home/home_presenter.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
   final AppRepositories _repositories;
+  final LocationService _location;
 
-  HomeCubit({AppRepositories? repositories})
+  HomeCubit({AppRepositories? repositories, LocationService? location})
     : _repositories = repositories ?? AppRepositories.instance,
+      _location = location ?? LocationService.instance,
       super(const HomeState());
+
+  /// Finds the reader so the lists can be ordered by how far away things are.
+  ///
+  /// Kept apart from [load] because it can prompt for a permission: the
+  /// catalogue must still arrive if the reader says no, and refreshing the
+  /// catalogue must not re-ask.
+  Future<void> locateReader() async {
+    final (location, denial) = await _location.current();
+    emit(state.withLocation(location, denial));
+  }
 
   Future<void> load() async {
     _emitCached(HomeStatus.loading);
@@ -46,6 +59,9 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
         shops: shops,
         products: products,
         pledgeItems: pledgeItems,
+        // A catalogue refresh must not throw away a location already found.
+        location: state.location,
+        locationDenial: state.locationDenial,
       ),
     );
   }

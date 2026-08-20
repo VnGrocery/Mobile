@@ -1,3 +1,6 @@
+import 'package:vngrocery/core/location/geo.dart';
+import 'package:vngrocery/core/location/location_service.dart';
+import 'package:vngrocery/core/location/nearby.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/home/home_presenter.dart';
 
@@ -14,12 +17,40 @@ class HomeState {
   final List<Product> products;
   final List<HomePledgeItem> pledgeItems;
 
+  /// Where the reader is, when they let the app find out.
+  final ReaderLocation? location;
+
+  /// Why there is no location. Null while it has not been asked for yet.
+  final LocationDenial? locationDenial;
+
   const HomeState({
     this.status = HomeStatus.loading,
     this.shops = const [],
     this.products = const [],
     this.pledgeItems = const [],
+    this.location,
+    this.locationDenial,
   });
+
+  /// Replaces the location outcome wholesale.
+  ///
+  /// Both fields are set together and either may legitimately become null — a
+  /// successful fix clears the denial, a refusal clears the position — so this
+  /// deliberately takes no "keep what you had" shortcut.
+  HomeState withLocation(ReaderLocation? location, LocationDenial? denial) =>
+      HomeState(
+        status: status,
+        shops: shops,
+        products: products,
+        pledgeItems: pledgeItems,
+        location: location,
+        locationDenial: denial,
+      );
+
+  GeoPoint? get origin => location?.point;
+
+  static GeoPoint? _shopPoint(Shop shop) =>
+      GeoPoint(shop.latitude, shop.longitude);
 
   /// Nothing to show: no shops worth ranking and no recent checks.
   bool get isEmpty => shops.isEmpty && pledgeItems.isEmpty;
@@ -40,16 +71,33 @@ class HomeState {
     return list;
   }
 
+  /// Shops near the reader, nearest first.
+  ///
+  /// Empty only when the reader is nowhere near any shop; with no location it
+  /// falls back to every shop in the loaded order.
+  List<Nearby<Shop>> get nearbyShops =>
+      rankByDistance(shops, origin: origin, locate: _shopPoint);
+
+  /// Recent checks from shops near the reader, nearest first.
+  List<Nearby<HomePledgeItem>> get nearbyPledgeItems => rankByDistance(
+    pledgeItems,
+    origin: origin,
+    locate: (item) => _shopPoint(item.shop),
+  );
+
   /// Shops worth putting under "đánh giá tốt", best first.
   ///
   /// The section used to render [shops] in whatever order the server returned,
   /// so a brand-new shop with 0.0 stars and no reviews sat at the front of a
   /// list titled "top rated". A shop earns a place here only once it has a
   /// signal to rank on — a review, or a trust verdict backed by real pledges —
-  /// and the list is empty
-  /// when none do, which lets the section hide itself.
+  /// and the list is empty when none do, which lets the section hide itself.
+  ///
+  /// Only shops in the nearby ring are considered: a well-rated stall 30 km
+  /// away is not somewhere anyone is buying fresh produce today.
   List<Shop> get topRatedShops {
-    final ranked = shops
+    final ranked = nearbyShops
+        .map((entry) => entry.item)
         .where(
           (shop) =>
               shop.reviewCount > 0 || (shop.trustSummary?.hasData ?? false),
@@ -67,12 +115,18 @@ class HomeState {
 
   static double _trustScore(Shop shop) => shop.trustSummary?.score ?? 0;
 
-  /// Recent checks, optionally narrowed to one category.
-  List<HomePledgeItem> featuredPledgeItems({int limit = 3, String? category}) {
+  /// Recent checks, nearest first, optionally narrowed to one category.
+  ///
+  /// Distance decides the order rather than whatever the catalogue returned, so
+  /// the three products on the home page are ones the reader could go and buy.
+  List<Nearby<HomePledgeItem>> featuredPledgeItems({
+    int limit = 3,
+    String? category,
+  }) {
     final items = category == null || category.isEmpty
-        ? pledgeItems
-        : pledgeItems
-              .where((item) => item.product.category == category)
+        ? nearbyPledgeItems
+        : nearbyPledgeItems
+              .where((entry) => entry.item.product.category == category)
               .toList();
     return items.take(limit).toList();
   }
