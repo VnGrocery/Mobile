@@ -567,5 +567,7 @@
   "cameraCaptureAction": "Chụp",
   "pledgeCaptureHint": "Đưa sản phẩm cần ghi nhận vào khung hình",
   "reviewPhotoHint": "Chụp ảnh để đính kèm vào đánh giá",
-  "reviewPhotoRemoved": "Đã bỏ ảnh"
+  "reviewPhotoRemoved": "Đã bỏ ảnh",
+  "sellerProductImageHint": "Chụp ảnh sản phẩm cho tin đăng",
+  "sellerProductImageAttached": "Đã thêm ảnh"
 }

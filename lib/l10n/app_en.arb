@@ -1059,5 +1059,9 @@
   "reviewPhotoRemoved": "Photo removed",
   "@reviewPhotoRemoved": {
     "description": "Shown after removing a review photo."
-  }
+  },
+  "sellerProductImageHint": "Photograph the product for the listing",
+  "@sellerProductImageHint": {"description": "Hint on the product photo screen."},
+  "sellerProductImageAttached": "Photo added",
+  "@sellerProductImageAttached": {"description": "Shown after adding a product photo."}
 }

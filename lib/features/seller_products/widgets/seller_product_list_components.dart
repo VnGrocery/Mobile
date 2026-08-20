@@ -169,8 +169,10 @@ class SellerProductStatusBadge extends StatelessWidget {
     final fg = SellerProductPresenter.statusForeground(status);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration:
-          BoxDecoration(color: bg, borderRadius: BorderRadius.circular(4)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(4),
+      ),
       child: Text(
         SellerProductPresenter.stateLabel(status, l10n),
         style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: fg),

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/services/app_delay_service.dart';
@@ -24,8 +26,20 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
     emit(state.copyWith(category: category, saved: false));
   }
 
-  void toggleImage() {
-    emit(state.copyWith(imageSelected: !state.imageSelected, saved: false));
+  /// Photo the seller took for the listing. This used to be a bare bool with
+  /// no picture behind it, so products were always created without an image.
+  Uint8List? _image;
+
+  bool get hasImage => _image != null;
+
+  void attachImage(Uint8List image) {
+    _image = image;
+    emit(state.copyWith(imageSelected: true, saved: false));
+  }
+
+  void removeImage() {
+    _image = null;
+    emit(state.copyWith(imageSelected: false, saved: false));
   }
 
   Future<Product> save({
@@ -37,6 +51,15 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
   }) async {
     emit(state.copyWith(saving: true, saved: false));
     await _delayService.wait(AppDelayKind.productSave);
+
+    final imageUrls = <String>[];
+    final photo = _image;
+    final remote = _repositories.products.remote;
+    if (photo != null && remote != null) {
+      final url = await remote.uploadImage(photo);
+      if (url != null) imageUrls.add(url);
+    }
+
     final product = Product(
       id: _repositories.ids.nextId(),
       shopId: shopId,
@@ -50,7 +73,11 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> {
       ),
       price: SellerProductPresenter.parsePrice(price),
       tags: SellerProductPresenter.parseTags(tags),
-      status: 'Draft',
+      imageUrls: imageUrls,
+      // Draft products are invisible to buyers: the server only exposes
+      // "active" and "published". Creating them as drafts meant a seller could
+      // add a product and never see it in their shop.
+      status: 'published',
     );
     final savedProduct = await _repositories.products.saveRemote(product);
     emit(state.copyWith(saving: false, saved: true));

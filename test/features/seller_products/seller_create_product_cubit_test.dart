@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -15,7 +17,8 @@ void main() {
     );
 
     cubit.setCategory(SellerProductPresenter.otherCategory);
-    cubit.toggleImage();
+    // The photo is real bytes now, not a flag with nothing behind it.
+    cubit.attachImage(Uint8List.fromList(const [1, 2, 3]));
 
     expect(cubit.state.category, SellerProductPresenter.otherCategory);
     expect(cubit.state.imageSelected, isTrue);
@@ -23,7 +26,9 @@ void main() {
     cubit.close();
   });
 
-  testWidgets('SellerCreateProductCubit saves draft product', (tester) async {
+  testWidgets('SellerCreateProductCubit saves a product buyers can see', (
+    tester,
+  ) async {
     late AppLocalizations l10n;
     await tester.pumpWidget(
       MaterialApp(
@@ -55,7 +60,9 @@ void main() {
     expect(product.shopId, AppDataConfig.demoShopId);
     expect(product.price, 120000);
     expect(product.tags, ['Demo', 'Fresh']);
-    expect(product.status, 'Draft');
+    // Not a draft: the server only exposes "active" and "published" products,
+    // so a draft would be invisible to buyers and to the seller's own shop.
+    expect(product.status, 'published');
     expect(cubit.state.saved, isTrue);
     expect(cubit.state.saving, isFalse);
 

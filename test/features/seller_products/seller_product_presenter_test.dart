@@ -48,10 +48,11 @@ void main() {
     });
 
     test('parseTags trims values and drops empty tags', () {
-      expect(
-        SellerProductPresenter.parseTags(' sạch, ngon ,, hữu cơ , '),
-        ['sạch', 'ngon', 'hữu cơ'],
-      );
+      expect(SellerProductPresenter.parseTags(' sạch, ngon ,, hữu cơ , '), [
+        'sạch',
+        'ngon',
+        'hữu cơ',
+      ]);
     });
 
     testWidgets('freshnessNote reflects image presence', (tester) async {

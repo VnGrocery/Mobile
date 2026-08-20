@@ -1497,4 +1497,10 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get reviewPhotoRemoved => 'Đã bỏ ảnh';
+
+  @override
+  String get sellerProductImageHint => 'Chụp ảnh sản phẩm cho tin đăng';
+
+  @override
+  String get sellerProductImageAttached => 'Đã thêm ảnh';
 }

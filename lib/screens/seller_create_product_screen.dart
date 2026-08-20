@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:vngrocery/screens/camera_capture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,6 +46,27 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
     super.dispose();
   }
 
+  /// Takes the listing photo. The button used to flip a flag with no picture
+  /// behind it, so every product was created without an image.
+  Future<void> _pickImage() async {
+    final l10n = AppLocalizations.of(context);
+    if (_createCubit.hasImage) {
+      _createCubit.removeImage();
+      if (!mounted) return;
+      AppFeedback.showSnackBar(context, l10n.sellerProductImageRemoved);
+      return;
+    }
+    final photo = await Navigator.push<Uint8List>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CameraCaptureScreen(hint: l10n.sellerProductImageHint),
+      ),
+    );
+    if (photo == null || !mounted) return;
+    _createCubit.attachImage(photo);
+    AppFeedback.showSnackBar(context, l10n.sellerProductImageAttached);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -64,7 +87,7 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
               children: [
                 SellerProductImagePickerCard(
                   selected: state.imageSelected,
-                  onTap: _toggleImage,
+                  onTap: _pickImage,
                 ),
                 const SizedBox(height: 24),
                 SellerCreateProductFields(
@@ -103,16 +126,5 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
     if (!mounted) return;
     AppFeedback.showSnackBar(context, l10n.sellerProductSavedDraft);
     Navigator.pop(context);
-  }
-
-  void _toggleImage() {
-    final l10n = AppLocalizations.of(context);
-    _createCubit.toggleImage();
-    AppFeedback.showSnackBar(
-      context,
-      _createCubit.state.imageSelected
-          ? l10n.sellerProductImageSelectedDemo
-          : l10n.sellerProductImageRemoved,
-    );
   }
 }

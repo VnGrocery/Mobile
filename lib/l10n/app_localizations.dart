@@ -2845,6 +2845,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Photo removed'**
   String get reviewPhotoRemoved;
+
+  /// Hint on the product photo screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Photograph the product for the listing'**
+  String get sellerProductImageHint;
+
+  /// Shown after adding a product photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo added'**
+  String get sellerProductImageAttached;
 }
 
 class _AppLocalizationsDelegate

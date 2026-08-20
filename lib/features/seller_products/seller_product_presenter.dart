@@ -12,12 +12,7 @@ class SellerProductPresenter {
   static const publishedState = 'Published';
   static const archivedState = 'Archived';
 
-  static const states = [
-    allState,
-    publishedState,
-    draftState,
-    archivedState,
-  ];
+  static const states = [allState, publishedState, draftState, archivedState];
 
   static const beefCategory = 'beef';
   static const porkCategory = 'pork';
@@ -91,5 +86,4 @@ class SellerProductPresenter {
         .where((tag) => tag.isNotEmpty)
         .toList();
   }
-
 }

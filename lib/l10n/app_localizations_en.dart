@@ -1506,4 +1506,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewPhotoRemoved => 'Photo removed';
+
+  @override
+  String get sellerProductImageHint => 'Photograph the product for the listing';
+
+  @override
+  String get sellerProductImageAttached => 'Photo added';
 }

@@ -60,4 +60,6 @@ class ProductRepository {
       _db.products[index] = product;
     }
   }
+
+  RemoteDataSource? get remote => _remote;
 }

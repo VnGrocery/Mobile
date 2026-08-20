@@ -98,9 +98,7 @@ class SellerCreateProductFields extends StatelessWidget {
           controller: price,
           keyboardType: TextInputType.number,
           onChanged: onRequiredChanged,
-          decoration: InputDecoration(
-            labelText: l10n.sellerProductPriceLabel,
-          ),
+          decoration: InputDecoration(labelText: l10n.sellerProductPriceLabel),
         ),
         const SizedBox(height: 16),
         Padding(
