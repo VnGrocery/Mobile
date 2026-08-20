@@ -16,15 +16,16 @@ class ApiClient {
   }) : _tokenReader = tokenReader,
        _client = client ?? http.Client();
 
-  /// 10.0.2.2 is the Android emulator's alias for the host machine. Port 5000 is
-  /// what docker-compose publishes for the API; 8080 on the host is the IPFS
-  /// gateway, not the API.
+  /// 10.0.2.2 is the Android emulator's alias for the host machine. 5050 is the
+  /// host port docker-compose publishes the API on — 5000 is taken by macOS
+  /// AirPlay Receiver, which answers 403 and makes the app look empty, and 8080
+  /// on the host is the IPFS gateway.
   ///
   /// Override for a physical device or a different port:
-  ///   flutter run --dart-define=API_BASE_URL=http://192.168.1.10:5000
+  ///   flutter run --dart-define=API_BASE_URL=http://192.168.1.10:5050
   static const defaultBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://10.0.2.2:5000',
+    defaultValue: 'http://10.0.2.2:5050',
   );
 
   final String baseUrl;

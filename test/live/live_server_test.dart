@@ -7,7 +7,7 @@
 /// ```
 /// flutter test test/live \
 ///   --dart-define=LIVE=true \
-///   --dart-define=LIVE_BASE_URL=http://localhost:5000 \
+///   --dart-define=LIVE_BASE_URL=http://localhost:5050 \
 ///   --dart-define=LIVE_SHOP_ID=... \
 ///   --dart-define=LIVE_PRODUCT_ID=...
 /// ```
@@ -23,7 +23,7 @@ import 'package:vngrocery/data/models.dart';
 const _enabled = bool.fromEnvironment('LIVE');
 const _baseUrl = String.fromEnvironment(
   'LIVE_BASE_URL',
-  defaultValue: 'http://localhost:5000',
+  defaultValue: 'http://localhost:5050',
 );
 const _shopId = String.fromEnvironment('LIVE_SHOP_ID');
 const _productId = String.fromEnvironment('LIVE_PRODUCT_ID');
