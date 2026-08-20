@@ -127,19 +127,11 @@ class _AccountTabState extends State<AccountTab> {
               label: l10n.accountStoreInfo,
               onTap: () => _selectTab(2),
             ),
-          ] else ...[
-            AccountSectionLabel(l10n.accountBuyerActivity),
-            AccountMenuItem(
-              icon: Icons.explore,
-              label: l10n.accountExploreStores,
-              onTap: () => _selectTab(1),
-            ),
-            AccountMenuItem(
-              icon: Icons.qr_code_scanner,
-              label: l10n.accountScanProducts,
-              onTap: () => _selectTab(2),
-            ),
           ],
+          // A buyer section used to repeat "Explore stores" and "Scan products"
+          // here, which are already the bottom nav destinations. It also broke
+          // when the map tab was merged away: the hardcoded tab indexes then
+          // pointed at the wrong screens.
           AccountSectionLabel(l10n.accountSettings),
           ValueListenableBuilder<ThemeMode>(
             valueListenable: ThemeController.instance.mode,
