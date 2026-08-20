@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/core/storage/hive_storage_service.dart';
 import 'package:vngrocery/data/session.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
@@ -8,9 +7,7 @@ import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key, this.delayService = AppDelayService.instance});
-
-  final AppDelayService delayService;
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -20,13 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateAfterDelay();
-  }
-
-  Future<void> _navigateAfterDelay() async {
-    await widget.delayService.wait(AppDelayKind.splash);
-    if (!mounted) return;
-    Navigator.pushReplacementNamed(context, _destination());
+    // Everything this screen waited for — session restore, storage — already
+    // finished before runApp. It used to sit here for a hardcoded two seconds
+    // doing nothing, on every single launch.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, _destination());
+    });
   }
 
   /// The session is restored before runApp, so a returning user goes straight

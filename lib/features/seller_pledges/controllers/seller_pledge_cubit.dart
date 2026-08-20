@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
@@ -12,17 +11,12 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 import 'seller_pledge_state.dart';
 
 class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
-  final AppDelayService _delayService;
   final AppRepositories _repositories;
   final String productId;
 
-  SellerPledgeCubit({
-    required this.productId,
-    AppDelayService delayService = AppDelayService.instance,
-    AppRepositories? repositories,
-  }) : _delayService = delayService,
-       _repositories = repositories ?? AppRepositories.instance,
-       super(SellerPledgeState.initial());
+  SellerPledgeCubit({required this.productId, AppRepositories? repositories})
+    : _repositories = repositories ?? AppRepositories.instance,
+      super(SellerPledgeState.initial());
 
   void back() {
     if (state.step <= 1) return;
@@ -37,7 +31,6 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
     emit(state.copyWith(analyzing: true, committed: false));
     final remote = _repositories.pledges.remote;
     if (remote == null) {
-      await _delayService.wait(AppDelayKind.pledgeAnalysis);
       emit(state.copyWith(analyzing: false, step: 2));
       return;
     }
@@ -94,7 +87,6 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
         return null;
       }
     }
-    await _delayService.wait(AppDelayKind.pledgeCommit);
     _repositories.pledges.add(
       productId,
       PledgeHistoryItem(

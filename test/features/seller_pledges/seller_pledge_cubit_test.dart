@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_cubit.dart';
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
@@ -11,10 +10,7 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 
 void main() {
   test('SellerPledgeCubit advances capture flow to evaluate step', () async {
-    final cubit = SellerPledgeCubit(
-      productId: 'p1',
-      delayService: const NoopAppDelayService(),
-    );
+    final cubit = SellerPledgeCubit(productId: 'p1');
 
     await cubit.capture(Uint8List.fromList(const [1, 2, 3]));
 
@@ -42,10 +38,7 @@ void main() {
 
     final productId = AppRepositories.instance.products.all().first.id;
     final before = AppRepositories.instance.pledges.ofProduct(productId).length;
-    final cubit = SellerPledgeCubit(
-      productId: productId,
-      delayService: const NoopAppDelayService(),
-    );
+    final cubit = SellerPledgeCubit(productId: productId);
 
     cubit.setCategory(SellerPledgePresenter.otherCategory);
     await cubit.commit('9.1', l10n);

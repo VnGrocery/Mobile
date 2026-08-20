@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/core/validation/app_validators.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
@@ -13,9 +12,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key, this.delayService = AppDelayService.instance});
-
-  final AppDelayService delayService;
+  const AuthScreen({super.key});
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();

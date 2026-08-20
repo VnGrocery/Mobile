@@ -1,4 +1,3 @@
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/data/mock_data.dart';
 import 'package:vngrocery/data/models.dart';
@@ -13,10 +12,7 @@ void main() {
     final userVoucher = AppRepositories.instance.vouchers
         .wallet('demo@vngrocery.com')
         .firstWhere((item) => !item.isUsed);
-    final cubit = VoucherQrCubit(
-      userVoucherId: userVoucher.id,
-      delayService: const NoopAppDelayService(),
-    );
+    final cubit = VoucherQrCubit(userVoucherId: userVoucher.id);
 
     cubit.load();
 
@@ -28,10 +24,7 @@ void main() {
   });
 
   test('VoucherQrCubit emits disabled empty state for a missing id', () async {
-    final cubit = VoucherQrCubit(
-      userVoucherId: 'missing-user-voucher',
-      delayService: const NoopAppDelayService(),
-    );
+    final cubit = VoucherQrCubit(userVoucherId: 'missing-user-voucher');
 
     cubit.load();
 
@@ -54,10 +47,7 @@ void main() {
       voucherId: 'missing-voucher-for-user-voucher',
     );
     MockDb.instance.userVouchers.insert(0, dangling);
-    final cubit = VoucherQrCubit(
-      userVoucherId: dangling.id,
-      delayService: const NoopAppDelayService(),
-    );
+    final cubit = VoucherQrCubit(userVoucherId: dangling.id);
 
     cubit.load();
 
@@ -85,10 +75,7 @@ void main() {
     );
     MockDb.instance.vouchers.insert(0, voucher);
     MockDb.instance.userVouchers.insert(0, userVoucher);
-    final cubit = VoucherQrCubit(
-      userVoucherId: userVoucher.id,
-      delayService: const NoopAppDelayService(),
-    );
+    final cubit = VoucherQrCubit(userVoucherId: userVoucher.id);
 
     cubit.load();
 
@@ -118,10 +105,7 @@ void main() {
       );
       MockDb.instance.vouchers.insert(0, voucher);
       MockDb.instance.userVouchers.insert(0, userVoucher);
-      final cubit = VoucherQrCubit(
-        userVoucherId: userVoucher.id,
-        delayService: const NoopAppDelayService(),
-      )..load();
+      final cubit = VoucherQrCubit(userVoucherId: userVoucher.id)..load();
       MockDb.instance.userVouchers.remove(userVoucher);
 
       await cubit.markUsed();
@@ -138,10 +122,7 @@ void main() {
     final userVoucher = AppRepositories.instance.vouchers
         .wallet('demo@vngrocery.com')
         .firstWhere((item) => !item.isUsed);
-    final cubit = VoucherQrCubit(
-      userVoucherId: userVoucher.id,
-      delayService: const NoopAppDelayService(),
-    )..load();
+    final cubit = VoucherQrCubit(userVoucherId: userVoucher.id)..load();
 
     await cubit.markUsed();
 

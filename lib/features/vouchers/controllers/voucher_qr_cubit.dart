@@ -2,22 +2,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'voucher_qr_state.dart';
 
 class VoucherQrCubit extends Cubit<VoucherQrState> with CloseSafeEmit {
-  final AppDelayService _delayService;
   final AppRepositories _repositories;
   final String userVoucherId;
 
-  VoucherQrCubit({
-    required this.userVoucherId,
-    AppDelayService delayService = AppDelayService.instance,
-    AppRepositories? repositories,
-  }) : _delayService = delayService,
-       _repositories = repositories ?? AppRepositories.instance,
-       super(const VoucherQrState());
+  VoucherQrCubit({required this.userVoucherId, AppRepositories? repositories})
+    : _repositories = repositories ?? AppRepositories.instance,
+      super(const VoucherQrState());
 
   Future<void> load() async {
     _emitCached();
@@ -54,7 +48,6 @@ class VoucherQrCubit extends Cubit<VoucherQrState> with CloseSafeEmit {
   Future<void> markUsed() async {
     if (state.disabled || state.confirming) return;
     emit(state.copyWith(confirming: true));
-    await _delayService.wait(AppDelayKind.voucherMarkUsed);
     final used = await _repositories.vouchers.useUserVoucherRemote(
       userVoucherId,
     );

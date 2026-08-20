@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/app_data_config.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_cubit.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
@@ -11,10 +10,7 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 
 void main() {
   test('SellerCreateProductCubit updates category and image state', () {
-    final cubit = SellerCreateProductCubit(
-      shopId: AppDataConfig.demoShopId,
-      delayService: const NoopAppDelayService(),
-    );
+    final cubit = SellerCreateProductCubit(shopId: AppDataConfig.demoShopId);
 
     cubit.setCategory(SellerProductPresenter.otherCategory);
     // The photo is real bytes now, not a flag with nothing behind it.
@@ -44,10 +40,7 @@ void main() {
       ),
     );
 
-    final cubit = SellerCreateProductCubit(
-      shopId: AppDataConfig.demoShopId,
-      delayService: const NoopAppDelayService(),
-    );
+    final cubit = SellerCreateProductCubit(shopId: AppDataConfig.demoShopId);
 
     final product = await cubit.save(
       name: 'Test product',

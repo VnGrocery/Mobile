@@ -4,24 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'seller_create_product_state.dart';
 
-class SellerCreateProductCubit extends Cubit<SellerCreateProductState> with CloseSafeEmit {
-  final AppDelayService _delayService;
+class SellerCreateProductCubit extends Cubit<SellerCreateProductState>
+    with CloseSafeEmit {
   final AppRepositories _repositories;
   final String shopId;
 
   SellerCreateProductCubit({
     required this.shopId,
-    AppDelayService delayService = AppDelayService.instance,
     AppRepositories? repositories,
-  }) : _delayService = delayService,
-       _repositories = repositories ?? AppRepositories.instance,
+  }) : _repositories = repositories ?? AppRepositories.instance,
        super(SellerCreateProductState.initial());
 
   void setCategory(String category) {
@@ -52,7 +49,6 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> with Clos
     required AppLocalizations l10n,
   }) async {
     emit(state.copyWith(saving: true, saved: false));
-    await _delayService.wait(AppDelayKind.productSave);
 
     final imageUrls = <String>[];
     final photo = _image;

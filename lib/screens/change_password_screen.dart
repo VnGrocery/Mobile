@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/auth/widgets/change_password_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
@@ -8,12 +7,7 @@ import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/data/session.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
-  const ChangePasswordScreen({
-    super.key,
-    this.delayService = AppDelayService.instance,
-  });
-
-  final AppDelayService delayService;
+  const ChangePasswordScreen({super.key});
 
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
