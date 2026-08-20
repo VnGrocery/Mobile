@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -11,6 +12,7 @@ class SellerStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     final latest = dashboard.pledges.isEmpty ? null : dashboard.pledges.first;
     return Container(
@@ -22,23 +24,25 @@ class SellerStatusCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Tình trạng shop',
+          Text(
+            l10n.sellerShopStatusTitle,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          const SellerStatusRow(label: 'Trạng thái', value: 'active'),
+          SellerStatusRow(label: l10n.sellerStatusLabel, value: 'active'),
           SellerStatusRow(
-            label: 'Tổng ghi nhận',
+            label: l10n.sellerTotalRecords,
             value: '${dashboard.pledges.length}',
           ),
           SellerStatusRow(
-            label: 'Biên lai gần nhất',
-            value: latest?.proofId ?? 'Chưa có',
+            label: l10n.sellerLatestReceipt,
+            value: latest?.proofId ?? l10n.sellerNone,
           ),
           SellerStatusRow(
             label: 'Integrity',
-            value: dashboard.warningCount > 0 ? 'Cần xem lại' : 'Ổn định',
+            value: dashboard.warningCount > 0
+                ? l10n.sellerNeedsReview
+                : l10n.sellerStable,
           ),
         ],
       ),
@@ -50,11 +54,7 @@ class SellerStatusRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const SellerStatusRow({
-    super.key,
-    required this.label,
-    required this.value,
-  });
+  const SellerStatusRow({super.key, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {

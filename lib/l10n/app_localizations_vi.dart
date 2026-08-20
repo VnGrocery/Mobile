@@ -1292,4 +1292,49 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get onboardingBody3 =>
       'Dễ so sánh hơn khi thông tin đến từ các lượt ghi nhận thực tế.';
+
+  @override
+  String get sellerShopStatusTitle => 'Tình trạng shop';
+
+  @override
+  String get sellerStatusLabel => 'Trạng thái';
+
+  @override
+  String get sellerTotalRecords => 'Tổng ghi nhận';
+
+  @override
+  String get sellerLatestReceipt => 'Biên lai gần nhất';
+
+  @override
+  String get sellerNone => 'Chưa có';
+
+  @override
+  String get sellerNeedsReview => 'Cần xem lại';
+
+  @override
+  String get sellerStable => 'Ổn định';
+
+  @override
+  String get sellerAddRecordTitle => 'Thêm ghi nhận sản phẩm';
+
+  @override
+  String get sellerAddRecordBody => 'Chọn sản phẩm và lưu thông tin tại quầy.';
+
+  @override
+  String get sellerNeedProductFirst => 'Cần tạo sản phẩm trước khi ghi nhận.';
+
+  @override
+  String get sellerProductsLabel => 'Sản phẩm';
+
+  @override
+  String get sellerHistoryLabel => 'Lịch sử';
+
+  @override
+  String get sellerTrustLabel => 'Độ tin cậy';
+
+  @override
+  String get sellerRecordsToday => 'Ghi nhận hôm nay';
+
+  @override
+  String get sellerBuyerAlerts => 'Cảnh báo buyer';
 }

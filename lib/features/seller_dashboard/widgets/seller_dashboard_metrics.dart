@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -11,6 +12,7 @@ class SellerMetricGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
@@ -20,22 +22,22 @@ class SellerMetricGrid extends StatelessWidget {
       childAspectRatio: 1.55,
       children: [
         SellerMetricCard(
-          label: 'Độ tin cậy',
+          label: l10n.sellerTrustLabel,
           value: dashboard.trustGrade,
           color: AppColors.primaryGreen,
         ),
         SellerMetricCard(
-          label: 'Sản phẩm',
+          label: l10n.sellerProductsLabel,
           value: '${dashboard.products.length}',
           color: Theme.of(context).colorScheme.onSurface,
         ),
         SellerMetricCard(
-          label: 'Ghi nhận hôm nay',
+          label: l10n.sellerRecordsToday,
           value: '${dashboard.pledgesToday}',
           color: AppColors.primaryGreen,
         ),
         SellerMetricCard(
-          label: 'Cảnh báo buyer',
+          label: l10n.sellerBuyerAlerts,
           value: '${dashboard.warningCount}',
           color: dashboard.warningCount > 0
               ? AppColors.priceRed

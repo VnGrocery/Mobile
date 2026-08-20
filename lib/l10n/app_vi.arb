@@ -421,5 +421,20 @@
   "onboardingTitle2": "Chụp ảnh kiểm tra",
   "onboardingBody2": "Quét mã hoặc chụp ảnh tại quầy để kiểm tra với dữ liệu gần nhất.",
   "onboardingTitle3": "Ra quyết định dễ dàng",
-  "onboardingBody3": "Dễ so sánh hơn khi thông tin đến từ các lượt ghi nhận thực tế."
+  "onboardingBody3": "Dễ so sánh hơn khi thông tin đến từ các lượt ghi nhận thực tế.",
+  "sellerShopStatusTitle": "Tình trạng shop",
+  "sellerStatusLabel": "Trạng thái",
+  "sellerTotalRecords": "Tổng ghi nhận",
+  "sellerLatestReceipt": "Biên lai gần nhất",
+  "sellerNone": "Chưa có",
+  "sellerNeedsReview": "Cần xem lại",
+  "sellerStable": "Ổn định",
+  "sellerAddRecordTitle": "Thêm ghi nhận sản phẩm",
+  "sellerAddRecordBody": "Chọn sản phẩm và lưu thông tin tại quầy.",
+  "sellerNeedProductFirst": "Cần tạo sản phẩm trước khi ghi nhận.",
+  "sellerProductsLabel": "Sản phẩm",
+  "sellerHistoryLabel": "Lịch sử",
+  "sellerTrustLabel": "Độ tin cậy",
+  "sellerRecordsToday": "Ghi nhận hôm nay",
+  "sellerBuyerAlerts": "Cảnh báo buyer"
 }

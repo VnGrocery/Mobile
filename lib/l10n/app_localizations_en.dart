@@ -1299,4 +1299,50 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingBody3 =>
       'Comparing is easier when the information comes from real recorded checks.';
+
+  @override
+  String get sellerShopStatusTitle => 'Store status';
+
+  @override
+  String get sellerStatusLabel => 'Status';
+
+  @override
+  String get sellerTotalRecords => 'Total records';
+
+  @override
+  String get sellerLatestReceipt => 'Latest receipt';
+
+  @override
+  String get sellerNone => 'None yet';
+
+  @override
+  String get sellerNeedsReview => 'Needs review';
+
+  @override
+  String get sellerStable => 'Stable';
+
+  @override
+  String get sellerAddRecordTitle => 'Record a product';
+
+  @override
+  String get sellerAddRecordBody =>
+      'Pick a product and save its details at the counter.';
+
+  @override
+  String get sellerNeedProductFirst => 'Create a product before recording.';
+
+  @override
+  String get sellerProductsLabel => 'Products';
+
+  @override
+  String get sellerHistoryLabel => 'History';
+
+  @override
+  String get sellerTrustLabel => 'Trust';
+
+  @override
+  String get sellerRecordsToday => 'Records today';
+
+  @override
+  String get sellerBuyerAlerts => 'Buyer alerts';
 }

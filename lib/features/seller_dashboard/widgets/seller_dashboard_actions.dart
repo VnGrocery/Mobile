@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
 
@@ -14,6 +15,7 @@ class CreateSellerPledgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Material(
       color: AppColors.primaryGreen,
       borderRadius: BorderRadius.circular(20),
@@ -30,8 +32,8 @@ class CreateSellerPledgeCard extends StatelessWidget {
                   children: [
                     const Icon(Icons.add_a_photo, color: Colors.white),
                     const SizedBox(height: 12),
-                    const Text(
-                      'Thêm ghi nhận sản phẩm',
+                    Text(
+                      l10n.sellerAddRecordTitle,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -41,8 +43,8 @@ class CreateSellerPledgeCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       canCreatePledge
-                          ? 'Chọn sản phẩm và lưu thông tin tại quầy.'
-                          : 'Cần tạo sản phẩm trước khi ghi nhận.',
+                          ? l10n.sellerAddRecordBody
+                          : l10n.sellerNeedProductFirst,
                       style: TextStyle(
                         color: Colors.white.withValues(alpha: 0.85),
                       ),
@@ -75,13 +77,14 @@ class SellerDashboardActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         Expanded(
           child: OutlinedButton.icon(
             onPressed: onOpenProducts,
             icon: const Icon(Icons.inventory_2),
-            label: const Text('Sản phẩm'),
+            label: Text(l10n.sellerProductsLabel),
           ),
         ),
         const SizedBox(width: 10),
@@ -89,7 +92,7 @@ class SellerDashboardActions extends StatelessWidget {
           child: OutlinedButton.icon(
             onPressed: onOpenHistory,
             icon: const Icon(Icons.history),
-            label: const Text('Lịch sử'),
+            label: Text(l10n.sellerHistoryLabel),
           ),
         ),
       ],

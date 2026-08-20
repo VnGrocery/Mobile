@@ -2473,6 +2473,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comparing is easier when the information comes from real recorded checks.'**
   String get onboardingBody3;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Store status'**
+  String get sellerShopStatusTitle;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get sellerStatusLabel;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Total records'**
+  String get sellerTotalRecords;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest receipt'**
+  String get sellerLatestReceipt;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'None yet'**
+  String get sellerNone;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs review'**
+  String get sellerNeedsReview;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Stable'**
+  String get sellerStable;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a product'**
+  String get sellerAddRecordTitle;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a product and save its details at the counter.'**
+  String get sellerAddRecordBody;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a product before recording.'**
+  String get sellerNeedProductFirst;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get sellerProductsLabel;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get sellerHistoryLabel;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust'**
+  String get sellerTrustLabel;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Records today'**
+  String get sellerRecordsToday;
+
+  /// Seller dashboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer alerts'**
+  String get sellerBuyerAlerts;
 }
 
 class _AppLocalizationsDelegate
