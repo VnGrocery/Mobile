@@ -1,3 +1,5 @@
+import 'trust_summary.dart';
+
 class Shop {
   final String id;
   final String name;
@@ -11,6 +13,10 @@ class Shop {
   final String status;
   final int version;
 
+  /// Server-computed trust verdict. Null when the payload predates it or the
+  /// shop came from local mock data.
+  final TrustSummary? trustSummary;
+
   const Shop({
     required this.id,
     required this.name,
@@ -23,6 +29,7 @@ class Shop {
     this.longitude = 0,
     this.status = 'active',
     this.version = 1,
+    this.trustSummary,
   });
 
   factory Shop.fromJson(Map<String, Object?> json) {
@@ -50,6 +57,11 @@ class Shop {
       longitude: (json['longitude'] as num?)?.toDouble() ?? 0,
       status: json['status']?.toString() ?? 'active',
       version: (json['version'] as num?)?.toInt() ?? 1,
+      trustSummary: json['trustSummary'] is Map
+          ? TrustSummary.fromJson(
+              Map<String, Object?>.from(json['trustSummary'] as Map),
+            )
+          : null,
     );
   }
 
@@ -65,5 +77,6 @@ class Shop {
     'longitude': longitude,
     'status': status,
     'version': version,
+    if (trustSummary != null) 'trustSummary': trustSummary!.toJson(),
   };
 }
