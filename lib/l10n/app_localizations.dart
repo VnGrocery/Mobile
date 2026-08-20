@@ -2833,6 +2833,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password changed'**
   String get authPasswordChanged;
+
+  /// Timeline entry title when the server sent none.
+  ///
+  /// In en, this message translates to:
+  /// **'Freshness record'**
+  String get pledgeHistoryDefaultTitle;
+
+  /// Timeline entry subtitle built from the pledged score and category.
+  ///
+  /// In en, this message translates to:
+  /// **'Score {score}/10 · {category}'**
+  String pledgeHistoryScoreLine(Object score, Object category);
+
+  /// Timeline subtitle when the pledge has a score but no category.
+  ///
+  /// In en, this message translates to:
+  /// **'Score {score}/10'**
+  String pledgeHistoryScoreOnly(Object score);
 }
 
 class _AppLocalizationsDelegate

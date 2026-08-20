@@ -11,6 +11,15 @@ class PledgeHistoryItem {
   /// the "not verified" states a pledge is actually in.
   final String integrityStatus;
 
+  /// Freshness score the seller pledged, when the server sent one. Kept raw so
+  /// the UI can word it in the reader's language.
+  final double? score;
+
+  /// Raw category key, e.g. `fresh_produce`. Also kept raw: the old code baked
+  /// it straight into a Vietnamese sentence, so English readers saw a
+  /// Vietnamese line and everyone saw the snake_case key.
+  final String? category;
+
   const PledgeHistoryItem({
     required this.time,
     required this.title,
@@ -19,6 +28,8 @@ class PledgeHistoryItem {
     this.hasProof = false,
     this.proofId = '',
     this.integrityStatus = '',
+    this.score,
+    this.category,
   });
 
   /// Values the server can put in `integrityStatus`. `verified` is not one of
@@ -35,16 +46,15 @@ class PledgeHistoryItem {
     final pledgeId = json['pledgeId']?.toString();
     return PledgeHistoryItem(
       time: (json['time'] ?? json['committedAt'] ?? '').toString(),
-      title: json['title']?.toString() ?? 'Ghi nhận độ tươi',
-      description:
-          json['description']?.toString() ??
-          (score == null
-              ? ''
-              : 'Điểm ${score.toStringAsFixed(1)}/10 · ${category ?? ''}'),
+      // Left empty when the server says nothing; the UI supplies the wording.
+      title: json['title']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       isVerified: json['isVerified'] as bool? ?? isAnchoredStatus(integrity),
       hasProof: json['hasProof'] as bool? ?? pledgeId != null,
       proofId: json['proofId']?.toString() ?? pledgeId ?? '',
       integrityStatus: integrity ?? '',
+      score: score,
+      category: category,
     );
   }
 
@@ -56,5 +66,7 @@ class PledgeHistoryItem {
     'hasProof': hasProof,
     'proofId': proofId,
     'integrityStatus': integrityStatus,
+    'score': score,
+    'category': category,
   };
 }

@@ -1489,4 +1489,17 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get authPasswordChanged => 'Đã đổi mật khẩu thành công';
+
+  @override
+  String get pledgeHistoryDefaultTitle => 'Ghi nhận độ tươi';
+
+  @override
+  String pledgeHistoryScoreLine(Object score, Object category) {
+    return 'Điểm $score/10 · $category';
+  }
+
+  @override
+  String pledgeHistoryScoreOnly(Object score) {
+    return 'Điểm $score/10';
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/features/pledge_history/pledge_history_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/data/models.dart';
@@ -56,6 +57,7 @@ class PledgeTimelineItem extends StatelessWidget {
     final color = item.isVerified
         ? AppColors.freshGreen
         : AppColors.warningOrange;
+    final description = PledgeHistoryPresenter.description(l10n, item);
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,19 +126,20 @@ class PledgeTimelineItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      item.title,
+                      PledgeHistoryPresenter.title(l10n, item),
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),
                     ),
-                    Text(
-                      item.description,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: palette.textSecondary,
+                    if (description.isNotEmpty)
+                      Text(
+                        description,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: palette.textSecondary,
+                        ),
                       ),
-                    ),
                     if (item.hasProof) ...[
                       const Divider(height: 24, thickness: 0.5),
                       InkWell(

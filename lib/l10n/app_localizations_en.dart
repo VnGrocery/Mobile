@@ -1498,4 +1498,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authPasswordChanged => 'Password changed';
+
+  @override
+  String get pledgeHistoryDefaultTitle => 'Freshness record';
+
+  @override
+  String pledgeHistoryScoreLine(Object score, Object category) {
+    return 'Score $score/10 · $category';
+  }
+
+  @override
+  String pledgeHistoryScoreOnly(Object score) {
+    return 'Score $score/10';
+  }
 }
