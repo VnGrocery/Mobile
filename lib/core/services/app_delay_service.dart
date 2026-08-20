@@ -1,5 +1,4 @@
 enum AppDelayKind {
-  scannerVerification,
   pledgeAnalysis,
   pledgeCommit,
   productSave,
@@ -30,8 +29,6 @@ class AppDelayService {
 
   static Duration defaultDuration(AppDelayKind kind) {
     switch (kind) {
-      case AppDelayKind.scannerVerification:
-        return const Duration(milliseconds: 900);
       case AppDelayKind.pledgeAnalysis:
         return const Duration(milliseconds: 1500);
       case AppDelayKind.pledgeCommit:

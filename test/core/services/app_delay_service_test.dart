@@ -5,10 +5,6 @@ void main() {
   group('AppDelayService', () {
     test('default durations stay stable', () {
       expect(
-        AppDelayService.defaultDuration(AppDelayKind.scannerVerification),
-        const Duration(milliseconds: 900),
-      );
-      expect(
         AppDelayService.defaultDuration(AppDelayKind.pledgeAnalysis),
         const Duration(milliseconds: 1500),
       );
