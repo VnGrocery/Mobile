@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/widgets/product_thumbnail.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -37,15 +38,9 @@ class StoreProductItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: palette.mutedSurface,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(Icons.image, color: Colors.grey),
-              ),
+              // Was a hand-rolled grey box that ignored product.imageUrls
+              // entirely, so a seller's photo never showed on their own page.
+              ProductThumbnail(imageUrls: product.imageUrls, size: 100),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
@@ -99,7 +94,9 @@ class StoreProductItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          l10n.storeProductScore(product.freshnessScore),
+                          l10n.storeProductScore(
+                            formatRating(product.freshnessScore),
+                          ),
                           style: TextStyle(
                             color: scoreTrustColor(product.freshnessScore),
                             fontWeight: FontWeight.bold,

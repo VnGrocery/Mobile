@@ -74,7 +74,7 @@ class ProductTitleBlock extends StatelessWidget {
 }
 
 class ProductScoreCard extends StatelessWidget {
-  final int score;
+  final double score;
 
   const ProductScoreCard({super.key, required this.score});
 

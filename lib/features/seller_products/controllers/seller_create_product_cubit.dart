@@ -68,7 +68,7 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState> with Clos
       name: name.trim(),
       description: description.trim(),
       category: state.category,
-      freshnessScore: 80,
+      freshnessScore: 8,
       freshnessNote: SellerProductPresenter.freshnessNote(
         state.imageSelected,
         l10n,

@@ -32,7 +32,7 @@ void main() {
             name: 'Thịt bò',
             description: 'desc',
             category: 'Thịt bò',
-            freshnessScore: 88,
+            freshnessScore: 8.8,
             freshnessNote: 'Ổn',
             price: 100000,
             tags: const ['mới'],

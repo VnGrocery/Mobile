@@ -21,7 +21,7 @@ class SellerRepository {
       products: List.unmodifiable(products),
       pledges: List.unmodifiable(pledges),
       pledgesToday: pledgesToday,
-      warningCount: products.where((p) => p.freshnessScore < 60).length,
+      warningCount: products.where((p) => p.freshnessScore < 6).length,
       trustGrade: _trustGrade(shop.rating),
     );
   }

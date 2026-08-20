@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/utils/format.dart';
 
 const _defaultLabel = 'Điểm đánh giá';
 
 class ScoreRingBadge extends StatelessWidget {
-  final int score;
+  /// On the server's 0-10 scale.
+  final double score;
   final double size;
   final double strokeWidth;
   final String label;
@@ -41,13 +43,13 @@ class ScoreRingBadge extends StatelessWidget {
             height: size,
             child: CustomPaint(
               painter: ScoreRingPainter(
-                progress: score.clamp(0, 100) / 100,
+                progress: score.clamp(0, maxScore) / maxScore,
                 color: scoreColor,
                 strokeWidth: strokeWidth,
               ),
               child: Center(
                 child: Text(
-                  '$score',
+                  formatRating(score),
                   style: TextStyle(
                     color: scoreColor,
                     fontSize: scoreFontSize,
@@ -121,8 +123,13 @@ class ScoreRingPainter extends CustomPainter {
   }
 }
 
-Color scoreTrustColor(int value) {
-  if (value >= 90) return AppColors.primaryGreen;
-  if (value >= 70) return AppColors.warningOrange;
+/// Top of the freshness scale. The server validates pledge scores as 0-10 and
+/// sends product scores on the same scale; the widgets here used to divide by
+/// 100, which drew a 9.2 as a nearly empty ring in red.
+const double maxScore = 10;
+
+Color scoreTrustColor(double value) {
+  if (value >= 9) return AppColors.primaryGreen;
+  if (value >= 7) return AppColors.warningOrange;
   return AppColors.priceRed;
 }

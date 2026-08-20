@@ -6,7 +6,12 @@ class Product {
   String name;
   String description;
   String category;
-  int freshnessScore;
+  /// Freshness on the server's 0-10 scale.
+  ///
+  /// Was an int, which turned a 9.2 from the server into a 9 — and the score
+  /// widgets read it as if it were out of 100, so every real product rendered
+  /// red at 9%.
+  double freshnessScore;
   String freshnessNote;
   int price;
   List<String> tags;
@@ -36,7 +41,7 @@ class Product {
       name: json['name'] as String,
       description: json['description'] as String,
       category: json['category'] as String,
-      freshnessScore: (json['freshnessScore'] as num).toInt(),
+      freshnessScore: (json['freshnessScore'] as num).toDouble(),
       freshnessNote: json['freshnessNote'] as String,
       price: (json['price'] as num).toInt(),
       tags: stringList(json['tags']),
