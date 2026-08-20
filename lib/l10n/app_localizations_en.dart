@@ -1229,4 +1229,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String buyerCheckConfidence(Object percent) {
     return 'AI confidence $percent%';
   }
+
+  @override
+  String get qrScanTitle => 'Scan bundle code';
+
+  @override
+  String get qrScanHint => 'Point the camera at the code on the label';
+
+  @override
+  String get qrScanNotOurCode => 'This is not a VnGrocery code';
+
+  @override
+  String get qrScanExpired =>
+      'This code has expired, ask the seller for a new label';
+
+  @override
+  String get qrScanUnsupported => 'This code needs a newer app version';
+
+  @override
+  String get qrScanCameraError => 'Cannot open the camera';
+
+  @override
+  String get qrScanChecking => 'Checking...';
 }

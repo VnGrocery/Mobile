@@ -1,8 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/services/food_ai_service.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/scanner/widgets/scanner_components.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/routes/app_routes.dart';
+import 'package:vngrocery/screens/qr_scan_screen.dart';
 
 class ScannerScreen extends StatefulWidget {
   final double bottomContentInset;
@@ -20,6 +27,11 @@ class _ScannerScreenState extends State<ScannerScreen>
   FoodAiResult? _result;
   bool _verifying = false;
   String? _cameraError;
+
+  /// Bundle scanned from a seller label. Without it the photo can only be
+  /// classified locally; the server needs the token to check it against a
+  /// pledge.
+  BundleToken? _bundle;
 
   @override
   void initState() {
@@ -52,24 +64,68 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
+  Future<void> _scanCode() async {
+    final token = await Navigator.push<BundleToken>(
+      context,
+      MaterialPageRoute(builder: (_) => const QrScanScreen()),
+    );
+    if (token == null || !mounted) return;
+    setState(() => _bundle = token);
+  }
+
   Future<void> _captureAndPredict() async {
     final camera = _camera;
     if (_verifying || camera == null || !camera.value.isInitialized) return;
     setState(() => _verifying = true);
     try {
       final file = await camera.takePicture();
-      final result = await FoodAiService.instance.predict(
-        await file.readAsBytes(),
-      );
+      final bytes = await file.readAsBytes();
+
+      // Always classify locally so the user sees something even offline.
+      final result = await FoodAiService.instance.predict(bytes);
       if (mounted) setState(() => _result = result);
+
+      await _sendBuyerCheck(bytes);
     } catch (error) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('AI camera error: $error')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('AI camera error: $error')));
       }
     } finally {
       if (mounted) setState(() => _verifying = false);
+    }
+  }
+
+  /// Sends the captured photo to the server to be compared against the pledge
+  /// named by the scanned code. Skipped when nothing has been scanned yet.
+  Future<void> _sendBuyerCheck(Uint8List bytes) async {
+    final bundle = _bundle;
+    final repositories = AppRepositories.instance;
+    final remote = repositories.pledges.remote;
+    if (bundle == null || remote == null) return;
+
+    final l10n = AppLocalizations.of(context);
+    try {
+      final result = await remote.buyerCheck(
+        bytes: bytes,
+        pledgeId: bundle.pledgeId,
+        bundleId: bundle.bundleId,
+        bundleToken: bundle.raw,
+      );
+      repositories.buyerChecks.setResult(
+        BuyerCheckResult.fromJson(result),
+        productId: result['productId']?.toString(),
+      );
+      if (!mounted) return;
+      // The token is single use, so it cannot be reused for another photo.
+      setState(() => _bundle = null);
+      Navigator.pushNamed(context, Routes.buyerCheckResult);
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('${l10n.qrScanChecking} $error')));
     }
   }
 
@@ -104,6 +160,8 @@ class _ScannerScreenState extends State<ScannerScreen>
             verifying: _verifying,
             bottomContentInset: widget.bottomContentInset,
             onSimulate: _captureAndPredict,
+            onScanCode: _scanCode,
+            scannedBundleId: _bundle?.bundleId,
           ),
           Positioned(
             top: 64,
@@ -120,10 +178,10 @@ class _ScannerScreenState extends State<ScannerScreen>
                 IconButton(
                   onPressed: _camera?.value.isInitialized == true
                       ? () => _camera!.setFlashMode(
-                            _camera!.value.flashMode == FlashMode.off
-                                ? FlashMode.torch
-                                : FlashMode.off,
-                          )
+                          _camera!.value.flashMode == FlashMode.off
+                              ? FlashMode.torch
+                              : FlashMode.off,
+                        )
                       : null,
                   color: Colors.white,
                   icon: const Icon(Icons.flash_on),

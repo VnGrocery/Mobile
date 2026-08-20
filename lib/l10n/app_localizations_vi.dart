@@ -1223,4 +1223,25 @@ class AppLocalizationsVi extends AppLocalizations {
   String buyerCheckConfidence(Object percent) {
     return 'Độ tin cậy AI $percent%';
   }
+
+  @override
+  String get qrScanTitle => 'Quét mã lô hàng';
+
+  @override
+  String get qrScanHint => 'Đưa camera vào mã trên tem';
+
+  @override
+  String get qrScanNotOurCode => 'Đây không phải mã VnGrocery';
+
+  @override
+  String get qrScanExpired => 'Mã đã hết hạn, hãy xin người bán tem mới';
+
+  @override
+  String get qrScanUnsupported => 'Mã này cần phiên bản ứng dụng mới hơn';
+
+  @override
+  String get qrScanCameraError => 'Không mở được camera';
+
+  @override
+  String get qrScanChecking => 'Đang kiểm tra...';
 }

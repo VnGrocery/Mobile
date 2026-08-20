@@ -2341,6 +2341,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'AI confidence {percent}%'**
   String buyerCheckConfidence(Object percent);
+
+  /// Title of the QR scanner screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan bundle code'**
+  String get qrScanTitle;
+
+  /// Instruction under the scan frame.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the code on the label'**
+  String get qrScanHint;
+
+  /// Shown when the scanned code is unrelated.
+  ///
+  /// In en, this message translates to:
+  /// **'This is not a VnGrocery code'**
+  String get qrScanNotOurCode;
+
+  /// Shown when the token exp has passed.
+  ///
+  /// In en, this message translates to:
+  /// **'This code has expired, ask the seller for a new label'**
+  String get qrScanExpired;
+
+  /// Shown for an unknown qrVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'This code needs a newer app version'**
+  String get qrScanUnsupported;
+
+  /// Shown when the scanner fails to start.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot open the camera'**
+  String get qrScanCameraError;
+
+  /// Shown while the buyer check runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get qrScanChecking;
 }
 
 class _AppLocalizationsDelegate

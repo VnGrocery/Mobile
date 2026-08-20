@@ -11,12 +11,22 @@ class ScannerBody extends StatelessWidget {
   final double bottomContentInset;
   final VoidCallback onSimulate;
 
+  /// Opens the QR reader. Null hides the action, e.g. when there is no backend
+  /// to check against.
+  final VoidCallback? onScanCode;
+
+  /// Bundle already scanned in this session, shown so the user knows the photo
+  /// will be checked against it.
+  final String? scannedBundleId;
+
   const ScannerBody({
     super.key,
     required this.scanLine,
     required this.verifying,
     required this.bottomContentInset,
     required this.onSimulate,
+    this.onScanCode,
+    this.scannedBundleId,
   });
 
   @override
@@ -49,7 +59,34 @@ class ScannerBody extends StatelessWidget {
             ScannerFrame(scanLine: scanLine),
             const SizedBox(height: 40),
             ScannerStatusPill(verifying: verifying),
+            if (scannedBundleId != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                scannedBundleId!,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.75),
+                  fontSize: 12,
+                ),
+              ),
+            ],
             const SizedBox(height: 12),
+            if (onScanCode != null) ...[
+              OutlinedButton.icon(
+                key: const ValueKey('scanner.scan_code_button'),
+                onPressed: verifying ? null : onScanCode,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.white70),
+                  minimumSize: const Size(220, 48),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                ),
+                icon: const Icon(Icons.qr_code_scanner),
+                label: Text(l10n.qrScanTitle),
+              ),
+              const SizedBox(height: 10),
+            ],
             ElevatedButton(
               key: const ValueKey('scanner.simulate_scan_button'),
               onPressed: verifying ? null : onSimulate,

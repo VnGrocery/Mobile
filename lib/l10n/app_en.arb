@@ -464,5 +464,19 @@
   "buyerCheckNotTrusted": "Does not match the pledge",
   "@buyerCheckNotTrusted": {"description": "Shown when the check is not trusted."},
   "buyerCheckConfidence": "AI confidence {percent}%",
-  "@buyerCheckConfidence": {"description": "Footnote with the model confidence.", "placeholders": {"percent": {}}}
+  "@buyerCheckConfidence": {"description": "Footnote with the model confidence.", "placeholders": {"percent": {}}},
+  "qrScanTitle": "Scan bundle code",
+  "@qrScanTitle": {"description": "Title of the QR scanner screen."},
+  "qrScanHint": "Point the camera at the code on the label",
+  "@qrScanHint": {"description": "Instruction under the scan frame."},
+  "qrScanNotOurCode": "This is not a VnGrocery code",
+  "@qrScanNotOurCode": {"description": "Shown when the scanned code is unrelated."},
+  "qrScanExpired": "This code has expired, ask the seller for a new label",
+  "@qrScanExpired": {"description": "Shown when the token exp has passed."},
+  "qrScanUnsupported": "This code needs a newer app version",
+  "@qrScanUnsupported": {"description": "Shown for an unknown qrVersion."},
+  "qrScanCameraError": "Cannot open the camera",
+  "@qrScanCameraError": {"description": "Shown when the scanner fails to start."},
+  "qrScanChecking": "Checking...",
+  "@qrScanChecking": {"description": "Shown while the buyer check runs."}
 }

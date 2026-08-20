@@ -399,5 +399,12 @@
   "buyerCheckNoPledge": "Sản phẩm này chưa có cam kết để đối chiếu.",
   "buyerCheckTrusted": "Khớp với cam kết",
   "buyerCheckNotTrusted": "Không khớp với cam kết",
-  "buyerCheckConfidence": "Độ tin cậy AI {percent}%"
+  "buyerCheckConfidence": "Độ tin cậy AI {percent}%",
+  "qrScanTitle": "Quét mã lô hàng",
+  "qrScanHint": "Đưa camera vào mã trên tem",
+  "qrScanNotOurCode": "Đây không phải mã VnGrocery",
+  "qrScanExpired": "Mã đã hết hạn, hãy xin người bán tem mới",
+  "qrScanUnsupported": "Mã này cần phiên bản ứng dụng mới hơn",
+  "qrScanCameraError": "Không mở được camera",
+  "qrScanChecking": "Đang kiểm tra..."
 }
