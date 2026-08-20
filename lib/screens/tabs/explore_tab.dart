@@ -60,6 +60,17 @@ class _ExploreTabState extends State<ExploreTab> {
                 widget.showMap ? l10n.exploreTitle : l10n.exploreStoreTitle,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
+              actions: [
+                // The map used to be its own bottom tab showing the same shops
+                // as this list. It is one tap away from here instead.
+                if (!widget.showMap)
+                  IconButton(
+                    tooltip: l10n.exploreTitle,
+                    onPressed: () =>
+                        Navigator.pushNamed(context, Routes.exploreMap),
+                    icon: const Icon(Icons.map_outlined),
+                  ),
+              ],
             ),
             body: Column(
               children: [

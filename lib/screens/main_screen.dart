@@ -10,7 +10,6 @@ import 'package:vngrocery/features/navigation/widgets/side_menu_gesture_layers.d
 import 'package:vngrocery/features/navigation/widgets/side_menu_panel.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
-import 'explore_map_screen.dart';
 import 'scanner_screen.dart';
 import 'seller_product_list_screen.dart';
 import 'seller_shop_screen.dart';
@@ -34,7 +33,10 @@ class _MainScreenState extends State<MainScreen> {
   /// it occupies 116; the extra 8 keeps content from touching it. This used to
   /// be 92, which is exactly why the last row of every tab was covered.
   static const double _bottomNavContentInset = 124;
-  static const int _buyerVoucherWalletMenuIndex = 4;
+  /// Position of the voucher wallet in the buyer side menu. It is menu-only:
+  /// selecting it pushes a route instead of switching tab, so every entry after
+  /// it maps to tabIndex - 1.
+  static const int _buyerVoucherWalletMenuIndex = 3;
 
   int _index = 0;
   bool _menuOpen = false;
@@ -117,11 +119,6 @@ class _MainScreenState extends State<MainScreen> {
       HomeTab(
         onOpenMenu: () => setState(() => _menuOpen = true),
         bottomContentInset: _bottomNavContentInset,
-      ),
-      const ExploreMapScreen(
-        key: ValueKey('explore_map'),
-        showBackButton: false,
-        bottomOverlayInset: _bottomNavContentInset,
       ),
       const ScannerScreen(bottomContentInset: _bottomNavContentInset),
       const ExploreTab(

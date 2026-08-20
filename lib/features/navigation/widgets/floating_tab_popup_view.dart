@@ -28,8 +28,14 @@ class FloatingTabPopup extends StatelessWidget {
       for (var i = 0; i < items.length; i++)
         if (i != centerIndex) i,
     ];
-    final leftItems = sideItems.take(2).toList();
-    final rightItems = sideItems.skip(2).toList();
+    // The scan diamond is pinned to the centre of the bar, so the two sides
+    // need equal flex or it lands on top of a label. With an odd number of side
+    // items the shorter side is padded with an empty slot below.
+    final half = sideItems.length ~/ 2;
+    final leftItems = sideItems.take(half).toList();
+    final rightItems = sideItems.skip(half).toList();
+    final leftFillers = rightItems.length - leftItems.length;
+    final rightFillers = leftItems.length - rightItems.length;
     final centerItem = items[centerIndex];
 
     return SafeArea(
@@ -103,6 +109,8 @@ class FloatingTabPopup extends StatelessWidget {
                           child: Row(
                             children: [
                               const SizedBox(width: 18),
+                              for (var i = 0; i < leftFillers; i++)
+                                const Expanded(child: SizedBox.shrink()),
                               for (final i in leftItems)
                                 Expanded(
                                   child: GlassTabItem(
@@ -124,6 +132,8 @@ class FloatingTabPopup extends StatelessWidget {
                                     selectorKey: items[i].selectorKey,
                                   ),
                                 ),
+                              for (var i = 0; i < rightFillers; i++)
+                                const Expanded(child: SizedBox.shrink()),
                               const SizedBox(width: 18),
                             ],
                           ),

@@ -31,7 +31,6 @@ class NavigationConfig {
           ]
         : const [
             NavigationItem(Icons.home, 'Trang chủ', selectorKey: 'home'),
-            NavigationItem(Icons.explore, 'Khám phá', selectorKey: 'explore'),
             NavigationItem(
               Icons.qr_code_scanner,
               'Quét sản phẩm',
@@ -77,7 +76,6 @@ class NavigationConfig {
           ]
         : const [
             NavigationItem(Icons.home, 'Trang chủ', selectorKey: 'home'),
-            NavigationItem(Icons.explore, 'Khám phá', selectorKey: 'explore'),
             NavigationItem(
               Icons.qr_code_scanner,
               'Quét sản phẩm',
