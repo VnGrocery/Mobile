@@ -16,9 +16,15 @@ class ApiClient {
   }) : _tokenReader = tokenReader,
        _client = client ?? http.Client();
 
+  /// 10.0.2.2 is the Android emulator's alias for the host machine. Port 5000 is
+  /// what docker-compose publishes for the API; 8080 on the host is the IPFS
+  /// gateway, not the API.
+  ///
+  /// Override for a physical device or a different port:
+  ///   flutter run --dart-define=API_BASE_URL=http://192.168.1.10:5000
   static const defaultBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://10.0.2.2:8080',
+    defaultValue: 'http://10.0.2.2:5000',
   );
 
   final String baseUrl;
