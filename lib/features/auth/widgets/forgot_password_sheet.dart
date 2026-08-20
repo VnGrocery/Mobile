@@ -60,7 +60,7 @@ class _ForgotPasswordSheetState extends State<ForgotPasswordSheet> {
     Navigator.pop(context);
     AppFeedback.showSnackBar(
       context,
-      AppLocalizations.of(context).authPasswordResetDemo,
+      AppLocalizations.of(context).authPasswordReset,
     );
   }
 

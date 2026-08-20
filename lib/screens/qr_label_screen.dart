@@ -54,8 +54,7 @@ class _QrLabelScreenState extends State<QrLabelScreen> {
                   ),
                   const Spacer(),
                   QrLabelActions(
-                    onDownload: () => _downloadLabel(context, state),
-                    onPrint: () => _printLabel(context),
+                    onCopy: () => _copyLabel(context, state),
                     onBackHome: () => Navigator.popUntil(
                       context,
                       (route) => route.settings.name == 'main' || route.isFirst,
@@ -70,30 +69,11 @@ class _QrLabelScreenState extends State<QrLabelScreen> {
     );
   }
 
-  void _downloadLabel(BuildContext context, QrLabelState state) {
+  void _copyLabel(BuildContext context, QrLabelState state) {
     Clipboard.setData(ClipboardData(text: state.clipboardText));
     AppFeedback.showSnackBar(
       context,
       AppLocalizations.of(context).qrLabelCopied,
-    );
-  }
-
-  void _printLabel(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (_) {
-        final l10n = AppLocalizations.of(context);
-        return AlertDialog(
-          title: Text(l10n.qrLabelPrintTitle),
-          content: Text(l10n.qrLabelPrintBody),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(l10n.commonClose),
-            ),
-          ],
-        );
-      },
     );
   }
 }

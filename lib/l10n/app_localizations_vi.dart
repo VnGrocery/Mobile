@@ -34,11 +34,11 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get authLoginInfo =>
-      'Đăng nhập demo để kiểm tra sản phẩm, xem bản đồ và giá tại cửa hàng.';
+      'Đăng nhập để kiểm tra sản phẩm, xem bản đồ và giá tại cửa hàng.';
 
   @override
   String get authRegisterInfo =>
-      'Tài khoản demo sẽ dùng dữ liệu ảo cho đến khi gắn API thật.';
+      'Tạo tài khoản để kiểm tra sản phẩm và lưu đánh giá của bạn.';
 
   @override
   String get authEmailLabel => 'Email';
@@ -107,7 +107,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get authForgotPasswordSubtitle =>
-      'Nhập email tài khoản để xác minh demo.';
+      'Nhập email tài khoản để nhận mã đặt lại mật khẩu.';
 
   @override
   String get authResetPasswordSubtitle =>
@@ -133,12 +133,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get authChangePassword => 'Đổi mật khẩu';
-
-  @override
-  String get authPasswordResetDemo => 'Đã đặt lại mật khẩu demo';
-
-  @override
-  String get authPasswordChangedDemo => 'Đã đổi mật khẩu demo thành công';
 
   @override
   String get authPasswordSecurityTitle => 'Bảo mật tài khoản';
@@ -331,9 +325,6 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get exploreLocateDemo => 'Đã căn về vị trí gần bạn (demo)';
-
-  @override
   String get exploreFilterTopRated => 'Đánh giá tốt';
 
   @override
@@ -385,7 +376,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get accountStoreInfo => 'Thông tin cửa hàng';
 
   @override
-  String get sellerShopSaved => 'Đã lưu thông tin cửa hàng demo';
+  String get sellerShopSaved => 'Đã lưu thông tin cửa hàng';
 
   @override
   String get sellerShopNameLabel => 'Tên cửa hàng';
@@ -421,9 +412,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerProductSavedDraft => 'Đã lưu sản phẩm nháp';
 
   @override
-  String get sellerProductImageSelectedDemo => 'Đã chọn ảnh sản phẩm demo';
-
-  @override
   String get sellerProductImageRemoved => 'Đã bỏ ảnh sản phẩm';
 
   @override
@@ -457,8 +445,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerCategoryOther => 'Khác';
 
   @override
-  String get sellerProductFreshnessWithImage =>
-      'Sản phẩm mới tạo, đã có ảnh demo.';
+  String get sellerProductFreshnessWithImage => 'Sản phẩm mới tạo, đã có ảnh.';
 
   @override
   String get sellerProductFreshnessWithoutImage => 'Sản phẩm mới tạo.';
@@ -467,10 +454,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerProductImageTitle => 'Ảnh sản phẩm';
 
   @override
-  String get sellerProductImageReady => 'Ảnh demo đã sẵn sàng';
+  String get sellerProductImageReady => 'Đã có ảnh sản phẩm';
 
   @override
-  String get sellerProductImageSelect => 'Chọn ảnh demo';
+  String get sellerProductImageSelect => 'Chụp ảnh sản phẩm';
 
   @override
   String get sellerProductNameLabel => 'Tên sản phẩm';
@@ -732,7 +719,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get pledgeOverviewHint =>
-      'Chụp ảnh trong điều kiện đủ sáng để điểm đánh giá ổn định. Mỗi ghi nhận demo sẽ lưu tạm cho đến khi gắn dữ liệu thật.';
+      'Chụp trong điều kiện đủ sáng để điểm ổn định. Mỗi ghi nhận đều được neo lên blockchain.';
 
   @override
   String get voucherWalletTitle => 'Ví voucher';
@@ -745,13 +732,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get qrLabelCopied => 'Đã sao chép nội dung tem QR';
-
-  @override
-  String get qrLabelPrintTitle => 'In tem QR';
-
-  @override
-  String get qrLabelPrintBody =>
-      'Tem QR đã được đưa vào hàng đợi in demo. Kiểm tra máy in tại quầy trước khi dán lên sản phẩm.';
 
   @override
   String get splashSubtitle => 'Kiểm tra giá và sản phẩm gần bạn';
@@ -789,11 +769,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get manualVoucherTitle => 'Thêm voucher thủ công';
-
-  @override
-  String manualVoucherDemoCopied(Object format) {
-    return 'Đã copy mã $format demo vào ô mã';
-  }
 
   @override
   String get manualVoucherSaved => 'Đã thêm voucher thủ công vào ví';
@@ -1377,9 +1352,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get qrLabelScanHint => 'Quét mã để kiểm tra thông tin sản phẩm';
 
   @override
-  String get qrLabelDownload => 'Tải về';
-
-  @override
   String get qrLabelBackHome => 'Về màn hình chính';
 
   @override
@@ -1503,4 +1475,18 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get sellerProductImageAttached => 'Đã thêm ảnh';
+
+  @override
+  String manualVoucherCodeScanned(Object format) {
+    return 'Đã quét mã $format';
+  }
+
+  @override
+  String get qrLabelCopyAction => 'Sao chép thông tin tem';
+
+  @override
+  String get authPasswordReset => 'Đã đặt lại mật khẩu';
+
+  @override
+  String get authPasswordChanged => 'Đã đổi mật khẩu thành công';
 }

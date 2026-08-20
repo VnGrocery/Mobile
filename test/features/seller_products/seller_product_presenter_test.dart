@@ -73,7 +73,7 @@ void main() {
 
       expect(
         SellerProductPresenter.freshnessNote(true, l10n),
-        'Sản phẩm mới tạo, đã có ảnh demo.',
+        'Sản phẩm mới tạo, đã có ảnh.',
       );
       expect(
         SellerProductPresenter.freshnessNote(false, l10n),

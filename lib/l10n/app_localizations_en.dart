@@ -34,11 +34,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authLoginInfo =>
-      'Sign in to check products, view maps, and compare store prices.';
+      'Sign in to check products, view maps and compare store prices.';
 
   @override
   String get authRegisterInfo =>
-      'Demo accounts use sample data until a real API is connected.';
+      'Create an account to check products and keep your reviews.';
 
   @override
   String get authEmailLabel => 'Email';
@@ -109,7 +109,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authForgotPasswordSubtitle =>
-      'Enter your account email for demo verification.';
+      'Enter your account email to get a reset code.';
 
   @override
   String get authResetPasswordSubtitle =>
@@ -135,12 +135,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authChangePassword => 'Change password';
-
-  @override
-  String get authPasswordResetDemo => 'Demo password reset complete';
-
-  @override
-  String get authPasswordChangedDemo => 'Demo password changed successfully';
 
   @override
   String get authPasswordSecurityTitle => 'Account security';
@@ -333,9 +327,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get exploreLocateDemo => 'Centered on a nearby demo location';
-
-  @override
   String get exploreFilterTopRated => 'Top rated';
 
   @override
@@ -387,7 +378,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountStoreInfo => 'Store information';
 
   @override
-  String get sellerShopSaved => 'Demo store information saved';
+  String get sellerShopSaved => 'Store details saved';
 
   @override
   String get sellerShopNameLabel => 'Store name';
@@ -423,9 +414,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerProductSavedDraft => 'Draft product saved';
 
   @override
-  String get sellerProductImageSelectedDemo => 'Demo product image selected';
-
-  @override
   String get sellerProductImageRemoved => 'Product image removed';
 
   @override
@@ -459,8 +447,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerCategoryOther => 'Other';
 
   @override
-  String get sellerProductFreshnessWithImage =>
-      'Newly created product with demo image attached.';
+  String get sellerProductFreshnessWithImage => 'New product, photo attached.';
 
   @override
   String get sellerProductFreshnessWithoutImage => 'Newly created product.';
@@ -469,10 +456,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerProductImageTitle => 'Product image';
 
   @override
-  String get sellerProductImageReady => 'Demo image ready';
+  String get sellerProductImageReady => 'Photo attached';
 
   @override
-  String get sellerProductImageSelect => 'Select demo image';
+  String get sellerProductImageSelect => 'Take a product photo';
 
   @override
   String get sellerProductNameLabel => 'Product name';
@@ -735,7 +722,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pledgeOverviewHint =>
-      'Capture photos in good lighting to keep scores stable. Each demo pledge is stored temporarily until real data is connected.';
+      'Shoot in good light so the score is stable. Each record is anchored on the blockchain.';
 
   @override
   String get voucherWalletTitle => 'Voucher wallet';
@@ -748,13 +735,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qrLabelCopied => 'QR label content copied';
-
-  @override
-  String get qrLabelPrintTitle => 'Print QR label';
-
-  @override
-  String get qrLabelPrintBody =>
-      'The QR label has been queued for demo printing. Check the printer at the counter before attaching it to the product.';
 
   @override
   String get splashSubtitle => 'Check prices and products near you';
@@ -792,11 +772,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get manualVoucherTitle => 'Add manual voucher';
-
-  @override
-  String manualVoucherDemoCopied(Object format) {
-    return 'Copied demo $format code into the code field';
-  }
 
   @override
   String get manualVoucherSaved => 'Manual voucher added to wallet';
@@ -1385,9 +1360,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qrLabelScanHint => 'Scan to check this product';
 
   @override
-  String get qrLabelDownload => 'Download';
-
-  @override
   String get qrLabelBackHome => 'Back to home';
 
   @override
@@ -1512,4 +1484,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sellerProductImageAttached => 'Photo added';
+
+  @override
+  String manualVoucherCodeScanned(Object format) {
+    return 'Scanned a $format code';
+  }
+
+  @override
+  String get qrLabelCopyAction => 'Copy label details';
+
+  @override
+  String get authPasswordReset => 'Password reset';
+
+  @override
+  String get authPasswordChanged => 'Password changed';
 }

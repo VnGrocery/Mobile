@@ -149,13 +149,13 @@ abstract class AppLocalizations {
   /// No description provided for @authLoginInfo.
   ///
   /// In en, this message translates to:
-  /// **'Sign in to check products, view maps, and compare store prices.'**
+  /// **'Sign in to check products, view maps and compare store prices.'**
   String get authLoginInfo;
 
   /// No description provided for @authRegisterInfo.
   ///
   /// In en, this message translates to:
-  /// **'Demo accounts use sample data until a real API is connected.'**
+  /// **'Create an account to check products and keep your reviews.'**
   String get authRegisterInfo;
 
   /// No description provided for @authEmailLabel.
@@ -287,7 +287,7 @@ abstract class AppLocalizations {
   /// No description provided for @authForgotPasswordSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Enter your account email for demo verification.'**
+  /// **'Enter your account email to get a reset code.'**
   String get authForgotPasswordSubtitle;
 
   /// No description provided for @authResetPasswordSubtitle.
@@ -337,18 +337,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change password'**
   String get authChangePassword;
-
-  /// No description provided for @authPasswordResetDemo.
-  ///
-  /// In en, this message translates to:
-  /// **'Demo password reset complete'**
-  String get authPasswordResetDemo;
-
-  /// No description provided for @authPasswordChangedDemo.
-  ///
-  /// In en, this message translates to:
-  /// **'Demo password changed successfully'**
-  String get authPasswordChangedDemo;
 
   /// No description provided for @authPasswordSecurityTitle.
   ///
@@ -704,12 +692,6 @@ abstract class AppLocalizations {
   /// **' {rating} rating points'**
   String exploreRatingLabel(Object rating);
 
-  /// No description provided for @exploreLocateDemo.
-  ///
-  /// In en, this message translates to:
-  /// **'Centered on a nearby demo location'**
-  String get exploreLocateDemo;
-
   /// No description provided for @exploreFilterTopRated.
   ///
   /// In en, this message translates to:
@@ -815,7 +797,7 @@ abstract class AppLocalizations {
   /// No description provided for @sellerShopSaved.
   ///
   /// In en, this message translates to:
-  /// **'Demo store information saved'**
+  /// **'Store details saved'**
   String get sellerShopSaved;
 
   /// No description provided for @sellerShopNameLabel.
@@ -877,12 +859,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Draft product saved'**
   String get sellerProductSavedDraft;
-
-  /// No description provided for @sellerProductImageSelectedDemo.
-  ///
-  /// In en, this message translates to:
-  /// **'Demo product image selected'**
-  String get sellerProductImageSelectedDemo;
 
   /// No description provided for @sellerProductImageRemoved.
   ///
@@ -953,7 +929,7 @@ abstract class AppLocalizations {
   /// No description provided for @sellerProductFreshnessWithImage.
   ///
   /// In en, this message translates to:
-  /// **'Newly created product with demo image attached.'**
+  /// **'New product, photo attached.'**
   String get sellerProductFreshnessWithImage;
 
   /// No description provided for @sellerProductFreshnessWithoutImage.
@@ -971,13 +947,13 @@ abstract class AppLocalizations {
   /// No description provided for @sellerProductImageReady.
   ///
   /// In en, this message translates to:
-  /// **'Demo image ready'**
+  /// **'Photo attached'**
   String get sellerProductImageReady;
 
   /// No description provided for @sellerProductImageSelect.
   ///
   /// In en, this message translates to:
-  /// **'Select demo image'**
+  /// **'Take a product photo'**
   String get sellerProductImageSelect;
 
   /// No description provided for @sellerProductNameLabel.
@@ -1463,7 +1439,7 @@ abstract class AppLocalizations {
   /// No description provided for @pledgeOverviewHint.
   ///
   /// In en, this message translates to:
-  /// **'Capture photos in good lighting to keep scores stable. Each demo pledge is stored temporarily until real data is connected.'**
+  /// **'Shoot in good light so the score is stable. Each record is anchored on the blockchain.'**
   String get pledgeOverviewHint;
 
   /// No description provided for @voucherWalletTitle.
@@ -1489,18 +1465,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'QR label content copied'**
   String get qrLabelCopied;
-
-  /// No description provided for @qrLabelPrintTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Print QR label'**
-  String get qrLabelPrintTitle;
-
-  /// No description provided for @qrLabelPrintBody.
-  ///
-  /// In en, this message translates to:
-  /// **'The QR label has been queued for demo printing. Check the printer at the counter before attaching it to the product.'**
-  String get qrLabelPrintBody;
 
   /// No description provided for @splashSubtitle.
   ///
@@ -1561,12 +1525,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add manual voucher'**
   String get manualVoucherTitle;
-
-  /// No description provided for @manualVoucherDemoCopied.
-  ///
-  /// In en, this message translates to:
-  /// **'Copied demo {format} code into the code field'**
-  String manualVoucherDemoCopied(Object format);
 
   /// No description provided for @manualVoucherSaved.
   ///
@@ -2627,12 +2585,6 @@ abstract class AppLocalizations {
   /// App copy.
   ///
   /// In en, this message translates to:
-  /// **'Download'**
-  String get qrLabelDownload;
-
-  /// App copy.
-  ///
-  /// In en, this message translates to:
   /// **'Back to home'**
   String get qrLabelBackHome;
 
@@ -2857,6 +2809,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Photo added'**
   String get sellerProductImageAttached;
+
+  /// Shown after scanning a voucher code.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanned a {format} code'**
+  String manualVoucherCodeScanned(Object format);
+
+  /// Copies the label details to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy label details'**
+  String get qrLabelCopyAction;
+
+  /// No description provided for @authPasswordReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset'**
+  String get authPasswordReset;
+
+  /// No description provided for @authPasswordChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed'**
+  String get authPasswordChanged;
 }
 
 class _AppLocalizationsDelegate

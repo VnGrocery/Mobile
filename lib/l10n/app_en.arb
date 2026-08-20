@@ -10,8 +10,8 @@
   "authContinueWithGoogle": "Continue with Google",
   "authWelcomeBack": "Welcome back",
   "authRegisterSubtitle": "Create an account to save product checks",
-  "authLoginInfo": "Sign in to check products, view maps, and compare store prices.",
-  "authRegisterInfo": "Demo accounts use sample data until a real API is connected.",
+  "authLoginInfo": "Sign in to check products, view maps and compare store prices.",
+  "authRegisterInfo": "Create an account to check products and keep your reviews.",
   "authEmailLabel": "Email",
   "authPasswordLabel": "Password",
   "authConfirmPasswordLabel": "Confirm password",
@@ -33,7 +33,7 @@
   "authPasswordWeak": "Weak",
   "authForgotPasswordTitle": "Forgot password",
   "authResetPasswordTitle": "Reset password",
-  "authForgotPasswordSubtitle": "Enter your account email for demo verification.",
+  "authForgotPasswordSubtitle": "Enter your account email to get a reset code.",
   "authResetPasswordSubtitle": "Create a new password to continue signing in.",
   "authNewPasswordLabel": "New password",
   "authConfirmNewPasswordLabel": "Confirm new password",
@@ -42,8 +42,6 @@
   "onboardingContinue": "Continue",
   "onboardingStart": "Get started",
   "authChangePassword": "Change password",
-  "authPasswordResetDemo": "Demo password reset complete",
-  "authPasswordChangedDemo": "Demo password changed successfully",
   "authPasswordSecurityTitle": "Account security",
   "authPasswordRuleTitle": "Password requirements",
   "authPasswordRuleMinLength": "At least 8 characters",
@@ -118,7 +116,6 @@
       "rating": {}
     }
   },
-  "exploreLocateDemo": "Centered on a nearby demo location",
   "exploreFilterTopRated": "Top rated",
   "exploreFilterRecorded": "Recorded",
   "exploreFilterNearby": "Nearby",
@@ -136,7 +133,7 @@
   "accountSettings": "Settings",
   "accountMyProducts": "My products",
   "accountStoreInfo": "Store information",
-  "sellerShopSaved": "Demo store information saved",
+  "sellerShopSaved": "Store details saved",
   "sellerShopNameLabel": "Store name",
   "sellerShopDescriptionLabel": "Description",
   "sellerShopAddressLabel": "Address",
@@ -153,7 +150,6 @@
   "sellerProductNoShop": "Your account does not have a store yet.",
   "sellerProductCreateTitle": "Add new product",
   "sellerProductSavedDraft": "Draft product saved",
-  "sellerProductImageSelectedDemo": "Demo product image selected",
   "sellerProductImageRemoved": "Product image removed",
   "sellerProductStateAll": "All",
   "sellerProductStatePublished": "Published",
@@ -165,11 +161,11 @@
   "sellerCategorySeafood": "Seafood",
   "sellerCategoryPoultry": "Poultry",
   "sellerCategoryOther": "Other",
-  "sellerProductFreshnessWithImage": "Newly created product with demo image attached.",
+  "sellerProductFreshnessWithImage": "New product, photo attached.",
   "sellerProductFreshnessWithoutImage": "Newly created product.",
   "sellerProductImageTitle": "Product image",
-  "sellerProductImageReady": "Demo image ready",
-  "sellerProductImageSelect": "Select demo image",
+  "sellerProductImageReady": "Photo attached",
+  "sellerProductImageSelect": "Take a product photo",
   "sellerProductNameLabel": "Product name",
   "sellerProductPriceLabel": "Price",
   "sellerProductCategoryLabel": "Category",
@@ -281,13 +277,11 @@
   "aiFreshnessAction": "Take photo & check",
   "pledgeOverviewTitle": "Seller overview",
   "pledgeOverviewMetricsTitle": "Store metrics",
-  "pledgeOverviewHint": "Capture photos in good lighting to keep scores stable. Each demo pledge is stored temporarily until real data is connected.",
+  "pledgeOverviewHint": "Shoot in good light so the score is stable. Each record is anchored on the blockchain.",
   "voucherWalletTitle": "Voucher wallet",
   "voucherWalletAddManualTooltip": "Add manually",
   "qrLabelTitle": "Product QR code",
   "qrLabelCopied": "QR label content copied",
-  "qrLabelPrintTitle": "Print QR label",
-  "qrLabelPrintBody": "The QR label has been queued for demo printing. Check the printer at the counter before attaching it to the product.",
   "splashSubtitle": "Check prices and products near you",
   "splashFootnote": "Data from store counters and the community",
   "voucherWalletUsableCount": "{count} vouchers ready to use",
@@ -313,12 +307,6 @@
     }
   },
   "manualVoucherTitle": "Add manual voucher",
-  "manualVoucherDemoCopied": "Copied demo {format} code into the code field",
-  "@manualVoucherDemoCopied": {
-    "placeholders": {
-      "format": {}
-    }
-  },
   "manualVoucherSaved": "Manual voucher added to wallet",
   "manualVoucherNotice": "Manual vouchers are details you enter yourself for storage and use at checkout. This content has not been verified by the store, so you are responsible for usage conditions.",
   "manualVoucherShopLabel": "Applicable store",
@@ -891,10 +879,6 @@
   "@qrLabelScanHint": {
     "description": "App copy."
   },
-  "qrLabelDownload": "Download",
-  "@qrLabelDownload": {
-    "description": "App copy."
-  },
   "qrLabelBackHome": "Back to home",
   "@qrLabelBackHome": {
     "description": "App copy."
@@ -1061,7 +1045,24 @@
     "description": "Shown after removing a review photo."
   },
   "sellerProductImageHint": "Photograph the product for the listing",
-  "@sellerProductImageHint": {"description": "Hint on the product photo screen."},
+  "@sellerProductImageHint": {
+    "description": "Hint on the product photo screen."
+  },
   "sellerProductImageAttached": "Photo added",
-  "@sellerProductImageAttached": {"description": "Shown after adding a product photo."}
+  "@sellerProductImageAttached": {
+    "description": "Shown after adding a product photo."
+  },
+  "manualVoucherCodeScanned": "Scanned a {format} code",
+  "@manualVoucherCodeScanned": {
+    "description": "Shown after scanning a voucher code.",
+    "placeholders": {
+      "format": {}
+    }
+  },
+  "qrLabelCopyAction": "Copy label details",
+  "@qrLabelCopyAction": {
+    "description": "Copies the label details to the clipboard."
+  },
+  "authPasswordReset": "Password reset",
+  "authPasswordChanged": "Password changed"
 }

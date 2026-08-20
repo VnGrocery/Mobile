@@ -2,15 +2,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/features/vouchers/controllers/manual_voucher_cubit.dart';
 
 void main() {
-  test('ManualVoucherCubit loads shops and scans demo code', () {
+  test('ManualVoucherCubit loads shops and records the code format', () {
     final cubit = ManualVoucherCubit()..load();
 
-    final code = cubit.scanDemo('Barcode');
+    // The cubit no longer invents a code: the screen scans a real one and only
+    // the format is recorded here.
+    cubit.setCodeFormat('Barcode');
 
     expect(cubit.state.shops, isNotEmpty);
     expect(cubit.state.shopId, isNotNull);
     expect(cubit.state.codeFormat, 'Barcode');
-    expect(code, 'BARCODE-8938505970012');
 
     cubit.close();
   });

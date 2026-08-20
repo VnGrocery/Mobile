@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_cubit.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_state.dart';
 import 'package:vngrocery/features/explore_map/explore_map_presenter.dart';
 import 'package:vngrocery/features/explore_map/widgets/explore_map_components.dart';
-import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/widgets/osm_tile_map.dart';
 
 class ExploreMapScreen extends StatefulWidget {
@@ -68,19 +66,15 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
                 ),
                 for (var i = 0; i < shops.length; i++)
                   Align(
-                    alignment: ExploreMapPresenter.pinPositions[
-                        i % ExploreMapPresenter.pinPositions.length],
+                    alignment:
+                        ExploreMapPresenter.pinPositions[i %
+                            ExploreMapPresenter.pinPositions.length],
                     child: FloatingShopPin(
                       shop: shops[i],
                       selected: shops[i].id == state.selectedShopId,
                       onTap: () => _mapCubit.selectShop(shops[i].id),
                     ),
                   ),
-                Positioned(
-                  right: 16,
-                  bottom: 238,
-                  child: LocateUserButton(onPressed: _locateUser),
-                ),
                 DraggableScrollableSheet(
                   initialChildSize: 0.26,
                   minChildSize: 0.18,
@@ -101,14 +95,6 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
           );
         },
       ),
-    );
-  }
-
-  void _locateUser() {
-    _mapCubit.locateNearestDemoShop();
-    AppFeedback.showSnackBar(
-      context,
-      AppLocalizations.of(context).exploreLocateDemo,
     );
   }
 }

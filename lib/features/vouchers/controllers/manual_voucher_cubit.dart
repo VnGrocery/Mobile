@@ -34,9 +34,8 @@ class ManualVoucherCubit extends Cubit<ManualVoucherState> {
     emit(state.copyWith(shopId: shopId, saved: false));
   }
 
-  String scanDemo(String format) {
+  void setCodeFormat(String format) {
     emit(state.copyWith(codeFormat: format, saved: false));
-    return format == 'QR' ? 'MANUALQR20' : 'BARCODE-8938505970012';
   }
 
   void setExpiry(DateTime date) {

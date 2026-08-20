@@ -95,7 +95,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       setState(() => _saving = false);
       AppFeedback.showSnackBar(
         context,
-        AppLocalizations.of(context).authPasswordChangedDemo,
+        AppLocalizations.of(context).authPasswordChanged,
       );
       Navigator.pop(context);
     } catch (error) {

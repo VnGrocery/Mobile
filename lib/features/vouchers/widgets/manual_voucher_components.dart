@@ -50,9 +50,9 @@ class ManualVoucherShopPicker extends StatelessWidget {
 }
 
 class ManualVoucherScanActions extends StatelessWidget {
-  final ValueChanged<String> onScanDemo;
+  final ValueChanged<String> onScan;
 
-  const ManualVoucherScanActions({super.key, required this.onScanDemo});
+  const ManualVoucherScanActions({super.key, required this.onScan});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class ManualVoucherScanActions extends StatelessWidget {
         Expanded(
           child: OutlinedButton.icon(
             key: const ValueKey('manual_voucher.scan_qr_button'),
-            onPressed: () => onScanDemo('QR'),
+            onPressed: () => onScan('QR'),
             icon: const Icon(Icons.qr_code_scanner),
             label: Text(l10n.manualVoucherScanQr),
           ),
@@ -71,7 +71,7 @@ class ManualVoucherScanActions extends StatelessWidget {
         Expanded(
           child: OutlinedButton.icon(
             key: const ValueKey('manual_voucher.scan_barcode_button'),
-            onPressed: () => onScanDemo(l10n.voucherBarcode),
+            onPressed: () => onScan(l10n.voucherBarcode),
             icon: const Icon(Icons.document_scanner),
             label: Text(l10n.manualVoucherScanBarcode),
           ),

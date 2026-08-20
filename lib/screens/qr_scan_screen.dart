@@ -9,7 +9,11 @@ import 'package:vngrocery/theme/app_colors.dart';
 ///
 /// Pops with the parsed [BundleToken]; the caller decides what to do with it.
 class QrScanScreen extends StatefulWidget {
-  const QrScanScreen({super.key});
+  /// Pop the scanned text as-is instead of parsing it as a bundle token. Used
+  /// for voucher codes, which are not bundle QRs.
+  final bool raw;
+
+  const QrScanScreen({super.key, this.raw = false});
 
   @override
   State<QrScanScreen> createState() => _QrScanScreenState();
@@ -38,6 +42,12 @@ class _QrScanScreenState extends State<QrScanScreen> {
     for (final barcode in capture.barcodes) {
       final value = barcode.rawValue;
       if (value == null || value.isEmpty) continue;
+
+      if (widget.raw) {
+        _handled = true;
+        Navigator.pop(context, value);
+        return;
+      }
 
       final l10n = AppLocalizations.of(context);
       final token = BundleToken.tryParse(value);

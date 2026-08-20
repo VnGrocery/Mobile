@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/screens/qr_scan_screen.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/vouchers/controllers/manual_voucher_cubit.dart';
@@ -61,7 +62,7 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
                     onChanged: _manualVoucherCubit.selectShop,
                   ),
                   const SizedBox(height: 14),
-                  ManualVoucherScanActions(onScanDemo: _scanDemo),
+                  ManualVoucherScanActions(onScan: _scanCode),
                   const SizedBox(height: 14),
                   ManualVoucherFields(code: _code, title: _title, note: _note),
                   const SizedBox(height: 14),
@@ -80,10 +81,18 @@ class _ManualVoucherScreenState extends State<ManualVoucherScreen> {
     );
   }
 
-  void _scanDemo(String format) {
+  /// Reads the code off the voucher instead of inventing one: this used to
+  /// drop a hardcoded "MANUALQR20" into the field.
+  Future<void> _scanCode(String format) async {
     final l10n = AppLocalizations.of(context);
-    _code.text = _manualVoucherCubit.scanDemo(format);
-    AppFeedback.showSnackBar(context, l10n.manualVoucherDemoCopied(format));
+    final scanned = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (_) => const QrScanScreen(raw: true)),
+    );
+    if (scanned == null || scanned.trim().isEmpty || !mounted) return;
+    _code.text = scanned.trim();
+    _manualVoucherCubit.setCodeFormat(format);
+    AppFeedback.showSnackBar(context, l10n.manualVoucherCodeScanned(format));
   }
 
   Future<void> _pickExpiry() async {

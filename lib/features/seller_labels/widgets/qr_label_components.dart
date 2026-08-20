@@ -118,14 +118,12 @@ class QrLabelPreviewCard extends StatelessWidget {
 }
 
 class QrLabelActions extends StatelessWidget {
-  final VoidCallback onDownload;
-  final VoidCallback onPrint;
+  final VoidCallback onCopy;
   final VoidCallback onBackHome;
 
   const QrLabelActions({
     super.key,
-    required this.onDownload,
-    required this.onPrint,
+    required this.onCopy,
     required this.onBackHome,
   });
 
@@ -134,30 +132,16 @@ class QrLabelActions extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Column(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 56,
-                child: OutlinedButton.icon(
-                  onPressed: onDownload,
-                  icon: const Icon(Icons.download),
-                  label: Text(l10n.qrLabelDownload),
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: SizedBox(
-                height: 56,
-                child: FilledButton.icon(
-                  onPressed: onPrint,
-                  icon: const Icon(Icons.print),
-                  label: const Text('In tem'),
-                ),
-              ),
-            ),
-          ],
+        // "In tem" opened a dialog claiming the label was queued to a printer;
+        // nothing was ever printed. Copying is what the app can actually do.
+        SizedBox(
+          height: 56,
+          width: double.infinity,
+          child: FilledButton.icon(
+            onPressed: onCopy,
+            icon: const Icon(Icons.copy),
+            label: Text(l10n.qrLabelCopyAction),
+          ),
         ),
         TextButton(
           onPressed: onBackHome,
