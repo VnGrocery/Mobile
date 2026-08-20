@@ -1149,5 +1149,17 @@
   "exploreFilterNearby": "Near you",
   "@exploreFilterNearby": {
     "description": "Explore chip that orders shops by distance."
+  },
+  "mapLocatingTitle": "Finding where you are",
+  "@mapLocatingTitle": {
+    "description": "Map location states."
+  },
+  "mapLocatingMessage": "The map will open right where you are standing.",
+  "@mapLocatingMessage": {
+    "description": "Map location states."
+  },
+  "mapLocationUnavailable": "No location yet — showing the shops on file.",
+  "@mapLocationUnavailable": {
+    "description": "Map location states."
   }
 }

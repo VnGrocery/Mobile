@@ -1561,4 +1561,14 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get homeNoShopNearbyMessage =>
       'Không tìm thấy cửa hàng nào trong bán kính 20 km.';
+
+  @override
+  String get mapLocatingTitle => 'Đang tìm vị trí của bạn';
+
+  @override
+  String get mapLocatingMessage => 'Bản đồ sẽ mở ngay tại chỗ bạn đang đứng.';
+
+  @override
+  String get mapLocationUnavailable =>
+      'Chưa có vị trí của bạn — đang hiện các cửa hàng đã lưu.';
 }

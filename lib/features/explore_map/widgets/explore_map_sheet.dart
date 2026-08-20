@@ -15,6 +15,11 @@ class ExploreMapBottomSheet extends StatelessWidget {
   final Shop? selectedShop;
   final double bottomContentInset;
 
+  /// True while the app is still finding the reader. The list is headed "near
+  /// you", so until there is a "you" it would be labelling shops on the far
+  /// side of the country as nearby.
+  final bool locating;
+
   const ExploreMapBottomSheet({
     super.key,
     required this.controller,
@@ -23,6 +28,7 @@ class ExploreMapBottomSheet extends StatelessWidget {
     required this.onSelectShop,
     required this.selectedShop,
     required this.bottomContentInset,
+    this.locating = false,
   });
 
   @override
@@ -60,12 +66,52 @@ class ExploreMapBottomSheet extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          for (final shop in shops)
-            ExploreMapShopTile(
-              shop: shop,
-              selected: shop.id == selectedShopId,
-              onTap: () => onSelectShop(shop),
-            ),
+          if (locating)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 28),
+              child: Center(
+                child: Text(
+                  l10n.mapLocatingTitle,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            )
+          else if (shops.isEmpty)
+            // A bare heading over empty space reads as a list that failed to
+            // load rather than as an answer.
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
+              child: Column(
+                children: [
+                  Text(
+                    l10n.homeNoShopNearbyTitle,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.homeNoShopNearbyMessage,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            for (final shop in shops)
+              ExploreMapShopTile(
+                shop: shop,
+                selected: shop.id == selectedShopId,
+                onTap: () => onSelectShop(shop),
+              ),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:vngrocery/core/location/location_service.dart';
 import 'package:vngrocery/data/mock_data.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_cubit.dart';
+import 'package:vngrocery/features/explore_map/controllers/explore_map_state.dart';
 
 /// Stands in for the device so the ranking can be tested without a GPS fix.
 class _FixedLocation implements LocationService {
@@ -66,13 +67,31 @@ void main() {
     cubit.close();
   });
 
+  test('there is nothing to centre on until locating finishes', () async {
+    // Centring on a shop while the answer is still coming is what made the map
+    // open on a cluster of shops instead of on the reader.
+    final cubit = ExploreMapCubit(location: const _FixedLocation(_origin))
+      ..load();
+
+    expect(cubit.state.locationStatus, MapLocationStatus.locating);
+    expect(cubit.state.center, isNull);
+
+    await cubit.locateReader();
+
+    expect(cubit.state.locationStatus, MapLocationStatus.located);
+    expect(cubit.state.center, _origin);
+    cubit.close();
+  });
+
   test('a refused location leaves the map centred on a shop', () async {
     final cubit = ExploreMapCubit(location: const _FixedLocation(null))..load();
 
     await cubit.locateReader();
 
+    expect(cubit.state.locationStatus, MapLocationStatus.unavailable);
     expect(cubit.state.origin, isNull);
-    // Falls back to the first shop that has coordinates rather than to a
+    // Only once locating has actually failed does falling back to a shop mean
+    // anything; it lands on the first with coordinates rather than on a
     // hardcoded city centre.
     expect(cubit.state.center?.latitude, 10.8621);
     cubit.close();

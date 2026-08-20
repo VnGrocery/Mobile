@@ -1570,4 +1570,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeNoShopNearbyMessage =>
       'Nothing found within 20 km of where you are.';
+
+  @override
+  String get mapLocatingTitle => 'Finding where you are';
+
+  @override
+  String get mapLocatingMessage =>
+      'The map will open right where you are standing.';
+
+  @override
+  String get mapLocationUnavailable =>
+      'No location yet — showing the shops on file.';
 }

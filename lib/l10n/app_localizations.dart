@@ -2947,6 +2947,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing found within 20 km of where you are.'**
   String get homeNoShopNearbyMessage;
+
+  /// Map location states.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding where you are'**
+  String get mapLocatingTitle;
+
+  /// Map location states.
+  ///
+  /// In en, this message translates to:
+  /// **'The map will open right where you are standing.'**
+  String get mapLocatingMessage;
+
+  /// Map location states.
+  ///
+  /// In en, this message translates to:
+  /// **'No location yet — showing the shops on file.'**
+  String get mapLocationUnavailable;
 }
 
 class _AppLocalizationsDelegate

@@ -20,9 +20,22 @@ class ExploreMapCubit extends Cubit<ExploreMapState> with CloseSafeEmit {
 
   /// Finds the reader so the map can open where they are.
   Future<void> locateReader() async {
+    emit(state.copyWith(locationStatus: MapLocationStatus.locating));
+
     final (location, _) = await _location.current();
-    if (location == null) return;
-    emit(state.copyWith(origin: location.point));
+    if (location == null) {
+      // Say so rather than leaving the map waiting forever: it needs to know
+      // it may now fall back to framing the shops.
+      emit(state.copyWith(locationStatus: MapLocationStatus.unavailable));
+      return;
+    }
+
+    emit(
+      state.copyWith(
+        origin: location.point,
+        locationStatus: MapLocationStatus.located,
+      ),
+    );
     await load();
   }
 

@@ -645,5 +645,17 @@
   "exploreFilterNearby": "Gần bạn",
   "@exploreFilterNearby": {
     "description": "Explore chip that orders shops by distance."
+  },
+  "mapLocatingTitle": "Đang tìm vị trí của bạn",
+  "@mapLocatingTitle": {
+    "description": "Map location states."
+  },
+  "mapLocatingMessage": "Bản đồ sẽ mở ngay tại chỗ bạn đang đứng.",
+  "@mapLocatingMessage": {
+    "description": "Map location states."
+  },
+  "mapLocationUnavailable": "Chưa có vị trí của bạn — đang hiện các cửa hàng đã lưu.",
+  "@mapLocationUnavailable": {
+    "description": "Map location states."
   }
 }

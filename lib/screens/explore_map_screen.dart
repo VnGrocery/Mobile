@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/location/geo.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/core/location/nearby.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_cubit.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_state.dart';
 import 'package:vngrocery/features/explore_map/widgets/explore_map_components.dart';
 import 'package:vngrocery/features/explore_map/widgets/shop_pin_layer.dart';
 import 'package:vngrocery/widgets/map_projection.dart';
+import 'package:vngrocery/features/explore_map/widgets/map_skeleton.dart';
 import 'package:vngrocery/features/explore_map/widgets/radius_rings.dart';
 import 'package:vngrocery/widgets/interactive_map.dart';
 
@@ -72,70 +76,90 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
         builder: (context, state) {
           // Nearest first, and only what is actually in range.
           final shops = state.nearbyShops.map((entry) => entry.item).toList();
+          final origin = state.origin;
           final center = state.center ?? _fallbackCenter;
-          final points = [
-            for (final shop in shops) GeoPoint(shop.latitude, shop.longitude),
-            // Frame the ring the app searches within, not just the shops it
-            // found: with nothing nearby the map would otherwise open at full
-            // zoom on an empty street, showing neither.
-            if (state.origin case final origin?) ...[
-              offsetKm(origin, northKm: NearbyRadius.near),
-              offsetKm(origin, northKm: -NearbyRadius.near),
-              offsetKm(origin, eastKm: NearbyRadius.near),
-              offsetKm(origin, eastKm: -NearbyRadius.near),
-            ],
-          ];
+
+          // Framed on the reader: the ring they are searching within, not the
+          // spread of shops. Fitting every shop out to 20 km pulled the camera
+          // back until the view was about the busiest cluster rather than about
+          // where they are standing.
+          //
+          // With no location there is nothing to be near, so the shops are all
+          // there is to frame.
+          final points = origin != null
+              ? [
+                  offsetKm(origin, northKm: NearbyRadius.near),
+                  offsetKm(origin, northKm: -NearbyRadius.near),
+                  offsetKm(origin, eastKm: NearbyRadius.near),
+                  offsetKm(origin, eastKm: -NearbyRadius.near),
+                ]
+              : [
+                  for (final shop in shops)
+                    GeoPoint(shop.latitude, shop.longitude),
+                ];
+
           return Scaffold(
             body: Stack(
               children: [
                 Positioned.fill(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      final viewport = Size(
-                        constraints.maxWidth,
-                        constraints.maxHeight,
-                      );
-                      // Pull back only as far as needed to fit every nearby
-                      // shop, rather than opening at a fixed zoom that might
-                      // show none of them. The viewport decides the scale, so
-                      // this has to happen where its size is known.
-                      final camera = MapCamera(
-                        center: center,
-                        zoom: MapProjection.zoomToFit(
-                          center: center,
-                          points: points,
-                          viewport: viewport,
-                        ),
-                      );
+                  child: state.locationStatus == MapLocationStatus.locating
+                      // Nothing honest to point at yet. Showing a shop instead
+                      // reads as a deliberate choice of somewhere else.
+                      ? const MapSkeleton()
+                      : LayoutBuilder(
+                          builder: (context, constraints) {
+                            final viewport = Size(
+                              constraints.maxWidth,
+                              constraints.maxHeight,
+                            );
+                            final camera = MapCamera(
+                              center: center,
+                              zoom: MapProjection.zoomToFit(
+                                center: center,
+                                points: points,
+                                viewport: viewport,
+                              ),
+                            );
 
-                      return InteractiveMap(
-                        initialCamera: camera,
-                        controller: _mapController,
-                        overlayBuilder: (context, projection) => Stack(
-                          children: [
-                            if (state.origin case final origin?)
-                              Positioned.fill(
-                                child: RadiusRings(
-                                  center: origin,
-                                  projection: projection,
-                                ),
+                            return InteractiveMap(
+                              initialCamera: camera,
+                              controller: _mapController,
+                              overlayBuilder: (context, projection) => Stack(
+                                children: [
+                                  if (origin != null)
+                                    Positioned.fill(
+                                      child: RadiusRings(
+                                        center: origin,
+                                        projection: projection,
+                                      ),
+                                    ),
+                                  Positioned.fill(
+                                    child: ShopPinLayer(
+                                      shops: shops,
+                                      selectedShopId: state.selectedShopId,
+                                      onSelect: (shop) =>
+                                          _mapCubit.selectShop(shop.id),
+                                      projection: projection,
+                                      readerAt: origin,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            Positioned.fill(
-                              child: ShopPinLayer(
-                                shops: shops,
-                                selectedShopId: state.selectedShopId,
-                                onSelect: (shop) =>
-                                    _mapCubit.selectShop(shop.id),
-                                projection: projection,
-                                readerAt: state.origin,
-                              ),
-                            ),
-                          ],
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
                 ),
+                if (state.locationStatus == MapLocationStatus.unavailable)
+                  Positioned(
+                    left: 16,
+                    right: 16,
+                    top: MediaQuery.paddingOf(context).top + 76,
+                    child: _LocationNotice(
+                      message: AppLocalizations.of(
+                        context,
+                      ).mapLocationUnavailable,
+                    ),
+                  ),
                 Positioned(
                   left: 16,
                   right: 16,
@@ -162,6 +186,8 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
                       selectedShopId: state.selectedShopId,
                       onSelectShop: (shop) => _mapCubit.selectShop(shop.id),
                       selectedShop: state.selectedShop,
+                      locating:
+                          state.locationStatus == MapLocationStatus.locating,
                       bottomContentInset: widget.bottomOverlayInset,
                     );
                   },
@@ -170,6 +196,39 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+/// Says the map is framed on shops because there is no location, rather than
+/// letting a view of somewhere else pass for "near you".
+class _LocationNotice extends StatelessWidget {
+  final String message;
+
+  const _LocationNotice({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: context.palette.elevatedCard,
+      borderRadius: BorderRadius.circular(12),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.location_off_outlined,
+              size: 16,
+              color: AppColors.textSecondary,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(message, style: const TextStyle(fontSize: 12)),
+            ),
+          ],
+        ),
       ),
     );
   }
