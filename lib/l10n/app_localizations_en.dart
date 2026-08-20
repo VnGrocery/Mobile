@@ -1431,4 +1431,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voucherUsedShort => 'Used';
+
+  @override
+  String get navScanShort => 'Scan';
+
+  @override
+  String get sideMenuFootnote => 'Data from counters and the community';
+
+  @override
+  String get roleSeller => 'Seller';
+
+  @override
+  String get roleBuyer => 'Buyer';
+
+  @override
+  String get voucherBarcode => 'Barcode';
+
+  @override
+  String get exploreNearbyTitle => 'Stores near you';
+
+  @override
+  String get exploreViewStore => 'View store';
+
+  @override
+  String get exploreSearchNearby => 'Find stores near you';
+
+  @override
+  String get buyerCheckScanFirst =>
+      'Scan a valid pledge label before checking.';
+
+  @override
+  String get authGoogleTokenError => 'Could not get a Google ID token';
+
+  @override
+  String get pledgeHistoryTitle => 'Record history';
+
+  @override
+  String get scoreLabel => 'Score';
+
+  @override
+  String qrLabelClipboard(Object pledgeId) {
+    return 'VnGrocery Check\nRecord: $pledgeId\nScan the code to check this product';
+  }
 }

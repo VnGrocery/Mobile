@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/features/pledge_history/controllers/pledge_history_cubit.dart';
@@ -38,7 +39,9 @@ class _PledgeHistoryScreenState extends State<PledgeHistoryScreen> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: context.palette.appBackground,
-            appBar: AppBar(title: const Text('Lịch sử ghi nhận')),
+            appBar: AppBar(
+              title: Text(AppLocalizations.of(context).pledgeHistoryTitle),
+            ),
             body: ListView(
               padding: const EdgeInsets.all(16),
               children: [

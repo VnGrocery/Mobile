@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
 
@@ -14,6 +15,7 @@ class SideMenuProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         ClipOval(
@@ -45,7 +47,7 @@ class SideMenuProfile extends StatelessWidget {
                 ),
               ),
               Text(
-                isSeller ? 'Người bán' : 'Người mua',
+                isSeller ? l10n.roleSeller : l10n.roleBuyer,
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: 0.72),
                   fontSize: 12,

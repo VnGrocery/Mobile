@@ -30,8 +30,10 @@ class FloatingShopPin extends StatelessWidget {
             if (selected)
               Container(
                 constraints: const BoxConstraints(maxWidth: 150),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: palette.elevatedCard,
                   borderRadius: BorderRadius.circular(16),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -15,6 +16,7 @@ class ExploreSearchShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return Row(
       children: [
@@ -35,16 +37,16 @@ class ExploreSearchShell extends StatelessWidget {
             color: palette.elevatedCard,
             elevation: 4,
             borderRadius: BorderRadius.circular(24),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
               child: Row(
                 children: [
-                  Icon(Icons.search, color: AppColors.gray),
-                  SizedBox(width: 10),
+                  const Icon(Icons.search, color: AppColors.gray),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Tìm cửa hàng gần bạn',
-                      style: TextStyle(color: AppColors.textSecondary),
+                      l10n.exploreSearchNearby,
+                      style: const TextStyle(color: AppColors.textSecondary),
                     ),
                   ),
                   Icon(Icons.tune, color: AppColors.primaryGreen),
@@ -65,12 +67,13 @@ class LocateUserButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Material(
       color: context.palette.elevatedCard,
       elevation: 4,
       shape: const CircleBorder(),
       child: IconButton(
-        tooltip: 'Vị trí của bạn',
+        tooltip: l10n.exploreYourLocation,
         onPressed: onPressed,
         icon: const Icon(Icons.my_location, color: AppColors.primaryGreen),
       ),

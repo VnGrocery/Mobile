@@ -4,10 +4,7 @@ class ExploreMapState {
   final List<Shop> shops;
   final String? selectedShopId;
 
-  const ExploreMapState({
-    this.shops = const [],
-    this.selectedShopId,
-  });
+  const ExploreMapState({this.shops = const [], this.selectedShopId});
 
   Shop? get selectedShop {
     final shopId = selectedShopId;
@@ -15,10 +12,7 @@ class ExploreMapState {
     return shops.where((shop) => shop.id == shopId).firstOrNull;
   }
 
-  ExploreMapState copyWith({
-    List<Shop>? shops,
-    String? selectedShopId,
-  }) {
+  ExploreMapState copyWith({List<Shop>? shops, String? selectedShopId}) {
     return ExploreMapState(
       shops: shops ?? this.shops,
       selectedShopId: selectedShopId ?? this.selectedShopId,

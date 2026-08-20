@@ -84,13 +84,14 @@ class VoucherCodeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     final payload = VoucherPresenter.qrPayload(
       userVoucher: userVoucher,
       voucher: voucher,
       shop: shop,
     );
-    final barcodeMode = voucher.codeFormat == 'Mã vạch';
+    final barcodeMode = voucher.codeFormat == l10n.voucherBarcode;
 
     return Card(
       color: palette.card,

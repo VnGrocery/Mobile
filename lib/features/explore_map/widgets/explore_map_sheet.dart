@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/core/ui/app_sheet.dart';
 import 'package:vngrocery/data/models.dart';
@@ -26,6 +27,7 @@ class ExploreMapBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -40,9 +42,9 @@ class ExploreMapBottomSheet extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Cửa hàng gần bạn',
+                  l10n.exploreNearbyTitle,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -53,7 +55,7 @@ class ExploreMapBottomSheet extends StatelessWidget {
                     Routes.storeDetail,
                     arguments: StoreDetailArgs(selectedShop!.id),
                   ),
-                  child: const Text('Xem cửa hàng'),
+                  child: Text(l10n.exploreViewStore),
                 ),
             ],
           ),

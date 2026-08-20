@@ -36,9 +36,9 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
     } catch (error) {
       if (mounted) {
         setState(() => _analyzing = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('AI local error: $error')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('AI local error: $error')));
       }
       return;
     }
@@ -50,8 +50,8 @@ class _AiFreshnessScreenState extends State<AiFreshnessScreen> {
       if (!mounted) return;
       setState(() => _analyzing = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Hãy quét tem pledge hợp lệ trước khi kiểm tra.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).buyerCheckScanFirst),
         ),
       );
       return;

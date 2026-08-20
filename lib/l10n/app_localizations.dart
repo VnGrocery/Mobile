@@ -680,7 +680,7 @@ abstract class AppLocalizations {
   /// **'Directions'**
   String get exploreDirections;
 
-  /// No description provided for @exploreYourLocation.
+  /// App copy.
   ///
   /// In en, this message translates to:
   /// **'Your location'**
@@ -2707,6 +2707,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Used'**
   String get voucherUsedShort;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get navScanShort;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Data from counters and the community'**
+  String get sideMenuFootnote;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller'**
+  String get roleSeller;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get roleBuyer;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode'**
+  String get voucherBarcode;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores near you'**
+  String get exploreNearbyTitle;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'View store'**
+  String get exploreViewStore;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Find stores near you'**
+  String get exploreSearchNearby;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a valid pledge label before checking.'**
+  String get buyerCheckScanFirst;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get a Google ID token'**
+  String get authGoogleTokenError;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Record history'**
+  String get pledgeHistoryTitle;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Score'**
+  String get scoreLabel;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'VnGrocery Check\nRecord: {pledgeId}\nScan the code to check this product'**
+  String qrLabelClipboard(Object pledgeId);
 }
 
 class _AppLocalizationsDelegate

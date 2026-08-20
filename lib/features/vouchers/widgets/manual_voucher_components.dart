@@ -71,7 +71,7 @@ class ManualVoucherScanActions extends StatelessWidget {
         Expanded(
           child: OutlinedButton.icon(
             key: const ValueKey('manual_voucher.scan_barcode_button'),
-            onPressed: () => onScanDemo('Mã vạch'),
+            onPressed: () => onScanDemo(l10n.voucherBarcode),
             icon: const Icon(Icons.document_scanner),
             label: Text(l10n.manualVoucherScanBarcode),
           ),

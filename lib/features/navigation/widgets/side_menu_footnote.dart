@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 class SideMenuFootnote extends StatelessWidget {
   const SideMenuFootnote({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -17,7 +19,7 @@ class SideMenuFootnote extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Dữ liệu từ quầy hàng và cộng đồng',
+              l10n.sideMenuFootnote,
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.82),
                 fontSize: 12,

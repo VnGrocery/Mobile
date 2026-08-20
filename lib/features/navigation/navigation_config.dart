@@ -19,8 +19,11 @@ class NavigationConfig {
         selectorKey: 'scan',
       ),
       NavigationItem(Icons.storefront, l10n.navStores, selectorKey: 'stores'),
-      NavigationItem(Icons.wallet, l10n.navVoucherWallet,
-          selectorKey: 'wallet'),
+      NavigationItem(
+        Icons.wallet,
+        l10n.navVoucherWallet,
+        selectorKey: 'wallet',
+      ),
       NavigationItem(
         Icons.account_circle,
         l10n.navAccount,

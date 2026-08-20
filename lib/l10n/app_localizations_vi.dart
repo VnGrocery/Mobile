@@ -1423,4 +1423,46 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get voucherUsedShort => 'Đã dùng';
+
+  @override
+  String get navScanShort => 'Quét';
+
+  @override
+  String get sideMenuFootnote => 'Dữ liệu từ quầy hàng và cộng đồng';
+
+  @override
+  String get roleSeller => 'Người bán';
+
+  @override
+  String get roleBuyer => 'Người mua';
+
+  @override
+  String get voucherBarcode => 'Mã vạch';
+
+  @override
+  String get exploreNearbyTitle => 'Cửa hàng gần bạn';
+
+  @override
+  String get exploreViewStore => 'Xem cửa hàng';
+
+  @override
+  String get exploreSearchNearby => 'Tìm cửa hàng gần bạn';
+
+  @override
+  String get buyerCheckScanFirst =>
+      'Hãy quét tem pledge hợp lệ trước khi kiểm tra.';
+
+  @override
+  String get authGoogleTokenError => 'Không lấy được Google ID token';
+
+  @override
+  String get pledgeHistoryTitle => 'Lịch sử ghi nhận';
+
+  @override
+  String get scoreLabel => 'Điểm đánh giá';
+
+  @override
+  String qrLabelClipboard(Object pledgeId) {
+    return 'VnGrocery Check\nMã ghi nhận: $pledgeId\nQuét mã để kiểm tra thông tin sản phẩm';
+  }
 }

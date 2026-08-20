@@ -41,10 +41,7 @@ class AnimatedContentShell extends StatelessWidget {
               borderRadius: radius,
               child: Scaffold(
                 backgroundColor: context.palette.appBackground,
-                body: IndexedStack(
-                  index: selectedIndex,
-                  children: tabs,
-                ),
+                body: IndexedStack(index: selectedIndex, children: tabs),
               ),
             ),
           ),

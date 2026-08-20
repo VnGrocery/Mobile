@@ -460,5 +460,19 @@
   "scannerNoCamera": "Không tìm thấy camera",
   "scannerOpeningCamera": "Đang mở camera...",
   "scannerConfidence": "Tin cậy: {percent}%",
-  "voucherUsedShort": "Đã dùng"
+  "voucherUsedShort": "Đã dùng",
+  "navScanShort": "Quét",
+  "sideMenuFootnote": "Dữ liệu từ quầy hàng và cộng đồng",
+  "roleSeller": "Người bán",
+  "roleBuyer": "Người mua",
+  "voucherBarcode": "Mã vạch",
+  "exploreNearbyTitle": "Cửa hàng gần bạn",
+  "exploreViewStore": "Xem cửa hàng",
+  "exploreSearchNearby": "Tìm cửa hàng gần bạn",
+  "exploreYourLocation": "Vị trí của bạn",
+  "buyerCheckScanFirst": "Hãy quét tem pledge hợp lệ trước khi kiểm tra.",
+  "authGoogleTokenError": "Không lấy được Google ID token",
+  "pledgeHistoryTitle": "Lịch sử ghi nhận",
+  "scoreLabel": "Điểm đánh giá",
+  "qrLabelClipboard": "VnGrocery Check\nMã ghi nhận: {pledgeId}\nQuét mã để kiểm tra thông tin sản phẩm"
 }

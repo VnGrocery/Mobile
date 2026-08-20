@@ -173,7 +173,8 @@ class _AuthScreenState extends State<AuthScreen> {
       ).signIn();
       final token = (await account?.authentication)?.idToken;
       if (token == null || token.isEmpty) {
-        throw StateError('Không lấy được Google ID token');
+        // Localised where it is caught; context is not safe after an await.
+        throw StateError('google_id_token_missing');
       }
       if (!mounted) return;
       await context.read<SessionCubit>().authenticateGoogle(token);

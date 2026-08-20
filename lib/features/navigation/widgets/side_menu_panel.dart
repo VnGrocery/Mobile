@@ -27,7 +27,10 @@ class SideMenuPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = context.watch<SessionCubit>().state.displayName;
-    final items = NavigationConfig.sideMenuItems(AppLocalizations.of(context), isSeller);
+    final items = NavigationConfig.sideMenuItems(
+      AppLocalizations.of(context),
+      isSeller,
+    );
 
     return AnimatedSlide(
       duration: const Duration(milliseconds: 300),

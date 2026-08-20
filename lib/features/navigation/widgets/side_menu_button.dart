@@ -37,7 +37,9 @@ class SideMenuButton extends StatelessWidget {
           color: selected ? Colors.white : Colors.transparent,
           borderRadius: BorderRadius.circular(18),
           child: InkWell(
-            key: selectorKey == null ? null : ValueKey('account.route.$selectorKey'),
+            key: selectorKey == null
+                ? null
+                : ValueKey('account.route.$selectorKey'),
             borderRadius: BorderRadius.circular(18),
             onTap: onTap,
             child: Padding(
@@ -57,8 +59,9 @@ class SideMenuButton extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: selected ? AppColors.primaryGreen : Colors.white,
-                        fontWeight:
-                            selected ? FontWeight.w800 : FontWeight.w600,
+                        fontWeight: selected
+                            ? FontWeight.w800
+                            : FontWeight.w600,
                         fontSize: 15,
                       ),
                     ),

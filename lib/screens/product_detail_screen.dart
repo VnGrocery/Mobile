@@ -59,7 +59,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
           return Scaffold(
             backgroundColor: context.palette.appBackground,
-            appBar: AppBar(title: const Text('Thông tin sản phẩm')),
+            appBar: AppBar(title: Text(l10n.productDetailTitle)),
             body: ListView(
               padding: EdgeInsets.zero,
               children: [

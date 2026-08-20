@@ -54,17 +54,18 @@ class FloatingTabPopup extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF23AA49).withValues(
-                          alpha: isDark ? 0.22 : 0.24,
-                        ),
+                        color: const Color(
+                          0xFF23AA49,
+                        ).withValues(alpha: isDark ? 0.22 : 0.24),
                         blurRadius: 26,
                         spreadRadius: 2,
                         offset: const Offset(0, 10),
                       ),
                       if (!isDark)
                         BoxShadow(
-                          color:
-                              const Color(0xFF23AA49).withValues(alpha: 0.16),
+                          color: const Color(
+                            0xFF23AA49,
+                          ).withValues(alpha: 0.16),
                           blurRadius: 34,
                           spreadRadius: 5,
                           offset: Offset.zero,
@@ -99,8 +100,9 @@ class FloatingTabPopup extends StatelessWidget {
                           border: Border.all(
                             color: isDark
                                 ? palette.glassBorder
-                                : const Color(0xFF23AA49)
-                                    .withValues(alpha: 0.42),
+                                : const Color(
+                                    0xFF23AA49,
+                                  ).withValues(alpha: 0.42),
                             width: isDark ? 1 : 1.4,
                           ),
                         ),
@@ -161,9 +163,11 @@ class FloatingTabPopup extends StatelessWidget {
   }
 }
 
+/// Which entry is drawn as the raised centre button.
+///
+/// Identified by its icon rather than its label, which is translated.
 int centerNavigationIndex(List<NavigationItem> items) {
-  final scan = items.indexWhere((item) =>
-      item.icon == Icons.qr_code_scanner || item.label.contains('Quét'));
+  final scan = items.indexWhere((item) => item.icon == Icons.qr_code_scanner);
   if (scan >= 0) return scan;
   return items.length > 1 ? 1 : 0;
 }
