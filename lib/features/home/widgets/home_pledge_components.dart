@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/core/widgets/product_thumbnail.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,20 +41,7 @@ class HomePledgeCard extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 72,
-                  height: 72,
-                  color: palette.elevatedCard,
-                  child: Image.asset(
-                    'assets/images/lamb_meat.png',
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) =>
-                        const Icon(Icons.image, color: AppColors.textSecondary),
-                  ),
-                ),
-              ),
+              ProductThumbnail(imageUrls: product.imageUrls, radius: 12),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

@@ -11,12 +11,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   final CartStorage _cartRepository;
   final AppRepositories _appRepositories;
 
-  CartBloc({
-    CartStorage? cartRepository,
-    AppRepositories? appRepositories,
-  })  : _cartRepository = cartRepository ?? CartRepository(),
-        _appRepositories = appRepositories ?? AppRepositories.instance,
-        super(const CartState.initial()) {
+  CartBloc({CartStorage? cartRepository, AppRepositories? appRepositories})
+    : _cartRepository = cartRepository ?? CartRepository(),
+      _appRepositories = appRepositories ?? AppRepositories.instance,
+      super(const CartState.initial()) {
     on<CartStarted>(_onStarted);
     on<CartAddRequested>(_onAddRequested);
     on<CartQuantityChanged>(_onQuantityChanged);
@@ -59,8 +57,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     Emitter<CartState> emit,
   ) async {
     final items = [...state.items];
-    final index =
-        items.indexWhere((item) => item.productId == event.product.id);
+    final index = items.indexWhere(
+      (item) => item.productId == event.product.id,
+    );
     if (index >= 0) {
       final current = items[index];
       items[index] = current.copyWith(
@@ -91,8 +90,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     CartRemoveRequested event,
     Emitter<CartState> emit,
   ) async {
-    final items =
-        state.items.where((item) => item.productId != event.productId).toList();
+    final items = state.items
+        .where((item) => item.productId != event.productId)
+        .toList();
     await _emitAndPersist(emit, state.copyWith(items: items));
   }
 
@@ -153,7 +153,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   Map<String, String> _voucherIds(Map<String, Voucher> vouchersByShop) {
-    return vouchersByShop
-        .map((shopId, voucher) => MapEntry(shopId, voucher.id));
+    return vouchersByShop.map(
+      (shopId, voucher) => MapEntry(shopId, voucher.id),
+    );
   }
 }

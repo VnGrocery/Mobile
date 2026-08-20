@@ -42,11 +42,7 @@ class _Line extends StatelessWidget {
   final int value;
   final bool strong;
 
-  const _Line({
-    required this.label,
-    required this.value,
-    this.strong = false,
-  });
+  const _Line({required this.label, required this.value, this.strong = false});
 
   @override
   Widget build(BuildContext context) {

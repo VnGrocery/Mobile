@@ -1,4 +1,5 @@
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/models/json_helpers.dart';
 import 'package:vngrocery/core/storage/cache_policy.dart';
 
 class CartItem {
@@ -7,7 +8,10 @@ class CartItem {
   final String name;
   final int price;
   final int quantity;
-  final String imageAsset;
+
+  /// The product's own image, carried so the cart can show what was added.
+  /// This used to be a bundled asset path, so every line showed the same photo.
+  final List<String> imageUrls;
   final String? appliedVoucherId;
   final DateTime addedAt;
 
@@ -17,7 +21,7 @@ class CartItem {
     required this.name,
     required this.price,
     required this.quantity,
-    this.imageAsset = 'assets/images/lamb_meat.png',
+    this.imageUrls = const [],
     this.appliedVoucherId,
     required this.addedAt,
   });
@@ -29,6 +33,7 @@ class CartItem {
       name: product.name,
       price: product.price,
       quantity: quantity,
+      imageUrls: product.imageUrls,
       addedAt: DateTime.now(),
     );
   }
@@ -41,8 +46,7 @@ class CartItem {
       name: json['name'] as String,
       price: (json['price'] as num).toInt(),
       quantity: (json['quantity'] as num).toInt(),
-      imageAsset:
-          json['imageAsset'] as String? ?? 'assets/images/lamb_meat.png',
+      imageUrls: stringList(json['imageUrls']),
       appliedVoucherId: json['appliedVoucherId'] as String?,
       addedAt: addedAtValue is String
           ? DateTime.tryParse(addedAtValue) ?? DateTime.now()
@@ -62,7 +66,7 @@ class CartItem {
     String? name,
     int? price,
     int? quantity,
-    String? imageAsset,
+    List<String>? imageUrls,
     String? appliedVoucherId,
     DateTime? addedAt,
   }) {
@@ -72,20 +76,20 @@ class CartItem {
       name: name ?? this.name,
       price: price ?? this.price,
       quantity: quantity ?? this.quantity,
-      imageAsset: imageAsset ?? this.imageAsset,
+      imageUrls: imageUrls ?? this.imageUrls,
       appliedVoucherId: appliedVoucherId ?? this.appliedVoucherId,
       addedAt: addedAt ?? this.addedAt,
     );
   }
 
   Map<String, Object?> toJson() => {
-        'productId': productId,
-        'shopId': shopId,
-        'name': name,
-        'price': price,
-        'quantity': quantity,
-        'imageAsset': imageAsset,
-        'appliedVoucherId': appliedVoucherId,
-        'addedAt': addedAt.toIso8601String(),
-      };
+    'productId': productId,
+    'shopId': shopId,
+    'name': name,
+    'price': price,
+    'quantity': quantity,
+    'imageUrls': imageUrls,
+    'appliedVoucherId': appliedVoucherId,
+    'addedAt': addedAt.toIso8601String(),
+  };
 }

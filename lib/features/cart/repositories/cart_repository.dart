@@ -20,7 +20,7 @@ class CartRepository implements CartStorage {
   final Box<Map>? _box;
 
   CartRepository({Box<Map>? box})
-      : _box = box ?? HiveStorageService.tryCartBox();
+    : _box = box ?? HiveStorageService.tryCartBox();
 
   @override
   List<CartItem> loadItems() {

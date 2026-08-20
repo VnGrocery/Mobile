@@ -15,10 +15,10 @@ class CartState {
   });
 
   const CartState.initial()
-      : items = const [],
-        appliedVouchersByShop = const {},
-        shopsById = const {},
-        isRestored = false;
+    : items = const [],
+      appliedVouchersByShop = const {},
+      shopsById = const {},
+      isRestored = false;
 
   Shop? shopOrNull(String shopId) => shopsById[shopId];
 
@@ -26,7 +26,10 @@ class CartState {
 
   List<String> get orderedShopIds => itemsByShop.keys.toList();
 
-  Map<String, Shop> resolveShops(Iterable<String> shopIds, Iterable<Shop> shops) {
+  Map<String, Shop> resolveShops(
+    Iterable<String> shopIds,
+    Iterable<Shop> shops,
+  ) {
     final next = <String, Shop>{};
     for (final shopId in shopIds) {
       final shop = shopsById[shopId];
@@ -61,7 +64,8 @@ class CartState {
     return copyWith(appliedVouchersByShop: vouchers, shopsById: shops);
   }
 
-  bool get hasMissingShopData => itemsByShop.keys.any((shopId) => !shopsById.containsKey(shopId));
+  bool get hasMissingShopData =>
+      itemsByShop.keys.any((shopId) => !shopsById.containsKey(shopId));
 
   int get itemCount => items.fold(0, (total, item) => total + item.quantity);
 
@@ -76,8 +80,10 @@ class CartState {
   }
 
   int shopSubtotal(String shopId) {
-    return itemsByShop[shopId]
-            ?.fold<int>(0, (total, item) => total + item.lineTotal) ??
+    return itemsByShop[shopId]?.fold<int>(
+          0,
+          (total, item) => total + item.lineTotal,
+        ) ??
         0;
   }
 
@@ -98,10 +104,8 @@ class CartState {
 
   int shopTotal(String shopId) => shopSubtotal(shopId) - shopDiscount(shopId);
 
-  int get discountAmount => itemsByShop.keys.fold(
-        0,
-        (total, shopId) => total + shopDiscount(shopId),
-      );
+  int get discountAmount =>
+      itemsByShop.keys.fold(0, (total, shopId) => total + shopDiscount(shopId));
 
   int get total => subtotal - discountAmount;
 
@@ -132,4 +136,3 @@ class CartState {
 extension<E> on Iterable<E> {
   E? get firstOrNull => isEmpty ? null : first;
 }
-

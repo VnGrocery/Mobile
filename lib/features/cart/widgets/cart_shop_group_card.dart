@@ -42,7 +42,8 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
     final palette = context.palette;
     final l10n = AppLocalizations.of(context);
     final shopName =
-        widget.state.shopNameOrNull(widget.shopId) ?? l10n.cartUnavailableShopName;
+        widget.state.shopNameOrNull(widget.shopId) ??
+        l10n.cartUnavailableShopName;
     final appliedVoucher = widget.state.appliedVouchersByShop[widget.shopId];
 
     return Container(
@@ -67,11 +68,8 @@ class _CartShopGroupCardState extends State<CartShopGroupCard> {
             appliedVoucher: appliedVoucher,
             onApply: () {
               context.read<CartBloc>().add(
-                    CartVoucherChecked(
-                      shopId: widget.shopId,
-                      code: _voucher.text,
-                    ),
-                  );
+                CartVoucherChecked(shopId: widget.shopId, code: _voucher.text),
+              );
             },
             onRemove: () {
               _voucher.clear();
@@ -176,7 +174,10 @@ class _ShopTotals extends StatelessWidget {
     final discount = state.shopDiscount(shopId);
     return Column(
       children: [
-        _TotalLine(label: l10n.cartShopSubtotal, value: state.shopSubtotal(shopId)),
+        _TotalLine(
+          label: l10n.cartShopSubtotal,
+          value: state.shopSubtotal(shopId),
+        ),
         _TotalLine(label: l10n.cartShopDiscount, value: -discount),
         const Divider(height: 18),
         _TotalLine(
