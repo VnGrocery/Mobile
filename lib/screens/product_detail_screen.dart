@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/core/widgets/trust_badge.dart';
 import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_event.dart';
 import 'package:vngrocery/features/products/controllers/product_detail_cubit.dart';
@@ -68,15 +69,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ProductTitleBlock(product: product),
+                      if (state.hasProof) ...[
+                        const SizedBox(height: 12),
+                        TrustBadge(
+                          proof: state.proof!,
+                          onTap: state.proof!.canRetry
+                              ? () => context
+                                    .read<ProductDetailCubit>()
+                                    .loadProof()
+                              : null,
+                        ),
+                      ],
                       const SizedBox(height: 12),
                       SizedBox(
                         height: 52,
                         width: double.infinity,
                         child: FilledButton.icon(
                           onPressed: () {
-                            context
-                                .read<CartBloc>()
-                                .add(CartAddRequested(product: product));
+                            context.read<CartBloc>().add(
+                              CartAddRequested(product: product),
+                            );
                             AppFeedback.showSnackBar(
                               context,
                               l10n.productDetailAddedToCart(product.name),

@@ -16,10 +16,35 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
     if (cached == null) return;
     try {
       emit(
-        ProductDetailState(
+        state.copyWith(
           product: await _repositories.products.fetch(cached.shopId, productId),
         ),
       );
     } catch (_) {}
+    if (isClosed) return;
+    await loadProof();
+  }
+
+  /// Loads the blockchain verdict for the product's newest pledge.
+  ///
+  /// Deliberately separate from [load]: the product must render whether or not
+  /// the chain can be reached, and anchoring takes a few seconds, so the view
+  /// can call this again to refresh a pending badge.
+  Future<void> loadProof() async {
+    final product = state.product;
+    if (product == null || isClosed) return;
+
+    emit(state.copyWith(loadingProof: true));
+    try {
+      final proof = await _repositories.pledges.latestProof(
+        product.shopId,
+        product.id,
+      );
+      if (isClosed) return;
+      emit(ProductDetailState(product: state.product, proof: proof));
+    } catch (_) {
+      if (isClosed) return;
+      emit(state.copyWith(loadingProof: false));
+    }
   }
 }

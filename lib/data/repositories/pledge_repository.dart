@@ -28,5 +28,15 @@ class PledgeRepository {
     return List.unmodifiable(items);
   }
 
+  /// The server's blockchain verdict for the newest pledge on a product.
+  ///
+  /// Returns null when there is no backend or the product has no pledge yet, so
+  /// callers can simply skip the badge.
+  Future<PledgeProof?> latestProof(String shopId, String productId) async {
+    final remote = _remote;
+    if (remote == null) return null;
+    return remote.latestProductProof(shopId, productId);
+  }
+
   RemoteDataSource? get remote => _remote;
 }
