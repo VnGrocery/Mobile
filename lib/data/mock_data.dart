@@ -4,10 +4,14 @@ import 'app_data_config.dart';
 import 'mock_json_data.dart';
 import 'models.dart';
 
+/// In-memory store the repositories read from and write through.
+///
+/// It used to seed itself with a fixture of invented shops and products, which
+/// [AppRepositories.configureRemote] then had to wipe on every launch so the
+/// demo data would not show up as if it came from the server. The store now
+/// starts empty and only [resetForTesting] loads the fixture.
 class MockDb {
-  MockDb._() {
-    _seed(appMockJson);
-  }
+  MockDb._();
 
   static final MockDb instance = MockDb._();
 
@@ -22,6 +26,8 @@ class MockDb {
 
   late BuyerCheckResult lastBuyerCheck;
 
+  /// Loads the fixture. Tests need a populated store to exercise the offline
+  /// paths; the app never calls this.
   @visibleForTesting
   void resetForTesting() {
     _seq = 2000;

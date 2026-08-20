@@ -31,12 +31,7 @@ class AppRepositories {
       AppRepositories._(db, remote);
 
   static void configureRemote(RemoteDataSource remote) {
-    MockDb.instance.shops.clear();
-    MockDb.instance.products.clear();
-    MockDb.instance.reviewsByShop.clear();
-    MockDb.instance.pledgesByProduct.clear();
-    MockDb.instance.vouchers.clear();
-    MockDb.instance.userVouchers.clear();
+    // The store starts empty now, so there is no fixture left to wipe here.
     instance = AppRepositories._(MockDb.instance, remote);
   }
 
