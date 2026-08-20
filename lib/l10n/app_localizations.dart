@@ -2851,6 +2851,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Score {score}/10'**
   String pledgeHistoryScoreOnly(Object score);
+
+  /// Line of the copied QR label text.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge ID: {pledgeId}'**
+  String qrLabelClipboardPledge(Object pledgeId);
+
+  /// Line of the copied QR label text.
+  ///
+  /// In en, this message translates to:
+  /// **'Bundle ID: {bundleId}'**
+  String qrLabelClipboardBundle(Object bundleId);
+
+  /// Line of the copied QR label text.
+  ///
+  /// In en, this message translates to:
+  /// **'Token: {token}'**
+  String qrLabelClipboardToken(Object token);
 }
 
 class _AppLocalizationsDelegate

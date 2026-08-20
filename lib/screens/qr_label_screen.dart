@@ -6,6 +6,7 @@ import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/seller_labels/controllers/qr_label_cubit.dart';
 import 'package:vngrocery/features/seller_labels/controllers/qr_label_state.dart';
 import 'package:vngrocery/features/seller_labels/widgets/qr_label_components.dart';
+import 'package:vngrocery/features/seller_labels/seller_label_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -70,7 +71,13 @@ class _QrLabelScreenState extends State<QrLabelScreen> {
   }
 
   void _copyLabel(BuildContext context, QrLabelState state) {
-    Clipboard.setData(ClipboardData(text: state.clipboardText));
+    final text = SellerLabelPresenter.clipboardText(
+      AppLocalizations.of(context),
+      pledgeId: state.pledgeId,
+      bundleId: state.bundleId,
+      bundleToken: state.bundleToken,
+    );
+    Clipboard.setData(ClipboardData(text: text));
     AppFeedback.showSnackBar(
       context,
       AppLocalizations.of(context).qrLabelCopied,

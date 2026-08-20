@@ -1502,4 +1502,19 @@ class AppLocalizationsVi extends AppLocalizations {
   String pledgeHistoryScoreOnly(Object score) {
     return 'Điểm $score/10';
   }
+
+  @override
+  String qrLabelClipboardPledge(Object pledgeId) {
+    return 'Mã ghi nhận: $pledgeId';
+  }
+
+  @override
+  String qrLabelClipboardBundle(Object bundleId) {
+    return 'Mã lô: $bundleId';
+  }
+
+  @override
+  String qrLabelClipboardToken(Object token) {
+    return 'Token: $token';
+  }
 }

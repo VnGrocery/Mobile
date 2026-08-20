@@ -1511,4 +1511,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String pledgeHistoryScoreOnly(Object score) {
     return 'Score $score/10';
   }
+
+  @override
+  String qrLabelClipboardPledge(Object pledgeId) {
+    return 'Pledge ID: $pledgeId';
+  }
+
+  @override
+  String qrLabelClipboardBundle(Object bundleId) {
+    return 'Bundle ID: $bundleId';
+  }
+
+  @override
+  String qrLabelClipboardToken(Object token) {
+    return 'Token: $token';
+  }
 }

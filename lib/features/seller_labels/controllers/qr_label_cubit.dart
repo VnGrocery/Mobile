@@ -15,8 +15,6 @@ class QrLabelCubit extends Cubit<QrLabelState> {
       pledgeId: pledgeId,
       bundleToken: token,
       bundleId: bundle,
-      clipboardText:
-          'VnGrocery Check\nMã ghi nhận: $pledgeId\nMã lô: $bundle\nToken: $token',
     );
   }
 }

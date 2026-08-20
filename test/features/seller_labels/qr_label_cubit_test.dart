@@ -2,12 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/features/seller_labels/controllers/qr_label_cubit.dart';
 
 void main() {
-  test('QrLabelCubit builds clipboard text for pledge label', () {
+  test('QrLabelCubit carries the pledge id it was opened with', () {
     final cubit = QrLabelCubit(pledgeId: 'proof-123');
 
     expect(cubit.state.pledgeId, 'proof-123');
-    expect(cubit.state.clipboardText, contains('proof-123'));
-    expect(cubit.state.clipboardText, contains('VnGrocery Check'));
+    // No fresh commit in this session, so there is no QR to print.
+    expect(cubit.state.hasToken, isFalse);
 
     cubit.close();
   });
