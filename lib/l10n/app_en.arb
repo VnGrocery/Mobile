@@ -1145,5 +1145,9 @@
   "homeNoShopNearbyMessage": "Nothing found within 20 km of where you are.",
   "@homeNoShopNearbyMessage": {
     "description": "Location-aware home copy."
+  },
+  "exploreFilterNearby": "Near you",
+  "@exploreFilterNearby": {
+    "description": "Explore chip that orders shops by distance."
   }
 }

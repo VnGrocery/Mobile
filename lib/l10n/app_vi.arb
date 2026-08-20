@@ -641,5 +641,9 @@
   "homeNoShopNearbyMessage": "Không tìm thấy cửa hàng nào trong bán kính 20 km.",
   "@homeNoShopNearbyMessage": {
     "description": "Location-aware home copy."
+  },
+  "exploreFilterNearby": "Gần bạn",
+  "@exploreFilterNearby": {
+    "description": "Explore chip that orders shops by distance."
   }
 }

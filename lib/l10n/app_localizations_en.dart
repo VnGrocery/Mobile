@@ -333,7 +333,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exploreFilterRecorded => 'Recorded';
 
   @override
-  String get exploreFilterNearby => 'Nearby';
+  String get exploreFilterNearby => 'Near you';
 
   @override
   String get exploreFilterNewest => 'Newest';

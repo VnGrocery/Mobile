@@ -31,7 +31,9 @@ class _ExploreTabState extends State<ExploreTab> {
   @override
   void initState() {
     super.initState();
-    _exploreCubit = ExploreCubit()..load();
+    _exploreCubit = ExploreCubit()
+      ..load()
+      ..locateReader();
   }
 
   @override
@@ -96,10 +98,12 @@ class _ExploreTabState extends State<ExploreTab> {
                       onOpenMap: () => Navigator.pushNamed(
                         context,
                         Routes.exploreMap,
-                        arguments:
-                            ExploreMapArgs(initialShopId: selectedShop?.id),
+                        arguments: ExploreMapArgs(
+                          initialShopId: selectedShop?.id,
+                        ),
                       ),
                       onSelectShop: (shop) => _exploreCubit.selectShop(shop.id),
+                      center: state.origin,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -112,10 +116,10 @@ class _ExploreTabState extends State<ExploreTab> {
                   onDirections: selectedShop == null
                       ? null
                       : () => Navigator.pushNamed(
-                            context,
-                            Routes.storeDetail,
-                            arguments: StoreDetailArgs(selectedShop.id),
-                          ),
+                          context,
+                          Routes.storeDetail,
+                          arguments: StoreDetailArgs(selectedShop.id),
+                        ),
                 ),
                 Expanded(
                   child: shops.isEmpty
@@ -139,7 +143,8 @@ class _ExploreTabState extends State<ExploreTab> {
                               const SizedBox(height: 12),
                           itemBuilder: (_, i) => ExploreShopCard(
                             shop: shops[i],
-                            selected: widget.showMap &&
+                            selected:
+                                widget.showMap &&
                                 shops[i].id == state.selectedShopId,
                             onTap: () {
                               if (widget.showMap) {

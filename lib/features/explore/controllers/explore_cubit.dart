@@ -2,6 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
+import 'package:vngrocery/core/location/geo.dart';
+import 'package:vngrocery/core/location/location_service.dart';
+import 'package:vngrocery/core/location/nearby.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/explore/explore_presenter.dart';
@@ -9,10 +12,30 @@ import 'explore_state.dart';
 
 class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
   final AppRepositories _repositories;
+  final LocationService _location;
 
-  ExploreCubit({AppRepositories? repositories})
+  ExploreCubit({AppRepositories? repositories, LocationService? location})
     : _repositories = repositories ?? AppRepositories.instance,
+      _location = location ?? LocationService.instance,
       super(ExploreState.initial());
+
+  /// Finds the reader and, unless they have already picked a chip themselves,
+  /// switches to ordering by distance.
+  Future<void> locateReader() async {
+    final (location, _) = await _location.current();
+    if (location == null) return;
+
+    final filter = state.filterChosen
+        ? state.selectedFilter
+        : ExploreFilters.nearby;
+    emit(
+      state.copyWith(
+        origin: location.point,
+        selectedFilter: filter,
+        shops: _visibleShops(filter: filter, origin: location.point),
+      ),
+    );
+  }
 
   Future<void> load() async {
     emit(state.copyWith(shops: _visibleShops()));
@@ -38,6 +61,7 @@ class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
     emit(
       state.copyWith(
         selectedFilter: filter,
+        filterChosen: true,
         shops: _visibleShops(filter: filter),
       ),
     );
@@ -47,7 +71,7 @@ class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
     emit(state.copyWith(selectedShopId: shopId));
   }
 
-  List<Shop> _visibleShops({String? query, String? filter}) {
+  List<Shop> _visibleShops({String? query, String? filter, GeoPoint? origin}) {
     final normalizedQuery = (query ?? state.query).trim().toLowerCase();
     final activeFilter = filter ?? state.selectedFilter;
 
@@ -60,6 +84,14 @@ class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
       return shop.name.toLowerCase().contains(normalizedQuery) ||
           shop.address.toLowerCase().contains(normalizedQuery);
     }).toList();
+
+    if (activeFilter == ExploreFilters.nearby) {
+      return rankByDistance(
+        shops,
+        origin: origin ?? state.origin,
+        locate: (shop) => GeoPoint(shop.latitude, shop.longitude),
+      ).map((entry) => entry.item).toList();
+    }
 
     switch (activeFilter) {
       case ExploreFilters.topRated:

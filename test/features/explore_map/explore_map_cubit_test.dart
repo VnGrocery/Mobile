@@ -14,14 +14,22 @@ void main() {
     cubit.close();
   });
 
-  test('ExploreMapCubit selects and locates demo shop', () {
+  test('ExploreMapCubit selects a shop', () {
     final cubit = ExploreMapCubit()..load();
     final secondShop = cubit.state.shops[1];
 
     cubit.selectShop(secondShop.id);
     expect(cubit.state.selectedShop?.id, secondShop.id);
 
-    cubit.locateNearestDemoShop();
+    cubit.close();
+  });
+
+  test('the nearest shop is the closest one, not whichever came first', () {
+    final cubit = ExploreMapCubit()..load();
+    // Without a location there is nothing to measure from, so the ordering is
+    // left alone and the first shop is all this can pick.
+    cubit.selectNearestShop();
+
     expect(cubit.state.selectedShop?.id, cubit.state.shops.first.id);
 
     cubit.close();

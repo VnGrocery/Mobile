@@ -99,7 +99,9 @@ class ExploreShopCard extends StatelessWidget {
                                 size: 12,
                               ),
                               Text(
-                                l10n.exploreRatingLabel(formatRating(shop.rating)),
+                                l10n.exploreRatingLabel(
+                                  formatRating(shop.rating),
+                                ),
                                 style: const TextStyle(
                                   color: AppColors.trustGreen,
                                   fontSize: 11,
@@ -117,7 +119,9 @@ class ExploreShopCard extends StatelessWidget {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.primaryGreen.withValues(alpha: 0.1),
+                              color: AppColors.primaryGreen.withValues(
+                                alpha: 0.1,
+                              ),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(

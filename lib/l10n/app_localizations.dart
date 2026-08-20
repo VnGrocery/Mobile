@@ -704,10 +704,10 @@ abstract class AppLocalizations {
   /// **'Recorded'**
   String get exploreFilterRecorded;
 
-  /// No description provided for @exploreFilterNearby.
+  /// Explore chip that orders shops by distance.
   ///
   /// In en, this message translates to:
-  /// **'Nearby'**
+  /// **'Near you'**
   String get exploreFilterNearby;
 
   /// No description provided for @exploreFilterNewest.

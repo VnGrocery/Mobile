@@ -100,8 +100,8 @@ void main() {
     await c.close();
   });
 
-  test('nearby is not offered because the app cannot locate the user', () {
-    expect(ExploreFilters.keys, isNot(contains('nearby')));
-    expect(ExploreFilters.keys, hasLength(3));
+  test('nearby leads the row, because distance decides where people buy', () {
+    expect(ExploreFilters.keys.first, ExploreFilters.nearby);
+    expect(ExploreFilters.keys, hasLength(4));
   });
 }

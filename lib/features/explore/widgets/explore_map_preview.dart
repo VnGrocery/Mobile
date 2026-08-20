@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/location/geo.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -12,13 +13,20 @@ class ExploreMapPreview extends StatelessWidget {
   final VoidCallback onOpenMap;
   final ValueChanged<Shop> onSelectShop;
 
+  /// Where to centre the preview. Null falls back to the middle of Ho Chi Minh
+  /// City, which is what this always showed before, for everyone.
+  final GeoPoint? center;
+
   const ExploreMapPreview({
     super.key,
     required this.shops,
     required this.selectedShopId,
     required this.onOpenMap,
     required this.onSelectShop,
+    this.center,
   });
+
+  static const _fallbackCenter = GeoPoint(10.7769, 106.7009);
 
   static const _pinPositions = [
     Alignment(-0.68, -0.12),
@@ -46,10 +54,10 @@ class ExploreMapPreview extends StatelessWidget {
                 child: GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: onOpenMap,
-                  child: const AbsorbPointer(
+                  child: AbsorbPointer(
                     child: OsmTileMap(
-                      latitude: 10.7769,
-                      longitude: 106.7009,
+                      latitude: (center ?? _fallbackCenter).latitude,
+                      longitude: (center ?? _fallbackCenter).longitude,
                       zoom: 13,
                     ),
                   ),

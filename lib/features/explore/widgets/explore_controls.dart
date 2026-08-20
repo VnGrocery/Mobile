@@ -58,7 +58,10 @@ class ExploreFilterBar extends StatelessWidget {
           final selected = filter == selectedFilter;
           return FilterChip(
             label: Text(
-              ExplorePresenter.filterLabel(AppLocalizations.of(context), filter),
+              ExplorePresenter.filterLabel(
+                AppLocalizations.of(context),
+                filter,
+              ),
             ),
             selected: selected,
             showCheckmark: false,

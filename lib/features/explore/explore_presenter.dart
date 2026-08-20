@@ -6,13 +6,15 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 class ExploreFilters {
   const ExploreFilters._();
 
+  static const nearby = 'nearby';
   static const topRated = 'top_rated';
   static const recorded = 'recorded';
   static const newest = 'newest';
 
-  /// "Nearby" is deliberately absent: the app has no location permission or
-  /// geolocation package, so it could only ever be a chip that does nothing.
-  static const keys = <String>[topRated, recorded, newest];
+  /// Nearest first, because that is what decides where someone actually buys
+  /// fresh produce. It leads the row and is selected as soon as the app knows
+  /// where the reader is.
+  static const keys = <String>[nearby, topRated, recorded, newest];
 }
 
 class ExplorePresenter {
@@ -26,6 +28,8 @@ class ExplorePresenter {
         return l10n.exploreFilterRecorded;
       case ExploreFilters.newest:
         return l10n.exploreFilterNewest;
+      case ExploreFilters.nearby:
+        return l10n.exploreFilterNearby;
       case ExploreFilters.topRated:
       default:
         return l10n.exploreFilterTopRated;
