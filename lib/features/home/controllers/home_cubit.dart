@@ -24,12 +24,17 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
   Future<void> locateReader() async {
     final (location, denial) = await _location.current();
     emit(state.withLocation(location, denial));
+    if (location != null) {
+      // Now that there is a point to search around, ask the server for just
+      // the shops near it rather than keeping the whole catalogue.
+      await load();
+    }
   }
 
   Future<void> load() async {
     _emitCached(HomeStatus.loading);
     try {
-      final shops = await _repositories.shops.refresh();
+      final shops = await _repositories.shops.refresh(near: state.origin);
       for (final shop in shops) {
         await _repositories.products.refreshShop(shop.id);
       }

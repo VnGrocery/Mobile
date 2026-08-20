@@ -1,3 +1,4 @@
+import 'package:vngrocery/core/location/geo.dart';
 import 'package:vngrocery/data/mock_data.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/app_data_config.dart';
@@ -15,10 +16,12 @@ class ShopRepository {
 
   Shop byId(String id) => _db.shopById(id);
 
-  Future<List<Shop>> refresh({String query = ''}) async {
+  /// Reloads the catalogue, narrowed to a circle around [near] when the app
+  /// knows where the reader is.
+  Future<List<Shop>> refresh({String query = '', GeoPoint? near}) async {
     final remote = _remote;
     if (remote == null) return all();
-    final items = await remote.shops(query: query);
+    final items = await remote.shops(query: query, near: near);
     _db.shops
       ..clear()
       ..addAll(items);

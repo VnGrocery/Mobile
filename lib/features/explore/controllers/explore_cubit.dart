@@ -35,12 +35,14 @@ class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
         shops: _visibleShops(filter: filter, origin: location.point),
       ),
     );
+    // Re-fetch narrowed to the circle now that there is one.
+    await load();
   }
 
   Future<void> load() async {
     emit(state.copyWith(shops: _visibleShops()));
     try {
-      await _repositories.shops.refresh(query: state.query);
+      await _repositories.shops.refresh(query: state.query, near: state.origin);
       emit(state.copyWith(shops: _visibleShops()));
     } catch (_) {}
   }

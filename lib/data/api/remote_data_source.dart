@@ -1,3 +1,5 @@
+import 'package:vngrocery/core/location/geo.dart';
+import 'package:vngrocery/core/location/nearby.dart';
 import 'dart:typed_data';
 
 import 'package:vngrocery/core/network/api_client.dart';
@@ -7,10 +9,27 @@ class RemoteDataSource {
   const RemoteDataSource(this.client);
   final ApiClient client;
 
-  Future<List<Shop>> shops({String query = ''}) async {
+  /// Shops, optionally narrowed to a circle around [near].
+  ///
+  /// With [near] set the server returns only what is inside [radiusKm],
+  /// nearest first, instead of the whole catalogue for the app to sift
+  /// through.
+  Future<List<Shop>> shops({
+    String query = '',
+    GeoPoint? near,
+    double radiusKm = NearbyRadius.far,
+  }) async {
+    final located = near != null && near.isSet;
     final json = await client.get(
       '/v1/shops',
-      query: {'q': query, 'pageSize': 100},
+      query: {
+        'q': query,
+        'pageSize': 100,
+        // The three go together; sending one alone is rejected.
+        if (located) 'lat': near.latitude,
+        if (located) 'lng': near.longitude,
+        if (located) 'radiusKm': radiusKm,
+      },
     );
     return _maps(json['items']).map(Shop.fromJson).toList();
   }

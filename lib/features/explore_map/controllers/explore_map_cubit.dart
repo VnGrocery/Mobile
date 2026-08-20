@@ -23,12 +23,13 @@ class ExploreMapCubit extends Cubit<ExploreMapState> with CloseSafeEmit {
     final (location, _) = await _location.current();
     if (location == null) return;
     emit(state.copyWith(origin: location.point));
+    await load();
   }
 
   Future<void> load() async {
     emit(state.copyWith(shops: _repositories.shops.all()));
     try {
-      final shops = await _repositories.shops.refresh();
+      final shops = await _repositories.shops.refresh(near: state.origin);
       emit(state.copyWith(shops: shops));
     } catch (_) {}
   }

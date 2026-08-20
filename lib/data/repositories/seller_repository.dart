@@ -8,13 +8,15 @@ class SellerRepository {
   const SellerRepository(this._db);
 
   SellerDashboard dashboard(String? shopId) {
-    final selectedShopId =
-        shopId == null || shopId.isEmpty ? AppDataConfig.demoShopId : shopId;
+    final selectedShopId = shopId == null || shopId.isEmpty
+        ? AppDataConfig.demoShopId
+        : shopId;
     final shop = _db.shopById(selectedShopId);
     final products = _db.productsOfShop(shop.id);
     final pledges = products.expand((p) => _db.pledgesOf(p.id)).toList();
-    final pledgesToday =
-        pledges.where((p) => p.time.startsWith('2026-05-30')).length;
+    final pledgesToday = pledges
+        .where((p) => p.time.startsWith('2026-05-30'))
+        .length;
 
     return SellerDashboard(
       shop: shop,

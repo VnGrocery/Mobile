@@ -6,6 +6,7 @@ class Product {
   String name;
   String description;
   String category;
+
   /// Freshness on the server's 0-10 scale.
   ///
   /// Was an int, which turned a 9.2 from the server into a 9 — and the score

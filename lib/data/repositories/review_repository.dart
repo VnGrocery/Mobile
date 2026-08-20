@@ -19,7 +19,12 @@ class ReviewRepository {
     return List.unmodifiable(items);
   }
 
-  Future<Review> create(String shopId, int rating, String comment, {List<String> imageUrls = const []}) async {
+  Future<Review> create(
+    String shopId,
+    int rating,
+    String comment, {
+    List<String> imageUrls = const [],
+  }) async {
     final remote = _remote;
     if (remote == null) {
       final item = Review(
@@ -33,7 +38,12 @@ class ReviewRepository {
       _db.reviewsByShop.putIfAbsent(shopId, () => []).insert(0, item);
       return item;
     }
-    final item = await remote.createReview(shopId, rating, comment, imageUrls: imageUrls);
+    final item = await remote.createReview(
+      shopId,
+      rating,
+      comment,
+      imageUrls: imageUrls,
+    );
     _db.reviewsByShop.putIfAbsent(shopId, () => []).insert(0, item);
     return item;
   }
