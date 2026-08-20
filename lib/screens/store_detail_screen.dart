@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/core/widgets/trust_score_card.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_cubit.dart';
@@ -69,6 +70,11 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
               padding: EdgeInsets.zero,
               children: [
                 StoreHeader(shop: shop),
+                if (shop.trustSummary != null)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                    child: TrustScoreCard(summary: shop.trustSummary!),
+                  ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                   child: Column(
@@ -98,8 +104,10 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                   StoreReviewList(
                     shopId: widget.shopId,
                     reviews: state.reviews,
-                    canWriteReview:
-                        !context.watch<SessionCubit>().state.isSeller,
+                    canWriteReview: !context
+                        .watch<SessionCubit>()
+                        .state
+                        .isSeller,
                   ),
                 const SizedBox(height: 80),
               ],
