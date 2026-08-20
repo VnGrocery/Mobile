@@ -88,11 +88,11 @@ class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
     }).toList();
 
     if (activeFilter == ExploreFilters.nearby) {
-      return rankByDistance(
+      return selectNearby(
         shops,
         origin: origin ?? state.origin,
         locate: (shop) => GeoPoint(shop.latitude, shop.longitude),
-      ).map((entry) => entry.item).toList();
+      ).items.map((entry) => entry.item).toList();
     }
 
     switch (activeFilter) {

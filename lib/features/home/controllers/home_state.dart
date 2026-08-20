@@ -75,15 +75,19 @@ class HomeState {
   ///
   /// Empty only when the reader is nowhere near any shop; with no location it
   /// falls back to every shop in the loaded order.
-  List<Nearby<Shop>> get nearbyShops =>
-      rankByDistance(shops, origin: origin, locate: _shopPoint);
+  NearbySelection<Shop> get nearbyShops =>
+      selectNearby(shops, origin: origin, locate: _shopPoint);
 
   /// Recent checks from shops near the reader, nearest first.
-  List<Nearby<HomePledgeItem>> get nearbyPledgeItems => rankByDistance(
+  NearbySelection<HomePledgeItem> get nearbyPledgeItems => selectNearby(
     pledgeItems,
     origin: origin,
     locate: (item) => _shopPoint(item.shop),
   );
+
+  /// True when the reader is outside the search radius of everything, so the
+  /// lists are the closest that exist rather than anything actually nearby.
+  bool get outsideRange => nearbyPledgeItems.outsideRange;
 
   /// Shops worth putting under "đánh giá tốt", best first.
   ///
@@ -96,7 +100,7 @@ class HomeState {
   /// Only shops in the nearby ring are considered: a well-rated stall 30 km
   /// away is not somewhere anyone is buying fresh produce today.
   List<Shop> get topRatedShops {
-    final ranked = nearbyShops
+    final ranked = nearbyShops.items
         .map((entry) => entry.item)
         .where(
           (shop) =>
@@ -124,8 +128,8 @@ class HomeState {
     String? category,
   }) {
     final items = category == null || category.isEmpty
-        ? nearbyPledgeItems
-        : nearbyPledgeItems
+        ? nearbyPledgeItems.items
+        : nearbyPledgeItems.items
               .where((entry) => entry.item.product.category == category)
               .toList();
     return items.take(limit).toList();

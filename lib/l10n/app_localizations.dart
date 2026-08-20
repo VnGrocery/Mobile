@@ -2965,6 +2965,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No location yet — showing the shops on file.'**
   String get mapLocationUnavailable;
+
+  /// Shown when the nearest shops are past the search radius.
+  ///
+  /// In en, this message translates to:
+  /// **'No shops within 20 km. These are the closest there are.'**
+  String get homeOutsideRangeNotice;
 }
 
 class _AppLocalizationsDelegate

@@ -1571,4 +1571,8 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get mapLocationUnavailable =>
       'Chưa có vị trí của bạn — đang hiện các cửa hàng đã lưu.';
+
+  @override
+  String get homeOutsideRangeNotice =>
+      'Không có cửa hàng nào trong 20 km. Đây là những cửa hàng gần bạn nhất.';
 }

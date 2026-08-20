@@ -36,7 +36,7 @@ class ExploreMapState {
 
   /// Shops near the reader, nearest first — the 5 km ring, widening to 20 km
   /// only if that is empty. Unordered when there is no location.
-  List<Nearby<Shop>> get nearbyShops => rankByDistance(
+  NearbySelection<Shop> get nearbyShops => selectNearby(
     shops,
     origin: origin,
     locate: (shop) => GeoPoint(shop.latitude, shop.longitude),
@@ -50,7 +50,7 @@ class ExploreMapState {
   GeoPoint? get center {
     if (origin != null && origin!.isSet) return origin;
     if (locationStatus == MapLocationStatus.locating) return null;
-    for (final entry in nearbyShops) {
+    for (final entry in nearbyShops.items) {
       final point = GeoPoint(entry.item.latitude, entry.item.longitude);
       if (point.isSet) return point;
     }

@@ -76,6 +76,67 @@ void main() {
     });
   });
 
+  group('selectNearby', () {
+    NearbySelection<_Shop> select(
+      List<_Shop> shops, {
+      GeoPoint? origin = _origin,
+    }) => selectNearby(shops, origin: origin, locate: (shop) => shop.at);
+
+    test('inside the rings it behaves exactly like the ranking', () {
+      final selection = select(const [
+        _Shop('far', GeoPoint(10.8621, 106.6980)), // ~10 km
+        _Shop('near', GeoPoint(10.7811, 106.6980)), // ~1 km
+      ]);
+
+      expect(selection.items.map((e) => e.item.name), ['near']);
+      expect(selection.outsideRange, isFalse);
+    });
+
+    test('nothing in range falls back to the closest that exist', () {
+      // The demo case: the reader is somewhere the catalogue does not cover, so
+      // a blank screen would be the alternative.
+      final selection = select(const [
+        _Shop('canGio', GeoPoint(10.4114, 106.9548)), // ~40 km
+        _Shop('hanoi', GeoPoint(21.0278, 105.8342)), // ~1150 km
+      ]);
+
+      expect(selection.items.map((e) => e.item.name), ['canGio', 'hanoi']);
+      expect(selection.outsideRange, isTrue);
+    });
+
+    test('the fallback is capped so it does not dump the whole catalogue', () {
+      final far = [
+        for (var i = 0; i < 30; i++)
+          _Shop('far\$i', GeoPoint(20.0 + i * 0.01, 106.6980)),
+      ];
+
+      expect(select(far, origin: _origin).items, hasLength(10));
+    });
+
+    test('the fallback is still nearest first', () {
+      final selection = select(const [
+        _Shop('hanoi', GeoPoint(21.0278, 105.8342)),
+        _Shop('canGio', GeoPoint(10.4114, 106.9548)),
+      ]);
+
+      expect(selection.items.first.item.name, 'canGio');
+    });
+
+    test('with no location it does not claim anything is out of range', () {
+      final selection = select(const [
+        _Shop('a', GeoPoint(21.0278, 105.8342)),
+      ], origin: null);
+
+      expect(selection.outsideRange, isFalse);
+      expect(selection.items, hasLength(1));
+    });
+
+    test('an empty catalogue stays empty rather than inventing a fallback', () {
+      expect(select(const []).isEmpty, isTrue);
+      expect(select(const [_Shop('nowhere', null)]).items, hasLength(1));
+    });
+  });
+
   group('rankByDistance', () {
     test('sorts the near ring by how close it is', () {
       final ranked = _rank(const [

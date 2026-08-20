@@ -71,3 +71,51 @@ List<Nearby<T>> rankByDistance<T>(
 
   return [...ring, ...unlocated];
 }
+
+/// A ranked list, and whether it had to reach past the search radius to fill.
+class NearbySelection<T> {
+  final List<Nearby<T>> items;
+
+  /// True when nothing was within [NearbyRadius.far] and [items] are simply the
+  /// closest that exist. Screens say so rather than passing them off as nearby.
+  final bool outsideRange;
+
+  const NearbySelection(this.items, {this.outsideRange = false});
+
+  bool get isEmpty => items.isEmpty;
+  bool get isNotEmpty => items.isNotEmpty;
+}
+
+/// Ranks by distance and, when the rings come back empty, falls back to the
+/// [fallbackLimit] closest items whatever their distance.
+///
+/// A blank screen is the worst answer available: it looks identical to a
+/// failure, and it is what a reader gets whenever they happen to be somewhere
+/// the catalogue does not cover. Showing the closest that exist, labelled
+/// honestly as out of range, at least tells them what is there.
+NearbySelection<T> selectNearby<T>(
+  List<T> items, {
+  required GeoPoint? origin,
+  required GeoPoint? Function(T item) locate,
+  int fallbackLimit = 10,
+}) {
+  final ranked = rankByDistance(items, origin: origin, locate: locate);
+  if (ranked.isNotEmpty || origin == null || !origin.isSet) {
+    return NearbySelection(ranked);
+  }
+
+  // Everything was past the far ring. Measure the lot and take the closest.
+  final measured = <Nearby<T>>[];
+  for (final item in items) {
+    final point = locate(item);
+    if (point == null || !point.isSet) continue;
+    measured.add(Nearby(item, distanceKm(origin, point)));
+  }
+  if (measured.isEmpty) return const NearbySelection([]);
+
+  measured.sort((a, b) => a.distanceKm!.compareTo(b.distanceKm!));
+  return NearbySelection(
+    measured.take(fallbackLimit).toList(),
+    outsideRange: true,
+  );
+}

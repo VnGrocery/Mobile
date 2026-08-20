@@ -18,10 +18,21 @@ class ShopRepository {
 
   /// Reloads the catalogue, narrowed to a circle around [near] when the app
   /// knows where the reader is.
+  ///
+  /// When that circle comes back empty the whole catalogue is fetched instead.
+  /// The server filters at 20 km, so a reader outside every shop's radius would
+  /// otherwise be handed nothing at all — and the app's own "here are the
+  /// closest anyway" fallback has nothing to fall back to. Better a larger
+  /// payload in the rare case than a blank app.
   Future<List<Shop>> refresh({String query = '', GeoPoint? near}) async {
     final remote = _remote;
     if (remote == null) return all();
-    final items = await remote.shops(query: query, near: near);
+
+    var items = await remote.shops(query: query, near: near);
+    if (items.isEmpty && near != null && near.isSet) {
+      items = await remote.shops(query: query);
+    }
+
     _db.shops
       ..clear()
       ..addAll(items);

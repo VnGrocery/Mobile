@@ -69,13 +69,13 @@ void main() {
     test('the 10 km shop is hidden while a closer one exists', () {
       final state = _state([far, near], at: here);
 
-      expect(state.nearbyShops.map((e) => e.item.id), ['near']);
+      expect(state.nearbyShops.items.map((e) => e.item.id), ['near']);
     });
 
     test('widens past 5 km only when nothing is closer', () {
       final state = _state([far], at: here);
 
-      expect(state.nearbyShops.map((e) => e.item.id), ['far']);
+      expect(state.nearbyShops.items.map((e) => e.item.id), ['far']);
     });
 
     test('top rated is limited to shops in range', () {
@@ -92,17 +92,44 @@ void main() {
     test('without a location nothing is reordered or dropped', () {
       final state = _state([far, near, mid]);
 
-      expect(state.nearbyShops.map((e) => e.item.id), ['far', 'near', 'mid']);
+      expect(state.nearbyShops.items.map((e) => e.item.id), [
+        'far',
+        'near',
+        'mid',
+      ]);
       expect(
         state.featuredPledgeItems().every((e) => e.distanceKm == null),
         isTrue,
       );
     });
 
+    test('standing outside the radius still shows the closest shops', () {
+      // The demo-day case: locate somewhere the catalogue does not cover and
+      // the alternative is a blank screen that looks like a failure.
+      final state = _state(
+        [far, near, mid],
+        at: const ReaderLocation(
+          point: GeoPoint(21.0278, 105.8342), // Hanoi, ~1150 km away
+        ),
+      );
+
+      expect(state.outsideRange, isTrue);
+      expect(state.featuredPledgeItems(), isNotEmpty);
+      // Still nearest first, just nowhere near.
+      expect(state.featuredPledgeItems().first.item.shop.id, 'far');
+    });
+
+    test('inside the radius nothing claims to be out of range', () {
+      expect(_state([near], at: here).outsideRange, isFalse);
+    });
+
     test('a shop with no coordinates is kept, after the located ones', () {
       final state = _state([_shop('noCoords'), near], at: here);
 
-      expect(state.nearbyShops.map((e) => e.item.id), ['near', 'noCoords']);
+      expect(state.nearbyShops.items.map((e) => e.item.id), [
+        'near',
+        'noCoords',
+      ]);
     });
   });
 }

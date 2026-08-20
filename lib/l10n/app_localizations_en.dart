@@ -1581,4 +1581,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get mapLocationUnavailable =>
       'No location yet — showing the shops on file.';
+
+  @override
+  String get homeOutsideRangeNotice =>
+      'No shops within 20 km. These are the closest there are.';
 }

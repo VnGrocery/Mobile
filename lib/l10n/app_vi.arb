@@ -657,5 +657,9 @@
   "mapLocationUnavailable": "Chưa có vị trí của bạn — đang hiện các cửa hàng đã lưu.",
   "@mapLocationUnavailable": {
     "description": "Map location states."
+  },
+  "homeOutsideRangeNotice": "Không có cửa hàng nào trong 20 km. Đây là những cửa hàng gần bạn nhất.",
+  "@homeOutsideRangeNotice": {
+    "description": "Shown when the nearest shops are past the search radius."
   }
 }

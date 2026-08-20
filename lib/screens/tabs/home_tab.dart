@@ -7,6 +7,7 @@ import 'package:vngrocery/features/home/controllers/home_state.dart';
 import 'package:vngrocery/features/home/widgets/home_components.dart';
 import 'package:vngrocery/features/home/widgets/home_status_message.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -54,12 +55,9 @@ class _HomeTabState extends State<HomeTab> {
               ? _category
               : _allCategory;
           final topRatedShops = state.topRatedShops;
-          // Everything loaded, the reader is located, and none of it is close
-          // enough to be worth showing.
-          final outOfRange =
-              state.location != null &&
-              state.pledgeItems.isNotEmpty &&
-              state.nearbyPledgeItems.isEmpty;
+          // Located, but everything is past the search radius: the list below
+          // is the closest that exists rather than anything actually nearby.
+          final outsideRange = state.outsideRange;
           final featuredPledgeItems = state.featuredPledgeItems(
             category: activeCategory == _allCategory ? null : activeCategory,
           );
@@ -169,21 +167,23 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                     const SizedBox(height: 12),
                     if (featuredPledgeItems.isEmpty)
-                      // There is a catalogue, so an empty list here means
-                      // nothing of it is within reach — a different problem
-                      // from having no products at all.
-                      outOfRange
-                          ? HomeStatusMessage(
-                              icon: Icons.location_searching,
-                              title: l10n.homeNoShopNearbyTitle,
-                              message: l10n.homeNoShopNearbyMessage,
-                            )
-                          : HomeStatusMessage(
-                              icon: Icons.inventory_2_outlined,
-                              title: l10n.homeEmptyTitle,
-                              message: l10n.homeEmptyMessage,
-                            )
-                    else
+                      HomeStatusMessage(
+                        icon: Icons.inventory_2_outlined,
+                        title: l10n.homeEmptyTitle,
+                        message: l10n.homeEmptyMessage,
+                      )
+                    else ...[
+                      if (outsideRange)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                          child: Text(
+                            l10n.homeOutsideRangeNotice,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
                       ...featuredPledgeItems.map(
                         (entry) => Padding(
                           padding: const EdgeInsets.symmetric(
@@ -196,6 +196,7 @@ class _HomeTabState extends State<HomeTab> {
                           ),
                         ),
                       ),
+                    ],
                     const SizedBox(height: 30),
                   ],
                 ],

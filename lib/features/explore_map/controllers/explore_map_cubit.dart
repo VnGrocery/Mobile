@@ -56,7 +56,7 @@ class ExploreMapCubit extends Cubit<ExploreMapState> with CloseSafeEmit {
   /// Was `locateNearestDemoShop`, which picked `shops.first` — whatever the
   /// server happened to list first — and called it the nearest.
   void selectNearestShop() {
-    final nearest = state.nearbyShops.firstOrNull;
+    final nearest = state.nearbyShops.items.firstOrNull;
     if (nearest == null) return;
     selectShop(nearest.item.id);
   }

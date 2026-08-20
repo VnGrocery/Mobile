@@ -1161,5 +1161,9 @@
   "mapLocationUnavailable": "No location yet — showing the shops on file.",
   "@mapLocationUnavailable": {
     "description": "Map location states."
+  },
+  "homeOutsideRangeNotice": "No shops within 20 km. These are the closest there are.",
+  "@homeOutsideRangeNotice": {
+    "description": "Shown when the nearest shops are past the search radius."
   }
 }

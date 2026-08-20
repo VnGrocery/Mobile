@@ -75,7 +75,8 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
       child: BlocBuilder<ExploreMapCubit, ExploreMapState>(
         builder: (context, state) {
           // Nearest first, and only what is actually in range.
-          final shops = state.nearbyShops.map((entry) => entry.item).toList();
+          final nearby = state.nearbyShops;
+          final shops = nearby.items.map((entry) => entry.item).toList();
           final origin = state.origin;
           final center = state.center ?? _fallbackCenter;
 
@@ -188,6 +189,7 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
                       selectedShop: state.selectedShop,
                       locating:
                           state.locationStatus == MapLocationStatus.locating,
+                      outsideRange: nearby.outsideRange,
                       bottomContentInset: widget.bottomOverlayInset,
                     );
                   },

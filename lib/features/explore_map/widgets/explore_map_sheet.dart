@@ -20,6 +20,10 @@ class ExploreMapBottomSheet extends StatelessWidget {
   /// side of the country as nearby.
   final bool locating;
 
+  /// True when every shop listed is past the search radius, so the heading
+  /// "near you" would otherwise be a lie.
+  final bool outsideRange;
+
   const ExploreMapBottomSheet({
     super.key,
     required this.controller,
@@ -29,6 +33,7 @@ class ExploreMapBottomSheet extends StatelessWidget {
     required this.selectedShop,
     required this.bottomContentInset,
     this.locating = false,
+    this.outsideRange = false,
   });
 
   @override
@@ -105,13 +110,25 @@ class ExploreMapBottomSheet extends StatelessWidget {
                 ],
               ),
             )
-          else
+          else ...[
+            if (outsideRange)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text(
+                  l10n.homeOutsideRangeNotice,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
             for (final shop in shops)
               ExploreMapShopTile(
                 shop: shop,
                 selected: shop.id == selectedShopId,
                 onTap: () => onSelectShop(shop),
               ),
+          ],
         ],
       ),
     );
