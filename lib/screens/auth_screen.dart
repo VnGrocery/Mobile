@@ -23,8 +23,11 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _email = TextEditingController(text: 'demo@vngrocery.com');
-  final _password = TextEditingController(text: '12345678');
+  // Deliberately empty: these used to be prefilled with a demo account that
+  // does not exist on the server, so the first tap on Sign in always failed
+  // with "invalid credentials".
+  final _email = TextEditingController();
+  final _password = TextEditingController();
   final _name = TextEditingController();
   final _confirmPassword = TextEditingController();
 
