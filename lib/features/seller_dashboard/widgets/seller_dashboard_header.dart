@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 class SellerDashboardHeader extends StatelessWidget {
   final String shopName;
@@ -7,6 +8,7 @@ class SellerDashboardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -18,7 +20,7 @@ class SellerDashboardHeader extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          'Chế độ seller - dữ liệu demo từ hook',
+          l10n.sellerModeSubtitle,
           style: TextStyle(color: Colors.grey.shade600),
         ),
       ],

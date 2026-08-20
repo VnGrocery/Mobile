@@ -1465,4 +1465,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String qrLabelClipboard(Object pledgeId) {
     return 'VnGrocery Check\nMã ghi nhận: $pledgeId\nQuét mã để kiểm tra thông tin sản phẩm';
   }
+
+  @override
+  String get sellerModeSubtitle => 'Chế độ người bán';
+
+  @override
+  String scannerConfidenceValue(Object percent) {
+    return 'Tin cậy: $percent%';
+  }
 }

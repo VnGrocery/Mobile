@@ -208,7 +208,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   padding: const EdgeInsets.all(12),
                   child: Text(
                     '${_result!.category} · ${_result!.freshness}\n'
-                    'Tin cậy: ${(_result!.freshnessConfidence! * 100).toStringAsFixed(1)}%',
+                    '${l10n.scannerConfidenceValue((_result!.freshnessConfidence! * 100).toStringAsFixed(1))}',
                     textAlign: TextAlign.center,
                   ),
                 ),

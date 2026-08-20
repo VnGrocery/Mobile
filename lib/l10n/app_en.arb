@@ -614,5 +614,9 @@
   "scoreLabel": "Score",
   "@scoreLabel": {"description": "App copy."},
   "qrLabelClipboard": "VnGrocery Check\nRecord: {pledgeId}\nScan the code to check this product",
-  "@qrLabelClipboard": {"description": "App copy.", "placeholders": {"pledgeId": {}}}
+  "@qrLabelClipboard": {"description": "App copy.", "placeholders": {"pledgeId": {}}},
+  "sellerModeSubtitle": "Seller mode",
+  "@sellerModeSubtitle": {"description": "Subtitle under the seller dashboard heading."},
+  "scannerConfidenceValue": "Confidence: {percent}%",
+  "@scannerConfidenceValue": {"description": "AI confidence readout.", "placeholders": {"percent": {}}}
 }

@@ -2785,6 +2785,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'VnGrocery Check\nRecord: {pledgeId}\nScan the code to check this product'**
   String qrLabelClipboard(Object pledgeId);
+
+  /// Subtitle under the seller dashboard heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller mode'**
+  String get sellerModeSubtitle;
+
+  /// AI confidence readout.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence: {percent}%'**
+  String scannerConfidenceValue(Object percent);
 }
 
 class _AppLocalizationsDelegate

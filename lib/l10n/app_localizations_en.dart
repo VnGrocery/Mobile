@@ -1473,4 +1473,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String qrLabelClipboard(Object pledgeId) {
     return 'VnGrocery Check\nRecord: $pledgeId\nScan the code to check this product';
   }
+
+  @override
+  String get sellerModeSubtitle => 'Seller mode';
+
+  @override
+  String scannerConfidenceValue(Object percent) {
+    return 'Confidence: $percent%';
+  }
 }

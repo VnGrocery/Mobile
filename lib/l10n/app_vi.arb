@@ -474,5 +474,7 @@
   "authGoogleTokenError": "Không lấy được Google ID token",
   "pledgeHistoryTitle": "Lịch sử ghi nhận",
   "scoreLabel": "Điểm đánh giá",
-  "qrLabelClipboard": "VnGrocery Check\nMã ghi nhận: {pledgeId}\nQuét mã để kiểm tra thông tin sản phẩm"
+  "qrLabelClipboard": "VnGrocery Check\nMã ghi nhận: {pledgeId}\nQuét mã để kiểm tra thông tin sản phẩm",
+  "sellerModeSubtitle": "Chế độ người bán",
+  "scannerConfidenceValue": "Tin cậy: {percent}%"
 }
