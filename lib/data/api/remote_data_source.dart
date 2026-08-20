@@ -127,6 +127,40 @@ class RemoteDataSource {
     return _maps(json['items']).map(PledgeHistoryItem.fromJson).toList();
   }
 
+  /// The server's blockchain verdict for one pledge.
+  ///
+  /// Trust information must never block the screen it decorates, so a failed
+  /// lookup degrades to a neutral proof instead of throwing.
+  Future<PledgeProof> pledgeProof(String shopId, String pledgeId) async {
+    try {
+      final json = await client.get(
+        '/v1/shops/$shopId/pledges/$pledgeId/proof',
+      );
+      return PledgeProof.fromJson(json);
+    } catch (_) {
+      return PledgeProof.unknown(pledgeId: pledgeId, shopId: shopId);
+    }
+  }
+
+  /// Convenience for callers that know a product but not which pledge backs it:
+  /// resolves the newest pledge for the product and returns its proof.
+  Future<PledgeProof?> latestProductProof(
+    String shopId,
+    String productId,
+  ) async {
+    final List<PledgeHistoryItem> items;
+    try {
+      items = await pledges(shopId, productId);
+    } catch (_) {
+      return null;
+    }
+    // The server returns pledges newest-first (ListByShopID sorts by createdAt
+    // descending), so the first entry with a pledge id is the current one.
+    final withProof = items.where((item) => item.proofId.isNotEmpty).toList();
+    if (withProof.isEmpty) return null;
+    return pledgeProof(shopId, withProof.first.proofId);
+  }
+
   Future<Map<String, Object?>> score(Uint8List bytes) => client.multipart(
     '/v1/seller/score',
     bytes: bytes,
