@@ -8,13 +8,14 @@ import 'package:vngrocery/widgets/map_projection.dart';
 const _center = GeoPoint(10.7721, 106.6980);
 const _viewport = Size(400, 400);
 
-/// Renders the map and reports every camera it publishes.
+/// Renders the map with a controller and reports every camera it publishes.
 ///
 /// The maths of dragging and pinching is covered in map_camera_test.dart; this
 /// only checks that gestures reach it and that a preview stays inert.
 Future<List<MapCamera>> _pump(
   WidgetTester tester, {
   bool interactive = true,
+  MapCameraController? controller,
 }) async {
   final reported = <MapCamera>[];
 
@@ -27,6 +28,7 @@ Future<List<MapCamera>> _pump(
           child: InteractiveMap(
             initialCamera: const MapCamera(center: _center, zoom: 13),
             interactive: interactive,
+            controller: controller,
             onCameraChanged: reported.add,
             overlayBuilder: (context, projection) => const SizedBox.shrink(),
           ),
@@ -106,6 +108,91 @@ void main() {
     expect(reported.last.zoom, 14);
 
     await _teardown(tester);
+  });
+
+  group('MapCameraController', () {
+    testWidgets('brings the map back after the reader dragged away', (
+      tester,
+    ) async {
+      final controller = MapCameraController();
+      final reported = await _pump(tester, controller: controller);
+
+      await tester.drag(find.byType(InteractiveMap), const Offset(-200, -200));
+      await tester.pump();
+      expect(
+        reported.last.center.longitude,
+        isNot(closeTo(_center.longitude, 1e-9)),
+      );
+
+      controller.moveTo(_center);
+      await tester.pump();
+
+      expect(reported.last.center.latitude, closeTo(_center.latitude, 1e-9));
+      expect(reported.last.center.longitude, closeTo(_center.longitude, 1e-9));
+
+      controller.dispose();
+      await _teardown(tester);
+    });
+
+    testWidgets('moves even when asked for the place it already thinks it is', (
+      tester,
+    ) async {
+      // The bug this replaced: locating a reader who has not moved produces the
+      // same point, so nothing about the state changed and the map stayed where
+      // it had been dragged to.
+      final controller = MapCameraController();
+      final reported = await _pump(tester, controller: controller);
+
+      await tester.drag(find.byType(InteractiveMap), const Offset(-200, 0));
+      await tester.pump();
+      final draggedTo = reported.last.center;
+
+      controller.moveTo(_center);
+      await tester.pump();
+
+      expect(reported.last.center, isNot(draggedTo));
+      expect(reported.last.center.longitude, closeTo(_center.longitude, 1e-9));
+
+      controller.dispose();
+      await _teardown(tester);
+    });
+
+    testWidgets('keeps the current zoom unless told otherwise', (tester) async {
+      final controller = MapCameraController();
+      final reported = await _pump(tester, controller: controller);
+
+      controller.moveTo(const GeoPoint(21.0278, 105.8342));
+      await tester.pump();
+      expect(reported.last.zoom, 13);
+
+      controller.moveTo(_center, zoom: 9);
+      await tester.pump();
+      expect(reported.last.zoom, 9);
+
+      controller.dispose();
+      await _teardown(tester);
+    });
+
+    testWidgets('a command is applied once, not replayed on every rebuild', (
+      tester,
+    ) async {
+      final controller = MapCameraController();
+      final reported = await _pump(tester, controller: controller);
+
+      controller.moveTo(const GeoPoint(21.0278, 105.8342));
+      await tester.pump();
+      final afterCommand = reported.length;
+
+      // Dragging must still work afterwards rather than being snapped back.
+      await tester.drag(find.byType(InteractiveMap), const Offset(-100, 0));
+      await tester.pump();
+
+      expect(reported.length, greaterThan(afterCommand));
+      expect(reported.last.center.longitude, greaterThan(105.8342));
+
+      controller.dispose();
+      await _teardown(tester);
+    });
   });
 
   testWidgets('a preview ignores gestures so the page can scroll', (

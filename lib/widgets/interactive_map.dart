@@ -77,6 +77,36 @@ class MapCamera {
       value <= 0 ? 0 : math.log(value) / math.ln2;
 }
 
+/// Commands the map to move somewhere.
+///
+/// The map used to be re-centred by handing it a different starting camera and
+/// letting it notice the change. That silently did nothing whenever the new
+/// camera equalled the old one — pressing "my location" after dragging away
+/// asked it to go to exactly where it already thought it was, so it stayed put.
+/// A command says "go there now" and does not care what the value was before.
+class MapCameraController extends ChangeNotifier {
+  GeoPoint? _target;
+  double? _targetZoom;
+
+  /// Centres the map on [center], keeping the current zoom unless [zoom] says
+  /// otherwise.
+  void moveTo(GeoPoint center, {double? zoom}) {
+    _target = center;
+    _targetZoom = zoom;
+    notifyListeners();
+  }
+
+  /// Consumed by the map; each command is applied once.
+  MapCamera? _take(MapCamera current) {
+    final target = _target;
+    if (target == null) return null;
+    _target = null;
+    final zoom = _targetZoom ?? current.zoom;
+    _targetZoom = null;
+    return MapCamera(center: target, zoom: zoom);
+  }
+}
+
 /// A map the reader can drag and pinch.
 ///
 /// The map used to be a fixed picture: it opened at one place and nothing you
@@ -84,6 +114,9 @@ class MapCamera {
 /// at all.
 class InteractiveMap extends StatefulWidget {
   final MapCamera initialCamera;
+
+  /// Moves the map from outside — the locate button, opening on a shop.
+  final MapCameraController? controller;
 
   /// Draws whatever sits on top of the tiles — pins, rings — positioned with
   /// the projection for the camera as it is right now.
@@ -104,6 +137,7 @@ class InteractiveMap extends StatefulWidget {
     super.key,
     required this.initialCamera,
     required this.overlayBuilder,
+    this.controller,
     this.onCameraChanged,
     this.interactive = true,
     this.minZoom = 3,
@@ -125,10 +159,33 @@ class _InteractiveMapState extends State<InteractiveMap> {
   Size _viewport = Size.zero;
 
   @override
+  void initState() {
+    super.initState();
+    widget.controller?.addListener(_onCommand);
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_onCommand);
+    super.dispose();
+  }
+
+  void _onCommand() {
+    final target = widget.controller?._take(_camera);
+    if (target == null || !mounted) return;
+    _setCamera(target);
+  }
+
+  @override
   void didUpdateWidget(InteractiveMap oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // The parent re-centres the map (the locate button, opening on a shop);
-    // a change it did not ask for must not yank the map from under a drag.
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller?.removeListener(_onCommand);
+      widget.controller?.addListener(_onCommand);
+    }
+    // A fresh starting camera (the shop list reloaded and reframed) is taken
+    // only when the reader is not mid-drag, so the map is never yanked from
+    // under their finger.
     if (widget.initialCamera != oldWidget.initialCamera &&
         _gestureStart == null) {
       _camera = widget.initialCamera;

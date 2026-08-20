@@ -32,6 +32,7 @@ const _fallbackCenter = GeoPoint(10.7769, 106.7009);
 
 class _ExploreMapScreenState extends State<ExploreMapScreen> {
   late final ExploreMapCubit _mapCubit;
+  final _mapController = MapCameraController();
 
   @override
   void initState() {
@@ -43,8 +44,24 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
 
   @override
   void dispose() {
+    _mapController.dispose();
     _mapCubit.close();
     super.dispose();
+  }
+
+  /// Reads the GPS again and brings the map back to the reader.
+  ///
+  /// The move is commanded rather than left to a changed starting camera: once
+  /// the reader has been located, locating them again yields the same point, so
+  /// nothing about the state changes and the map would sit where it was
+  /// dragged to.
+  Future<void> _recentreOnReader() async {
+    await _mapCubit.locateReader();
+    if (!mounted) return;
+
+    final origin = _mapCubit.state.origin;
+    if (origin != null) _mapController.moveTo(origin);
+    _mapCubit.selectNearestShop();
   }
 
   @override
@@ -93,6 +110,7 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
 
                       return InteractiveMap(
                         initialCamera: camera,
+                        controller: _mapController,
                         overlayBuilder: (context, projection) => Stack(
                           children: [
                             if (state.origin case final origin?)
@@ -131,12 +149,7 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
                 Positioned(
                   right: 16,
                   bottom: MediaQuery.sizeOf(context).height * 0.32,
-                  child: LocateUserButton(
-                    onPressed: () async {
-                      await _mapCubit.locateReader();
-                      _mapCubit.selectNearestShop();
-                    },
-                  ),
+                  child: LocateUserButton(onPressed: _recentreOnReader),
                 ),
                 DraggableScrollableSheet(
                   initialChildSize: 0.26,
