@@ -5,6 +5,24 @@ allprojects {
     }
 }
 
+// camera_android_camerax pins androidx.camera 1.5.3 with `implementation`, so
+// androidx.concurrent:concurrent-futures never reaches the plugin's compile
+// classpath. javac then fails reading the jspecify annotations on
+// SurfaceRequest with "class file for CallbackToFutureAdapter not found".
+// Putting the artifact back on that subproject's classpath is enough.
+//
+// Declared before the evaluationDependsOn block below: by the time that has
+// run, the project is already evaluated and afterEvaluate is rejected.
+subprojects {
+    if (project.name == 'camera_android_camerax') {
+        project.afterEvaluate {
+            project.dependencies {
+                implementation 'androidx.concurrent:concurrent-futures:1.2.0'
+            }
+        }
+    }
+}
+
 rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
