@@ -30,10 +30,10 @@ class _MainScreenState extends State<MainScreen> {
   /// Space the tabs must keep clear at the bottom so the floating nav does not
   /// sit on top of the last item.
   ///
-  /// FloatingTabPopup is 108 tall and is positioned 8 above the bottom edge, so
-  /// it occupies 116; the extra 8 keeps content from touching it. This used to
-  /// be 92, which is exactly why the last row of every tab was covered.
-  static const double _bottomNavContentInset = 124;
+  /// FloatingTabPopup is 84 tall and is positioned 8 above the bottom edge, so
+  /// it occupies 92; the extra 8 keeps content from touching it.
+  static const double _bottomNavContentInset = 100;
+
   /// Position of the voucher wallet in the buyer side menu. It is menu-only:
   /// selecting it pushes a route instead of switching tab, so every entry after
   /// it maps to tabIndex - 1.
@@ -58,10 +58,7 @@ class _MainScreenState extends State<MainScreen> {
               SideMenuPanel(
                 isSeller: isSeller,
                 open: _menuOpen,
-                selectedIndex: _sideMenuSelectedIndex(
-                  selectedIndex,
-                  isSeller,
-                ),
+                selectedIndex: _sideMenuSelectedIndex(selectedIndex, isSeller),
                 onSelect: (index) => _handleSideMenuSelect(index, isSeller),
               ),
               AnimatedContentShell(
@@ -88,7 +85,10 @@ class _MainScreenState extends State<MainScreen> {
                   right: 0,
                   bottom: 8,
                   child: FloatingTabPopup(
-                    items: NavigationConfig.bottomNavItems(AppLocalizations.of(context), isSeller),
+                    items: NavigationConfig.bottomNavItems(
+                      AppLocalizations.of(context),
+                      isSeller,
+                    ),
                     selectedIndex: selectedIndex,
                     onSelect: _selectBottomTab,
                   ),
@@ -148,8 +148,9 @@ class _MainScreenState extends State<MainScreen> {
       return;
     }
 
-    final tabIndex =
-        !isSeller && index > _buyerVoucherWalletMenuIndex ? index - 1 : index;
+    final tabIndex = !isSeller && index > _buyerVoucherWalletMenuIndex
+        ? index - 1
+        : index;
     _setIndex(tabIndex);
     setState(() => _menuOpen = false);
   }

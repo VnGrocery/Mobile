@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/features/navigation/navigation_item.dart';
 import 'floating_tab_item.dart';
-import 'scan_diamond_button.dart';
 
 class FloatingTabPopup extends StatelessWidget {
   final List<NavigationItem> items;
@@ -23,27 +22,12 @@ class FloatingTabPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final palette = context.palette;
-    final centerIndex = centerNavigationIndex(items);
-    final sideItems = [
-      for (var i = 0; i < items.length; i++)
-        if (i != centerIndex) i,
-    ];
-    // The scan diamond is pinned to the centre of the bar, so the two sides
-    // need equal flex or it lands on top of a label. With an odd number of side
-    // items the shorter side is padded with an empty slot below.
-    final half = sideItems.length ~/ 2;
-    final leftItems = sideItems.take(half).toList();
-    final rightItems = sideItems.skip(half).toList();
-    final leftFillers = rightItems.length - leftItems.length;
-    final rightFillers = leftItems.length - rightItems.length;
-    final centerItem = items[centerIndex];
-
     return SafeArea(
       top: false,
       child: Center(
         child: SizedBox(
           width: 342,
-          height: 108,
+          height: 84,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
@@ -110,10 +94,12 @@ class FloatingTabPopup extends StatelessWidget {
                           height: 70,
                           child: Row(
                             children: [
-                              const SizedBox(width: 18),
-                              for (var i = 0; i < leftFillers; i++)
-                                const Expanded(child: SizedBox.shrink()),
-                              for (final i in leftItems)
+                              const SizedBox(width: 8),
+                              // Every destination gets the same slot: the scan
+                              // button used to be pinned to the centre, which
+                              // could not be balanced against an odd number of
+                              // labels.
+                              for (var i = 0; i < items.length; i++)
                                 Expanded(
                                   child: GlassTabItem(
                                     icon: items[i].icon,
@@ -121,22 +107,11 @@ class FloatingTabPopup extends StatelessWidget {
                                     selected: i == selectedIndex,
                                     onTap: () => onSelect(i),
                                     selectorKey: items[i].selectorKey,
+                                    accent:
+                                        items[i].icon == Icons.qr_code_scanner,
                                   ),
                                 ),
-                              const SizedBox(width: 64),
-                              for (final i in rightItems)
-                                Expanded(
-                                  child: GlassTabItem(
-                                    icon: items[i].icon,
-                                    label: items[i].label,
-                                    selected: i == selectedIndex,
-                                    onTap: () => onSelect(i),
-                                    selectorKey: items[i].selectorKey,
-                                  ),
-                                ),
-                              for (var i = 0; i < rightFillers; i++)
-                                const Expanded(child: SizedBox.shrink()),
-                              const SizedBox(width: 18),
+                              const SizedBox(width: 8),
                             ],
                           ),
                         ),
@@ -145,29 +120,10 @@ class FloatingTabPopup extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
-                top: 2,
-                child: ScanDiamondButton(
-                  icon: centerItem.icon,
-                  selected: centerIndex == selectedIndex,
-                  onTap: () => onSelect(centerIndex),
-                  semanticsLabel: centerItem.label,
-                  selectorKey: centerItem.selectorKey,
-                ),
-              ),
             ],
           ),
         ),
       ),
     );
   }
-}
-
-/// Which entry is drawn as the raised centre button.
-///
-/// Identified by its icon rather than its label, which is translated.
-int centerNavigationIndex(List<NavigationItem> items) {
-  final scan = items.indexWhere((item) => item.icon == Icons.qr_code_scanner);
-  if (scan >= 0) return scan;
-  return items.length > 1 ? 1 : 0;
 }

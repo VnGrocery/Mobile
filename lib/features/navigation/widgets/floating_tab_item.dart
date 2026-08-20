@@ -10,6 +10,10 @@ class GlassTabItem extends StatelessWidget {
   final VoidCallback onTap;
   final String selectorKey;
 
+  /// Keeps the brand colour even when the tab is not selected, used to give the
+  /// scan action some weight now that it is a normal tab.
+  final bool accent;
+
   const GlassTabItem({
     super.key,
     required this.icon,
@@ -17,6 +21,7 @@ class GlassTabItem extends StatelessWidget {
     required this.selected,
     required this.onTap,
     required this.selectorKey,
+    this.accent = false,
   });
 
   @override
@@ -25,6 +30,11 @@ class GlassTabItem extends StatelessWidget {
     final inactiveColor = isDark
         ? const Color(0xFF9CAEA0)
         : const Color(0xFF8BA1B2);
+    // Only the icon carries the accent: a green label too would read as a
+    // second selected tab.
+    final iconColor = selected || accent
+        ? AppColors.primaryGreen
+        : inactiveColor;
 
     return InkWell(
       key: ValueKey('nav.tab.$selectorKey'),
@@ -35,11 +45,7 @@ class GlassTabItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              color: selected ? AppColors.primaryGreen : inactiveColor,
-              size: 22,
-            ),
+            Icon(icon, color: iconColor, size: 22),
             const SizedBox(height: 4),
             Text(
               shortNavigationLabel(AppLocalizations.of(context), label),
