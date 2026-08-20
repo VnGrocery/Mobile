@@ -334,5 +334,15 @@
   "voucherRuleStore": "Chỉ áp dụng tại {shopName}",
   "@voucherRuleStore": {"placeholders": {"shopName": {}}},
   "voucherRuleMinSpend": "Đơn từ {amount}",
-  "@voucherRuleMinSpend": {"placeholders": {"amount": {}}}
+  "@voucherRuleMinSpend": {"placeholders": {"amount": {}}},
+  "trustProofVerifiedLabel": "Đã xác thực on-chain",
+  "trustProofPendingLabel": "Đang neo lên blockchain",
+  "trustProofWarningLabel": "Phát hiện sai lệch",
+  "trustProofRevokedLabel": "Cam kết đã bị thu hồi",
+  "trustProofUnknownLabel": "Chưa xác thực được",
+  "trustProofVerifiedSummary": "Cam kết độ tươi đã được neo lên blockchain và vẫn khớp.",
+  "trustProofPendingSummary": "Cam kết đã được tạo nhưng chưa neo xong lên blockchain.",
+  "trustProofWarningSummary": "Dữ liệu lưu trữ không còn khớp với bản ghi trên blockchain.",
+  "trustProofRevokedSummary": "Cam kết này đã bị thu hồi, không nên tin cậy nữa.",
+  "trustProofUnknownSummary": "Chưa kiểm tra được bản ghi blockchain của cam kết này."
 }

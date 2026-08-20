@@ -1011,4 +1011,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String voucherRuleMinSpend(Object amount) {
     return 'Orders from $amount';
   }
+
+  @override
+  String get trustProofVerifiedLabel => 'Verified on blockchain';
+
+  @override
+  String get trustProofPendingLabel => 'Anchoring to blockchain';
+
+  @override
+  String get trustProofWarningLabel => 'Mismatch detected';
+
+  @override
+  String get trustProofRevokedLabel => 'Pledge revoked';
+
+  @override
+  String get trustProofUnknownLabel => 'Not verified yet';
+
+  @override
+  String get trustProofVerifiedSummary =>
+      'The freshness pledge was anchored on the blockchain and still matches.';
+
+  @override
+  String get trustProofPendingSummary =>
+      'The pledge was created but has not finished anchoring yet.';
+
+  @override
+  String get trustProofWarningSummary =>
+      'The stored data no longer matches the record on the blockchain.';
+
+  @override
+  String get trustProofRevokedSummary =>
+      'This pledge was withdrawn and should no longer be trusted.';
+
+  @override
+  String get trustProofUnknownSummary =>
+      'The blockchain record for this pledge could not be checked.';
 }

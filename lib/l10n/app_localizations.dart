@@ -1951,6 +1951,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Orders from {amount}'**
   String voucherRuleMinSpend(Object amount);
+
+  /// Trust badge label when the pledge hash matches the on-chain record.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified on blockchain'**
+  String get trustProofVerifiedLabel;
+
+  /// Trust badge label while the hash is still being anchored.
+  ///
+  /// In en, this message translates to:
+  /// **'Anchoring to blockchain'**
+  String get trustProofPendingLabel;
+
+  /// Trust badge label when the stored hash disagrees with the chain.
+  ///
+  /// In en, this message translates to:
+  /// **'Mismatch detected'**
+  String get trustProofWarningLabel;
+
+  /// Trust badge label when the pledge has been revoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge revoked'**
+  String get trustProofRevokedLabel;
+
+  /// Trust badge label when the proof could not be resolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Not verified yet'**
+  String get trustProofUnknownLabel;
+
+  /// Explanation shown with the verified badge.
+  ///
+  /// In en, this message translates to:
+  /// **'The freshness pledge was anchored on the blockchain and still matches.'**
+  String get trustProofVerifiedSummary;
+
+  /// Explanation shown with the pending badge.
+  ///
+  /// In en, this message translates to:
+  /// **'The pledge was created but has not finished anchoring yet.'**
+  String get trustProofPendingSummary;
+
+  /// Explanation shown with the warning badge.
+  ///
+  /// In en, this message translates to:
+  /// **'The stored data no longer matches the record on the blockchain.'**
+  String get trustProofWarningSummary;
+
+  /// Explanation shown with the revoked badge.
+  ///
+  /// In en, this message translates to:
+  /// **'This pledge was withdrawn and should no longer be trusted.'**
+  String get trustProofRevokedSummary;
+
+  /// Explanation shown with the neutral badge.
+  ///
+  /// In en, this message translates to:
+  /// **'The blockchain record for this pledge could not be checked.'**
+  String get trustProofUnknownSummary;
 }
 
 class _AppLocalizationsDelegate

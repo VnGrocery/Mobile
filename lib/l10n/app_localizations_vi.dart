@@ -1008,4 +1008,39 @@ class AppLocalizationsVi extends AppLocalizations {
   String voucherRuleMinSpend(Object amount) {
     return 'Đơn từ $amount';
   }
+
+  @override
+  String get trustProofVerifiedLabel => 'Đã xác thực on-chain';
+
+  @override
+  String get trustProofPendingLabel => 'Đang neo lên blockchain';
+
+  @override
+  String get trustProofWarningLabel => 'Phát hiện sai lệch';
+
+  @override
+  String get trustProofRevokedLabel => 'Cam kết đã bị thu hồi';
+
+  @override
+  String get trustProofUnknownLabel => 'Chưa xác thực được';
+
+  @override
+  String get trustProofVerifiedSummary =>
+      'Cam kết độ tươi đã được neo lên blockchain và vẫn khớp.';
+
+  @override
+  String get trustProofPendingSummary =>
+      'Cam kết đã được tạo nhưng chưa neo xong lên blockchain.';
+
+  @override
+  String get trustProofWarningSummary =>
+      'Dữ liệu lưu trữ không còn khớp với bản ghi trên blockchain.';
+
+  @override
+  String get trustProofRevokedSummary =>
+      'Cam kết này đã bị thu hồi, không nên tin cậy nữa.';
+
+  @override
+  String get trustProofUnknownSummary =>
+      'Chưa kiểm tra được bản ghi blockchain của cam kết này.';
 }
