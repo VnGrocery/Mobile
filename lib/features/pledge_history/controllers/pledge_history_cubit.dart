@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/data/repositories.dart';
 import 'pledge_history_state.dart';
 
-class PledgeHistoryCubit extends Cubit<PledgeHistoryState> {
+class PledgeHistoryCubit extends Cubit<PledgeHistoryState> with CloseSafeEmit {
   final AppRepositories _repositories;
 
   PledgeHistoryCubit({AppRepositories? repositories})
@@ -24,7 +26,6 @@ class PledgeHistoryCubit extends Cubit<PledgeHistoryState> {
         product.shopId,
         productId,
       );
-      if (isClosed) return;
       emit(PledgeHistoryState(history: history, shopId: product.shopId));
     } catch (_) {}
   }

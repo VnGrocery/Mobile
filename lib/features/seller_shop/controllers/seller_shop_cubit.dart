@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_shop/seller_shop_presenter.dart';
 import 'seller_shop_state.dart';
 
-class SellerShopCubit extends Cubit<SellerShopState> {
+class SellerShopCubit extends Cubit<SellerShopState> with CloseSafeEmit {
   final AppRepositories _repositories;
   String? _shopId;
 

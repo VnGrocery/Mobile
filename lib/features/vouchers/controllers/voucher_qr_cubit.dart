@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'voucher_qr_state.dart';
 
-class VoucherQrCubit extends Cubit<VoucherQrState> {
+class VoucherQrCubit extends Cubit<VoucherQrState> with CloseSafeEmit {
   final AppDelayService _delayService;
   final AppRepositories _repositories;
   final String userVoucherId;

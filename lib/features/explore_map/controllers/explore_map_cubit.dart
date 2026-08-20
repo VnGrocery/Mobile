@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/data/repositories.dart';
 import 'explore_map_state.dart';
 
-class ExploreMapCubit extends Cubit<ExploreMapState> {
+class ExploreMapCubit extends Cubit<ExploreMapState> with CloseSafeEmit {
   final AppRepositories _repositories;
 
   ExploreMapCubit({String? initialShopId, AppRepositories? repositories})

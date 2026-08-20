@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/data/repositories.dart';
 import 'seller_dashboard_state.dart';
 
-class SellerDashboardCubit extends Cubit<SellerDashboardState> {
+class SellerDashboardCubit extends Cubit<SellerDashboardState> with CloseSafeEmit {
   final AppRepositories _repositories;
 
   SellerDashboardCubit({AppRepositories? repositories})

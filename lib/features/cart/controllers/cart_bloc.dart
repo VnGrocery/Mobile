@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/cart/models/cart_item.dart';
@@ -7,7 +9,7 @@ import 'package:vngrocery/features/cart/repositories/cart_repository.dart';
 import 'cart_event.dart';
 import 'cart_state.dart';
 
-class CartBloc extends Bloc<CartEvent, CartState> {
+class CartBloc extends Bloc<CartEvent, CartState> with CloseSafeEmit {
   final CartStorage _cartRepository;
   final AppRepositories _appRepositories;
 

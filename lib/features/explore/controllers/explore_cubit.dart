@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/explore/explore_presenter.dart';
 import 'explore_state.dart';
 
-class ExploreCubit extends Cubit<ExploreState> {
+class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
   final AppRepositories _repositories;
 
   ExploreCubit({AppRepositories? repositories})

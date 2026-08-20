@@ -1,10 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/home/home_presenter.dart';
 import 'home_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
   final AppRepositories _repositories;
 
   HomeCubit({AppRepositories? repositories})
@@ -27,10 +29,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void _emitCached(HomeStatus status) {
-    // load() awaits the network, so the reader can leave the tab before it
-    // comes back and the cubit is already closed by then.
-    if (isClosed) return;
-
     final shops = _repositories.shops.all();
     final products = _repositories.products.all();
     final pledgeItems = products

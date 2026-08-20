@@ -2,10 +2,12 @@ import 'dart:typed_data';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'review_state.dart';
 import 'package:vngrocery/data/repositories.dart';
 
-class ReviewCubit extends Cubit<ReviewState> {
+class ReviewCubit extends Cubit<ReviewState> with CloseSafeEmit {
   final AppRepositories _repositories;
   final String shopId;
 

@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+
 import 'package:vngrocery/data/repositories.dart';
 import 'product_detail_state.dart';
 
-class ProductDetailCubit extends Cubit<ProductDetailState> {
+class ProductDetailCubit extends Cubit<ProductDetailState> with CloseSafeEmit {
   final AppRepositories _repositories;
 
   ProductDetailCubit({AppRepositories? repositories})
@@ -40,10 +42,8 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
         product.shopId,
         product.id,
       );
-      if (isClosed) return;
       emit(ProductDetailState(product: state.product, proof: proof));
     } catch (_) {
-      if (isClosed) return;
       emit(state.copyWith(loadingProof: false));
     }
   }
