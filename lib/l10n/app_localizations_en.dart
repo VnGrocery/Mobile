@@ -1529,4 +1529,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewAnonymousAuthor => 'A shopper';
+
+  @override
+  String get homeLoadFailedTitle => 'Could not load data';
+
+  @override
+  String get homeLoadFailedMessage =>
+      'Check the connection to the server and try again.';
+
+  @override
+  String get homeRetryAction => 'Try again';
+
+  @override
+  String get homeEmptyTitle => 'No products yet';
+
+  @override
+  String get homeEmptyMessage =>
+      'Products appear here once sellers record their freshness.';
 }

@@ -2875,6 +2875,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A shopper'**
   String get reviewAnonymousAuthor;
+
+  /// Home tab empty and error states.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load data'**
+  String get homeLoadFailedTitle;
+
+  /// Home tab empty and error states.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the connection to the server and try again.'**
+  String get homeLoadFailedMessage;
+
+  /// Home tab empty and error states.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get homeRetryAction;
+
+  /// Home tab empty and error states.
+  ///
+  /// In en, this message translates to:
+  /// **'No products yet'**
+  String get homeEmptyTitle;
+
+  /// Home tab empty and error states.
+  ///
+  /// In en, this message translates to:
+  /// **'Products appear here once sellers record their freshness.'**
+  String get homeEmptyMessage;
 }
 
 class _AppLocalizationsDelegate

@@ -1520,4 +1520,21 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get reviewAnonymousAuthor => 'Người dùng';
+
+  @override
+  String get homeLoadFailedTitle => 'Không tải được dữ liệu';
+
+  @override
+  String get homeLoadFailedMessage =>
+      'Kiểm tra kết nối tới máy chủ rồi thử lại.';
+
+  @override
+  String get homeRetryAction => 'Thử lại';
+
+  @override
+  String get homeEmptyTitle => 'Chưa có sản phẩm nào';
+
+  @override
+  String get homeEmptyMessage =>
+      'Khi người bán ghi nhận độ tươi, sản phẩm sẽ hiện ở đây.';
 }

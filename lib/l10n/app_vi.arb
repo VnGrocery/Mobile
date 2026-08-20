@@ -593,5 +593,25 @@
   "reviewAnonymousAuthor": "Người dùng",
   "@reviewAnonymousAuthor": {
     "description": "Author label when the server sends no reviewer name."
+  },
+  "homeLoadFailedTitle": "Không tải được dữ liệu",
+  "@homeLoadFailedTitle": {
+    "description": "Home tab empty and error states."
+  },
+  "homeLoadFailedMessage": "Kiểm tra kết nối tới máy chủ rồi thử lại.",
+  "@homeLoadFailedMessage": {
+    "description": "Home tab empty and error states."
+  },
+  "homeRetryAction": "Thử lại",
+  "@homeRetryAction": {
+    "description": "Home tab empty and error states."
+  },
+  "homeEmptyTitle": "Chưa có sản phẩm nào",
+  "@homeEmptyTitle": {
+    "description": "Home tab empty and error states."
+  },
+  "homeEmptyMessage": "Khi người bán ghi nhận độ tươi, sản phẩm sẽ hiện ở đây.",
+  "@homeEmptyMessage": {
+    "description": "Home tab empty and error states."
   }
 }

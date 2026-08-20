@@ -5,6 +5,7 @@ import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/home/controllers/home_cubit.dart';
 import 'package:vngrocery/features/home/controllers/home_state.dart';
 import 'package:vngrocery/features/home/widgets/home_components.dart';
+import 'package:vngrocery/features/home/widgets/home_status_message.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -121,23 +122,55 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 30),
-                  HomeSectionTitle(
-                    l10n.homeRecentChecksTitle,
-                    onSeeAll: () =>
-                        showHomePledgeSheet(context, state.pledgeItems),
-                  ),
-                  const SizedBox(height: 12),
-                  ...featuredPledgeItems.map(
-                    (item) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 5,
+                  if (state.isEmpty)
+                    // Nothing at all: one message for the whole page beats a
+                    // heading with a blank space under it.
+                    switch (state.status) {
+                      HomeStatus.loading => const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 64),
+                        child: Center(child: CircularProgressIndicator()),
                       ),
-                      child: HomePledgeCard(item: item),
+                      HomeStatus.failed => HomeStatusMessage(
+                        icon: Icons.cloud_off,
+                        title: l10n.homeLoadFailedTitle,
+                        message: l10n.homeLoadFailedMessage,
+                        actionLabel: l10n.homeRetryAction,
+                        onAction: _homeCubit.load,
+                      ),
+                      HomeStatus.ready => HomeStatusMessage(
+                        icon: Icons.inventory_2_outlined,
+                        title: l10n.homeEmptyTitle,
+                        message: l10n.homeEmptyMessage,
+                      ),
+                    }
+                  else ...[
+                    const SizedBox(height: 30),
+                    HomeSectionTitle(
+                      l10n.homeRecentChecksTitle,
+                      // Nothing to open when the filter matched nothing.
+                      showAction: featuredPledgeItems.isNotEmpty,
+                      onSeeAll: () =>
+                          showHomePledgeSheet(context, state.pledgeItems),
                     ),
-                  ),
-                  const SizedBox(height: 30),
+                    const SizedBox(height: 12),
+                    if (featuredPledgeItems.isEmpty)
+                      HomeStatusMessage(
+                        icon: Icons.inventory_2_outlined,
+                        title: l10n.homeEmptyTitle,
+                        message: l10n.homeEmptyMessage,
+                      )
+                    else
+                      ...featuredPledgeItems.map(
+                        (item) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 5,
+                          ),
+                          child: HomePledgeCard(item: item),
+                        ),
+                      ),
+                    const SizedBox(height: 30),
+                  ],
                 ],
               ),
             ),

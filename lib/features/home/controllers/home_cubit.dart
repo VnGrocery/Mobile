@@ -12,17 +12,25 @@ class HomeCubit extends Cubit<HomeState> {
       super(const HomeState());
 
   Future<void> load() async {
-    _emitCached();
+    _emitCached(HomeStatus.loading);
     try {
       final shops = await _repositories.shops.refresh();
       for (final shop in shops) {
         await _repositories.products.refreshShop(shop.id);
       }
-      _emitCached();
-    } catch (_) {}
+      _emitCached(HomeStatus.ready);
+    } catch (_) {
+      // Whatever is cached still gets shown; the status is what lets the tab
+      // say the refresh failed instead of pretending there is nothing to sell.
+      _emitCached(HomeStatus.failed);
+    }
   }
 
-  void _emitCached() {
+  void _emitCached(HomeStatus status) {
+    // load() awaits the network, so the reader can leave the tab before it
+    // comes back and the cubit is already closed by then.
+    if (isClosed) return;
+
     final shops = _repositories.shops.all();
     final products = _repositories.products.all();
     final pledgeItems = products
@@ -34,6 +42,13 @@ class HomeCubit extends Cubit<HomeState> {
         )
         .toList();
 
-    emit(HomeState(shops: shops, products: products, pledgeItems: pledgeItems));
+    emit(
+      HomeState(
+        status: status,
+        shops: shops,
+        products: products,
+        pledgeItems: pledgeItems,
+      ),
+    );
   }
 }

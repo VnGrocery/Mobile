@@ -1097,5 +1097,25 @@
   "reviewAnonymousAuthor": "A shopper",
   "@reviewAnonymousAuthor": {
     "description": "Author label when the server sends no reviewer name."
+  },
+  "homeLoadFailedTitle": "Could not load data",
+  "@homeLoadFailedTitle": {
+    "description": "Home tab empty and error states."
+  },
+  "homeLoadFailedMessage": "Check the connection to the server and try again.",
+  "@homeLoadFailedMessage": {
+    "description": "Home tab empty and error states."
+  },
+  "homeRetryAction": "Try again",
+  "@homeRetryAction": {
+    "description": "Home tab empty and error states."
+  },
+  "homeEmptyTitle": "No products yet",
+  "@homeEmptyTitle": {
+    "description": "Home tab empty and error states."
+  },
+  "homeEmptyMessage": "Products appear here once sellers record their freshness.",
+  "@homeEmptyMessage": {
+    "description": "Home tab empty and error states."
   }
 }

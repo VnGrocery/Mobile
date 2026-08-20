@@ -1,16 +1,28 @@
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/home/home_presenter.dart';
 
+/// Where the home tab is in its load.
+///
+/// The cubit used to swallow every error, so a server that was unreachable
+/// looked exactly like a server with nothing in it: a blank page, forever, with
+/// no way to retry.
+enum HomeStatus { loading, ready, failed }
+
 class HomeState {
+  final HomeStatus status;
   final List<Shop> shops;
   final List<Product> products;
   final List<HomePledgeItem> pledgeItems;
 
   const HomeState({
+    this.status = HomeStatus.loading,
     this.shops = const [],
     this.products = const [],
     this.pledgeItems = const [],
   });
+
+  /// Nothing to show: no shops worth ranking and no recent checks.
+  bool get isEmpty => shops.isEmpty && pledgeItems.isEmpty;
 
   /// Categories actually present in the loaded products.
   ///
