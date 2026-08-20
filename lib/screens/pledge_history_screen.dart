@@ -48,7 +48,7 @@ class _PledgeHistoryScreenState extends State<PledgeHistoryScreen> {
                   const EmptyPledgeHistory()
                 else
                   for (final item in state.history)
-                    PledgeTimelineItem(item: item),
+                    PledgeTimelineItem(item: item, shopId: state.shopId),
               ],
             ),
           );

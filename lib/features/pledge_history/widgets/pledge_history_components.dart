@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/core/widgets/trust_copy.dart';
+import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -36,13 +38,20 @@ class EmptyPledgeHistory extends StatelessWidget {
 class PledgeTimelineItem extends StatelessWidget {
   final PledgeHistoryItem item;
 
-  const PledgeTimelineItem({super.key, required this.item});
+  /// Empty when the product's shop is unknown, in which case the certificate
+  /// cannot be addressed and the link is left out.
+  final String shopId;
+
+  const PledgeTimelineItem({super.key, required this.item, this.shopId = ''});
+
+  bool get _canOpenCertificate => shopId.isNotEmpty && item.proofId.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    final color =
-        item.isVerified ? AppColors.freshGreen : AppColors.warningOrange;
+    final color = item.isVerified
+        ? AppColors.freshGreen
+        : AppColors.warningOrange;
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,8 +63,10 @@ class PledgeTimelineItem extends StatelessWidget {
                 Container(
                   width: 16,
                   height: 16,
-                  decoration:
-                      BoxDecoration(color: color, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                  ),
                 ),
                 Expanded(child: Container(width: 2, color: palette.border)),
               ],
@@ -78,8 +89,10 @@ class PledgeTimelineItem extends StatelessWidget {
                       children: [
                         Text(
                           item.time,
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.grey),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
                         ),
                         const Spacer(),
                         Container(
@@ -92,7 +105,10 @@ class PledgeTimelineItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            item.isVerified ? 'Verified' : 'Warning',
+                            TrustCopy.integrityStatus(
+                              context,
+                              item.integrityStatus,
+                            ),
                             style: TextStyle(
                               color: color,
                               fontSize: 10,
@@ -119,22 +135,43 @@ class PledgeTimelineItem extends StatelessWidget {
                     ),
                     if (item.hasProof) ...[
                       const Divider(height: 24, thickness: 0.5),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.history,
-                            size: 14,
-                            color: Colors.grey,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Biên lai gốc: ${item.proofId}',
-                            style: const TextStyle(
-                              fontSize: 11,
+                      InkWell(
+                        onTap: _canOpenCertificate
+                            ? () => Navigator.pushNamed(
+                                context,
+                                Routes.blockchainProof,
+                                arguments: BlockchainProofArgs(
+                                  shopId: shopId,
+                                  pledgeId: item.proofId,
+                                ),
+                              )
+                            : null,
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.link,
+                              size: 14,
                               color: Colors.grey,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Biên lai gốc: ${item.proofId}',
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            if (_canOpenCertificate)
+                              const Icon(
+                                Icons.chevron_right,
+                                size: 16,
+                                color: Colors.grey,
+                              ),
+                          ],
+                        ),
                       ),
                     ],
                   ],

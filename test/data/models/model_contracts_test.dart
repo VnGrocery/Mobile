@@ -147,6 +147,11 @@ void main() {
       expect(parse('revoked').isVerified, isFalse);
       expect(parse(null).isVerified, isFalse);
 
+      // The raw status is kept so the timeline can name which state it is in.
+      expect(parse('pending_anchor').integrityStatus, 'pending_anchor');
+      expect(parse('revoked').integrityStatus, 'revoked');
+      expect(parse(null).integrityStatus, isEmpty);
+
       // An explicit flag from the payload still wins.
       expect(
         PledgeHistoryItem.fromJson({
@@ -195,10 +200,7 @@ void main() {
         'minSpend': 0,
         'expiresAt': 'not-a-date',
       });
-      expect(
-        invalidDate.expiresAt,
-        DateTime.fromMillisecondsSinceEpoch(0),
-      );
+      expect(invalidDate.expiresAt, DateTime.fromMillisecondsSinceEpoch(0));
     });
 
     test('parses user vouchers and emits nullable ISO usedAt', () {
@@ -227,10 +229,7 @@ void main() {
         'voucherId': 'v-test',
         'usedAt': 'not-a-date',
       });
-      expect(
-        invalidDate.usedAt,
-        DateTime.fromMillisecondsSinceEpoch(0),
-      );
+      expect(invalidDate.usedAt, DateTime.fromMillisecondsSinceEpoch(0));
     });
 
     test('parses last buyer check', () {

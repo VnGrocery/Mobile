@@ -6,6 +6,11 @@ class PledgeHistoryItem {
   final bool hasProof;
   final String proofId;
 
+  /// Raw server status: pending_anchor, anchored, mismatch_detected, revoked or
+  /// reanchored. Kept alongside [isVerified] so the timeline can say which of
+  /// the "not verified" states a pledge is actually in.
+  final String integrityStatus;
+
   const PledgeHistoryItem({
     required this.time,
     required this.title,
@@ -13,6 +18,7 @@ class PledgeHistoryItem {
     required this.isVerified,
     this.hasProof = false,
     this.proofId = '',
+    this.integrityStatus = '',
   });
 
   /// Values the server can put in `integrityStatus`. `verified` is not one of
@@ -38,6 +44,7 @@ class PledgeHistoryItem {
       isVerified: json['isVerified'] as bool? ?? isAnchoredStatus(integrity),
       hasProof: json['hasProof'] as bool? ?? pledgeId != null,
       proofId: json['proofId']?.toString() ?? pledgeId ?? '',
+      integrityStatus: integrity ?? '',
     );
   }
 
@@ -48,5 +55,6 @@ class PledgeHistoryItem {
     'isVerified': isVerified,
     'hasProof': hasProof,
     'proofId': proofId,
+    'integrityStatus': integrityStatus,
   };
 }

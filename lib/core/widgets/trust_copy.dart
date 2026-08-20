@@ -23,6 +23,25 @@ class TrustCopy {
     }
   }
 
+  /// Label for a raw `integrityStatus`, reusing the proof-status wording so a
+  /// pledge reads the same in the timeline as it does on the product page.
+  static String integrityStatus(BuildContext context, String status) {
+    final l10n = AppLocalizations.of(context);
+    switch (status) {
+      case 'anchored':
+      case 'reanchored':
+        return l10n.trustProofVerifiedLabel;
+      case 'pending_anchor':
+        return l10n.trustProofPendingLabel;
+      case 'mismatch_detected':
+        return l10n.trustProofWarningLabel;
+      case 'revoked':
+        return l10n.trustProofRevokedLabel;
+      default:
+        return l10n.trustProofUnknownLabel;
+    }
+  }
+
   static String component(BuildContext context, String key) {
     final l10n = AppLocalizations.of(context);
     switch (key) {
