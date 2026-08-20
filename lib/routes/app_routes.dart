@@ -10,7 +10,6 @@ import 'package:vngrocery/screens/change_password_screen.dart';
 import 'package:vngrocery/screens/explore_map_screen.dart';
 import 'package:vngrocery/screens/scanner_screen.dart';
 import 'package:vngrocery/screens/product_detail_screen.dart';
-import 'package:vngrocery/screens/ai_freshness_screen.dart';
 import 'package:vngrocery/screens/blockchain_proof_screen.dart';
 import 'package:vngrocery/screens/buyer_check_result_screen.dart';
 import 'package:vngrocery/screens/store_detail_screen.dart';
@@ -92,7 +91,6 @@ class Routes {
   static const exploreMap = 'explore_map';
   static const scan = 'scan';
   static const productDetail = 'product_detail';
-  static const aiCompare = 'ai_compare';
   static const buyerCheckResult = 'buyer_check_result';
   static const storeDetail = 'store_detail';
   static const review = 'review';
@@ -182,9 +180,6 @@ class Routes {
           shopId: detailArgs.shopId,
           productId: detailArgs.productId,
         );
-        break;
-      case aiCompare:
-        page = const AiFreshnessScreen();
         break;
       case buyerCheckResult:
         page = const BuyerCheckResultScreen();

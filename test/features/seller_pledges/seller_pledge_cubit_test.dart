@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,7 +16,7 @@ void main() {
       delayService: const NoopAppDelayService(),
     );
 
-    await cubit.capture();
+    await cubit.capture(Uint8List.fromList(const [1, 2, 3]));
 
     expect(cubit.state.step, 2);
     expect(cubit.state.analyzing, isFalse);

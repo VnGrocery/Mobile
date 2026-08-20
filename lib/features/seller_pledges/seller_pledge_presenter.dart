@@ -45,7 +45,9 @@ class SellerPledgePresenter {
     required String category,
     required AppLocalizations l10n,
   }) {
-    return l10n.sellerPledgeRecordDescription(score, categoryLabel(category, l10n));
+    return l10n.sellerPledgeRecordDescription(
+      score,
+      categoryLabel(category, l10n),
+    );
   }
-
 }

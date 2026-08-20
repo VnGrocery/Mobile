@@ -944,7 +944,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get reviewCommentHint => 'Nhập nhận xét của bạn tại đây...';
 
   @override
-  String get reviewPhotoAttached => 'Đã thêm hình ảnh';
+  String get reviewPhotoAttached => 'Đã đính kèm ảnh';
 
   @override
   String get reviewPhotoAdd => 'Thêm hình ảnh';
@@ -957,12 +957,6 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get reviewSubmittedWithPhoto => 'Đã gửi đánh giá kèm ảnh. Cảm ơn bạn!';
-
-  @override
-  String get reviewPhotoAttachedDemo => 'Đã đính kèm ảnh demo';
-
-  @override
-  String get reviewPhotoRemovedDemo => 'Đã bỏ ảnh đính kèm';
 
   @override
   String get scoreBadgeLabel => 'Điểm đánh giá';
@@ -1488,4 +1482,19 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get reviewSubmitFailed => 'Không gửi được đánh giá. Vui lòng thử lại.';
+
+  @override
+  String get cameraCaptureTitle => 'Chụp ảnh';
+
+  @override
+  String get cameraCaptureAction => 'Chụp';
+
+  @override
+  String get pledgeCaptureHint => 'Đưa sản phẩm cần ghi nhận vào khung hình';
+
+  @override
+  String get reviewPhotoHint => 'Chụp ảnh để đính kèm vào đánh giá';
+
+  @override
+  String get reviewPhotoRemoved => 'Đã bỏ ảnh';
 }

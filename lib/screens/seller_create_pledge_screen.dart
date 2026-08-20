@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:vngrocery/screens/camera_capture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,6 +39,19 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
     super.dispose();
   }
 
+  /// Opens the camera and scores whatever the seller actually photographed.
+  Future<void> _capturePhoto() async {
+    final l10n = AppLocalizations.of(context);
+    final photo = await Navigator.push<Uint8List>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CameraCaptureScreen(hint: l10n.pledgeCaptureHint),
+      ),
+    );
+    if (photo == null || !mounted) return;
+    await _pledgeCubit.capture(photo);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -58,7 +73,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
               child: switch (state.step) {
                 1 => SellerPledgeCaptureStep(
                   analyzing: state.analyzing,
-                  onCapture: _pledgeCubit.capture,
+                  onCapture: _capturePhoto,
                 ),
                 2 => SellerPledgeEvaluateStep(
                   aiScore: state.aiScore,

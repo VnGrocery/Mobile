@@ -1832,10 +1832,10 @@ abstract class AppLocalizations {
   /// **'Enter your comments here...'**
   String get reviewCommentHint;
 
-  /// No description provided for @reviewPhotoAttached.
+  /// Shown after attaching a review photo.
   ///
   /// In en, this message translates to:
-  /// **'Image attached'**
+  /// **'Photo attached'**
   String get reviewPhotoAttached;
 
   /// No description provided for @reviewPhotoAdd.
@@ -1861,18 +1861,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Review with photo submitted. Thank you!'**
   String get reviewSubmittedWithPhoto;
-
-  /// No description provided for @reviewPhotoAttachedDemo.
-  ///
-  /// In en, this message translates to:
-  /// **'Demo image attached'**
-  String get reviewPhotoAttachedDemo;
-
-  /// No description provided for @reviewPhotoRemovedDemo.
-  ///
-  /// In en, this message translates to:
-  /// **'Attached image removed'**
-  String get reviewPhotoRemovedDemo;
 
   /// No description provided for @scoreBadgeLabel.
   ///
@@ -2827,6 +2815,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not send your review. Please try again.'**
   String get reviewSubmitFailed;
+
+  /// Title of the shared camera screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get cameraCaptureTitle;
+
+  /// Shutter button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture'**
+  String get cameraCaptureAction;
+
+  /// Hint on the pledge capture screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame the products you are recording'**
+  String get pledgeCaptureHint;
+
+  /// Hint on the review photo screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo to attach to your review'**
+  String get reviewPhotoHint;
+
+  /// Shown after removing a review photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo removed'**
+  String get reviewPhotoRemoved;
 }
 
 class _AppLocalizationsDelegate

@@ -1,6 +1,8 @@
 {
   "appTitle": "VnGrocery",
-  "@appTitle": {"description": "Tên ứng dụng."},
+  "@appTitle": {
+    "description": "Tên ứng dụng."
+  },
   "authLoginTab": "Đăng nhập",
   "authRegisterTab": "Đăng ký",
   "authCreateAccount": "Tạo tài khoản",
@@ -67,7 +69,11 @@
   "cartGrandTotal": "Tổng tiền nếu tính hết",
   "cartUnavailableShopName": "Cửa hàng không khả dụng",
   "cartAppliedVoucher": "Đã áp dụng: {code}",
-  "@cartAppliedVoucher": {"placeholders": {"code": {}}},
+  "@cartAppliedVoucher": {
+    "placeholders": {
+      "code": {}
+    }
+  },
   "cartRemoveVoucher": "Bỏ mã",
   "cartVoucherFieldLabel": "Mã voucher của shop",
   "cartCheckVoucher": "Kiểm tra",
@@ -85,7 +91,11 @@
   "buyerCheckLocationNeedsMoreBody": "Bạn không ở gần cửa hàng. Ghi nhận này chỉ dùng để tham khảo.",
   "buyerCheckVerdictTitle": "So với dữ liệu gần nhất",
   "buyerCheckVerdictValue": "Kết quả: {verdict}",
-  "@buyerCheckVerdictValue": {"placeholders": {"verdict": {}}},
+  "@buyerCheckVerdictValue": {
+    "placeholders": {
+      "verdict": {}
+    }
+  },
   "buyerCheckVerdictBody": "Kết quả dựa trên ảnh bạn gửi và thông tin đã ghi nhận.",
   "buyerCheckVoucherTitle": "Kiểm tra voucher",
   "buyerCheckVoucherCodeHint": "VD: FRESH20",
@@ -103,16 +113,16 @@
   "exploreOpenMap": "Mở bản đồ",
   "exploreTopRatedBadge": "Đánh giá tốt",
   "exploreRatingLabel": " {rating} điểm đánh giá",
-  "@exploreRatingLabel": {"placeholders": {"rating": {}}},
+  "@exploreRatingLabel": {
+    "placeholders": {
+      "rating": {}
+    }
+  },
   "exploreLocateDemo": "Đã căn về vị trí gần bạn (demo)",
   "exploreFilterTopRated": "Đánh giá tốt",
   "exploreFilterRecorded": "Có ghi nhận",
   "exploreFilterNearby": "Gần bạn",
   "exploreFilterNewest": "Mới nhất",
-  "commonIncreaseQuantity": "Tăng số lượng",
-  "accountProfileTitle": "Hồ sơ cá nhân",
-  "accountProfileUpdated": "Đã cập nhật hồ sơ",
-  "accountLogoutTitle": "Đăng xuất",
   "commonIncreaseQuantity": "Tăng số lượng",
   "accountProfileTitle": "Hồ sơ cá nhân",
   "accountProfileUpdated": "Đã cập nhật hồ sơ",
@@ -132,7 +142,12 @@
   "sellerShopAddressLabel": "Địa chỉ",
   "sellerShopFootnote": "Thông tin này dùng để hiển thị trên trang cửa hàng và tem sản phẩm.",
   "sellerShopGradeSummary": "Hạng {grade} - {rating} điểm",
-  "@sellerShopGradeSummary": {"placeholders": {"grade": {}, "rating": {}}},
+  "@sellerShopGradeSummary": {
+    "placeholders": {
+      "grade": {},
+      "rating": {}
+    }
+  },
   "sellerShopPledgesMetric": "Ghi nhận",
   "sellerShopWarningsMetric": "Cảnh báo",
   "sellerProductNoShop": "Tài khoản của bạn chưa có cửa hàng.",
@@ -167,7 +182,11 @@
   "sellerProductActionAddPledge": "Thêm ghi nhận",
   "sellerProductEmpty": "Chưa có sản phẩm nào",
   "sellerProductCategoryValue": "Danh mục: {category}",
-  "@sellerProductCategoryValue": {"placeholders": {"category": {}}},
+  "@sellerProductCategoryValue": {
+    "placeholders": {
+      "category": {}
+    }
+  },
   "sellerProductHistoryShort": "Lịch sử",
   "sellerProductAddPledgeShort": "Thêm ghi nhận",
   "sellerPledgeCategoryBeef": "Thịt bò",
@@ -181,7 +200,12 @@
   "sellerPledgeRecordTimeJustNow": "Vừa xong",
   "sellerPledgeRecordTitle": "Người bán thêm ghi nhận mới",
   "sellerPledgeRecordDescription": "Điểm đánh giá {score}/10 cho loại: {category}.",
-  "@sellerPledgeRecordDescription": {"placeholders": {"score": {}, "category": {}}},
+  "@sellerPledgeRecordDescription": {
+    "placeholders": {
+      "score": {},
+      "category": {}
+    }
+  },
   "sellerPledgeCameraPreview": "Xem trước camera",
   "sellerPledgeCaptureAction": "Chụp ảnh hàng hóa",
   "sellerPledgeSuggestedScoreTitle": "ĐIỂM GỢI Ý TỪ ẢNH",
@@ -189,10 +213,18 @@
   "sellerPledgeSellerScoreLabel": "Nhập điểm đánh giá (0-10)",
   "sellerPledgeContinueConfirm": "Tiếp tục xác nhận",
   "sellerPledgeCategoryValue": "Loại: {category}",
-  "@sellerPledgeCategoryValue": {"placeholders": {"category": {}}},
+  "@sellerPledgeCategoryValue": {
+    "placeholders": {
+      "category": {}
+    }
+  },
   "sellerPledgeRecordContentTitle": "NỘI DUNG GHI NHẬN",
   "sellerPledgeRecordPreview": "Tôi ghi nhận sản phẩm tại quầy với điểm đánh giá {score}.",
-  "@sellerPledgeRecordPreview": {"placeholders": {"score": {}}},
+  "@sellerPledgeRecordPreview": {
+    "placeholders": {
+      "score": {}
+    }
+  },
   "sellerPledgeConfirmSave": "Xác nhận & lưu ghi nhận",
   "sellerPledgeSaved": "Đã lưu ghi nhận sản phẩm.",
   "accountExploreStores": "Khám phá cửa hàng",
@@ -206,7 +238,6 @@
   "accountDarkMode": "Chế độ tối",
   "accountEditProfile": "Sửa hồ sơ",
   "accountHelpAndSupport": "Hỗ trợ & Trợ giúp",
-  "accountEditProfile": "Sửa hồ sơ",
   "accountSaveProfileChanges": "Lưu thay đổi",
   "accountHelpTitle": "Hỗ trợ",
   "accountHelpScanTitle": "Quét sản phẩm",
@@ -232,9 +263,17 @@
   "homeTopRatedStoresTitle": "Cửa hàng được đánh giá tốt",
   "homeRecentChecksTitle": "Sản phẩm mới kiểm tra",
   "homeShopRatingValue": " {rating}",
-  "@homeShopRatingValue": {"placeholders": {"rating": {}}},
+  "@homeShopRatingValue": {
+    "placeholders": {
+      "rating": {}
+    }
+  },
   "homeShopReviewCount": "{count} đánh giá",
-  "@homeShopReviewCount": {"placeholders": {"count": {}}},
+  "@homeShopReviewCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "aiFreshnessTitle": "Gửi ảnh kiểm tra",
   "aiFreshnessHeading": "Chụp ảnh sản phẩm tại quầy",
   "aiFreshnessBody": "Ảnh này giúp so với thông tin đã ghi nhận gần đây.",
@@ -252,18 +291,34 @@
   "splashSubtitle": "Kiểm tra giá và sản phẩm gần bạn",
   "splashFootnote": "Dữ liệu từ quầy hàng và cộng đồng",
   "voucherWalletUsableCount": "{count} voucher có thể dùng",
-  "@voucherWalletUsableCount": {"placeholders": {"count": {}}},
+  "@voucherWalletUsableCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "voucherWalletTotalCount": "Tổng cộng {count} voucher trong ví",
-  "@voucherWalletTotalCount": {"placeholders": {"count": {}}},
+  "@voucherWalletTotalCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "voucherWalletEmptyTitle": "Chưa có voucher phù hợp",
   "voucherWalletEmptyBody": "Quét sản phẩm, nhập mã hoặc thêm thủ công để lưu voucher vào ví.",
   "voucherWalletSectionTitle": "Voucher của bạn",
   "voucherWalletShowUsed": "Hiện đã dùng",
   "voucherCodeLabelInline": "Mã: {code}",
-  "@voucherCodeLabelInline": {"placeholders": {"code": {}}},
+  "@voucherCodeLabelInline": {
+    "placeholders": {
+      "code": {}
+    }
+  },
   "manualVoucherTitle": "Thêm voucher thủ công",
   "manualVoucherDemoCopied": "Đã copy mã {format} demo vào ô mã",
-  "@manualVoucherDemoCopied": {"placeholders": {"format": {}}},
+  "@manualVoucherDemoCopied": {
+    "placeholders": {
+      "format": {}
+    }
+  },
   "manualVoucherSaved": "Đã thêm voucher thủ công vào ví",
   "manualVoucherNotice": "Voucher thủ công là thông tin do bạn tự nhập để lưu trữ và sử dụng tại quầy. Nội dung này chưa được cửa hàng xác thực, bạn tự chịu trách nhiệm về điều kiện sử dụng.",
   "manualVoucherShopLabel": "Cửa hàng áp dụng",
@@ -289,18 +344,39 @@
   "storeDetailReviewsTab": "Đánh giá",
   "storeDetailWriteReview": "Viết đánh giá",
   "storeShareSummary": "{rating} điểm đánh giá - {reviewCount} lượt đánh giá",
-  "@storeShareSummary": {"placeholders": {"rating": {}, "reviewCount": {}}},
+  "@storeShareSummary": {
+    "placeholders": {
+      "rating": {},
+      "reviewCount": {}
+    }
+  },
   "storeProductShopLabel": "Cửa hàng: {shopId}",
-  "@storeProductShopLabel": {"placeholders": {"shopId": {}}},
+  "@storeProductShopLabel": {
+    "placeholders": {
+      "shopId": {}
+    }
+  },
   "storeProductScore": "{score} điểm",
-  "@storeProductScore": {"placeholders": {"score": {}}},
+  "@storeProductScore": {
+    "placeholders": {
+      "score": {}
+    }
+  },
   "productDetailTitle": "Thông tin sản phẩm",
   "productDetailAddedToCart": "Đã thêm {productName}",
-  "@productDetailAddedToCart": {"placeholders": {"productName": {}}},
+  "@productDetailAddedToCart": {
+    "placeholders": {
+      "productName": {}
+    }
+  },
   "productDetailAddToCart": "Thêm vào giỏ",
   "productDetailCounterImage": "Ảnh từ quầy",
   "productDetailPricePerKg": "Giá: {price} /kg",
-  "@productDetailPricePerKg": {"placeholders": {"price": {}}},
+  "@productDetailPricePerKg": {
+    "placeholders": {
+      "price": {}
+    }
+  },
   "productDetailLatestScoreTitle": "ĐIỂM ĐÁNH GIÁ GẦN NHẤT",
   "productDetailLatestScoreSubtitle": "Dựa trên ảnh và thông tin đã ghi nhận",
   "productDetailCheckAction": "Gửi ảnh kiểm tra sản phẩm",
@@ -313,13 +389,11 @@
   "reviewIntroTitle": "Trải nghiệm của bạn thế nào?",
   "reviewIntroBody": "Đánh giá của bạn giúp cộng đồng chọn sản phẩm tốt hơn.",
   "reviewCommentHint": "Nhập nhận xét của bạn tại đây...",
-  "reviewPhotoAttached": "Đã thêm hình ảnh",
+  "reviewPhotoAttached": "Đã đính kèm ảnh",
   "reviewPhotoAdd": "Thêm hình ảnh",
   "reviewSubmit": "Gửi đánh giá",
   "reviewSubmitted": "Đã gửi đánh giá. Cảm ơn bạn!",
   "reviewSubmittedWithPhoto": "Đã gửi đánh giá kèm ảnh. Cảm ơn bạn!",
-  "reviewPhotoAttachedDemo": "Đã đính kèm ảnh demo",
-  "reviewPhotoRemovedDemo": "Đã bỏ ảnh đính kèm",
   "scoreBadgeLabel": "Điểm đánh giá",
   "voucherManualBadge": "Tự nhập",
   "voucherUseTitle": "Dùng voucher",
@@ -332,9 +406,17 @@
   "voucherMarkedUsed": "Đã sử dụng voucher",
   "voucherUsageConditions": "Điều kiện sử dụng",
   "voucherRuleStore": "Chỉ áp dụng tại {shopName}",
-  "@voucherRuleStore": {"placeholders": {"shopName": {}}},
+  "@voucherRuleStore": {
+    "placeholders": {
+      "shopName": {}
+    }
+  },
   "voucherRuleMinSpend": "Đơn từ {amount}",
-  "@voucherRuleMinSpend": {"placeholders": {"amount": {}}},
+  "@voucherRuleMinSpend": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
   "trustProofVerifiedLabel": "Đã xác thực on-chain",
   "trustProofPendingLabel": "Đang neo lên blockchain",
   "trustProofWarningLabel": "Phát hiện sai lệch",
@@ -469,7 +551,6 @@
   "exploreNearbyTitle": "Cửa hàng gần bạn",
   "exploreViewStore": "Xem cửa hàng",
   "exploreSearchNearby": "Tìm cửa hàng gần bạn",
-  "exploreYourLocation": "Vị trí của bạn",
   "buyerCheckScanFirst": "Hãy quét tem pledge hợp lệ trước khi kiểm tra.",
   "authGoogleTokenError": "Không lấy được Google ID token",
   "pledgeHistoryTitle": "Lịch sử ghi nhận",
@@ -481,5 +562,10 @@
   "homeCategoryMeat": "Thịt",
   "homeCategoryVegetables": "Rau củ",
   "homeCategoryFruit": "Trái cây",
-  "reviewSubmitFailed": "Không gửi được đánh giá. Vui lòng thử lại."
+  "reviewSubmitFailed": "Không gửi được đánh giá. Vui lòng thử lại.",
+  "cameraCaptureTitle": "Chụp ảnh",
+  "cameraCaptureAction": "Chụp",
+  "pledgeCaptureHint": "Đưa sản phẩm cần ghi nhận vào khung hình",
+  "reviewPhotoHint": "Chụp ảnh để đính kèm vào đánh giá",
+  "reviewPhotoRemoved": "Đã bỏ ảnh"
 }

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:vngrocery/screens/camera_capture_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -99,14 +101,21 @@ class _ReviewScreenState extends State<ReviewScreen> {
     Navigator.pop(context);
   }
 
-  void _togglePhoto() {
-    _reviewCubit.togglePhoto();
+  Future<void> _togglePhoto() async {
     final l10n = AppLocalizations.of(context);
-    AppFeedback.showSnackBar(
+    if (_reviewCubit.hasPhoto) {
+      _reviewCubit.removePhoto();
+      AppFeedback.showSnackBar(context, l10n.reviewPhotoRemoved);
+      return;
+    }
+    final photo = await Navigator.push<Uint8List>(
       context,
-      _reviewCubit.state.photoAttached
-          ? l10n.reviewPhotoAttachedDemo
-          : l10n.reviewPhotoRemovedDemo,
+      MaterialPageRoute(
+        builder: (_) => CameraCaptureScreen(hint: l10n.reviewPhotoHint),
+      ),
     );
+    if (photo == null || !mounted) return;
+    _reviewCubit.attachPhoto(photo);
+    AppFeedback.showSnackBar(context, l10n.reviewPhotoAttached);
   }
 }

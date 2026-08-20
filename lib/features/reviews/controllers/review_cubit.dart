@@ -1,9 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'review_state.dart';
 import 'package:vngrocery/data/repositories.dart';
-import 'package:flutter/services.dart';
 
 class ReviewCubit extends Cubit<ReviewState> {
   final AppDelayService _delayService;
@@ -22,8 +23,20 @@ class ReviewCubit extends Cubit<ReviewState> {
     emit(state.copyWith(rating: rating, submitted: false));
   }
 
-  void togglePhoto() {
-    emit(state.copyWith(photoAttached: !state.photoAttached, submitted: false));
+  /// Bytes of the photo the reviewer took, if any. Reviews used to attach a
+  /// bundled picture of meat regardless of what was being reviewed.
+  Uint8List? _photo;
+
+  bool get hasPhoto => _photo != null;
+
+  void attachPhoto(Uint8List photo) {
+    _photo = photo;
+    emit(state.copyWith(photoAttached: true, submitted: false));
+  }
+
+  void removePhoto() {
+    _photo = null;
+    emit(state.copyWith(photoAttached: false, submitted: false));
   }
 
   Future<void> submit(String comment) async {
@@ -35,11 +48,9 @@ class ReviewCubit extends Cubit<ReviewState> {
         await _delayService.wait(AppDelayKind.reviewSubmit);
       } else {
         final imageUrls = <String>[];
-        if (state.photoAttached && _repositories.reviews.remote != null) {
-          final data = await rootBundle.load('assets/images/meat.png');
-          final url = await _repositories.reviews.remote!.uploadImage(
-            data.buffer.asUint8List(),
-          );
+        final photo = _photo;
+        if (photo != null && _repositories.reviews.remote != null) {
+          final url = await _repositories.reviews.remote!.uploadImage(photo);
           if (url != null) imageUrls.add(url);
         }
         await _repositories.reviews.create(

@@ -31,8 +31,9 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
         Card(
           color: palette.card,
           elevation: 0,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(

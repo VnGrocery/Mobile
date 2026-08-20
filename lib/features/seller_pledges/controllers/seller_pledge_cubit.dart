@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/services/app_delay_service.dart';
@@ -5,7 +7,6 @@ import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
-import 'package:flutter/services.dart';
 import 'seller_pledge_state.dart';
 
 class SellerPledgeCubit extends Cubit<SellerPledgeState> {
@@ -26,7 +27,10 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
     emit(state.copyWith(step: state.step - 1, committed: false));
   }
 
-  Future<void> capture() async {
+  /// [photo] is the seller's own picture. Scoring a bundled image meant every
+  /// pledge in the system was derived from the same photo, and that hash is
+  /// what gets anchored on chain.
+  Future<void> capture(Uint8List photo) async {
     if (state.analyzing) return;
     emit(state.copyWith(analyzing: true, committed: false));
     final remote = _repositories.pledges.remote;
@@ -36,8 +40,7 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> {
       return;
     }
     try {
-      final data = await rootBundle.load('assets/images/meat.png');
-      final result = await remote.score(data.buffer.asUint8List());
+      final result = await remote.score(photo);
       emit(
         state.copyWith(
           analyzing: false,

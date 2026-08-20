@@ -134,7 +134,10 @@ class ProductCheckAction extends StatelessWidget {
         SizedBox(
           height: 56,
           child: ElevatedButton.icon(
-            onPressed: () => Navigator.pushNamed(context, Routes.aiCompare),
+            // The real check lives in the scanner: read the bundle code, then
+            // photograph the product. The old screen scored a bundled image
+            // against the seller's own in-memory payload.
+            onPressed: () => Navigator.pushNamed(context, Routes.scan),
             style: ElevatedButton.styleFrom(
               backgroundColor: scheme.onSurface,
               foregroundColor: scheme.surface,

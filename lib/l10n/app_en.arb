@@ -1,6 +1,8 @@
 {
   "appTitle": "VnGrocery",
-  "@appTitle": {"description": "Application title."},
+  "@appTitle": {
+    "description": "Application title."
+  },
   "authLoginTab": "Sign in",
   "authRegisterTab": "Create account",
   "authCreateAccount": "Create account",
@@ -67,7 +69,11 @@
   "cartGrandTotal": "Estimated grand total",
   "cartUnavailableShopName": "Store unavailable",
   "cartAppliedVoucher": "Applied: {code}",
-  "@cartAppliedVoucher": {"placeholders": {"code": {}}},
+  "@cartAppliedVoucher": {
+    "placeholders": {
+      "code": {}
+    }
+  },
   "cartRemoveVoucher": "Remove code",
   "cartVoucherFieldLabel": "Store voucher code",
   "cartCheckVoucher": "Check",
@@ -85,7 +91,11 @@
   "buyerCheckLocationNeedsMoreBody": "You are not near the store. This check is for reference only.",
   "buyerCheckVerdictTitle": "Compared with the latest data",
   "buyerCheckVerdictValue": "Result: {verdict}",
-  "@buyerCheckVerdictValue": {"placeholders": {"verdict": {}}},
+  "@buyerCheckVerdictValue": {
+    "placeholders": {
+      "verdict": {}
+    }
+  },
   "buyerCheckVerdictBody": "This result is based on the photo you submitted and the recorded information.",
   "buyerCheckVoucherTitle": "Check voucher",
   "buyerCheckVoucherCodeHint": "E.g. FRESH20",
@@ -103,16 +113,16 @@
   "exploreOpenMap": "Open map",
   "exploreTopRatedBadge": "Top rated",
   "exploreRatingLabel": " {rating} rating points",
-  "@exploreRatingLabel": {"placeholders": {"rating": {}}},
+  "@exploreRatingLabel": {
+    "placeholders": {
+      "rating": {}
+    }
+  },
   "exploreLocateDemo": "Centered on a nearby demo location",
   "exploreFilterTopRated": "Top rated",
   "exploreFilterRecorded": "Recorded",
   "exploreFilterNearby": "Nearby",
   "exploreFilterNewest": "Newest",
-  "commonIncreaseQuantity": "Increase quantity",
-  "accountProfileTitle": "Profile",
-  "accountProfileUpdated": "Profile updated",
-  "accountLogoutTitle": "Sign out",
   "commonIncreaseQuantity": "Increase quantity",
   "accountProfileTitle": "Profile",
   "accountProfileUpdated": "Profile updated",
@@ -132,7 +142,12 @@
   "sellerShopAddressLabel": "Address",
   "sellerShopFootnote": "This information is shown on the store page and product labels.",
   "sellerShopGradeSummary": "Grade {grade} - {rating} points",
-  "@sellerShopGradeSummary": {"placeholders": {"grade": {}, "rating": {}}},
+  "@sellerShopGradeSummary": {
+    "placeholders": {
+      "grade": {},
+      "rating": {}
+    }
+  },
   "sellerShopPledgesMetric": "Pledges",
   "sellerShopWarningsMetric": "Warnings",
   "sellerProductNoShop": "Your account does not have a store yet.",
@@ -167,7 +182,11 @@
   "sellerProductActionAddPledge": "Add pledge",
   "sellerProductEmpty": "No products yet",
   "sellerProductCategoryValue": "Category: {category}",
-  "@sellerProductCategoryValue": {"placeholders": {"category": {}}},
+  "@sellerProductCategoryValue": {
+    "placeholders": {
+      "category": {}
+    }
+  },
   "sellerProductHistoryShort": "History",
   "sellerProductAddPledgeShort": "Add pledge",
   "sellerPledgeCategoryBeef": "Beef",
@@ -181,7 +200,12 @@
   "sellerPledgeRecordTimeJustNow": "Just now",
   "sellerPledgeRecordTitle": "Seller added a new pledge",
   "sellerPledgeRecordDescription": "Score {score}/10 for category: {category}.",
-  "@sellerPledgeRecordDescription": {"placeholders": {"score": {}, "category": {}}},
+  "@sellerPledgeRecordDescription": {
+    "placeholders": {
+      "score": {},
+      "category": {}
+    }
+  },
   "sellerPledgeCameraPreview": "Camera preview",
   "sellerPledgeCaptureAction": "Capture product photo",
   "sellerPledgeSuggestedScoreTitle": "SUGGESTED SCORE FROM IMAGE",
@@ -189,10 +213,18 @@
   "sellerPledgeSellerScoreLabel": "Enter score (0-10)",
   "sellerPledgeContinueConfirm": "Continue to confirm",
   "sellerPledgeCategoryValue": "Category: {category}",
-  "@sellerPledgeCategoryValue": {"placeholders": {"category": {}}},
+  "@sellerPledgeCategoryValue": {
+    "placeholders": {
+      "category": {}
+    }
+  },
   "sellerPledgeRecordContentTitle": "PLEDGE CONTENT",
   "sellerPledgeRecordPreview": "I recorded this product at the counter with a score of {score}.",
-  "@sellerPledgeRecordPreview": {"placeholders": {"score": {}}},
+  "@sellerPledgeRecordPreview": {
+    "placeholders": {
+      "score": {}
+    }
+  },
   "sellerPledgeConfirmSave": "Confirm & save pledge",
   "sellerPledgeSaved": "Product pledge saved.",
   "accountExploreStores": "Explore stores",
@@ -206,7 +238,6 @@
   "accountDarkMode": "Dark mode",
   "accountEditProfile": "Edit profile",
   "accountHelpAndSupport": "Help & support",
-  "accountEditProfile": "Edit profile",
   "accountSaveProfileChanges": "Save changes",
   "accountHelpTitle": "Help",
   "accountHelpScanTitle": "Scan products",
@@ -232,9 +263,17 @@
   "homeTopRatedStoresTitle": "Top-rated stores",
   "homeRecentChecksTitle": "Recently checked products",
   "homeShopRatingValue": " {rating}",
-  "@homeShopRatingValue": {"placeholders": {"rating": {}}},
+  "@homeShopRatingValue": {
+    "placeholders": {
+      "rating": {}
+    }
+  },
   "homeShopReviewCount": "{count} reviews",
-  "@homeShopReviewCount": {"placeholders": {"count": {}}},
+  "@homeShopReviewCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "aiFreshnessTitle": "Submit check photo",
   "aiFreshnessHeading": "Take a product photo at the counter",
   "aiFreshnessBody": "This photo helps compare with recently recorded information.",
@@ -252,18 +291,34 @@
   "splashSubtitle": "Check prices and products near you",
   "splashFootnote": "Data from store counters and the community",
   "voucherWalletUsableCount": "{count} vouchers ready to use",
-  "@voucherWalletUsableCount": {"placeholders": {"count": {}}},
+  "@voucherWalletUsableCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "voucherWalletTotalCount": "{count} vouchers in wallet",
-  "@voucherWalletTotalCount": {"placeholders": {"count": {}}},
+  "@voucherWalletTotalCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "voucherWalletEmptyTitle": "No matching vouchers yet",
   "voucherWalletEmptyBody": "Scan products, enter a code, or add vouchers manually to save them here.",
   "voucherWalletSectionTitle": "Your vouchers",
   "voucherWalletShowUsed": "Show used",
   "voucherCodeLabelInline": "Code: {code}",
-  "@voucherCodeLabelInline": {"placeholders": {"code": {}}},
+  "@voucherCodeLabelInline": {
+    "placeholders": {
+      "code": {}
+    }
+  },
   "manualVoucherTitle": "Add manual voucher",
   "manualVoucherDemoCopied": "Copied demo {format} code into the code field",
-  "@manualVoucherDemoCopied": {"placeholders": {"format": {}}},
+  "@manualVoucherDemoCopied": {
+    "placeholders": {
+      "format": {}
+    }
+  },
   "manualVoucherSaved": "Manual voucher added to wallet",
   "manualVoucherNotice": "Manual vouchers are details you enter yourself for storage and use at checkout. This content has not been verified by the store, so you are responsible for usage conditions.",
   "manualVoucherShopLabel": "Applicable store",
@@ -289,18 +344,39 @@
   "storeDetailReviewsTab": "Reviews",
   "storeDetailWriteReview": "Write review",
   "storeShareSummary": "{rating} rating points - {reviewCount} reviews",
-  "@storeShareSummary": {"placeholders": {"rating": {}, "reviewCount": {}}},
+  "@storeShareSummary": {
+    "placeholders": {
+      "rating": {},
+      "reviewCount": {}
+    }
+  },
   "storeProductShopLabel": "Store: {shopId}",
-  "@storeProductShopLabel": {"placeholders": {"shopId": {}}},
+  "@storeProductShopLabel": {
+    "placeholders": {
+      "shopId": {}
+    }
+  },
   "storeProductScore": "{score} points",
-  "@storeProductScore": {"placeholders": {"score": {}}},
+  "@storeProductScore": {
+    "placeholders": {
+      "score": {}
+    }
+  },
   "productDetailTitle": "Product details",
   "productDetailAddedToCart": "Added {productName}",
-  "@productDetailAddedToCart": {"placeholders": {"productName": {}}},
+  "@productDetailAddedToCart": {
+    "placeholders": {
+      "productName": {}
+    }
+  },
   "productDetailAddToCart": "Add to cart",
   "productDetailCounterImage": "Counter image",
   "productDetailPricePerKg": "Price: {price} /kg",
-  "@productDetailPricePerKg": {"placeholders": {"price": {}}},
+  "@productDetailPricePerKg": {
+    "placeholders": {
+      "price": {}
+    }
+  },
   "productDetailLatestScoreTitle": "LATEST SCORE",
   "productDetailLatestScoreSubtitle": "Based on recorded images and product details",
   "productDetailCheckAction": "Submit product photo for review",
@@ -313,13 +389,11 @@
   "reviewIntroTitle": "How was your experience?",
   "reviewIntroBody": "Your review helps the community choose better products.",
   "reviewCommentHint": "Enter your comments here...",
-  "reviewPhotoAttached": "Image attached",
+  "reviewPhotoAttached": "Photo attached",
   "reviewPhotoAdd": "Add image",
   "reviewSubmit": "Submit review",
   "reviewSubmitted": "Review submitted. Thank you!",
   "reviewSubmittedWithPhoto": "Review with photo submitted. Thank you!",
-  "reviewPhotoAttachedDemo": "Demo image attached",
-  "reviewPhotoRemovedDemo": "Attached image removed",
   "scoreBadgeLabel": "Score",
   "voucherManualBadge": "Manual",
   "voucherUseTitle": "Use voucher",
@@ -332,301 +406,658 @@
   "voucherMarkedUsed": "Voucher marked as used",
   "voucherUsageConditions": "Usage conditions",
   "voucherRuleStore": "Only valid at {shopName}",
-  "@voucherRuleStore": {"placeholders": {"shopName": {}}},
+  "@voucherRuleStore": {
+    "placeholders": {
+      "shopName": {}
+    }
+  },
   "voucherRuleMinSpend": "Orders from {amount}",
-  "@voucherRuleMinSpend": {"placeholders": {"amount": {}}},
+  "@voucherRuleMinSpend": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
   "trustProofVerifiedLabel": "Verified on blockchain",
-  "@trustProofVerifiedLabel": {"description": "Trust badge label when the pledge hash matches the on-chain record."},
+  "@trustProofVerifiedLabel": {
+    "description": "Trust badge label when the pledge hash matches the on-chain record."
+  },
   "trustProofPendingLabel": "Anchoring to blockchain",
-  "@trustProofPendingLabel": {"description": "Trust badge label while the hash is still being anchored."},
+  "@trustProofPendingLabel": {
+    "description": "Trust badge label while the hash is still being anchored."
+  },
   "trustProofWarningLabel": "Mismatch detected",
-  "@trustProofWarningLabel": {"description": "Trust badge label when the stored hash disagrees with the chain."},
+  "@trustProofWarningLabel": {
+    "description": "Trust badge label when the stored hash disagrees with the chain."
+  },
   "trustProofRevokedLabel": "Pledge revoked",
-  "@trustProofRevokedLabel": {"description": "Trust badge label when the pledge has been revoked."},
+  "@trustProofRevokedLabel": {
+    "description": "Trust badge label when the pledge has been revoked."
+  },
   "trustProofUnknownLabel": "Not verified yet",
-  "@trustProofUnknownLabel": {"description": "Trust badge label when the proof could not be resolved."},
+  "@trustProofUnknownLabel": {
+    "description": "Trust badge label when the proof could not be resolved."
+  },
   "trustProofVerifiedSummary": "The freshness pledge was anchored on the blockchain and still matches.",
-  "@trustProofVerifiedSummary": {"description": "Explanation shown with the verified badge."},
+  "@trustProofVerifiedSummary": {
+    "description": "Explanation shown with the verified badge."
+  },
   "trustProofPendingSummary": "The pledge was created but has not finished anchoring yet.",
-  "@trustProofPendingSummary": {"description": "Explanation shown with the pending badge."},
+  "@trustProofPendingSummary": {
+    "description": "Explanation shown with the pending badge."
+  },
   "trustProofWarningSummary": "The stored data no longer matches the record on the blockchain.",
-  "@trustProofWarningSummary": {"description": "Explanation shown with the warning badge."},
+  "@trustProofWarningSummary": {
+    "description": "Explanation shown with the warning badge."
+  },
   "trustProofRevokedSummary": "This pledge was withdrawn and should no longer be trusted.",
-  "@trustProofRevokedSummary": {"description": "Explanation shown with the revoked badge."},
+  "@trustProofRevokedSummary": {
+    "description": "Explanation shown with the revoked badge."
+  },
   "trustProofUnknownSummary": "The blockchain record for this pledge could not be checked.",
-  "@trustProofUnknownSummary": {"description": "Explanation shown with the neutral badge."},
+  "@trustProofUnknownSummary": {
+    "description": "Explanation shown with the neutral badge."
+  },
   "trustGradeExcellent": "Excellent",
-  "@trustGradeExcellent": {"description": "Trust grade band for scores 85 and above."},
+  "@trustGradeExcellent": {
+    "description": "Trust grade band for scores 85 and above."
+  },
   "trustGradeGood": "Good",
-  "@trustGradeGood": {"description": "Trust grade band for scores 70 to 84."},
+  "@trustGradeGood": {
+    "description": "Trust grade band for scores 70 to 84."
+  },
   "trustGradeWatch": "Needs watching",
-  "@trustGradeWatch": {"description": "Trust grade band for scores 55 to 69."},
+  "@trustGradeWatch": {
+    "description": "Trust grade band for scores 55 to 69."
+  },
   "trustGradeRisk": "Risky",
-  "@trustGradeRisk": {"description": "Trust grade band for scores below 55."},
+  "@trustGradeRisk": {
+    "description": "Trust grade band for scores below 55."
+  },
   "trustScoreTitle": "Trust score",
-  "@trustScoreTitle": {"description": "Heading of the trust score card."},
+  "@trustScoreTitle": {
+    "description": "Heading of the trust score card."
+  },
   "trustScoreNoData": "Not enough data to rate this shop yet.",
-  "@trustScoreNoData": {"description": "Shown instead of a score when the shop has no signal."},
+  "@trustScoreNoData": {
+    "description": "Shown instead of a score when the shop has no signal."
+  },
   "trustScoreBreakdown": "How this score is made up",
-  "@trustScoreBreakdown": {"description": "Heading above the sub-score bars."},
+  "@trustScoreBreakdown": {
+    "description": "Heading above the sub-score bars."
+  },
   "trustScoreReasons": "Why",
-  "@trustScoreReasons": {"description": "Heading above the reason list."},
+  "@trustScoreReasons": {
+    "description": "Heading above the reason list."
+  },
   "trustScoreFormula": "Formula {version}",
-  "@trustScoreFormula": {"description": "Footnote naming the server formula version.", "placeholders": {"version": {}}},
+  "@trustScoreFormula": {
+    "description": "Footnote naming the server formula version.",
+    "placeholders": {
+      "version": {}
+    }
+  },
   "trustComponentPledge": "Seller pledges",
-  "@trustComponentPledge": {"description": "Sub-score name."},
+  "@trustComponentPledge": {
+    "description": "Sub-score name."
+  },
   "trustComponentReview": "Customer reviews",
-  "@trustComponentReview": {"description": "Sub-score name."},
+  "@trustComponentReview": {
+    "description": "Sub-score name."
+  },
   "trustComponentBuyerCheck": "Buyer checks",
-  "@trustComponentBuyerCheck": {"description": "Sub-score name."},
+  "@trustComponentBuyerCheck": {
+    "description": "Sub-score name."
+  },
   "trustComponentConsistency": "Consistency",
-  "@trustComponentConsistency": {"description": "Sub-score name."},
+  "@trustComponentConsistency": {
+    "description": "Sub-score name."
+  },
   "trustComponentRecency": "Recent activity",
-  "@trustComponentRecency": {"description": "Sub-score name."},
+  "@trustComponentRecency": {
+    "description": "Sub-score name."
+  },
   "trustComponentCoverage": "Signal coverage",
-  "@trustComponentCoverage": {"description": "Sub-score name."},
+  "@trustComponentCoverage": {
+    "description": "Sub-score name."
+  },
   "trustReasonPartialTrustData": "Only part of the trust data is available",
-  "@trustReasonPartialTrustData": {"description": "Reason code partial_trust_data."},
+  "@trustReasonPartialTrustData": {
+    "description": "Reason code partial_trust_data."
+  },
   "trustReasonNoCustomerReviews": "No customer reviews yet",
-  "@trustReasonNoCustomerReviews": {"description": "Reason code no_customer_reviews."},
+  "@trustReasonNoCustomerReviews": {
+    "description": "Reason code no_customer_reviews."
+  },
   "trustReasonNoBuyerChecks": "No buyer has verified a product yet",
-  "@trustReasonNoBuyerChecks": {"description": "Reason code no_buyer_checks."},
+  "@trustReasonNoBuyerChecks": {
+    "description": "Reason code no_buyer_checks."
+  },
   "trustReasonNoEligibleBuyerChecks": "No buyer check counted towards the score",
-  "@trustReasonNoEligibleBuyerChecks": {"description": "Reason code no_eligible_buyer_checks."},
+  "@trustReasonNoEligibleBuyerChecks": {
+    "description": "Reason code no_eligible_buyer_checks."
+  },
   "trustReasonBuyerChecksConfirmed": "Buyer checks confirmed the seller pledges",
-  "@trustReasonBuyerChecksConfirmed": {"description": "Reason code buyer_checks_confirmed."},
+  "@trustReasonBuyerChecksConfirmed": {
+    "description": "Reason code buyer_checks_confirmed."
+  },
   "trustReasonBuyerChecksHighRisk": "Buyer checks flagged a high risk",
-  "@trustReasonBuyerChecksHighRisk": {"description": "Reason code buyer_checks_high_risk."},
+  "@trustReasonBuyerChecksHighRisk": {
+    "description": "Reason code buyer_checks_high_risk."
+  },
   "trustReasonBuyerChecksConsistencyIssues": "Buyer checks disagree with the pledges",
-  "@trustReasonBuyerChecksConsistencyIssues": {"description": "Reason code buyer_checks_show_consistency_issues."},
+  "@trustReasonBuyerChecksConsistencyIssues": {
+    "description": "Reason code buyer_checks_show_consistency_issues."
+  },
   "trustReasonDuplicateBuyerChecks": "Duplicate buyer checks were discounted",
-  "@trustReasonDuplicateBuyerChecks": {"description": "Reason code duplicate_buyer_checks_discounted."},
+  "@trustReasonDuplicateBuyerChecks": {
+    "description": "Reason code duplicate_buyer_checks_discounted."
+  },
   "trustReasonPledgesConsistent": "Pledges are consistent with buyer checks",
-  "@trustReasonPledgesConsistent": {"description": "Reason code pledges_consistent_with_buyer_checks."},
+  "@trustReasonPledgesConsistent": {
+    "description": "Reason code pledges_consistent_with_buyer_checks."
+  },
   "trustReasonLimitedConsistencyData": "Not enough data to judge consistency",
-  "@trustReasonLimitedConsistencyData": {"description": "Reason code limited_consistency_data."},
+  "@trustReasonLimitedConsistencyData": {
+    "description": "Reason code limited_consistency_data."
+  },
   "trustReasonNoConsistencySignals": "No consistency signals available",
-  "@trustReasonNoConsistencySignals": {"description": "Reason code no_consistency_signals."},
+  "@trustReasonNoConsistencySignals": {
+    "description": "Reason code no_consistency_signals."
+  },
   "trustReasonLimitedSignalCoverage": "Trust signals cover only a few products",
-  "@trustReasonLimitedSignalCoverage": {"description": "Reason code limited_signal_coverage."},
+  "@trustReasonLimitedSignalCoverage": {
+    "description": "Reason code limited_signal_coverage."
+  },
   "trustReasonRecentActivity": "The shop has been active recently",
-  "@trustReasonRecentActivity": {"description": "Reason code recent_activity_available."},
+  "@trustReasonRecentActivity": {
+    "description": "Reason code recent_activity_available."
+  },
   "trustReasonNoRecentActivity": "No recent activity from this shop",
-  "@trustReasonNoRecentActivity": {"description": "Reason code no_recent_activity."},
+  "@trustReasonNoRecentActivity": {
+    "description": "Reason code no_recent_activity."
+  },
   "trustReasonNoPledge": "This product has no freshness pledge",
-  "@trustReasonNoPledge": {"description": "Reason code no_pledge."},
+  "@trustReasonNoPledge": {
+    "description": "Reason code no_pledge."
+  },
   "trustReasonNoSellerPledges": "The seller has not made any pledge yet",
-  "@trustReasonNoSellerPledges": {"description": "Reason code no_seller_pledges."},
+  "@trustReasonNoSellerPledges": {
+    "description": "Reason code no_seller_pledges."
+  },
   "trustReasonSomePledgesLowConfidence": "Some pledges have low confidence",
-  "@trustReasonSomePledgesLowConfidence": {"description": "Reason code some_pledges_low_confidence."},
+  "@trustReasonSomePledgesLowConfidence": {
+    "description": "Reason code some_pledges_low_confidence."
+  },
   "blockchainProofTitle": "Blockchain certificate",
-  "@blockchainProofTitle": {"description": "Title of the blockchain proof screen."},
+  "@blockchainProofTitle": {
+    "description": "Title of the blockchain proof screen."
+  },
   "blockchainProofPledge": "Pledge",
-  "@blockchainProofPledge": {"description": "Label for the pledge id row."},
+  "@blockchainProofPledge": {
+    "description": "Label for the pledge id row."
+  },
   "blockchainProofTxHash": "Transaction",
-  "@blockchainProofTxHash": {"description": "Label for the on-chain transaction hash."},
+  "@blockchainProofTxHash": {
+    "description": "Label for the on-chain transaction hash."
+  },
   "blockchainProofBlock": "Block",
-  "@blockchainProofBlock": {"description": "Label for the block number."},
+  "@blockchainProofBlock": {
+    "description": "Label for the block number."
+  },
   "blockchainProofDataHash": "Data hash",
-  "@blockchainProofDataHash": {"description": "Label for the pledge data hash."},
+  "@blockchainProofDataHash": {
+    "description": "Label for the pledge data hash."
+  },
   "blockchainProofAnchoredAt": "Anchored at",
-  "@blockchainProofAnchoredAt": {"description": "Label for the anchoring timestamp."},
+  "@blockchainProofAnchoredAt": {
+    "description": "Label for the anchoring timestamp."
+  },
   "blockchainProofMatch": "Hash matches the chain",
-  "@blockchainProofMatch": {"description": "Label for the on-chain match row."},
+  "@blockchainProofMatch": {
+    "description": "Label for the on-chain match row."
+  },
   "blockchainProofYes": "Yes",
-  "@blockchainProofYes": {"description": "Affirmative value."},
+  "@blockchainProofYes": {
+    "description": "Affirmative value."
+  },
   "blockchainProofNo": "No",
-  "@blockchainProofNo": {"description": "Negative value."},
+  "@blockchainProofNo": {
+    "description": "Negative value."
+  },
   "blockchainProofNoRecord": "This pledge has no record on the blockchain yet.",
-  "@blockchainProofNoRecord": {"description": "Shown when nothing has been anchored yet."},
+  "@blockchainProofNoRecord": {
+    "description": "Shown when nothing has been anchored yet."
+  },
   "blockchainProofRefresh": "Refresh",
-  "@blockchainProofRefresh": {"description": "Button that reloads the proof."},
+  "@blockchainProofRefresh": {
+    "description": "Button that reloads the proof."
+  },
   "blockchainProofCopied": "Copied",
-  "@blockchainProofCopied": {"description": "Snackbar after copying a value."},
+  "@blockchainProofCopied": {
+    "description": "Snackbar after copying a value."
+  },
   "blockchainProofCopyHint": "Tap a value to copy it",
-  "@blockchainProofCopyHint": {"description": "Hint under the certificate rows."},
+  "@blockchainProofCopyHint": {
+    "description": "Hint under the certificate rows."
+  },
   "blockchainProofScore": "Pledged freshness",
-  "@blockchainProofScore": {"description": "Label for the pledged score row."},
+  "@blockchainProofScore": {
+    "description": "Label for the pledged score row."
+  },
   "buyerCheckCompareTitle": "Pledge vs. what we measured",
-  "@buyerCheckCompareTitle": {"description": "Heading of the comparison card."},
+  "@buyerCheckCompareTitle": {
+    "description": "Heading of the comparison card."
+  },
   "buyerCheckPledged": "Seller pledged",
-  "@buyerCheckPledged": {"description": "Label for the pledged score."},
+  "@buyerCheckPledged": {
+    "description": "Label for the pledged score."
+  },
   "buyerCheckMeasured": "Measured now",
-  "@buyerCheckMeasured": {"description": "Label for the measured score."},
+  "@buyerCheckMeasured": {
+    "description": "Label for the measured score."
+  },
   "buyerCheckDelta": "Difference",
-  "@buyerCheckDelta": {"description": "Label for the score difference."},
+  "@buyerCheckDelta": {
+    "description": "Label for the score difference."
+  },
   "buyerCheckCategoryMatch": "Product type matches",
-  "@buyerCheckCategoryMatch": {"description": "Label for the category match row."},
+  "@buyerCheckCategoryMatch": {
+    "description": "Label for the category match row."
+  },
   "buyerCheckNoPledge": "This product has no pledge to compare against.",
-  "@buyerCheckNoPledge": {"description": "Shown when the check had no pledge."},
+  "@buyerCheckNoPledge": {
+    "description": "Shown when the check had no pledge."
+  },
   "buyerCheckTrusted": "Consistent with the pledge",
-  "@buyerCheckTrusted": {"description": "Shown when the server marks the check trusted."},
+  "@buyerCheckTrusted": {
+    "description": "Shown when the server marks the check trusted."
+  },
   "buyerCheckNotTrusted": "Does not match the pledge",
-  "@buyerCheckNotTrusted": {"description": "Shown when the check is not trusted."},
+  "@buyerCheckNotTrusted": {
+    "description": "Shown when the check is not trusted."
+  },
   "buyerCheckConfidence": "AI confidence {percent}%",
-  "@buyerCheckConfidence": {"description": "Footnote with the model confidence.", "placeholders": {"percent": {}}},
+  "@buyerCheckConfidence": {
+    "description": "Footnote with the model confidence.",
+    "placeholders": {
+      "percent": {}
+    }
+  },
   "qrScanTitle": "Scan bundle code",
-  "@qrScanTitle": {"description": "Title of the QR scanner screen."},
+  "@qrScanTitle": {
+    "description": "Title of the QR scanner screen."
+  },
   "qrScanHint": "Point the camera at the code on the label",
-  "@qrScanHint": {"description": "Instruction under the scan frame."},
+  "@qrScanHint": {
+    "description": "Instruction under the scan frame."
+  },
   "qrScanNotOurCode": "This is not a VnGrocery code",
-  "@qrScanNotOurCode": {"description": "Shown when the scanned code is unrelated."},
+  "@qrScanNotOurCode": {
+    "description": "Shown when the scanned code is unrelated."
+  },
   "qrScanExpired": "This code has expired, ask the seller for a new label",
-  "@qrScanExpired": {"description": "Shown when the token exp has passed."},
+  "@qrScanExpired": {
+    "description": "Shown when the token exp has passed."
+  },
   "qrScanUnsupported": "This code needs a newer app version",
-  "@qrScanUnsupported": {"description": "Shown for an unknown qrVersion."},
+  "@qrScanUnsupported": {
+    "description": "Shown for an unknown qrVersion."
+  },
   "qrScanCameraError": "Cannot open the camera",
-  "@qrScanCameraError": {"description": "Shown when the scanner fails to start."},
+  "@qrScanCameraError": {
+    "description": "Shown when the scanner fails to start."
+  },
   "qrScanChecking": "Checking...",
-  "@qrScanChecking": {"description": "Shown while the buyer check runs."},
+  "@qrScanChecking": {
+    "description": "Shown while the buyer check runs."
+  },
   "navHome": "Home",
-  "@navHome": {"description": "Bottom navigation and side menu label."},
+  "@navHome": {
+    "description": "Bottom navigation and side menu label."
+  },
   "navExplore": "Explore",
-  "@navExplore": {"description": "Bottom navigation and side menu label."},
+  "@navExplore": {
+    "description": "Bottom navigation and side menu label."
+  },
   "navScanProducts": "Scan",
-  "@navScanProducts": {"description": "Bottom navigation and side menu label."},
+  "@navScanProducts": {
+    "description": "Bottom navigation and side menu label."
+  },
   "navStores": "Stores",
-  "@navStores": {"description": "Bottom navigation and side menu label."},
+  "@navStores": {
+    "description": "Bottom navigation and side menu label."
+  },
   "navVoucherWallet": "Vouchers",
-  "@navVoucherWallet": {"description": "Bottom navigation and side menu label."},
+  "@navVoucherWallet": {
+    "description": "Bottom navigation and side menu label."
+  },
   "navAccount": "Account",
-  "@navAccount": {"description": "Bottom navigation and side menu label."},
+  "@navAccount": {
+    "description": "Bottom navigation and side menu label."
+  },
   "navSellerOverview": "Overview",
-  "@navSellerOverview": {"description": "Bottom navigation and side menu label."},
+  "@navSellerOverview": {
+    "description": "Bottom navigation and side menu label."
+  },
   "navSellerProducts": "Products",
-  "@navSellerProducts": {"description": "Bottom navigation and side menu label."},
+  "@navSellerProducts": {
+    "description": "Bottom navigation and side menu label."
+  },
   "navSellerStore": "My store",
-  "@navSellerStore": {"description": "Bottom navigation and side menu label."},
+  "@navSellerStore": {
+    "description": "Bottom navigation and side menu label."
+  },
   "onboardingTitle1": "See the data behind a product",
-  "@onboardingTitle1": {"description": "Onboarding slide copy."},
+  "@onboardingTitle1": {
+    "description": "Onboarding slide copy."
+  },
   "onboardingBody1": "Every product carries a freshness score and a clear record of its history.",
-  "@onboardingBody1": {"description": "Onboarding slide copy."},
+  "@onboardingBody1": {
+    "description": "Onboarding slide copy."
+  },
   "onboardingTitle2": "Check it with a photo",
-  "@onboardingTitle2": {"description": "Onboarding slide copy."},
+  "@onboardingTitle2": {
+    "description": "Onboarding slide copy."
+  },
   "onboardingBody2": "Scan the label or take a photo at the counter to compare with the latest record.",
-  "@onboardingBody2": {"description": "Onboarding slide copy."},
+  "@onboardingBody2": {
+    "description": "Onboarding slide copy."
+  },
   "onboardingTitle3": "Decide with confidence",
-  "@onboardingTitle3": {"description": "Onboarding slide copy."},
+  "@onboardingTitle3": {
+    "description": "Onboarding slide copy."
+  },
   "onboardingBody3": "Comparing is easier when the information comes from real recorded checks.",
-  "@onboardingBody3": {"description": "Onboarding slide copy."},
+  "@onboardingBody3": {
+    "description": "Onboarding slide copy."
+  },
   "sellerShopStatusTitle": "Store status",
-  "@sellerShopStatusTitle": {"description": "Seller dashboard copy."},
+  "@sellerShopStatusTitle": {
+    "description": "Seller dashboard copy."
+  },
   "sellerStatusLabel": "Status",
-  "@sellerStatusLabel": {"description": "Seller dashboard copy."},
+  "@sellerStatusLabel": {
+    "description": "Seller dashboard copy."
+  },
   "sellerTotalRecords": "Total records",
-  "@sellerTotalRecords": {"description": "Seller dashboard copy."},
+  "@sellerTotalRecords": {
+    "description": "Seller dashboard copy."
+  },
   "sellerLatestReceipt": "Latest receipt",
-  "@sellerLatestReceipt": {"description": "Seller dashboard copy."},
+  "@sellerLatestReceipt": {
+    "description": "Seller dashboard copy."
+  },
   "sellerNone": "None yet",
-  "@sellerNone": {"description": "Seller dashboard copy."},
+  "@sellerNone": {
+    "description": "Seller dashboard copy."
+  },
   "sellerNeedsReview": "Needs review",
-  "@sellerNeedsReview": {"description": "Seller dashboard copy."},
+  "@sellerNeedsReview": {
+    "description": "Seller dashboard copy."
+  },
   "sellerStable": "Stable",
-  "@sellerStable": {"description": "Seller dashboard copy."},
+  "@sellerStable": {
+    "description": "Seller dashboard copy."
+  },
   "sellerAddRecordTitle": "Record a product",
-  "@sellerAddRecordTitle": {"description": "Seller dashboard copy."},
+  "@sellerAddRecordTitle": {
+    "description": "Seller dashboard copy."
+  },
   "sellerAddRecordBody": "Pick a product and save its details at the counter.",
-  "@sellerAddRecordBody": {"description": "Seller dashboard copy."},
+  "@sellerAddRecordBody": {
+    "description": "Seller dashboard copy."
+  },
   "sellerNeedProductFirst": "Create a product before recording.",
-  "@sellerNeedProductFirst": {"description": "Seller dashboard copy."},
+  "@sellerNeedProductFirst": {
+    "description": "Seller dashboard copy."
+  },
   "sellerProductsLabel": "Products",
-  "@sellerProductsLabel": {"description": "Seller dashboard copy."},
+  "@sellerProductsLabel": {
+    "description": "Seller dashboard copy."
+  },
   "sellerHistoryLabel": "History",
-  "@sellerHistoryLabel": {"description": "Seller dashboard copy."},
+  "@sellerHistoryLabel": {
+    "description": "Seller dashboard copy."
+  },
   "sellerTrustLabel": "Trust",
-  "@sellerTrustLabel": {"description": "Seller dashboard copy."},
+  "@sellerTrustLabel": {
+    "description": "Seller dashboard copy."
+  },
   "sellerRecordsToday": "Records today",
-  "@sellerRecordsToday": {"description": "Seller dashboard copy."},
+  "@sellerRecordsToday": {
+    "description": "Seller dashboard copy."
+  },
   "sellerBuyerAlerts": "Buyer alerts",
-  "@sellerBuyerAlerts": {"description": "Seller dashboard copy."},
+  "@sellerBuyerAlerts": {
+    "description": "Seller dashboard copy."
+  },
   "voucherDiscountPercent": "Save {value}%",
-  "@voucherDiscountPercent": {"description": "App copy.", "placeholders": {"value": {}}},
+  "@voucherDiscountPercent": {
+    "description": "App copy.",
+    "placeholders": {
+      "value": {}
+    }
+  },
   "voucherDiscountAmount": "Save {amount}",
-  "@voucherDiscountAmount": {"description": "App copy.", "placeholders": {"amount": {}}},
+  "@voucherDiscountAmount": {
+    "description": "App copy.",
+    "placeholders": {
+      "amount": {}
+    }
+  },
   "voucherManualInfo": "Manually entered",
-  "@voucherManualInfo": {"description": "App copy."},
+  "@voucherManualInfo": {
+    "description": "App copy."
+  },
   "voucherMinSpendFrom": "From {amount}",
-  "@voucherMinSpendFrom": {"description": "App copy.", "placeholders": {"amount": {}}},
+  "@voucherMinSpendFrom": {
+    "description": "App copy.",
+    "placeholders": {
+      "amount": {}
+    }
+  },
   "voucherExpiredLabel": "Expired",
-  "@voucherExpiredLabel": {"description": "App copy."},
+  "@voucherExpiredLabel": {
+    "description": "App copy."
+  },
   "voucherUsableLabel": "Usable",
-  "@voucherUsableLabel": {"description": "App copy."},
+  "@voucherUsableLabel": {
+    "description": "App copy."
+  },
   "voucherReadyLabel": "Ready to use",
-  "@voucherReadyLabel": {"description": "App copy."},
+  "@voucherReadyLabel": {
+    "description": "App copy."
+  },
   "voucherPerYourInput": "Based on what you entered",
-  "@voucherPerYourInput": {"description": "App copy."},
+  "@voucherPerYourInput": {
+    "description": "App copy."
+  },
   "qrLabelReadyTitle": "Your QR code is ready",
-  "@qrLabelReadyTitle": {"description": "App copy."},
+  "@qrLabelReadyTitle": {
+    "description": "App copy."
+  },
   "qrLabelReadyBody": "Print it and stick it on the packaging.",
-  "@qrLabelReadyBody": {"description": "App copy."},
+  "@qrLabelReadyBody": {
+    "description": "App copy."
+  },
   "qrLabelRecordId": "Record: {id}",
-  "@qrLabelRecordId": {"description": "App copy.", "placeholders": {"id": {}}},
+  "@qrLabelRecordId": {
+    "description": "App copy.",
+    "placeholders": {
+      "id": {}
+    }
+  },
   "qrLabelScanHint": "Scan to check this product",
-  "@qrLabelScanHint": {"description": "App copy."},
+  "@qrLabelScanHint": {
+    "description": "App copy."
+  },
   "qrLabelDownload": "Download",
-  "@qrLabelDownload": {"description": "App copy."},
+  "@qrLabelDownload": {
+    "description": "App copy."
+  },
   "qrLabelBackHome": "Back to home",
-  "@qrLabelBackHome": {"description": "App copy."},
+  "@qrLabelBackHome": {
+    "description": "App copy."
+  },
   "homeAddToCart": "Add to cart",
-  "@homeAddToCart": {"description": "App copy."},
+  "@homeAddToCart": {
+    "description": "App copy."
+  },
   "homeAddedToCart": "Added {name}",
-  "@homeAddedToCart": {"description": "App copy.", "placeholders": {"name": {}}},
+  "@homeAddedToCart": {
+    "description": "App copy.",
+    "placeholders": {
+      "name": {}
+    }
+  },
   "homeRecentChecks": "Recently checked products",
-  "@homeRecentChecks": {"description": "App copy."},
+  "@homeRecentChecks": {
+    "description": "App copy."
+  },
   "pledgeTimelineTitle": "Product timeline",
-  "@pledgeTimelineTitle": {"description": "App copy."},
+  "@pledgeTimelineTitle": {
+    "description": "App copy."
+  },
   "pledgeHistoryEmpty": "No records yet",
-  "@pledgeHistoryEmpty": {"description": "App copy."},
+  "@pledgeHistoryEmpty": {
+    "description": "App copy."
+  },
   "pledgeOriginalReceipt": "Original receipt: {id}",
-  "@pledgeOriginalReceipt": {"description": "App copy.", "placeholders": {"id": {}}},
+  "@pledgeOriginalReceipt": {
+    "description": "App copy.",
+    "placeholders": {
+      "id": {}
+    }
+  },
   "scannerNoCamera": "No camera found",
-  "@scannerNoCamera": {"description": "App copy."},
+  "@scannerNoCamera": {
+    "description": "App copy."
+  },
   "scannerOpeningCamera": "Opening the camera...",
-  "@scannerOpeningCamera": {"description": "App copy."},
+  "@scannerOpeningCamera": {
+    "description": "App copy."
+  },
   "scannerConfidence": "Confidence: {percent}%",
-  "@scannerConfidence": {"description": "App copy.", "placeholders": {"percent": {}}},
+  "@scannerConfidence": {
+    "description": "App copy.",
+    "placeholders": {
+      "percent": {}
+    }
+  },
   "voucherUsedShort": "Used",
-  "@voucherUsedShort": {"description": "Short status chip for a used voucher."},
+  "@voucherUsedShort": {
+    "description": "Short status chip for a used voucher."
+  },
   "navScanShort": "Scan",
-  "@navScanShort": {"description": "App copy."},
+  "@navScanShort": {
+    "description": "App copy."
+  },
   "sideMenuFootnote": "Data from counters and the community",
-  "@sideMenuFootnote": {"description": "App copy."},
+  "@sideMenuFootnote": {
+    "description": "App copy."
+  },
   "roleSeller": "Seller",
-  "@roleSeller": {"description": "App copy."},
+  "@roleSeller": {
+    "description": "App copy."
+  },
   "roleBuyer": "Buyer",
-  "@roleBuyer": {"description": "App copy."},
+  "@roleBuyer": {
+    "description": "App copy."
+  },
   "voucherBarcode": "Barcode",
-  "@voucherBarcode": {"description": "App copy."},
+  "@voucherBarcode": {
+    "description": "App copy."
+  },
   "exploreNearbyTitle": "Stores near you",
-  "@exploreNearbyTitle": {"description": "App copy."},
+  "@exploreNearbyTitle": {
+    "description": "App copy."
+  },
   "exploreViewStore": "View store",
-  "@exploreViewStore": {"description": "App copy."},
+  "@exploreViewStore": {
+    "description": "App copy."
+  },
   "exploreSearchNearby": "Find stores near you",
-  "@exploreSearchNearby": {"description": "App copy."},
-  "exploreYourLocation": "Your location",
-  "@exploreYourLocation": {"description": "App copy."},
+  "@exploreSearchNearby": {
+    "description": "App copy."
+  },
+  "@exploreYourLocation": {
+    "description": "App copy."
+  },
   "buyerCheckScanFirst": "Scan a valid pledge label before checking.",
-  "@buyerCheckScanFirst": {"description": "App copy."},
+  "@buyerCheckScanFirst": {
+    "description": "App copy."
+  },
   "authGoogleTokenError": "Could not get a Google ID token",
-  "@authGoogleTokenError": {"description": "App copy."},
+  "@authGoogleTokenError": {
+    "description": "App copy."
+  },
   "pledgeHistoryTitle": "Record history",
-  "@pledgeHistoryTitle": {"description": "App copy."},
+  "@pledgeHistoryTitle": {
+    "description": "App copy."
+  },
   "scoreLabel": "Score",
-  "@scoreLabel": {"description": "App copy."},
+  "@scoreLabel": {
+    "description": "App copy."
+  },
   "qrLabelClipboard": "VnGrocery Check\nRecord: {pledgeId}\nScan the code to check this product",
-  "@qrLabelClipboard": {"description": "App copy.", "placeholders": {"pledgeId": {}}},
+  "@qrLabelClipboard": {
+    "description": "App copy.",
+    "placeholders": {
+      "pledgeId": {}
+    }
+  },
   "sellerModeSubtitle": "Seller mode",
-  "@sellerModeSubtitle": {"description": "Subtitle under the seller dashboard heading."},
+  "@sellerModeSubtitle": {
+    "description": "Subtitle under the seller dashboard heading."
+  },
   "scannerConfidenceValue": "Confidence: {percent}%",
-  "@scannerConfidenceValue": {"description": "AI confidence readout.", "placeholders": {"percent": {}}},
+  "@scannerConfidenceValue": {
+    "description": "AI confidence readout.",
+    "placeholders": {
+      "percent": {}
+    }
+  },
   "homeCategoryFreshProduce": "Fresh produce",
-  "@homeCategoryFreshProduce": {"description": "Label for the fresh_produce category key."},
+  "@homeCategoryFreshProduce": {
+    "description": "Label for the fresh_produce category key."
+  },
   "homeCategoryMeat": "Meat",
-  "@homeCategoryMeat": {"description": "Label for the meat category key."},
+  "@homeCategoryMeat": {
+    "description": "Label for the meat category key."
+  },
   "homeCategoryVegetables": "Vegetables",
-  "@homeCategoryVegetables": {"description": "Label for the vegetables category key."},
+  "@homeCategoryVegetables": {
+    "description": "Label for the vegetables category key."
+  },
   "homeCategoryFruit": "Fruit",
-  "@homeCategoryFruit": {"description": "Label for the fruit category key."},
+  "@homeCategoryFruit": {
+    "description": "Label for the fruit category key."
+  },
   "reviewSubmitFailed": "Could not send your review. Please try again.",
-  "@reviewSubmitFailed": {"description": "Shown when posting a review fails."}
+  "@reviewSubmitFailed": {
+    "description": "Shown when posting a review fails."
+  },
+  "cameraCaptureTitle": "Take a photo",
+  "@cameraCaptureTitle": {
+    "description": "Title of the shared camera screen."
+  },
+  "cameraCaptureAction": "Capture",
+  "@cameraCaptureAction": {
+    "description": "Shutter button label."
+  },
+  "pledgeCaptureHint": "Frame the products you are recording",
+  "@pledgeCaptureHint": {
+    "description": "Hint on the pledge capture screen."
+  },
+  "reviewPhotoHint": "Take a photo to attach to your review",
+  "@reviewPhotoHint": {
+    "description": "Hint on the review photo screen."
+  },
+  "@reviewPhotoAttached": {
+    "description": "Shown after attaching a review photo."
+  },
+  "reviewPhotoRemoved": "Photo removed",
+  "@reviewPhotoRemoved": {
+    "description": "Shown after removing a review photo."
+  }
 }

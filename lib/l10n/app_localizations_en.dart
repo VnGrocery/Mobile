@@ -946,7 +946,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewCommentHint => 'Enter your comments here...';
 
   @override
-  String get reviewPhotoAttached => 'Image attached';
+  String get reviewPhotoAttached => 'Photo attached';
 
   @override
   String get reviewPhotoAdd => 'Add image';
@@ -960,12 +960,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reviewSubmittedWithPhoto =>
       'Review with photo submitted. Thank you!';
-
-  @override
-  String get reviewPhotoAttachedDemo => 'Demo image attached';
-
-  @override
-  String get reviewPhotoRemovedDemo => 'Attached image removed';
 
   @override
   String get scoreBadgeLabel => 'Score';
@@ -1497,4 +1491,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reviewSubmitFailed =>
       'Could not send your review. Please try again.';
+
+  @override
+  String get cameraCaptureTitle => 'Take a photo';
+
+  @override
+  String get cameraCaptureAction => 'Capture';
+
+  @override
+  String get pledgeCaptureHint => 'Frame the products you are recording';
+
+  @override
+  String get reviewPhotoHint => 'Take a photo to attach to your review';
+
+  @override
+  String get reviewPhotoRemoved => 'Photo removed';
 }
