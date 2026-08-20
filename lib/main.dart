@@ -65,6 +65,11 @@ class VnGroceryApp extends StatelessWidget {
                   GlobalCupertinoLocalizations.delegate,
                 ],
                 supportedLocales: AppLocalizations.supportedLocales,
+                // Vietnamese regardless of the device language. Around 140
+                // user-facing strings are still hardcoded in Vietnamese, so
+                // following the device locale produced screens with English
+                // headings above Vietnamese body text.
+                locale: const Locale('vi'),
                 debugShowCheckedModeBanner: false,
                 theme: AppTheme.light,
                 darkTheme: AppTheme.dark,
