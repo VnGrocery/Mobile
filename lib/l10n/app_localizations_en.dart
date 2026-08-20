@@ -1156,4 +1156,47 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get trustReasonSomePledgesLowConfidence =>
       'Some pledges have low confidence';
+
+  @override
+  String get blockchainProofTitle => 'Blockchain certificate';
+
+  @override
+  String get blockchainProofPledge => 'Pledge';
+
+  @override
+  String get blockchainProofTxHash => 'Transaction';
+
+  @override
+  String get blockchainProofBlock => 'Block';
+
+  @override
+  String get blockchainProofDataHash => 'Data hash';
+
+  @override
+  String get blockchainProofAnchoredAt => 'Anchored at';
+
+  @override
+  String get blockchainProofMatch => 'Hash matches the chain';
+
+  @override
+  String get blockchainProofYes => 'Yes';
+
+  @override
+  String get blockchainProofNo => 'No';
+
+  @override
+  String get blockchainProofNoRecord =>
+      'This pledge has no record on the blockchain yet.';
+
+  @override
+  String get blockchainProofRefresh => 'Refresh';
+
+  @override
+  String get blockchainProofCopied => 'Copied';
+
+  @override
+  String get blockchainProofCopyHint => 'Tap a value to copy it';
+
+  @override
+  String get blockchainProofScore => 'Pledged freshness';
 }

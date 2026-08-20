@@ -1151,4 +1151,47 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get trustReasonSomePledgesLowConfidence =>
       'Một số cam kết có độ tin cậy thấp';
+
+  @override
+  String get blockchainProofTitle => 'Chứng nhận blockchain';
+
+  @override
+  String get blockchainProofPledge => 'Cam kết';
+
+  @override
+  String get blockchainProofTxHash => 'Mã giao dịch';
+
+  @override
+  String get blockchainProofBlock => 'Khối';
+
+  @override
+  String get blockchainProofDataHash => 'Mã băm dữ liệu';
+
+  @override
+  String get blockchainProofAnchoredAt => 'Thời điểm neo';
+
+  @override
+  String get blockchainProofMatch => 'Mã băm khớp với blockchain';
+
+  @override
+  String get blockchainProofYes => 'Có';
+
+  @override
+  String get blockchainProofNo => 'Không';
+
+  @override
+  String get blockchainProofNoRecord =>
+      'Cam kết này chưa có bản ghi trên blockchain.';
+
+  @override
+  String get blockchainProofRefresh => 'Làm mới';
+
+  @override
+  String get blockchainProofCopied => 'Đã sao chép';
+
+  @override
+  String get blockchainProofCopyHint => 'Chạm vào giá trị để sao chép';
+
+  @override
+  String get blockchainProofScore => 'Độ tươi cam kết';
 }

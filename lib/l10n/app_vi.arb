@@ -376,5 +376,19 @@
   "trustReasonNoRecentActivity": "Cửa hàng không có hoạt động gần đây",
   "trustReasonNoPledge": "Sản phẩm này chưa có cam kết độ tươi",
   "trustReasonNoSellerPledges": "Người bán chưa tạo cam kết nào",
-  "trustReasonSomePledgesLowConfidence": "Một số cam kết có độ tin cậy thấp"
+  "trustReasonSomePledgesLowConfidence": "Một số cam kết có độ tin cậy thấp",
+  "blockchainProofTitle": "Chứng nhận blockchain",
+  "blockchainProofPledge": "Cam kết",
+  "blockchainProofTxHash": "Mã giao dịch",
+  "blockchainProofBlock": "Khối",
+  "blockchainProofDataHash": "Mã băm dữ liệu",
+  "blockchainProofAnchoredAt": "Thời điểm neo",
+  "blockchainProofMatch": "Mã băm khớp với blockchain",
+  "blockchainProofYes": "Có",
+  "blockchainProofNo": "Không",
+  "blockchainProofNoRecord": "Cam kết này chưa có bản ghi trên blockchain.",
+  "blockchainProofRefresh": "Làm mới",
+  "blockchainProofCopied": "Đã sao chép",
+  "blockchainProofCopyHint": "Chạm vào giá trị để sao chép",
+  "blockchainProofScore": "Độ tươi cam kết"
 }

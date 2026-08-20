@@ -9,13 +9,12 @@ void resetSessionState() {
   SessionManager.instance.logout();
 }
 
-SessionState currentSession() => SessionState.fromManager(SessionManager.instance);
+SessionState currentSession() =>
+    SessionState.fromManager(SessionManager.instance);
 
 Route<dynamic> buildRoute(RouteSettings settings) {
   return Routes.onGenerateRoute(settings, session: currentSession());
 }
-
-
 
 void main() {
   tearDown(resetSessionState);
@@ -40,7 +39,6 @@ void main() {
         isTrue,
       );
     });
-
 
     test('blocks authenticated routes without a session', () {
       expect(
@@ -106,7 +104,6 @@ void main() {
         isFalse,
       );
     });
-
   });
 
   group('Routes', () {
@@ -141,9 +138,7 @@ void main() {
     });
 
     test('redirects logged-out protected routes to auth', () {
-      final route = buildRoute(
-        const RouteSettings(name: Routes.cart),
-      );
+      final route = buildRoute(const RouteSettings(name: Routes.cart));
 
       expect(route.settings.name, Routes.auth);
     });
@@ -159,7 +154,10 @@ void main() {
     });
 
     test('redirects seller sessions away from buyer review route', () {
-      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+      SessionManager.instance.login(
+        email: 'seller@example.com',
+        role: 'seller',
+      );
 
       final route = buildRoute(
         const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
@@ -187,11 +185,12 @@ void main() {
     });
 
     test('seller shop route derives session shop when args are missing', () {
-      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
-
-      final route = buildRoute(
-        const RouteSettings(name: Routes.sellerShop),
+      SessionManager.instance.login(
+        email: 'seller@example.com',
+        role: 'seller',
       );
+
+      final route = buildRoute(const RouteSettings(name: Routes.sellerShop));
 
       expect(route.settings.name, Routes.sellerShop);
     });
@@ -199,9 +198,7 @@ void main() {
     test('falls back to main when required string arg is missing', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
-      final route = buildRoute(
-        const RouteSettings(name: Routes.storeDetail),
-      );
+      final route = buildRoute(const RouteSettings(name: Routes.storeDetail));
 
       expect(route.settings.name, Routes.main);
     });
@@ -220,7 +217,10 @@ void main() {
     });
 
     test('accepts alias route args where routes share a typed id carrier', () {
-      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+      SessionManager.instance.login(
+        email: 'seller@example.com',
+        role: 'seller',
+      );
 
       final sellerProducts = buildRoute(
         const RouteSettings(
@@ -240,8 +240,10 @@ void main() {
     });
 
     test('accepts typed seller product list args', () {
-      SessionManager.instance
-          .login(email: 'seller@example.com', role: 'seller');
+      SessionManager.instance.login(
+        email: 'seller@example.com',
+        role: 'seller',
+      );
 
       final route = buildRoute(
         const RouteSettings(
@@ -274,7 +276,10 @@ void main() {
       expect(route.settings.name, Routes.auth);
 
       route = buildRoute(
-        const RouteSettings(name: Routes.qrLabel, arguments: QrLabelArgs('pl1')),
+        const RouteSettings(
+          name: Routes.qrLabel,
+          arguments: QrLabelArgs('pl1'),
+        ),
       );
       expect(route.settings.name, Routes.auth);
 
@@ -289,13 +294,19 @@ void main() {
       expect(route.settings.name, Routes.main);
 
       route = buildRoute(
-        const RouteSettings(name: Routes.qrLabel, arguments: QrLabelArgs('pl1')),
+        const RouteSettings(
+          name: Routes.qrLabel,
+          arguments: QrLabelArgs('pl1'),
+        ),
       );
       expect(route.settings.name, Routes.main);
     });
 
     test('accepts typed Phase D seller route args', () {
-      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+      SessionManager.instance.login(
+        email: 'seller@example.com',
+        role: 'seller',
+      );
 
       for (final settings in const [
         RouteSettings(
@@ -310,7 +321,10 @@ void main() {
     });
 
     test('accepts supported string route args', () {
-      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+      SessionManager.instance.login(
+        email: 'seller@example.com',
+        role: 'seller',
+      );
 
       for (final settings in const [
         RouteSettings(name: Routes.sellerCreateProduct, arguments: 's1'),
@@ -329,8 +343,41 @@ void main() {
       expect(route.settings.name, Routes.voucherQr);
     });
 
+    test('opens the blockchain proof screen for a logged-in user', () {
+      SessionManager.instance.login(email: 'buyer@example.com', role: 'user');
+
+      for (final settings in const [
+        RouteSettings(
+          name: Routes.blockchainProof,
+          arguments: BlockchainProofArgs(shopId: 's1', pledgeId: 'p1'),
+        ),
+        RouteSettings(
+          name: Routes.blockchainProof,
+          arguments: {'shopId': 's1', 'pledgeId': 'p1'},
+        ),
+      ]) {
+        final route = buildRoute(settings);
+        expect(route.settings.name, Routes.blockchainProof);
+      }
+    });
+
+    test('falls back when the blockchain proof args are incomplete', () {
+      SessionManager.instance.login(email: 'buyer@example.com', role: 'user');
+
+      final route = buildRoute(
+        const RouteSettings(
+          name: Routes.blockchainProof,
+          arguments: {'shopId': 's1'},
+        ),
+      );
+      expect(route.settings.name, Routes.main);
+    });
+
     test('falls back for missing required route args', () {
-      SessionManager.instance.login(email: 'seller@example.com', role: 'seller');
+      SessionManager.instance.login(
+        email: 'seller@example.com',
+        role: 'seller',
+      );
 
       for (final routeName in const [
         Routes.sellerCreateProduct,

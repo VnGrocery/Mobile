@@ -2203,6 +2203,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Some pledges have low confidence'**
   String get trustReasonSomePledgesLowConfidence;
+
+  /// Title of the blockchain proof screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Blockchain certificate'**
+  String get blockchainProofTitle;
+
+  /// Label for the pledge id row.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge'**
+  String get blockchainProofPledge;
+
+  /// Label for the on-chain transaction hash.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction'**
+  String get blockchainProofTxHash;
+
+  /// Label for the block number.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get blockchainProofBlock;
+
+  /// Label for the pledge data hash.
+  ///
+  /// In en, this message translates to:
+  /// **'Data hash'**
+  String get blockchainProofDataHash;
+
+  /// Label for the anchoring timestamp.
+  ///
+  /// In en, this message translates to:
+  /// **'Anchored at'**
+  String get blockchainProofAnchoredAt;
+
+  /// Label for the on-chain match row.
+  ///
+  /// In en, this message translates to:
+  /// **'Hash matches the chain'**
+  String get blockchainProofMatch;
+
+  /// Affirmative value.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get blockchainProofYes;
+
+  /// Negative value.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get blockchainProofNo;
+
+  /// Shown when nothing has been anchored yet.
+  ///
+  /// In en, this message translates to:
+  /// **'This pledge has no record on the blockchain yet.'**
+  String get blockchainProofNoRecord;
+
+  /// Button that reloads the proof.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get blockchainProofRefresh;
+
+  /// Snackbar after copying a value.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get blockchainProofCopied;
+
+  /// Hint under the certificate rows.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a value to copy it'**
+  String get blockchainProofCopyHint;
+
+  /// Label for the pledged score row.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledged freshness'**
+  String get blockchainProofScore;
 }
 
 class _AppLocalizationsDelegate

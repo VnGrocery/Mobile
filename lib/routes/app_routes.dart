@@ -11,6 +11,7 @@ import 'package:vngrocery/screens/explore_map_screen.dart';
 import 'package:vngrocery/screens/scanner_screen.dart';
 import 'package:vngrocery/screens/product_detail_screen.dart';
 import 'package:vngrocery/screens/ai_freshness_screen.dart';
+import 'package:vngrocery/screens/blockchain_proof_screen.dart';
 import 'package:vngrocery/screens/buyer_check_result_screen.dart';
 import 'package:vngrocery/screens/store_detail_screen.dart';
 import 'package:vngrocery/screens/review_screen.dart';
@@ -56,6 +57,13 @@ class VoucherQrArgs {
   const VoucherQrArgs(this.userVoucherId);
 }
 
+class BlockchainProofArgs {
+  final String shopId;
+  final String pledgeId;
+
+  const BlockchainProofArgs({required this.shopId, required this.pledgeId});
+}
+
 class QrLabelArgs {
   final String pledgeId;
 
@@ -97,6 +105,7 @@ class Routes {
   static const voucherWallet = 'voucher_wallet';
   static const voucherQr = 'voucher_qr';
   static const cart = 'cart';
+  static const blockchainProof = 'blockchain_proof';
 
   static RouteFactory routeFactory(SessionState session) {
     return (settings) => onGenerateRoute(settings, session: session);
@@ -217,9 +226,8 @@ class Routes {
           args,
           typed: (value) => value,
           aliases: [
-            (value) => value is StoreDetailArgs
-                ? SellerShopArgs(value.shopId)
-                : null,
+            (value) =>
+                value is StoreDetailArgs ? SellerShopArgs(value.shopId) : null,
           ],
           fromString: SellerShopArgs.new,
         );
@@ -236,7 +244,8 @@ class Routes {
         page = SellerCreatePledgeScreen(productId: productArgs.productId);
         break;
       case sellerShop:
-        final shopArgs = _singleStringRouteArg(
+        final shopArgs =
+            _singleStringRouteArg(
               args,
               typed: (value) => value,
               aliases: [
@@ -285,6 +294,24 @@ class Routes {
         break;
       case cart:
         page = const CartScreen();
+        break;
+      case blockchainProof:
+        final proofArgs = _routeArgs<BlockchainProofArgs>(
+          args,
+          typed: (value) => value,
+          fallback: (value) {
+            final m = _stringMap(value);
+            final shopId = m?['shopId'];
+            final pledgeId = m?['pledgeId'];
+            if (_isBlank(shopId) || _isBlank(pledgeId)) return null;
+            return BlockchainProofArgs(shopId: shopId!, pledgeId: pledgeId!);
+          },
+        );
+        if (proofArgs == null) return _fallbackRoute(settings);
+        page = BlockchainProofScreen(
+          shopId: proofArgs.shopId,
+          pledgeId: proofArgs.pledgeId,
+        );
         break;
       default:
         page = const SplashScreen();
