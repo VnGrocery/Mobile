@@ -24,7 +24,8 @@ class ReviewRepository {
     if (remote == null) {
       final item = Review(
         id: _db.nextId(),
-        userName: 'Bạn',
+        // Same as the server payload: no name, so the UI labels it.
+        userName: '',
         rating: rating,
         comment: comment,
         date: DateTime.now().toIso8601String(),

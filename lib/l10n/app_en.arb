@@ -1093,5 +1093,9 @@
   "@qrLabelClipboardToken": {
     "description": "Line of the copied QR label text.",
     "placeholders": { "token": {} }
+  },
+  "reviewAnonymousAuthor": "A shopper",
+  "@reviewAnonymousAuthor": {
+    "description": "Author label when the server sends no reviewer name."
   }
 }

@@ -1517,4 +1517,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String qrLabelClipboardToken(Object token) {
     return 'Token: $token';
   }
+
+  @override
+  String get reviewAnonymousAuthor => 'Người dùng';
 }

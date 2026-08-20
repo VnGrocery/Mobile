@@ -2869,6 +2869,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Token: {token}'**
   String qrLabelClipboardToken(Object token);
+
+  /// Author label when the server sends no reviewer name.
+  ///
+  /// In en, this message translates to:
+  /// **'A shopper'**
+  String get reviewAnonymousAuthor;
 }
 
 class _AppLocalizationsDelegate

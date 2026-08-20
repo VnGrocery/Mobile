@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_cubit.dart';
 import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/core/widgets/user_avatar.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -17,6 +18,11 @@ class StoreReviewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
+    final name = review.userName.trim();
+    // The server sends no display name for reviewers.
+    final author = name.isEmpty
+        ? AppLocalizations.of(context).reviewAnonymousAuthor
+        : name;
     return Card(
       color: palette.card,
       elevation: 0,
@@ -29,14 +35,14 @@ class StoreReviewItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                CircleAvatar(radius: 20, backgroundColor: palette.mutedSurface),
+                UserAvatar(name: author, radius: 20),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        review.userName,
+                        author,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontWeight: FontWeight.bold),

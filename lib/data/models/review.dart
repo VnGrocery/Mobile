@@ -17,9 +17,9 @@ class Review {
     return Review(
       id: (json['reviewId'] ?? json['id']) as String,
       // Falling back to reviewerUserId printed a raw UUID as the author name.
-      // The server sends no display name for reviewers, so a generic label is
-      // the honest choice.
-      userName: (json['userName'] ?? 'Người dùng').toString(),
+      // The server sends no display name for reviewers, so this stays empty and
+      // the UI supplies a generic label in the reader's language.
+      userName: (json['userName'] ?? '').toString(),
       rating: (json['rating'] as num).toInt(),
       comment: json['comment'] as String,
       date: (json['date'] ?? json['createdAt'] ?? '').toString(),
