@@ -13,6 +13,15 @@ class GeoPoint {
 
   @override
   String toString() => 'GeoPoint($latitude, $longitude)';
+
+  @override
+  bool operator ==(Object other) =>
+      other is GeoPoint &&
+      other.latitude == latitude &&
+      other.longitude == longitude;
+
+  @override
+  int get hashCode => Object.hash(latitude, longitude);
 }
 
 /// Great-circle distance in kilometres.
@@ -35,3 +44,23 @@ double distanceKm(GeoPoint from, GeoPoint to) {
 }
 
 double _radians(double degrees) => degrees * math.pi / 180;
+
+/// A point [northKm] north and [eastKm] east of [from]. Negative values go the
+/// other way.
+///
+/// Used to work out how much ground a radius covers so the map can be framed
+/// around it.
+GeoPoint offsetKm(GeoPoint from, {double northKm = 0, double eastKm = 0}) {
+  const kmPerDegreeLatitude = 111.32;
+
+  final latitude = from.latitude + northKm / kmPerDegreeLatitude;
+  // Lines of longitude converge towards the poles, so a kilometre east is more
+  // degrees the further from the equator you are.
+  final kmPerDegreeLongitude =
+      kmPerDegreeLatitude * math.cos(_radians(from.latitude));
+  final longitude = kmPerDegreeLongitude <= 0
+      ? from.longitude
+      : from.longitude + eastKm / kmPerDegreeLongitude;
+
+  return GeoPoint(latitude, longitude);
+}

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/core/location/geo.dart';
@@ -7,8 +9,11 @@ import 'package:vngrocery/widgets/map_projection.dart';
 const _center = GeoPoint(10.7721, 106.6980);
 const _viewport = Size(400, 400);
 
-MapProjection _projection({int zoom = 13}) =>
+MapProjection _projection({double zoom = 13}) =>
     MapProjection(center: _center, zoom: zoom, viewport: _viewport);
+
+/// cos of the test centre's latitude, which the scale is measured against.
+final _cosCentre = math.cos(_center.latitude * math.pi / 180);
 
 void main() {
   group('MapProjection.project', () {
@@ -39,8 +44,8 @@ void main() {
 
     test('zooming in one level doubles the separation', () {
       const point = GeoPoint(10.7811, 106.6980);
-      final near = _projection(zoom: 13).project(point);
-      final closer = _projection(zoom: 14).project(point);
+      final near = _projection(zoom: 13.0).project(point);
+      final closer = _projection(zoom: 14.0).project(point);
 
       expect(200 - closer.dy, closeTo((200 - near.dy) * 2, 0.001));
     });
@@ -61,6 +66,67 @@ void main() {
     );
   });
 
+  group('MapProjection.unproject', () {
+    test('is the exact inverse of project', () {
+      // Dragging works by asking what place is under a finger and putting it
+      // back there; any drift here shows up as the map sliding away.
+      const places = [
+        _center,
+        GeoPoint(10.8462, 106.7803),
+        GeoPoint(-33.8688, 151.2093),
+        GeoPoint(64.1466, -21.9426),
+      ];
+
+      for (final place in places) {
+        final round = _projection().unproject(_projection().project(place));
+
+        expect(round.latitude, closeTo(place.latitude, 1e-9));
+        expect(round.longitude, closeTo(place.longitude, 1e-9));
+      }
+    });
+
+    test('the middle of the viewport is the centre', () {
+      final middle = _projection().unproject(const Offset(200, 200));
+
+      expect(middle.latitude, closeTo(_center.latitude, 1e-9));
+      expect(middle.longitude, closeTo(_center.longitude, 1e-9));
+    });
+  });
+
+  group('MapProjection.metresPerPixel', () {
+    test('halves with every level of zoom', () {
+      final out = _projection(zoom: 13).metresPerPixel;
+      final inn = _projection(zoom: 14).metresPerPixel;
+
+      expect(inn, closeTo(out / 2, 1e-9));
+    });
+
+    test('matches the known scale at the equator', () {
+      // A 256 px tile at zoom 0 spans the equator: 40075016.686 / 256.
+      const equator = MapProjection(
+        center: GeoPoint(0, 0),
+        zoom: 0,
+        viewport: _viewport,
+      );
+
+      expect(equator.metresPerPixel, closeTo(156543.03, 0.01));
+    });
+
+    test('shrinks away from the equator, as Mercator stretches', () {
+      const north = MapProjection(
+        center: GeoPoint(60, 0),
+        zoom: 13,
+        viewport: _viewport,
+      );
+
+      // cos(60 deg) is exactly a half.
+      expect(
+        north.metresPerPixel,
+        closeTo(_projection(zoom: 13).metresPerPixel * 0.5 / _cosCentre, 0.01),
+      );
+    });
+  });
+
   group('MapProjection.isVisible', () {
     test('accepts a pin inside the viewport', () {
       expect(_projection().isVisible(const Offset(200, 200)), isTrue);
@@ -77,7 +143,7 @@ void main() {
   });
 
   group('MapProjection.zoomToFit', () {
-    int fit(List<GeoPoint> points, {Size viewport = _viewport}) =>
+    double fit(List<GeoPoint> points, {Size viewport = _viewport}) =>
         MapProjection.zoomToFit(
           center: _center,
           points: points,
@@ -151,13 +217,13 @@ void main() {
 
     test('never goes below the floor, however far apart the points are', () {
       // The far side of the planet cannot fit at any zoom.
-      expect(fit(const [GeoPoint(-40, -73)]), 3);
+      expect(fit(const [GeoPoint(-40, -73)]), 3.0);
     });
 
     test('with nothing to fit it stays zoomed in', () {
-      expect(fit(const []), 16);
+      expect(fit(const []), 17.0);
       // A shop with no coordinates does not drag the camera to the Atlantic.
-      expect(fit(const [GeoPoint(0, 0)]), 16);
+      expect(fit(const [GeoPoint(0, 0)]), 17.0);
     });
 
     test('a narrower viewport needs a wider zoom', () {

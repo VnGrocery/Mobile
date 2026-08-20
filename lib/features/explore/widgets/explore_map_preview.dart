@@ -6,7 +6,7 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/widgets/map_projection.dart';
-import 'package:vngrocery/widgets/osm_tile_map.dart';
+import 'package:vngrocery/widgets/interactive_map.dart';
 
 class ExploreMapPreview extends StatelessWidget {
   final List<Shop> shops;
@@ -37,7 +37,7 @@ class ExploreMapPreview extends StatelessWidget {
 
   /// Close enough to show every shop that made it into the list; the viewport
   /// decides the scale, so its size has to be known first.
-  int _zoomFor(Size viewport) => MapProjection.zoomToFit(
+  double _zoomFor(Size viewport) => MapProjection.zoomToFit(
     center: mapCenter,
     points: _points,
     viewport: viewport,
@@ -62,16 +62,30 @@ class ExploreMapPreview extends StatelessWidget {
                 child: GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: onOpenMap,
-                  child: AbsorbPointer(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) => OsmTileMap(
-                        latitude: mapCenter.latitude,
-                        longitude: mapCenter.longitude,
-                        zoom: _zoomFor(
-                          Size(constraints.maxWidth, constraints.maxHeight),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final viewport = Size(
+                        constraints.maxWidth,
+                        constraints.maxHeight,
+                      );
+                      return InteractiveMap(
+                        // A link to the full map, not a map itself: a drag here
+                        // should scroll the page it sits on, and a tap should
+                        // open the real thing.
+                        interactive: false,
+                        initialCamera: MapCamera(
+                          center: mapCenter,
+                          zoom: _zoomFor(viewport),
                         ),
-                      ),
-                    ),
+                        overlayBuilder: (context, projection) =>
+                            MapPreviewPinLayer(
+                              shops: shops,
+                              selectedShopId: selectedShopId,
+                              onSelectShop: onSelectShop,
+                              projection: projection,
+                            ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -93,23 +107,6 @@ class ExploreMapPreview extends StatelessWidget {
                 ),
               ),
               const Positioned(left: 16, top: 14, child: MapPreviewBadge()),
-              Positioned.fill(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final viewport = Size(
-                      constraints.maxWidth,
-                      constraints.maxHeight,
-                    );
-                    return MapPreviewPinLayer(
-                      shops: shops,
-                      selectedShopId: selectedShopId,
-                      onSelectShop: onSelectShop,
-                      center: mapCenter,
-                      zoom: _zoomFor(viewport),
-                    );
-                  },
-                ),
-              ),
               Positioned(
                 right: 14,
                 bottom: 14,
@@ -169,54 +166,40 @@ class MapPreviewPinLayer extends StatelessWidget {
   final List<Shop> shops;
   final String? selectedShopId;
   final ValueChanged<Shop> onSelectShop;
-  final GeoPoint center;
-  final int zoom;
+  final MapProjection projection;
 
   const MapPreviewPinLayer({
     super.key,
     required this.shops,
     required this.selectedShopId,
     required this.onSelectShop,
-    required this.center,
-    required this.zoom,
+    required this.projection,
   });
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final projection = MapProjection(
-          center: center,
-          zoom: zoom,
-          viewport: Size(constraints.maxWidth, constraints.maxHeight),
-        );
-
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            for (final shop in shops)
-              if (_visibleOffset(projection, shop) case final offset?)
-                Positioned(
-                  left: offset.dx - 60,
-                  top: offset.dy - 34,
-                  width: 120,
-                  height: 34,
-                  child: OverflowBox(
-                    // Bottom-aligned so the tip of the marker lands on the
-                    // coordinate rather than floating above it.
-                    alignment: Alignment.bottomCenter,
-                    maxWidth: 120,
-                    maxHeight: 34,
-                    child: MapPreviewPin(
-                      shop: shop,
-                      selected: shop.id == selectedShopId,
-                      onTap: () => onSelectShop(shop),
-                    ),
-                  ),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        for (final shop in shops)
+          if (_visibleOffset(projection, shop) case final offset?)
+            Positioned(
+              left: offset.dx - 60,
+              top: offset.dy - 34,
+              width: 120,
+              height: 34,
+              // Align, not OverflowBox, so the marker keeps its own size and
+              // its tip lands on the coordinate.
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: MapPreviewPin(
+                  shop: shop,
+                  selected: shop.id == selectedShopId,
+                  onTap: () => onSelectShop(shop),
                 ),
-          ],
-        );
-      },
+              ),
+            ),
+      ],
     );
   }
 

@@ -2,6 +2,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/location/geo.dart';
+import 'package:vngrocery/widgets/map_projection.dart';
+
 class OsmTileProviderConfig {
   final Uri Function(int zoom, int x, int y) tileUriBuilder;
   final String attribution;
@@ -25,15 +28,24 @@ class OsmTileProviderConfig {
   );
 }
 
+/// Draws the map tiles covering a viewport.
+///
+/// Was a fixed 4x4 grid with each tile stretched to half the longer side of the
+/// viewport, which made the imagery blurry and tied the scale to the widget's
+/// shape. It now lays tiles out at their true size through [MapProjection], so
+/// the same maths places the tiles, the pins and the radius rings.
 class OsmTileMap extends StatelessWidget {
   static const minZoom = 0;
   static const maxZoom = 19;
-  static const minLatitude = -85.05112878;
-  static const maxLatitude = 85.05112878;
+  static const minLatitude = MapProjection.minLatitude;
+  static const maxLatitude = MapProjection.maxLatitude;
 
   final double latitude;
   final double longitude;
-  final int zoom;
+
+  /// Fractional zoom. Tiles come from the nearest whole level and are scaled to
+  /// the remainder, so a pinch moves smoothly instead of jumping a level.
+  final double zoom;
   final OsmTileProviderConfig providerConfig;
   final Uri Function(int zoom, int x, int y)? tileUriBuilder;
 
@@ -52,50 +64,63 @@ class OsmTileMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final safeZoom = zoom.clamp(providerConfig.minZoom, providerConfig.maxZoom);
+    final safeZoom = zoom.clamp(
+      providerConfig.minZoom.toDouble(),
+      providerConfig.maxZoom.toDouble(),
+    );
     final effectiveTileUriBuilder =
         tileUriBuilder ?? providerConfig.tileUriBuilder;
-    final centerX = tileXOf(longitude, safeZoom);
-    final centerY = tileYOf(latitude, safeZoom);
-    final maxTile = math.pow(2, safeZoom).toInt() - 1;
-    final baseX = centerX.floor() - 1;
-    final baseY = centerY.floor() - 1;
+
+    // Whole level the images come from; the remainder becomes their scale.
+    final tileZoom = safeZoom.round().clamp(
+      providerConfig.minZoom,
+      providerConfig.maxZoom,
+    );
+    final drawnTileSize = mapTileSize * math.pow(2, safeZoom - tileZoom);
+    final tileCount = math.pow(2, tileZoom).toInt();
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final tileSize = tileSizeFor(
-          Size(constraints.maxWidth, constraints.maxHeight),
+        final viewport = Size(constraints.maxWidth, constraints.maxHeight);
+        final projection = MapProjection(
+          center: GeoPoint(latitude, longitude),
+          zoom: safeZoom,
+          viewport: viewport,
         );
-        final offsetX = (centerX - centerX.floor()) * tileSize;
-        final offsetY = (centerY - centerY.floor()) * tileSize;
+
+        // Where the viewport's top-left corner sits in the world, which is what
+        // decides which tiles are on screen at all.
+        final origin = projection.originWorldPixels;
+
+        // Each tile covers drawnTileSize of those pixels, so the corner lands
+        // inside tile (firstX, firstY).
+        final firstX = (origin.dx / drawnTileSize).floor();
+        final firstY = (origin.dy / drawnTileSize).floor();
+        final columns = (viewport.width / drawnTileSize).ceil() + 1;
+        final rows = (viewport.height / drawnTileSize).ceil() + 1;
 
         return ClipRect(
           child: Stack(
             children: [
-              for (var dx = 0; dx < 4; dx++)
-                for (var dy = 0; dy < 4; dy++)
-                  Positioned(
-                    left:
-                        (dx - 1) * tileSize -
-                        offsetX +
-                        constraints.maxWidth / 2,
-                    top:
-                        (dy - 1) * tileSize -
-                        offsetY +
-                        constraints.maxHeight / 2,
-                    width: tileSize,
-                    height: tileSize,
-                    child: Image.network(
-                      effectiveTileUriBuilder(
-                        safeZoom,
-                        _wrapTileX(baseX + dx, safeZoom),
-                        (baseY + dy).clamp(0, maxTile),
-                      ).toString(),
-                      semanticLabel: providerConfig.semanticLabel,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => const _MapTileError(),
+              for (var dx = 0; dx < columns; dx++)
+                for (var dy = 0; dy < rows; dy++)
+                  if (_tileY(firstY + dy, tileCount) case final tileY?)
+                    Positioned(
+                      left: (firstX + dx) * drawnTileSize - origin.dx,
+                      top: (firstY + dy) * drawnTileSize - origin.dy,
+                      width: drawnTileSize,
+                      height: drawnTileSize,
+                      child: Image.network(
+                        effectiveTileUriBuilder(
+                          tileZoom,
+                          _wrapTileX(firstX + dx, tileCount),
+                          tileY,
+                        ).toString(),
+                        semanticLabel: providerConfig.semanticLabel,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => const _MapTileError(),
+                      ),
                     ),
-                  ),
               Positioned(
                 right: 8,
                 bottom: 6,
@@ -108,33 +133,16 @@ class OsmTileMap extends StatelessWidget {
     );
   }
 
-  /// Tile-space x for a longitude. Shared with [MapProjection] so a pin and
-  /// the tile under it cannot disagree about where a place is.
-  static double tileXOf(double longitude, int zoom) {
-    final wrapped = ((longitude + 180.0) % 360.0) - 180.0;
-    return ((wrapped + 180.0) / 360.0) * math.pow(2.0, zoom);
+  /// Longitude wraps around the globe, so a tile column past the edge is the
+  /// one on the far side.
+  static int _wrapTileX(int x, int tileCount) {
+    final wrapped = x.remainder(tileCount);
+    return wrapped < 0 ? wrapped + tileCount : wrapped;
   }
 
-  /// Tile-space y for a latitude, clamped to what Web Mercator can express.
-  static double tileYOf(double latitude, int zoom) {
-    final clamped = latitude.clamp(minLatitude, maxLatitude).toDouble();
-    final rad = clamped * math.pi / 180.0;
-    return (1.0 - math.log(math.tan(rad) + 1 / math.cos(rad)) / math.pi) /
-        2.0 *
-        math.pow(2.0, zoom);
-  }
-
-  /// Edge length of one drawn tile: the 4x4 grid stretches so a tile covers
-  /// half the longer side of the viewport.
-  static double tileSizeFor(Size viewport) =>
-      math.max(viewport.width, viewport.height) / 2;
-
-  int _wrapTileX(int x, int zoom) {
-    final tileCount = math.pow(2, zoom).toInt();
-    return x.remainder(tileCount) < 0
-        ? x.remainder(tileCount) + tileCount
-        : x.remainder(tileCount);
-  }
+  /// Latitude does not wrap: past the poles there is simply no tile.
+  static int? _tileY(int y, int tileCount) =>
+      y < 0 || y >= tileCount ? null : y;
 }
 
 class _MapTileError extends StatelessWidget {

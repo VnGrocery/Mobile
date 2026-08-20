@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/location/geo.dart';
+import 'package:vngrocery/core/location/nearby.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_cubit.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_state.dart';
 import 'package:vngrocery/features/explore_map/widgets/explore_map_components.dart';
 import 'package:vngrocery/features/explore_map/widgets/shop_pin_layer.dart';
 import 'package:vngrocery/widgets/map_projection.dart';
-import 'package:vngrocery/widgets/osm_tile_map.dart';
+import 'package:vngrocery/features/explore_map/widgets/radius_rings.dart';
+import 'package:vngrocery/widgets/interactive_map.dart';
 
 class ExploreMapScreen extends StatefulWidget {
   final String? initialShopId;
@@ -56,6 +58,15 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
           final center = state.center ?? _fallbackCenter;
           final points = [
             for (final shop in shops) GeoPoint(shop.latitude, shop.longitude),
+            // Frame the ring the app searches within, not just the shops it
+            // found: with nothing nearby the map would otherwise open at full
+            // zoom on an empty street, showing neither.
+            if (state.origin case final origin?) ...[
+              offsetKm(origin, northKm: NearbyRadius.near),
+              offsetKm(origin, northKm: -NearbyRadius.near),
+              offsetKm(origin, eastKm: NearbyRadius.near),
+              offsetKm(origin, eastKm: -NearbyRadius.near),
+            ],
           ];
           return Scaffold(
             body: Stack(
@@ -71,32 +82,38 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
                       // shop, rather than opening at a fixed zoom that might
                       // show none of them. The viewport decides the scale, so
                       // this has to happen where its size is known.
-                      final zoom = MapProjection.zoomToFit(
+                      final camera = MapCamera(
                         center: center,
-                        points: points,
-                        viewport: viewport,
+                        zoom: MapProjection.zoomToFit(
+                          center: center,
+                          points: points,
+                          viewport: viewport,
+                        ),
                       );
 
-                      return Stack(
-                        children: [
-                          Positioned.fill(
-                            child: OsmTileMap(
-                              latitude: center.latitude,
-                              longitude: center.longitude,
-                              zoom: zoom,
+                      return InteractiveMap(
+                        initialCamera: camera,
+                        overlayBuilder: (context, projection) => Stack(
+                          children: [
+                            if (state.origin case final origin?)
+                              Positioned.fill(
+                                child: RadiusRings(
+                                  center: origin,
+                                  projection: projection,
+                                ),
+                              ),
+                            Positioned.fill(
+                              child: ShopPinLayer(
+                                shops: shops,
+                                selectedShopId: state.selectedShopId,
+                                onSelect: (shop) =>
+                                    _mapCubit.selectShop(shop.id),
+                                projection: projection,
+                                readerAt: state.origin,
+                              ),
                             ),
-                          ),
-                          Positioned.fill(
-                            child: ShopPinLayer(
-                              shops: shops,
-                              selectedShopId: state.selectedShopId,
-                              onSelect: (shop) => _mapCubit.selectShop(shop.id),
-                              center: center,
-                              zoom: zoom,
-                              readerAt: state.origin,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     },
                   ),

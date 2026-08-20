@@ -21,9 +21,10 @@ class HomeHeader extends StatelessWidget {
   /// only the label is missing.
   final bool located;
 
-  /// Retries locating. The chip used to carry a dropdown arrow suggesting a
-  /// picker that did not exist.
-  final VoidCallback? onRefreshLocation;
+  /// Opens the map. The chip used to carry a dropdown arrow suggesting a
+  /// picker that did not exist, and then did nothing but re-read the GPS —
+  /// tapping a place name should show you the place.
+  final VoidCallback? onOpenMap;
 
   const HomeHeader({
     super.key,
@@ -31,7 +32,7 @@ class HomeHeader extends StatelessWidget {
     this.onOpenMenu,
     this.areaName = '',
     this.located = false,
-    this.onRefreshLocation,
+    this.onOpenMap,
   });
 
   @override
@@ -79,7 +80,7 @@ class HomeHeader extends StatelessWidget {
                 ? l10n.homeLocationNearby
                 : l10n.homeLocationUnknown,
             located: located,
-            onTap: onRefreshLocation,
+            onTap: onOpenMap,
           ),
           const SizedBox(width: 8),
           BlocBuilder<CartBloc, CartState>(

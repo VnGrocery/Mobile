@@ -17,9 +17,10 @@ class ShopPinLayer extends StatelessWidget {
   final String? selectedShopId;
   final ValueChanged<Shop> onSelect;
 
-  /// What the map underneath is centred on.
-  final GeoPoint center;
-  final int zoom;
+  /// How the map underneath is currently framed. Taken from the map rather
+  /// than rebuilt here, so a pin cannot drift from the tile it sits on while
+  /// the reader drags or pinches.
+  final MapProjection projection;
 
   /// Marker for the reader's own position, drawn when they have been located.
   final GeoPoint? readerAt;
@@ -29,51 +30,40 @@ class ShopPinLayer extends StatelessWidget {
     required this.shops,
     required this.selectedShopId,
     required this.onSelect,
-    required this.center,
-    required this.zoom,
+    required this.projection,
     this.readerAt,
   });
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final projection = MapProjection(
-          center: center,
-          zoom: zoom,
-          viewport: Size(constraints.maxWidth, constraints.maxHeight),
-        );
-
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            if (readerAt != null && readerAt!.isSet)
-              _positioned(
-                projection,
-                readerAt!,
-                const _ReaderDot(),
-                width: 22,
-                height: 22,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        if (readerAt != null && readerAt!.isSet)
+          _positioned(
+            projection,
+            readerAt!,
+            const _ReaderDot(),
+            width: 22,
+            height: 22,
+          ),
+        for (final shop in shops)
+          if (_pointOf(shop) case final point?)
+            _positioned(
+              projection,
+              point,
+              FloatingShopPin(
+                shop: shop,
+                selected: shop.id == selectedShopId,
+                onTap: () => onSelect(shop),
               ),
-            for (final shop in shops)
-              if (_pointOf(shop) case final point?)
-                _positioned(
-                  projection,
-                  point,
-                  FloatingShopPin(
-                    shop: shop,
-                    selected: shop.id == selectedShopId,
-                    onTap: () => onSelect(shop),
-                  ),
-                  // The pin is drawn above its anchor, so the tip sits on the
-                  // coordinate rather than the label floating over it.
-                  width: 132,
-                  height: 76,
-                  anchorAtBottom: true,
-                ),
-          ],
-        );
-      },
+              // The pin is drawn above its anchor, so the tip sits on the
+              // coordinate rather than the label floating over it.
+              width: 132,
+              height: 76,
+              anchorAtBottom: true,
+            ),
+      ],
     );
   }
 

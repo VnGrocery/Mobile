@@ -8,10 +8,11 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/widgets/map_projection.dart';
 
 const _center = GeoPoint(37.4220, -122.0840);
+
 /// Fits inside flutter_test's default 800x600 surface, so the layer really
 /// lays out at this size and the expected projection matches what it used.
 const _viewport = Size(400, 400);
-const _zoom = 13;
+const _zoom = 13.0;
 
 Shop _shop(String id, double lat, double lng) => Shop(
   id: id,
@@ -22,6 +23,12 @@ Shop _shop(String id, double lat, double lng) => Shop(
   description: '',
   latitude: lat,
   longitude: lng,
+);
+
+const _projection = MapProjection(
+  center: _center,
+  zoom: _zoom,
+  viewport: _viewport,
 );
 
 Future<void> _pump(WidgetTester tester, List<Shop> shops) async {
@@ -37,8 +44,7 @@ Future<void> _pump(WidgetTester tester, List<Shop> shops) async {
             shops: shops,
             selectedShopId: null,
             onSelect: (_) {},
-            center: _center,
-            zoom: _zoom,
+            projection: _projection,
             readerAt: _center,
           ),
         ),
@@ -48,11 +54,7 @@ Future<void> _pump(WidgetTester tester, List<Shop> shops) async {
 }
 
 void main() {
-  final projection = const MapProjection(
-    center: _center,
-    zoom: _zoom,
-    viewport: _viewport,
-  );
+  const projection = _projection;
 
   testWidgets('the tip of the marker sits on the shop coordinate', (
     tester,

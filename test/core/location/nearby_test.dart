@@ -37,6 +37,45 @@ void main() {
     });
   });
 
+  group('offsetKm', () {
+    test('north and south move latitude the right way', () {
+      expect(
+        offsetKm(_origin, northKm: 5).latitude,
+        greaterThan(_origin.latitude),
+      );
+      expect(
+        offsetKm(_origin, northKm: -5).latitude,
+        lessThan(_origin.latitude),
+      );
+    });
+
+    test('lands the distance it was asked for', () {
+      for (final km in [1.0, 5.0, 20.0]) {
+        expect(
+          distanceKm(_origin, offsetKm(_origin, northKm: km)),
+          closeTo(km, km * 0.01),
+        );
+        expect(
+          distanceKm(_origin, offsetKm(_origin, eastKm: km)),
+          closeTo(km, km * 0.01),
+        );
+      }
+    });
+
+    test('a kilometre east is more degrees the further from the equator', () {
+      // Lines of longitude converge towards the poles.
+      const equator = GeoPoint(0, 0);
+      const north = GeoPoint(60, 0);
+
+      final atEquator = offsetKm(equator, eastKm: 10).longitude;
+      final upNorth = offsetKm(north, eastKm: 10).longitude;
+
+      expect(upNorth, greaterThan(atEquator));
+      // cos(60 deg) is a half, so it takes twice the degrees.
+      expect(upNorth, closeTo(atEquator * 2, atEquator * 0.01));
+    });
+  });
+
   group('rankByDistance', () {
     test('sorts the near ring by how close it is', () {
       final ranked = _rank(const [

@@ -76,7 +76,8 @@ class _HomeTabState extends State<HomeTab> {
                     onOpenMenu: widget.onOpenMenu,
                     areaName: state.location?.areaName ?? '',
                     located: state.location != null,
-                    onRefreshLocation: _homeCubit.locateReader,
+                    onOpenMap: () =>
+                        Navigator.pushNamed(context, Routes.exploreMap),
                   ),
                   const SizedBox(height: 16),
                   Padding(
