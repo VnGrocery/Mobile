@@ -50,6 +50,7 @@ class _HomeTabState extends State<HomeTab> {
           final activeCategory = categories.contains(_category)
               ? _category
               : _allCategory;
+          final topRatedShops = state.topRatedShops;
           final featuredPledgeItems = state.featuredPledgeItems(
             category: activeCategory == _allCategory ? null : activeCategory,
           );
@@ -98,26 +99,28 @@ class _HomeTabState extends State<HomeTab> {
                       }),
                     ),
                   ],
-                  const SizedBox(height: 28),
-                  HomeSectionTitle(
-                    l10n.homeTopRatedStoresTitle,
-                    showAction: false,
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    // Fits a two-line shop name plus the trust chip and the
-                    // rating row. Real shop names wrap ("Trái Cây Nhà Vườn Cái
-                    // Mơn"), which the earlier 150 did not allow for.
-                    height: 172,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      itemCount: state.shops.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 12),
-                      itemBuilder: (_, i) =>
-                          HomeTrustShopCard(shop: state.shops[i]),
+                  if (topRatedShops.isNotEmpty) ...[
+                    const SizedBox(height: 28),
+                    HomeSectionTitle(
+                      l10n.homeTopRatedStoresTitle,
+                      showAction: false,
                     ),
-                  ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      // Fits a two-line shop name plus the trust chip and the
+                      // rating row. Real shop names wrap ("Trái Cây Nhà Vườn
+                      // Cái Mơn"), which the earlier 150 did not allow for.
+                      height: 172,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: topRatedShops.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 12),
+                        itemBuilder: (_, i) =>
+                            HomeTrustShopCard(shop: topRatedShops[i]),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 30),
                   HomeSectionTitle(
                     l10n.homeRecentChecksTitle,

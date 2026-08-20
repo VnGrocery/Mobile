@@ -28,6 +28,33 @@ class HomeState {
     return list;
   }
 
+  /// Shops worth putting under "đánh giá tốt", best first.
+  ///
+  /// The section used to render [shops] in whatever order the server returned,
+  /// so a brand-new shop with 0.0 stars and no reviews sat at the front of a
+  /// list titled "top rated". A shop earns a place here only once it has a
+  /// signal to rank on — a review, or a trust verdict backed by real pledges —
+  /// and the list is empty
+  /// when none do, which lets the section hide itself.
+  List<Shop> get topRatedShops {
+    final ranked = shops
+        .where(
+          (shop) =>
+              shop.reviewCount > 0 || (shop.trustSummary?.hasData ?? false),
+        )
+        .toList();
+    ranked.sort((a, b) {
+      final byRating = b.rating.compareTo(a.rating);
+      if (byRating != 0) return byRating;
+      final byTrust = _trustScore(b).compareTo(_trustScore(a));
+      if (byTrust != 0) return byTrust;
+      return b.reviewCount.compareTo(a.reviewCount);
+    });
+    return ranked;
+  }
+
+  static double _trustScore(Shop shop) => shop.trustSummary?.score ?? 0;
+
   /// Recent checks, optionally narrowed to one category.
   List<HomePledgeItem> featuredPledgeItems({int limit = 3, String? category}) {
     final items = category == null || category.isEmpty

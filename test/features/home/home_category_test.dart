@@ -26,6 +26,21 @@ const _shop = Shop(
   description: '',
 );
 
+Shop _shopWith({
+  required String id,
+  double rating = 0,
+  int reviewCount = 0,
+  TrustSummary? trust,
+}) => Shop(
+  id: id,
+  name: 'Shop $id',
+  address: 'addr',
+  rating: rating,
+  reviewCount: reviewCount,
+  description: '',
+  trustSummary: trust,
+);
+
 HomeState _state(List<Product> products) {
   return HomeState(
     products: products,
@@ -36,6 +51,64 @@ HomeState _state(List<Product> products) {
 }
 
 void main() {
+  group('top rated shops', () {
+    test('drop shops with nothing to rank on', () {
+      final state = HomeState(
+        shops: [
+          _shopWith(id: 'rated', rating: 4.5, reviewCount: 2),
+          _shopWith(id: 'brand-new'),
+        ],
+      );
+
+      expect(state.topRatedShops.map((s) => s.id), ['rated']);
+    });
+
+    test('a shop with a trust verdict but no review still qualifies', () {
+      final state = HomeState(
+        shops: [
+          _shopWith(
+            id: 'trusted',
+            trust: const TrustSummary(
+              score: 80,
+              grade: TrustGrade.good,
+              pledgeCount: 3,
+              hasPledges: true,
+            ),
+          ),
+        ],
+      );
+
+      expect(state.topRatedShops.map((s) => s.id), ['trusted']);
+    });
+
+    test('rank by rating, then by trust score', () {
+      final state = HomeState(
+        shops: [
+          _shopWith(id: 'low', rating: 3, reviewCount: 1),
+          _shopWith(id: 'high', rating: 5, reviewCount: 1),
+          _shopWith(id: 'mid', rating: 4, reviewCount: 1),
+        ],
+      );
+
+      expect(state.topRatedShops.map((s) => s.id), ['high', 'mid', 'low']);
+    });
+
+    test('a trust summary with no pledges is not a signal', () {
+      // A brand new shop still comes back with a summary; it scores 0 because
+      // there is no data, which is not the same as ranking last.
+      final state = HomeState(
+        shops: [_shopWith(id: 'empty', trust: const TrustSummary())],
+      );
+
+      expect(state.topRatedShops, isEmpty);
+    });
+
+    test('is empty when no shop has a signal, so the section can hide', () {
+      expect(const HomeState().topRatedShops, isEmpty);
+      expect(HomeState(shops: [_shopWith(id: 'a')]).topRatedShops, isEmpty);
+    });
+  });
+
   group('home categories', () {
     test('are taken from the products on screen, sorted and deduplicated', () {
       final state = _state([

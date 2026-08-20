@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/utils/format.dart';
+import 'package:vngrocery/core/widgets/shop_avatar.dart';
 import 'package:vngrocery/core/widgets/trust_score_card.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
@@ -34,19 +35,7 @@ class HomeTrustShopCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 22,
-                  backgroundColor: palette.elevatedCard,
-                  child: Image.asset(
-                    'assets/images/meat.png',
-                    width: 26,
-                    height: 26,
-                    errorBuilder: (_, __, ___) => const Icon(
-                      Icons.storefront,
-                      color: AppColors.primaryGreen,
-                    ),
-                  ),
-                ),
+                ShopAvatar(shop: shop),
                 const SizedBox(height: 10),
                 Text(
                   shop.name,
