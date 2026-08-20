@@ -2011,6 +2011,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The blockchain record for this pledge could not be checked.'**
   String get trustProofUnknownSummary;
+
+  /// Trust grade band for scores 85 and above.
+  ///
+  /// In en, this message translates to:
+  /// **'Excellent'**
+  String get trustGradeExcellent;
+
+  /// Trust grade band for scores 70 to 84.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get trustGradeGood;
+
+  /// Trust grade band for scores 55 to 69.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs watching'**
+  String get trustGradeWatch;
+
+  /// Trust grade band for scores below 55.
+  ///
+  /// In en, this message translates to:
+  /// **'Risky'**
+  String get trustGradeRisk;
+
+  /// Heading of the trust score card.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust score'**
+  String get trustScoreTitle;
+
+  /// Shown instead of a score when the shop has no signal.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to rate this shop yet.'**
+  String get trustScoreNoData;
+
+  /// Heading above the sub-score bars.
+  ///
+  /// In en, this message translates to:
+  /// **'How this score is made up'**
+  String get trustScoreBreakdown;
+
+  /// Heading above the reason list.
+  ///
+  /// In en, this message translates to:
+  /// **'Why'**
+  String get trustScoreReasons;
+
+  /// Footnote naming the server formula version.
+  ///
+  /// In en, this message translates to:
+  /// **'Formula {version}'**
+  String trustScoreFormula(Object version);
+
+  /// Sub-score name.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller pledges'**
+  String get trustComponentPledge;
+
+  /// Sub-score name.
+  ///
+  /// In en, this message translates to:
+  /// **'Customer reviews'**
+  String get trustComponentReview;
+
+  /// Sub-score name.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer checks'**
+  String get trustComponentBuyerCheck;
+
+  /// Sub-score name.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistency'**
+  String get trustComponentConsistency;
+
+  /// Sub-score name.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent activity'**
+  String get trustComponentRecency;
+
+  /// Sub-score name.
+  ///
+  /// In en, this message translates to:
+  /// **'Signal coverage'**
+  String get trustComponentCoverage;
+
+  /// Reason code partial_trust_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Only part of the trust data is available'**
+  String get trustReasonPartialTrustData;
+
+  /// Reason code no_customer_reviews.
+  ///
+  /// In en, this message translates to:
+  /// **'No customer reviews yet'**
+  String get trustReasonNoCustomerReviews;
+
+  /// Reason code no_buyer_checks.
+  ///
+  /// In en, this message translates to:
+  /// **'No buyer has verified a product yet'**
+  String get trustReasonNoBuyerChecks;
+
+  /// Reason code no_eligible_buyer_checks.
+  ///
+  /// In en, this message translates to:
+  /// **'No buyer check counted towards the score'**
+  String get trustReasonNoEligibleBuyerChecks;
+
+  /// Reason code buyer_checks_confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer checks confirmed the seller pledges'**
+  String get trustReasonBuyerChecksConfirmed;
+
+  /// Reason code buyer_checks_high_risk.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer checks flagged a high risk'**
+  String get trustReasonBuyerChecksHighRisk;
+
+  /// Reason code buyer_checks_show_consistency_issues.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer checks disagree with the pledges'**
+  String get trustReasonBuyerChecksConsistencyIssues;
+
+  /// Reason code duplicate_buyer_checks_discounted.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate buyer checks were discounted'**
+  String get trustReasonDuplicateBuyerChecks;
+
+  /// Reason code pledges_consistent_with_buyer_checks.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledges are consistent with buyer checks'**
+  String get trustReasonPledgesConsistent;
+
+  /// Reason code limited_consistency_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data to judge consistency'**
+  String get trustReasonLimitedConsistencyData;
+
+  /// Reason code no_consistency_signals.
+  ///
+  /// In en, this message translates to:
+  /// **'No consistency signals available'**
+  String get trustReasonNoConsistencySignals;
+
+  /// Reason code limited_signal_coverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust signals cover only a few products'**
+  String get trustReasonLimitedSignalCoverage;
+
+  /// Reason code recent_activity_available.
+  ///
+  /// In en, this message translates to:
+  /// **'The shop has been active recently'**
+  String get trustReasonRecentActivity;
+
+  /// Reason code no_recent_activity.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent activity from this shop'**
+  String get trustReasonNoRecentActivity;
+
+  /// Reason code no_pledge.
+  ///
+  /// In en, this message translates to:
+  /// **'This product has no freshness pledge'**
+  String get trustReasonNoPledge;
+
+  /// Reason code no_seller_pledges.
+  ///
+  /// In en, this message translates to:
+  /// **'The seller has not made any pledge yet'**
+  String get trustReasonNoSellerPledges;
+
+  /// Reason code some_pledges_low_confidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Some pledges have low confidence'**
+  String get trustReasonSomePledgesLowConfidence;
 }
 
 class _AppLocalizationsDelegate

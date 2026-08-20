@@ -1043,4 +1043,112 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get trustProofUnknownSummary =>
       'Chưa kiểm tra được bản ghi blockchain của cam kết này.';
+
+  @override
+  String get trustGradeExcellent => 'Rất tốt';
+
+  @override
+  String get trustGradeGood => 'Tốt';
+
+  @override
+  String get trustGradeWatch => 'Cần theo dõi';
+
+  @override
+  String get trustGradeRisk => 'Rủi ro';
+
+  @override
+  String get trustScoreTitle => 'Điểm tin cậy';
+
+  @override
+  String get trustScoreNoData => 'Chưa đủ dữ liệu để đánh giá cửa hàng này.';
+
+  @override
+  String get trustScoreBreakdown => 'Điểm này được tính từ';
+
+  @override
+  String get trustScoreReasons => 'Lý do';
+
+  @override
+  String trustScoreFormula(Object version) {
+    return 'Công thức $version';
+  }
+
+  @override
+  String get trustComponentPledge => 'Cam kết người bán';
+
+  @override
+  String get trustComponentReview => 'Đánh giá khách hàng';
+
+  @override
+  String get trustComponentBuyerCheck => 'Kiểm chứng người mua';
+
+  @override
+  String get trustComponentConsistency => 'Tính nhất quán';
+
+  @override
+  String get trustComponentRecency => 'Hoạt động gần đây';
+
+  @override
+  String get trustComponentCoverage => 'Độ phủ dữ liệu';
+
+  @override
+  String get trustReasonPartialTrustData => 'Mới có một phần dữ liệu tin cậy';
+
+  @override
+  String get trustReasonNoCustomerReviews => 'Chưa có đánh giá của khách hàng';
+
+  @override
+  String get trustReasonNoBuyerChecks => 'Chưa có người mua nào kiểm chứng';
+
+  @override
+  String get trustReasonNoEligibleBuyerChecks =>
+      'Không có kiểm chứng nào được tính điểm';
+
+  @override
+  String get trustReasonBuyerChecksConfirmed =>
+      'Người mua kiểm chứng khớp với cam kết';
+
+  @override
+  String get trustReasonBuyerChecksHighRisk =>
+      'Kiểm chứng của người mua cho thấy rủi ro cao';
+
+  @override
+  String get trustReasonBuyerChecksConsistencyIssues =>
+      'Kiểm chứng không khớp với cam kết';
+
+  @override
+  String get trustReasonDuplicateBuyerChecks =>
+      'Các kiểm chứng trùng lặp đã bị giảm trọng số';
+
+  @override
+  String get trustReasonPledgesConsistent => 'Cam kết nhất quán với kiểm chứng';
+
+  @override
+  String get trustReasonLimitedConsistencyData =>
+      'Chưa đủ dữ liệu để đánh giá tính nhất quán';
+
+  @override
+  String get trustReasonNoConsistencySignals =>
+      'Chưa có tín hiệu nhất quán nào';
+
+  @override
+  String get trustReasonLimitedSignalCoverage =>
+      'Dữ liệu tin cậy mới phủ được ít sản phẩm';
+
+  @override
+  String get trustReasonRecentActivity => 'Cửa hàng có hoạt động gần đây';
+
+  @override
+  String get trustReasonNoRecentActivity =>
+      'Cửa hàng không có hoạt động gần đây';
+
+  @override
+  String get trustReasonNoPledge => 'Sản phẩm này chưa có cam kết độ tươi';
+
+  @override
+  String get trustReasonNoSellerPledges => 'Người bán chưa tạo cam kết nào';
+
+  @override
+  String get trustReasonSomePledgesLowConfidence =>
+      'Một số cam kết có độ tin cậy thấp';
 }

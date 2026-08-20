@@ -1046,4 +1046,114 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get trustProofUnknownSummary =>
       'The blockchain record for this pledge could not be checked.';
+
+  @override
+  String get trustGradeExcellent => 'Excellent';
+
+  @override
+  String get trustGradeGood => 'Good';
+
+  @override
+  String get trustGradeWatch => 'Needs watching';
+
+  @override
+  String get trustGradeRisk => 'Risky';
+
+  @override
+  String get trustScoreTitle => 'Trust score';
+
+  @override
+  String get trustScoreNoData => 'Not enough data to rate this shop yet.';
+
+  @override
+  String get trustScoreBreakdown => 'How this score is made up';
+
+  @override
+  String get trustScoreReasons => 'Why';
+
+  @override
+  String trustScoreFormula(Object version) {
+    return 'Formula $version';
+  }
+
+  @override
+  String get trustComponentPledge => 'Seller pledges';
+
+  @override
+  String get trustComponentReview => 'Customer reviews';
+
+  @override
+  String get trustComponentBuyerCheck => 'Buyer checks';
+
+  @override
+  String get trustComponentConsistency => 'Consistency';
+
+  @override
+  String get trustComponentRecency => 'Recent activity';
+
+  @override
+  String get trustComponentCoverage => 'Signal coverage';
+
+  @override
+  String get trustReasonPartialTrustData =>
+      'Only part of the trust data is available';
+
+  @override
+  String get trustReasonNoCustomerReviews => 'No customer reviews yet';
+
+  @override
+  String get trustReasonNoBuyerChecks => 'No buyer has verified a product yet';
+
+  @override
+  String get trustReasonNoEligibleBuyerChecks =>
+      'No buyer check counted towards the score';
+
+  @override
+  String get trustReasonBuyerChecksConfirmed =>
+      'Buyer checks confirmed the seller pledges';
+
+  @override
+  String get trustReasonBuyerChecksHighRisk =>
+      'Buyer checks flagged a high risk';
+
+  @override
+  String get trustReasonBuyerChecksConsistencyIssues =>
+      'Buyer checks disagree with the pledges';
+
+  @override
+  String get trustReasonDuplicateBuyerChecks =>
+      'Duplicate buyer checks were discounted';
+
+  @override
+  String get trustReasonPledgesConsistent =>
+      'Pledges are consistent with buyer checks';
+
+  @override
+  String get trustReasonLimitedConsistencyData =>
+      'Not enough data to judge consistency';
+
+  @override
+  String get trustReasonNoConsistencySignals =>
+      'No consistency signals available';
+
+  @override
+  String get trustReasonLimitedSignalCoverage =>
+      'Trust signals cover only a few products';
+
+  @override
+  String get trustReasonRecentActivity => 'The shop has been active recently';
+
+  @override
+  String get trustReasonNoRecentActivity => 'No recent activity from this shop';
+
+  @override
+  String get trustReasonNoPledge => 'This product has no freshness pledge';
+
+  @override
+  String get trustReasonNoSellerPledges =>
+      'The seller has not made any pledge yet';
+
+  @override
+  String get trustReasonSomePledgesLowConfidence =>
+      'Some pledges have low confidence';
 }
