@@ -18,7 +18,7 @@ class QrLabelIntro extends StatelessWidget {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: AppColors.meatRed,
+            color: AppColors.primaryGreen,
           ),
         ),
         Padding(
@@ -66,7 +66,7 @@ class QrLabelPreviewCard extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 18,
-                  color: AppColors.meatRed,
+                  color: AppColors.primaryGreen,
                 ),
               ),
               const SizedBox(height: 24),
@@ -105,7 +105,7 @@ class QrLabelPreviewCard extends StatelessWidget {
                 l10n.qrLabelScanHint,
                 style: TextStyle(
                   fontSize: 10,
-                  color: AppColors.meatRed,
+                  color: AppColors.primaryGreen,
                   fontWeight: FontWeight.bold,
                 ),
               ),

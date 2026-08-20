@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 /// Bảng màu theo Template grocery gốc.
-/// `meatRed` được giữ tên nhưng mang giá trị XANH LÁ (primary grocery)
-/// để các màn hình đã port không phải đổi tên hàng loạt.
+///
+/// Trước đây có ba hằng cùng một giá trị xanh lá: `meatRed` (tên nói đỏ,
+/// giá trị xanh — di sản từ lúc app chỉ bán thịt), `freshGreen` và
+/// `primaryGreen`. Đọc code không đoán được màu thật, nên nay chỉ còn
+/// `primaryGreen`.
 class AppColors {
   // Primary grocery (xanh lá)
-  static const Color meatRed = Color(0xFF23AA49);
   static const Color primaryGreen = Color(0xFF23AA49);
   static const Color primaryGreenDark = Color(0xFF1E8A3C);
 
@@ -13,7 +15,6 @@ class AppColors {
   static const Color priceRed = Color(0xFFFF324B);
 
   // Điểm chất lượng / badge
-  static const Color freshGreen = Color(0xFF23AA49);
   static const Color warningOrange = Color(0xFFFF9800);
   static const Color trustGreen = Color(0xFF2E7D32);
   static const Color trustGreenBg = Color(0xFFE8F5E9);
@@ -27,11 +28,4 @@ class AppColors {
   static const Color gray = Color(0xFF979899);
   static const Color textSecondary = Color(0xFF979899);
   static const Color border = Color(0xFFF1F1F5);
-
-  /// Màu điểm tươi (3 mức) — theo MockData.getFreshnessColor.
-  static Color freshnessColor(int score) {
-    if (score >= 80) return freshGreen;
-    if (score >= 50) return warningOrange;
-    return priceRed;
-  }
 }

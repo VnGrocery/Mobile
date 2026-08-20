@@ -14,7 +14,7 @@ class AuthBrandHeader extends StatelessWidget {
         style: TextStyle(
           fontSize: 40,
           fontWeight: FontWeight.w900,
-          color: AppColors.meatRed,
+          color: AppColors.primaryGreen,
         ),
       ),
     );

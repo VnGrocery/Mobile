@@ -51,7 +51,7 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 56,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.freshGreen,
+                    color: AppColors.primaryGreen,
                   ),
                 ),
                 SellerPledgeCategoryPill(

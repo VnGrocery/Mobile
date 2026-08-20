@@ -71,10 +71,10 @@ class OnboardingPageContent extends StatelessWidget {
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              color: AppColors.meatRed.withValues(alpha: 0.1),
+              color: AppColors.primaryGreen.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(page.icon, size: 60, color: AppColors.meatRed),
+            child: Icon(page.icon, size: 60, color: AppColors.primaryGreen),
           ),
           const SizedBox(height: 48),
           Text(
@@ -158,7 +158,7 @@ class OnboardingDots extends StatelessWidget {
           width: active ? 24 : 8,
           height: 8,
           decoration: BoxDecoration(
-            color: active ? AppColors.meatRed : context.palette.border,
+            color: active ? AppColors.primaryGreen : context.palette.border,
             borderRadius: BorderRadius.circular(4),
           ),
         );

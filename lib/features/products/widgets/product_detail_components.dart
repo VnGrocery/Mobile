@@ -85,9 +85,9 @@ class ProductScoreCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.meatRed.withValues(alpha: 0.05),
+        color: AppColors.primaryGreen.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.meatRed.withValues(alpha: 0.2)),
+        border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.2)),
       ),
       child: Row(
         children: [
@@ -100,7 +100,7 @@ class ProductScoreCard extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.meatRed,
+                    color: AppColors.primaryGreen,
                   ),
                 ),
                 Text(

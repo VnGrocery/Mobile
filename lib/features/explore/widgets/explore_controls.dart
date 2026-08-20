@@ -62,9 +62,9 @@ class ExploreFilterBar extends StatelessWidget {
             ),
             selected: selected,
             showCheckmark: false,
-            selectedColor: AppColors.meatRed.withValues(alpha: 0.1),
+            selectedColor: AppColors.primaryGreen.withValues(alpha: 0.1),
             labelStyle: TextStyle(
-              color: selected ? AppColors.meatRed : scheme.onSurface,
+              color: selected ? AppColors.primaryGreen : scheme.onSurface,
             ),
             onSelected: (_) => onSelect(filter),
           );

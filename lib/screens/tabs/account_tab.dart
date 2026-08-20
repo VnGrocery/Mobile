@@ -66,7 +66,7 @@ class _AccountTabState extends State<AccountTab> {
             onPressed: () => Navigator.pop(context, true),
             child: Text(
               l10n.accountLogoutTitle,
-              style: const TextStyle(color: AppColors.meatRed),
+              style: const TextStyle(color: AppColors.primaryGreen),
             ),
           ),
         ],

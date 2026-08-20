@@ -26,7 +26,7 @@ class AuthSegmentItem extends StatelessWidget {
           child: Text(
             label,
             style: TextStyle(
-              color: active ? AppColors.meatRed : Colors.grey,
+              color: active ? AppColors.primaryGreen : Colors.grey,
               fontWeight: FontWeight.w700,
               fontSize: 15,
             ),

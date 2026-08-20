@@ -20,7 +20,7 @@ class LatestReceiptCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            const Icon(Icons.verified_user, color: AppColors.meatRed),
+            const Icon(Icons.verified_user, color: AppColors.primaryGreen),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -28,7 +28,9 @@ class LatestReceiptCard extends StatelessWidget {
                 children: [
                   Text(
                     l10n.storeDetailLatestReceiptTitle,
-                    maxLines: 1,
+                    // "Sản phẩm đã được kiểm tra" does not fit on one line
+                    // next to the button; it used to end at "kiểm tr…".
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -53,7 +55,7 @@ class LatestReceiptCard extends StatelessWidget {
               ),
               child: Text(
                 l10n.storeDetailViewReceipt,
-                style: const TextStyle(color: AppColors.meatRed),
+                style: const TextStyle(color: AppColors.primaryGreen),
               ),
             ),
           ],
@@ -90,7 +92,7 @@ class StoreDetailTabs extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: selected ? AppColors.meatRed : Colors.transparent,
+                    color: selected ? AppColors.primaryGreen : Colors.transparent,
                     width: 2,
                   ),
                 ),
@@ -99,7 +101,7 @@ class StoreDetailTabs extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: selected ? AppColors.meatRed : Colors.grey,
+                  color: selected ? AppColors.primaryGreen : Colors.grey,
                   fontWeight: selected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),

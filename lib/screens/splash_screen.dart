@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: AppColors.meatRed,
+      backgroundColor: AppColors.primaryGreen,
       body: Stack(
         children: [
           Center(

@@ -52,7 +52,7 @@ class ExploreShopCard extends StatelessWidget {
                 radius: 12,
                 icon: Icons.store,
                 iconSize: 32,
-                iconColor: AppColors.meatRed,
+                iconColor: AppColors.primaryGreen,
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -117,13 +117,13 @@ class ExploreShopCard extends StatelessWidget {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.meatRed.withValues(alpha: 0.1),
+                              color: AppColors.primaryGreen.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
                               l10n.exploreTopRatedBadge,
                               style: const TextStyle(
-                                color: AppColors.meatRed,
+                                color: AppColors.primaryGreen,
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
                               ),

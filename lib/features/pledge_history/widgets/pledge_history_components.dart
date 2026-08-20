@@ -55,7 +55,7 @@ class PledgeTimelineItem extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     final color = item.isVerified
-        ? AppColors.freshGreen
+        ? AppColors.primaryGreen
         : AppColors.warningOrange;
     final description = PledgeHistoryPresenter.description(l10n, item);
     return IntrinsicHeight(

@@ -134,12 +134,12 @@ class AccountLogoutButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.logout, color: AppColors.meatRed),
+            const Icon(Icons.logout, color: AppColors.primaryGreen),
             const SizedBox(width: 8),
             Text(
               AppLocalizations.of(context).accountLogoutTitle,
               style: const TextStyle(
-                color: AppColors.meatRed,
+                color: AppColors.primaryGreen,
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -19,7 +19,7 @@ class StoreHeader extends StatelessWidget {
       clipBehavior: Clip.none,
       alignment: Alignment.topCenter,
       children: [
-        Container(height: 120, color: AppColors.meatRed.withValues(alpha: 0.1)),
+        Container(height: 120, color: AppColors.primaryGreen.withValues(alpha: 0.1)),
         Padding(
           padding: const EdgeInsets.only(top: 80),
           child: Column(

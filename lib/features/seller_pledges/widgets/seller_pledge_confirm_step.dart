@@ -24,9 +24,9 @@ class SellerPledgeConfirmStep extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.meatRed.withValues(alpha: 0.05),
+            color: AppColors.primaryGreen.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.meatRed.withValues(alpha: 0.2)),
+            border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.2)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +35,7 @@ class SellerPledgeConfirmStep extends StatelessWidget {
                 l10n.sellerPledgeRecordContentTitle,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.meatRed,
+                  color: AppColors.primaryGreen,
                 ),
               ),
               Padding(

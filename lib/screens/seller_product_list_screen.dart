@@ -76,7 +76,7 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
         floatingActionButton: Padding(
           padding: EdgeInsets.only(bottom: widget.bottomContentInset),
           child: FloatingActionButton(
-            backgroundColor: AppColors.meatRed,
+            backgroundColor: AppColors.primaryGreen,
             foregroundColor: Colors.white,
             onPressed: () => _openCreateProduct(shopId),
             child: const Icon(Icons.add),
