@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/core/location/geo.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_cubit.dart';
 import 'package:vngrocery/features/explore_map/controllers/explore_map_state.dart';
-import 'package:vngrocery/features/explore_map/explore_map_presenter.dart';
 import 'package:vngrocery/features/explore_map/widgets/explore_map_components.dart';
+import 'package:vngrocery/features/explore_map/widgets/shop_pin_layer.dart';
+import 'package:vngrocery/widgets/map_projection.dart';
 import 'package:vngrocery/widgets/osm_tile_map.dart';
 
 class ExploreMapScreen extends StatefulWidget {
@@ -52,17 +53,52 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
         builder: (context, state) {
           // Nearest first, and only what is actually in range.
           final shops = state.nearbyShops.map((entry) => entry.item).toList();
-          final center = state.center;
+          final center = state.center ?? _fallbackCenter;
+          final points = [
+            for (final shop in shops) GeoPoint(shop.latitude, shop.longitude),
+          ];
           return Scaffold(
             body: Stack(
               children: [
                 Positioned.fill(
-                  child: OsmTileMap(
-                    // Falls back to the middle of Ho Chi Minh City only when
-                    // there is neither a location nor a shop to centre on.
-                    latitude: center?.latitude ?? _fallbackCenter.latitude,
-                    longitude: center?.longitude ?? _fallbackCenter.longitude,
-                    zoom: 13,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final viewport = Size(
+                        constraints.maxWidth,
+                        constraints.maxHeight,
+                      );
+                      // Pull back only as far as needed to fit every nearby
+                      // shop, rather than opening at a fixed zoom that might
+                      // show none of them. The viewport decides the scale, so
+                      // this has to happen where its size is known.
+                      final zoom = MapProjection.zoomToFit(
+                        center: center,
+                        points: points,
+                        viewport: viewport,
+                      );
+
+                      return Stack(
+                        children: [
+                          Positioned.fill(
+                            child: OsmTileMap(
+                              latitude: center.latitude,
+                              longitude: center.longitude,
+                              zoom: zoom,
+                            ),
+                          ),
+                          Positioned.fill(
+                            child: ShopPinLayer(
+                              shops: shops,
+                              selectedShopId: state.selectedShopId,
+                              onSelect: (shop) => _mapCubit.selectShop(shop.id),
+                              center: center,
+                              zoom: zoom,
+                              readerAt: state.origin,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 Positioned(
@@ -74,17 +110,7 @@ class _ExploreMapScreenState extends State<ExploreMapScreen> {
                     onBack: () => Navigator.pop(context),
                   ),
                 ),
-                for (var i = 0; i < shops.length; i++)
-                  Align(
-                    alignment:
-                        ExploreMapPresenter.pinPositions[i %
-                            ExploreMapPresenter.pinPositions.length],
-                    child: FloatingShopPin(
-                      shop: shops[i],
-                      selected: shops[i].id == state.selectedShopId,
-                      onTap: () => _mapCubit.selectShop(shops[i].id),
-                    ),
-                  ),
+
                 Positioned(
                   right: 16,
                   bottom: MediaQuery.sizeOf(context).height * 0.32,

@@ -190,7 +190,12 @@ void main() {
 
     await tester.pumpWidget(
       host(
-        OsmTileMap(latitude: 0, longitude: 540, zoom: 7, providerConfig: config),
+        OsmTileMap(
+          latitude: 0,
+          longitude: 540,
+          zoom: 7,
+          providerConfig: config,
+        ),
       ),
     );
 

@@ -55,19 +55,17 @@ class OsmTileMap extends StatelessWidget {
     final safeZoom = zoom.clamp(providerConfig.minZoom, providerConfig.maxZoom);
     final effectiveTileUriBuilder =
         tileUriBuilder ?? providerConfig.tileUriBuilder;
-    final centerX = _lonToTileX(_wrapLongitude(longitude), safeZoom);
-    final centerY = _latToTileY(
-      latitude.clamp(minLatitude, maxLatitude).toDouble(),
-      safeZoom,
-    );
+    final centerX = tileXOf(longitude, safeZoom);
+    final centerY = tileYOf(latitude, safeZoom);
     final maxTile = math.pow(2, safeZoom).toInt() - 1;
     final baseX = centerX.floor() - 1;
     final baseY = centerY.floor() - 1;
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final tileSize =
-            math.max(constraints.maxWidth, constraints.maxHeight) / 2;
+        final tileSize = tileSizeFor(
+          Size(constraints.maxWidth, constraints.maxHeight),
+        );
         final offsetX = (centerX - centerX.floor()) * tileSize;
         final offsetY = (centerY - centerY.floor()) * tileSize;
 
@@ -110,26 +108,32 @@ class OsmTileMap extends StatelessWidget {
     );
   }
 
-  double _lonToTileX(double lon, int zoom) {
-    return ((lon + 180.0) / 360.0) * math.pow(2.0, zoom);
+  /// Tile-space x for a longitude. Shared with [MapProjection] so a pin and
+  /// the tile under it cannot disagree about where a place is.
+  static double tileXOf(double longitude, int zoom) {
+    final wrapped = ((longitude + 180.0) % 360.0) - 180.0;
+    return ((wrapped + 180.0) / 360.0) * math.pow(2.0, zoom);
   }
+
+  /// Tile-space y for a latitude, clamped to what Web Mercator can express.
+  static double tileYOf(double latitude, int zoom) {
+    final clamped = latitude.clamp(minLatitude, maxLatitude).toDouble();
+    final rad = clamped * math.pi / 180.0;
+    return (1.0 - math.log(math.tan(rad) + 1 / math.cos(rad)) / math.pi) /
+        2.0 *
+        math.pow(2.0, zoom);
+  }
+
+  /// Edge length of one drawn tile: the 4x4 grid stretches so a tile covers
+  /// half the longer side of the viewport.
+  static double tileSizeFor(Size viewport) =>
+      math.max(viewport.width, viewport.height) / 2;
 
   int _wrapTileX(int x, int zoom) {
     final tileCount = math.pow(2, zoom).toInt();
     return x.remainder(tileCount) < 0
         ? x.remainder(tileCount) + tileCount
         : x.remainder(tileCount);
-  }
-
-  double _wrapLongitude(double lon) {
-    return ((lon + 180.0) % 360.0) - 180.0;
-  }
-
-  double _latToTileY(double lat, int zoom) {
-    final latRad = lat * math.pi / 180.0;
-    return (1.0 - math.log(math.tan(latRad) + 1 / math.cos(latRad)) / math.pi) /
-        2.0 *
-        math.pow(2.0, zoom);
   }
 }
 
