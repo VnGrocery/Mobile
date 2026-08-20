@@ -132,6 +132,31 @@ void main() {
       expect(minimal.proofId, isEmpty);
     });
 
+    test('maps server integrityStatus values onto isVerified', () {
+      PledgeHistoryItem parse(String? status) => PledgeHistoryItem.fromJson({
+        'pledgeId': 'pledge-1',
+        'committedAt': '2026-06-01T00:00:00',
+        if (status != null) 'integrityStatus': status,
+      });
+
+      // The server only ever emits these five values.
+      expect(parse('anchored').isVerified, isTrue);
+      expect(parse('reanchored').isVerified, isTrue);
+      expect(parse('pending_anchor').isVerified, isFalse);
+      expect(parse('mismatch_detected').isVerified, isFalse);
+      expect(parse('revoked').isVerified, isFalse);
+      expect(parse(null).isVerified, isFalse);
+
+      // An explicit flag from the payload still wins.
+      expect(
+        PledgeHistoryItem.fromJson({
+          'isVerified': true,
+          'integrityStatus': 'revoked',
+        }).isVerified,
+        isTrue,
+      );
+    });
+
     test('parses vouchers and emits ISO dates/default fields', () {
       final vouchers = appMockJson['vouchers'] as List<Object?>;
 

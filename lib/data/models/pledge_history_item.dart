@@ -15,6 +15,13 @@ class PledgeHistoryItem {
     this.proofId = '',
   });
 
+  /// Values the server can put in `integrityStatus`. `verified` is not one of
+  /// them, which is why the tick never used to appear.
+  static const _anchoredStatuses = {'anchored', 'reanchored'};
+
+  static bool isAnchoredStatus(String? integrityStatus) =>
+      _anchoredStatuses.contains(integrityStatus);
+
   factory PledgeHistoryItem.fromJson(Map<String, Object?> json) {
     final score = (json['score'] as num?)?.toDouble();
     final category = json['category']?.toString();
@@ -28,7 +35,7 @@ class PledgeHistoryItem {
           (score == null
               ? ''
               : 'Điểm ${score.toStringAsFixed(1)}/10 · ${category ?? ''}'),
-      isVerified: json['isVerified'] as bool? ?? integrity == 'verified',
+      isVerified: json['isVerified'] as bool? ?? isAnchoredStatus(integrity),
       hasProof: json['hasProof'] as bool? ?? pledgeId != null,
       proofId: json['proofId']?.toString() ?? pledgeId ?? '',
     );
