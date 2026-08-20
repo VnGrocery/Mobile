@@ -1199,4 +1199,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blockchainProofScore => 'Pledged freshness';
+
+  @override
+  String get buyerCheckCompareTitle => 'Pledge vs. what we measured';
+
+  @override
+  String get buyerCheckPledged => 'Seller pledged';
+
+  @override
+  String get buyerCheckMeasured => 'Measured now';
+
+  @override
+  String get buyerCheckDelta => 'Difference';
+
+  @override
+  String get buyerCheckCategoryMatch => 'Product type matches';
+
+  @override
+  String get buyerCheckNoPledge =>
+      'This product has no pledge to compare against.';
+
+  @override
+  String get buyerCheckTrusted => 'Consistent with the pledge';
+
+  @override
+  String get buyerCheckNotTrusted => 'Does not match the pledge';
+
+  @override
+  String buyerCheckConfidence(Object percent) {
+    return 'AI confidence $percent%';
+  }
 }

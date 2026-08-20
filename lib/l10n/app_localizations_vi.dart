@@ -1194,4 +1194,33 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get blockchainProofScore => 'Độ tươi cam kết';
+
+  @override
+  String get buyerCheckCompareTitle => 'Cam kết và kết quả đo';
+
+  @override
+  String get buyerCheckPledged => 'Người bán cam kết';
+
+  @override
+  String get buyerCheckMeasured => 'Đo được lúc này';
+
+  @override
+  String get buyerCheckDelta => 'Chênh lệch';
+
+  @override
+  String get buyerCheckCategoryMatch => 'Loại sản phẩm khớp';
+
+  @override
+  String get buyerCheckNoPledge => 'Sản phẩm này chưa có cam kết để đối chiếu.';
+
+  @override
+  String get buyerCheckTrusted => 'Khớp với cam kết';
+
+  @override
+  String get buyerCheckNotTrusted => 'Không khớp với cam kết';
+
+  @override
+  String buyerCheckConfidence(Object percent) {
+    return 'Độ tin cậy AI $percent%';
+  }
 }

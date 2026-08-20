@@ -19,10 +19,7 @@ class BuyerCheckPresenter {
     return isNearStore(result) ? AppColors.trustGreen : AppColors.warningOrange;
   }
 
-  static String locationLabel(
-    BuyerCheckResult result,
-    AppLocalizations l10n,
-  ) {
+  static String locationLabel(BuyerCheckResult result, AppLocalizations l10n) {
     return isNearStore(result)
         ? l10n.buyerCheckLocationNear
         : l10n.buyerCheckLocationNeedsMore;

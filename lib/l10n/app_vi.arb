@@ -390,5 +390,14 @@
   "blockchainProofRefresh": "Làm mới",
   "blockchainProofCopied": "Đã sao chép",
   "blockchainProofCopyHint": "Chạm vào giá trị để sao chép",
-  "blockchainProofScore": "Độ tươi cam kết"
+  "blockchainProofScore": "Độ tươi cam kết",
+  "buyerCheckCompareTitle": "Cam kết và kết quả đo",
+  "buyerCheckPledged": "Người bán cam kết",
+  "buyerCheckMeasured": "Đo được lúc này",
+  "buyerCheckDelta": "Chênh lệch",
+  "buyerCheckCategoryMatch": "Loại sản phẩm khớp",
+  "buyerCheckNoPledge": "Sản phẩm này chưa có cam kết để đối chiếu.",
+  "buyerCheckTrusted": "Khớp với cam kết",
+  "buyerCheckNotTrusted": "Không khớp với cam kết",
+  "buyerCheckConfidence": "Độ tin cậy AI {percent}%"
 }

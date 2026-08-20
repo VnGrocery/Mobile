@@ -30,7 +30,10 @@ class VoucherCheckHeader extends StatelessWidget {
             Expanded(
               child: Text(
                 l10n.buyerCheckVoucherTitle,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
             ),
             Text(

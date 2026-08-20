@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/buyer_check/widgets/buyer_compare_card.dart';
 import 'package:vngrocery/features/buyer_check/controllers/buyer_check_cubit.dart';
 import 'package:vngrocery/features/buyer_check/controllers/buyer_check_state.dart';
 import 'package:vngrocery/features/buyer_check/widgets/buyer_check_components.dart';
@@ -65,6 +66,8 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
                   BuyerScoreSummary(result: result),
                   const SizedBox(height: 32),
                   BuyerVerdictCard(result: result),
+                  const SizedBox(height: 16),
+                  BuyerCompareCard(result: result),
                   const SizedBox(height: 16),
                   VoucherCheckCard(
                     controller: _voucher,

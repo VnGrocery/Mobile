@@ -2287,6 +2287,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pledged freshness'**
   String get blockchainProofScore;
+
+  /// Heading of the comparison card.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledge vs. what we measured'**
+  String get buyerCheckCompareTitle;
+
+  /// Label for the pledged score.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller pledged'**
+  String get buyerCheckPledged;
+
+  /// Label for the measured score.
+  ///
+  /// In en, this message translates to:
+  /// **'Measured now'**
+  String get buyerCheckMeasured;
+
+  /// Label for the score difference.
+  ///
+  /// In en, this message translates to:
+  /// **'Difference'**
+  String get buyerCheckDelta;
+
+  /// Label for the category match row.
+  ///
+  /// In en, this message translates to:
+  /// **'Product type matches'**
+  String get buyerCheckCategoryMatch;
+
+  /// Shown when the check had no pledge.
+  ///
+  /// In en, this message translates to:
+  /// **'This product has no pledge to compare against.'**
+  String get buyerCheckNoPledge;
+
+  /// Shown when the server marks the check trusted.
+  ///
+  /// In en, this message translates to:
+  /// **'Consistent with the pledge'**
+  String get buyerCheckTrusted;
+
+  /// Shown when the check is not trusted.
+  ///
+  /// In en, this message translates to:
+  /// **'Does not match the pledge'**
+  String get buyerCheckNotTrusted;
+
+  /// Footnote with the model confidence.
+  ///
+  /// In en, this message translates to:
+  /// **'AI confidence {percent}%'**
+  String buyerCheckConfidence(Object percent);
 }
 
 class _AppLocalizationsDelegate

@@ -32,8 +32,9 @@ class VoucherCheckCard extends StatelessWidget {
     final palette = context.palette;
     final voucherResult = result;
     final valid = voucherResult?.valid ?? false;
-    final resultColor =
-        valid ? AppColors.primaryGreen : AppColors.warningOrange;
+    final resultColor = valid
+        ? AppColors.primaryGreen
+        : AppColors.warningOrange;
 
     return Card(
       color: palette.card,
