@@ -105,8 +105,10 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   const SizedBox(height: 12),
                   SizedBox(
-                    // Tall enough for the trust chip the card now carries.
-                    height: 150,
+                    // Fits a two-line shop name plus the trust chip and the
+                    // rating row. Real shop names wrap ("Trái Cây Nhà Vườn Cái
+                    // Mơn"), which the earlier 150 did not allow for.
+                    height: 172,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
