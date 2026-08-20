@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/widgets/user_avatar.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
@@ -23,27 +24,7 @@ class AccountProfileSummary extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
-          ClipOval(
-            child: Image.asset(
-              'assets/images/user.png',
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.person,
-                  size: 50,
-                  color: AppColors.primaryGreen,
-                ),
-              ),
-            ),
-          ),
+          UserAvatar(name: displayName, radius: 50),
           const SizedBox(height: 16),
           Text(
             displayName,

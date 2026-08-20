@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/core/widgets/user_avatar.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
-import 'package:vngrocery/theme/app_colors.dart';
 
 class SideMenuProfile extends StatelessWidget {
   final String name;
@@ -18,19 +18,7 @@ class SideMenuProfile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Row(
       children: [
-        ClipOval(
-          child: Image.asset(
-            'assets/images/user.png',
-            width: 54,
-            height: 54,
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => const CircleAvatar(
-              radius: 27,
-              backgroundColor: Colors.white,
-              child: Icon(Icons.person, color: AppColors.primaryGreen),
-            ),
-          ),
-        ),
+        UserAvatar(name: name, radius: 27),
         const SizedBox(width: 12),
         Expanded(
           child: Column(

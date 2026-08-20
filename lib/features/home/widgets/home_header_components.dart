@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/core/widgets/cart_badge_button.dart';
 import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_state.dart';
+import 'package:vngrocery/core/widgets/user_avatar.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -26,22 +27,7 @@ class HomeHeader extends StatelessWidget {
           InkWell(
             customBorder: const CircleBorder(),
             onTap: onOpenMenu,
-            child: ClipOval(
-              child: Image.asset(
-                'assets/images/user.png',
-                width: 48,
-                height: 48,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => CircleAvatar(
-                  radius: 24,
-                  backgroundColor: palette.card,
-                  child: const Icon(
-                    Icons.person,
-                    color: AppColors.primaryGreen,
-                  ),
-                ),
-              ),
-            ),
+            child: UserAvatar(name: userName),
           ),
           const SizedBox(width: 12),
           Expanded(
