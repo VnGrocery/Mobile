@@ -16,8 +16,10 @@ class Review {
   factory Review.fromJson(Map<String, Object?> json) {
     return Review(
       id: (json['reviewId'] ?? json['id']) as String,
-      userName: (json['userName'] ?? json['reviewerUserId'] ?? 'Người dùng')
-          .toString(),
+      // Falling back to reviewerUserId printed a raw UUID as the author name.
+      // The server sends no display name for reviewers, so a generic label is
+      // the honest choice.
+      userName: (json['userName'] ?? 'Người dùng').toString(),
       rating: (json['rating'] as num).toInt(),
       comment: json['comment'] as String,
       date: (json['date'] ?? json['createdAt'] ?? '').toString(),

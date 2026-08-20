@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -48,7 +49,7 @@ class SellerShopSummaryCard extends StatelessWidget {
                     Text(
                       l10n.sellerShopGradeSummary(
                         dashboard.trustGrade,
-                        dashboard.shop.rating.toString(),
+                        formatRating(dashboard.shop.rating),
                       ),
                       style: const TextStyle(
                         color: AppColors.textSecondary,

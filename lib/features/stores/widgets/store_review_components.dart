@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -52,7 +53,7 @@ class StoreReviewItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  review.date,
+                  formatShortDate(review.date),
                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
@@ -92,9 +93,14 @@ class StoreReviewList extends StatelessWidget {
                 onPressed: () => Navigator.pushNamed(
                   context,
                   Routes.review,
-                  arguments: StoreDetailArgs(shopId),
+                  // ReviewArgs, not StoreDetailArgs: the route only accepts its
+                  // own type or a bare string, so the wrong one fell through to
+                  // the fallback and bounced the user back to the home tab.
+                  arguments: ReviewArgs(shopId),
                 ),
-                child: Text(AppLocalizations.of(context).storeDetailWriteReview),
+                child: Text(
+                  AppLocalizations.of(context).storeDetailWriteReview,
+                ),
               ),
             ),
           ),

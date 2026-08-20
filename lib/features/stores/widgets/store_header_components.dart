@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -18,10 +19,7 @@ class StoreHeader extends StatelessWidget {
       clipBehavior: Clip.none,
       alignment: Alignment.topCenter,
       children: [
-        Container(
-          height: 120,
-          color: AppColors.meatRed.withValues(alpha: 0.1),
-        ),
+        Container(height: 120, color: AppColors.meatRed.withValues(alpha: 0.1)),
         Padding(
           padding: const EdgeInsets.only(top: 80),
           child: Column(
@@ -52,8 +50,10 @@ class StoreHeader extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: palette.positiveBg,
                   borderRadius: BorderRadius.circular(8),
@@ -68,7 +68,7 @@ class StoreHeader extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      l10n.exploreRatingLabel(shop.rating.toString()),
+                      l10n.exploreRatingLabel(formatRating(shop.rating)),
                       style: const TextStyle(
                         fontWeight: FontWeight.w900,
                         color: AppColors.trustGreen,

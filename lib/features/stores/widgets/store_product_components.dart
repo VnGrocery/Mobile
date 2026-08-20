@@ -58,10 +58,6 @@ class StoreProductItem extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                    Text(
-                      l10n.storeProductShopLabel(product.shopId),
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
-                    ),
                     const SizedBox(height: 4),
                     Wrap(
                       spacing: 4,
@@ -74,8 +70,9 @@ class StoreProductItem extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color:
-                                    palette.mutedSurface.withValues(alpha: 0.7),
+                                color: palette.mutedSurface.withValues(
+                                  alpha: 0.7,
+                                ),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/core/widgets/trust_score_card.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
@@ -69,7 +70,7 @@ class HomeTrustShopCard extends StatelessWidget {
                       size: 14,
                     ),
                     Text(
-                      l10n.homeShopRatingValue(shop.rating.toString()),
+                      l10n.homeShopRatingValue(formatRating(shop.rating)),
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,

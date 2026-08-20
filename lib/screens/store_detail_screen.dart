@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/core/widgets/trust_score_card.dart';
 import 'package:vngrocery/data/models.dart';
@@ -124,7 +125,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
       ClipboardData(
         text: _storeCubit.shareText(
           shop,
-          l10n.storeShareSummary(shop.rating.toString(), shop.reviewCount),
+          l10n.storeShareSummary(formatRating(shop.rating), shop.reviewCount),
         ),
       ),
     );

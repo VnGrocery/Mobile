@@ -343,6 +343,29 @@ void main() {
       expect(route.settings.name, Routes.voucherQr);
     });
 
+    test('opens the review screen from a store, not the fallback', () {
+      SessionManager.instance.login(email: 'buyer@example.com', role: 'user');
+
+      // The store screen used to pass StoreDetailArgs here, which the review
+      // route does not accept, so it silently bounced back to the home tab.
+      final route = buildRoute(
+        const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
+      );
+      expect(route.settings.name, Routes.review);
+    });
+
+    test('falls back when the review screen gets the wrong argument type', () {
+      SessionManager.instance.login(email: 'buyer@example.com', role: 'user');
+
+      final route = buildRoute(
+        const RouteSettings(
+          name: Routes.review,
+          arguments: StoreDetailArgs('s1'),
+        ),
+      );
+      expect(route.settings.name, Routes.main);
+    });
+
     test('opens the blockchain proof screen for a logged-in user', () {
       SessionManager.instance.login(email: 'buyer@example.com', role: 'user');
 
