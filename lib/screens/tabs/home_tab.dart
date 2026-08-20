@@ -13,11 +13,7 @@ class HomeTab extends StatefulWidget {
   final VoidCallback? onOpenMenu;
   final double bottomContentInset;
 
-  const HomeTab({
-    super.key,
-    this.onOpenMenu,
-    this.bottomContentInset = 0,
-  });
+  const HomeTab({super.key, this.onOpenMenu, this.bottomContentInset = 0});
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -28,7 +24,6 @@ class _HomeTabState extends State<HomeTab> {
   late final HomeCubit _homeCubit;
   static const _allCategory = 'all';
   String _category = _allCategory;
-
 
   @override
   void initState() {
@@ -67,10 +62,7 @@ class _HomeTabState extends State<HomeTab> {
               child: ListView(
                 padding: EdgeInsets.only(bottom: widget.bottomContentInset),
                 children: [
-                  HomeHeader(
-                    userName: userName,
-                    onOpenMenu: widget.onOpenMenu,
-                  ),
+                  HomeHeader(userName: userName, onOpenMenu: widget.onOpenMenu),
                   const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -94,7 +86,9 @@ class _HomeTabState extends State<HomeTab> {
                     categories: categories,
                     selectedCategory: _category,
                     onSelect: (category) => setState(() {
-                      _category = category == _category ? _allCategory : category;
+                      _category = category == _category
+                          ? _allCategory
+                          : category;
                     }),
                   ),
                   const SizedBox(height: 28),
@@ -104,7 +98,8 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   const SizedBox(height: 12),
                   SizedBox(
-                    height: 134,
+                    // Tall enough for the trust chip the card now carries.
+                    height: 150,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
