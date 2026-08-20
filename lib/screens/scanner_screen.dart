@@ -27,6 +27,7 @@ class _ScannerScreenState extends State<ScannerScreen>
   FoodAiResult? _result;
   bool _verifying = false;
   String? _cameraError;
+  bool _noCamera = false;
 
   /// Bundle scanned from a seller label. Without it the photo can only be
   /// classified locally; the server needs the token to check it against a
@@ -46,7 +47,12 @@ class _ScannerScreenState extends State<ScannerScreen>
   Future<void> _initCamera() async {
     try {
       final cameras = await availableCameras();
-      if (cameras.isEmpty) throw StateError('Không tìm thấy camera');
+      // Localised where it is shown, not here: reading context after an await
+      // is unsafe.
+      if (cameras.isEmpty) {
+        if (mounted) setState(() => _noCamera = true);
+        return;
+      }
       final camera = CameraController(
         cameras.first,
         ResolutionPreset.medium,
@@ -138,6 +144,7 @@ class _ScannerScreenState extends State<ScannerScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       key: const ValueKey('scanner.screen'),
       backgroundColor: Colors.black,
@@ -149,7 +156,9 @@ class _ScannerScreenState extends State<ScannerScreen>
                 ? CameraPreview(_camera!)
                 : Center(
                     child: Text(
-                      _cameraError ?? 'Đang mở camera...',
+                      _noCamera
+                          ? l10n.scannerNoCamera
+                          : _cameraError ?? l10n.scannerOpeningCamera,
                       style: const TextStyle(color: Colors.white),
                       textAlign: TextAlign.center,
                     ),

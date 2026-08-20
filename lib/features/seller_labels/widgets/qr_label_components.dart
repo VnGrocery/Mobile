@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
@@ -9,10 +10,11 @@ class QrLabelIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final l10n = AppLocalizations.of(context);
+    return Column(
       children: [
         Text(
-          'Mã QR đã sẵn sàng!',
+          l10n.qrLabelReadyTitle,
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -22,7 +24,7 @@ class QrLabelIntro extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 32),
           child: Text(
-            'Hãy in và dán mã này lên bao bì sản phẩm.',
+            l10n.qrLabelReadyBody,
             style: TextStyle(fontSize: 14, color: Colors.grey),
           ),
         ),
@@ -45,6 +47,7 @@ class QrLabelPreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     final scheme = Theme.of(context).colorScheme;
     return AspectRatio(
@@ -91,15 +94,15 @@ class QrLabelPreviewCard extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                'Mã ghi nhận: $pledgeId',
+                l10n.qrLabelRecordId(pledgeId),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Quét mã để kiểm tra thông tin sản phẩm',
+              Text(
+                l10n.qrLabelScanHint,
                 style: TextStyle(
                   fontSize: 10,
                   color: AppColors.meatRed,
@@ -128,6 +131,7 @@ class QrLabelActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         Row(
@@ -138,7 +142,7 @@ class QrLabelActions extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: onDownload,
                   icon: const Icon(Icons.download),
-                  label: const Text('Tải về'),
+                  label: Text(l10n.qrLabelDownload),
                 ),
               ),
             ),
@@ -157,8 +161,8 @@ class QrLabelActions extends StatelessWidget {
         ),
         TextButton(
           onPressed: onBackHome,
-          child: const Text(
-            'Về màn hình chính',
+          child: Text(
+            l10n.qrLabelBackHome,
             style: TextStyle(color: Colors.grey),
           ),
         ),

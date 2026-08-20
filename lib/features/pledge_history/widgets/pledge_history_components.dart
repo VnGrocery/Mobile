@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/core/widgets/trust_copy.dart';
@@ -11,8 +12,9 @@ class PledgeTimelineHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Dòng thời gian sản phẩm',
+    final l10n = AppLocalizations.of(context);
+    return Text(
+      l10n.pledgeTimelineTitle,
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
@@ -23,12 +25,13 @@ class EmptyPledgeHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 100),
+    final l10n = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(top: 100),
       child: Center(
         child: Text(
-          'Chưa có lịch sử ghi nhận',
-          style: TextStyle(color: Colors.grey),
+          l10n.pledgeHistoryEmpty,
+          style: const TextStyle(color: Colors.grey),
         ),
       ),
     );
@@ -48,6 +51,7 @@ class PledgeTimelineItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final palette = context.palette;
     final color = item.isVerified
         ? AppColors.freshGreen
@@ -156,7 +160,7 @@ class PledgeTimelineItem extends StatelessWidget {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Biên lai gốc: ${item.proofId}',
+                                l10n.pledgeOriginalReceipt(item.proofId),
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   fontSize: 11,

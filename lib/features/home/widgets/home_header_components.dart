@@ -13,11 +13,7 @@ class HomeHeader extends StatelessWidget {
   final String userName;
   final VoidCallback? onOpenMenu;
 
-  const HomeHeader({
-    super.key,
-    required this.userName,
-    this.onOpenMenu,
-  });
+  const HomeHeader({super.key, required this.userName, this.onOpenMenu});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +86,10 @@ class HomeHeader extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   l10n.homeLocationDistrict1,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(width: 2),
                 const Icon(

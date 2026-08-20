@@ -38,8 +38,9 @@ class HomeCategoryList extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 30,
-                    backgroundColor:
-                        selected ? AppColors.primaryGreen : palette.card,
+                    backgroundColor: selected
+                        ? AppColors.primaryGreen
+                        : palette.card,
                     child: Icon(
                       category.icon,
                       color: selected ? Colors.white : AppColors.primaryGreen,
@@ -52,8 +53,9 @@ class HomeCategoryList extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                      color:
-                          selected ? AppColors.primaryGreen : scheme.onSurface,
+                      color: selected
+                          ? AppColors.primaryGreen
+                          : scheme.onSurface,
                     ),
                   ),
                 ],

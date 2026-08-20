@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
@@ -18,6 +19,7 @@ class HomePledgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final product = item.product;
     final shop = item.shop;
     final palette = context.palette;
@@ -47,10 +49,8 @@ class HomePledgeCard extends StatelessWidget {
                   child: Image.asset(
                     'assets/images/lamb_meat.png',
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => const Icon(
-                      Icons.image,
-                      color: AppColors.textSecondary,
-                    ),
+                    errorBuilder: (_, __, ___) =>
+                        const Icon(Icons.image, color: AppColors.textSecondary),
                   ),
                 ),
               ),
@@ -92,14 +92,14 @@ class HomePledgeCard extends StatelessWidget {
                   ScoreRingBadge(score: product.freshnessScore),
                   const SizedBox(height: 8),
                   IconButton.filled(
-                    tooltip: 'Thêm vào giỏ',
+                    tooltip: l10n.homeAddToCart,
                     onPressed: () {
-                      context
-                          .read<CartBloc>()
-                          .add(CartAddRequested(product: product));
+                      context.read<CartBloc>().add(
+                        CartAddRequested(product: product),
+                      );
                       AppFeedback.showSnackBar(
                         context,
-                        'Đã thêm ${product.name}',
+                        l10n.homeAddedToCart(product.name),
                         icon: Icons.add_shopping_cart_rounded,
                       );
                     },
@@ -117,6 +117,7 @@ class HomePledgeCard extends StatelessWidget {
 
 void showHomePledgeSheet(BuildContext context, List<HomePledgeItem> items) {
   final palette = context.palette;
+  final l10n = AppLocalizations.of(context);
   showModalBottomSheet<void>(
     context: context,
     backgroundColor: palette.elevatedCard,
@@ -142,14 +143,14 @@ void showHomePledgeSheet(BuildContext context, List<HomePledgeItem> items) {
             const SizedBox(height: 18),
             Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Sản phẩm mới kiểm tra',
+                    l10n.homeRecentChecks,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 IconButton(
-                  tooltip: 'Đóng',
+                  tooltip: l10n.commonClose,
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.close),
                 ),
