@@ -406,5 +406,20 @@
   "qrScanExpired": "Mã đã hết hạn, hãy xin người bán tem mới",
   "qrScanUnsupported": "Mã này cần phiên bản ứng dụng mới hơn",
   "qrScanCameraError": "Không mở được camera",
-  "qrScanChecking": "Đang kiểm tra..."
+  "qrScanChecking": "Đang kiểm tra...",
+  "navHome": "Trang chủ",
+  "navExplore": "Khám phá",
+  "navScanProducts": "Quét sản phẩm",
+  "navStores": "Cửa hàng",
+  "navVoucherWallet": "Ví voucher",
+  "navAccount": "Tài khoản",
+  "navSellerOverview": "Tổng quan",
+  "navSellerProducts": "Sản phẩm",
+  "navSellerStore": "Cửa hàng",
+  "onboardingTitle1": "Xem dữ liệu sản phẩm",
+  "onboardingBody1": "Mỗi sản phẩm có điểm đánh giá và lịch sử ghi nhận rõ ràng.",
+  "onboardingTitle2": "Chụp ảnh kiểm tra",
+  "onboardingBody2": "Quét mã hoặc chụp ảnh tại quầy để kiểm tra với dữ liệu gần nhất.",
+  "onboardingTitle3": "Ra quyết định dễ dàng",
+  "onboardingBody3": "Dễ so sánh hơn khi thông tin đến từ các lượt ghi nhận thực tế."
 }

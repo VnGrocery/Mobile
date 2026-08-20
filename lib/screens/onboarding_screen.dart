@@ -54,7 +54,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _next() {
-    if (_page == OnboardingPages.items.length - 1) {
+    if (_page == OnboardingPages.count - 1) {
       _finish();
     } else {
       _controller.nextPage(

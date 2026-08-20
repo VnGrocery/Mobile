@@ -44,10 +44,12 @@ class OnboardingPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageView.builder(
       controller: controller,
-      itemCount: OnboardingPages.items.length,
+      itemCount: OnboardingPages.count,
       onPageChanged: onPageChanged,
       itemBuilder: (_, index) {
-        return OnboardingPageContent(page: OnboardingPages.items[index]);
+        return OnboardingPageContent(
+          page: OnboardingPages.of(AppLocalizations.of(context))[index],
+        );
       },
     );
   }
@@ -109,7 +111,7 @@ class OnboardingBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final isLast = page == OnboardingPages.items.length - 1;
+    final isLast = page == OnboardingPages.count - 1;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Row(
@@ -148,7 +150,7 @@ class OnboardingDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: List.generate(OnboardingPages.items.length, (index) {
+      children: List.generate(OnboardingPages.count, (index) {
         final active = index == page;
         return AnimatedContainer(
           duration: const Duration(milliseconds: 250),

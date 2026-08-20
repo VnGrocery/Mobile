@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
+
 class OnboardingPageData {
   final String title;
   final String description;
@@ -11,21 +13,26 @@ class OnboardingPageData {
 class OnboardingPages {
   const OnboardingPages._();
 
-  static const items = [
+  /// Built per-locale rather than held in a const list, so the slides follow
+  /// the app language.
+  static List<OnboardingPageData> of(AppLocalizations l10n) => [
     OnboardingPageData(
-      'Xem dữ liệu sản phẩm',
-      'Mỗi sản phẩm có điểm đánh giá và lịch sử ghi nhận rõ ràng.',
+      l10n.onboardingTitle1,
+      l10n.onboardingBody1,
       Icons.verified_user,
     ),
     OnboardingPageData(
-      'Chụp ảnh kiểm tra',
-      'Quét mã hoặc chụp ảnh tại quầy để kiểm tra với dữ liệu gần nhất.',
+      l10n.onboardingTitle2,
+      l10n.onboardingBody2,
       Icons.photo_camera,
     ),
     OnboardingPageData(
-      'Ra quyết định dễ dàng',
-      'Dễ so sánh hơn khi thông tin đến từ các lượt ghi nhận thực tế.',
+      l10n.onboardingTitle3,
+      l10n.onboardingBody3,
       Icons.check_circle,
     ),
   ];
+
+  /// Number of slides, needed before a context is available.
+  static const count = 3;
 }

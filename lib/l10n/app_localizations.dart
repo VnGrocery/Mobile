@@ -2383,6 +2383,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checking...'**
   String get qrScanChecking;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get navExplore;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get navScanProducts;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'Stores'**
+  String get navStores;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'Vouchers'**
+  String get navVoucherWallet;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get navAccount;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get navSellerOverview;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get navSellerProducts;
+
+  /// Bottom navigation and side menu label.
+  ///
+  /// In en, this message translates to:
+  /// **'My store'**
+  String get navSellerStore;
+
+  /// Onboarding slide copy.
+  ///
+  /// In en, this message translates to:
+  /// **'See the data behind a product'**
+  String get onboardingTitle1;
+
+  /// Onboarding slide copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Every product carries a freshness score and a clear record of its history.'**
+  String get onboardingBody1;
+
+  /// Onboarding slide copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Check it with a photo'**
+  String get onboardingTitle2;
+
+  /// Onboarding slide copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the label or take a photo at the counter to compare with the latest record.'**
+  String get onboardingBody2;
+
+  /// Onboarding slide copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Decide with confidence'**
+  String get onboardingTitle3;
+
+  /// Onboarding slide copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparing is easier when the information comes from real recorded checks.'**
+  String get onboardingBody3;
 }
 
 class _AppLocalizationsDelegate

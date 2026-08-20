@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/account/controllers/session_state.dart';
 import 'package:vngrocery/features/navigation/navigation_config.dart';
@@ -87,7 +88,7 @@ class _MainScreenState extends State<MainScreen> {
                   right: 0,
                   bottom: 8,
                   child: FloatingTabPopup(
-                    items: NavigationConfig.bottomNavItems(isSeller),
+                    items: NavigationConfig.bottomNavItems(AppLocalizations.of(context), isSeller),
                     selectedIndex: selectedIndex,
                     onSelect: _selectBottomTab,
                   ),

@@ -1244,4 +1244,52 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get qrScanChecking => 'Đang kiểm tra...';
+
+  @override
+  String get navHome => 'Trang chủ';
+
+  @override
+  String get navExplore => 'Khám phá';
+
+  @override
+  String get navScanProducts => 'Quét sản phẩm';
+
+  @override
+  String get navStores => 'Cửa hàng';
+
+  @override
+  String get navVoucherWallet => 'Ví voucher';
+
+  @override
+  String get navAccount => 'Tài khoản';
+
+  @override
+  String get navSellerOverview => 'Tổng quan';
+
+  @override
+  String get navSellerProducts => 'Sản phẩm';
+
+  @override
+  String get navSellerStore => 'Cửa hàng';
+
+  @override
+  String get onboardingTitle1 => 'Xem dữ liệu sản phẩm';
+
+  @override
+  String get onboardingBody1 =>
+      'Mỗi sản phẩm có điểm đánh giá và lịch sử ghi nhận rõ ràng.';
+
+  @override
+  String get onboardingTitle2 => 'Chụp ảnh kiểm tra';
+
+  @override
+  String get onboardingBody2 =>
+      'Quét mã hoặc chụp ảnh tại quầy để kiểm tra với dữ liệu gần nhất.';
+
+  @override
+  String get onboardingTitle3 => 'Ra quyết định dễ dàng';
+
+  @override
+  String get onboardingBody3 =>
+      'Dễ so sánh hơn khi thông tin đến từ các lượt ghi nhận thực tế.';
 }

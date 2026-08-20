@@ -1251,4 +1251,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qrScanChecking => 'Checking...';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navExplore => 'Explore';
+
+  @override
+  String get navScanProducts => 'Scan';
+
+  @override
+  String get navStores => 'Stores';
+
+  @override
+  String get navVoucherWallet => 'Vouchers';
+
+  @override
+  String get navAccount => 'Account';
+
+  @override
+  String get navSellerOverview => 'Overview';
+
+  @override
+  String get navSellerProducts => 'Products';
+
+  @override
+  String get navSellerStore => 'My store';
+
+  @override
+  String get onboardingTitle1 => 'See the data behind a product';
+
+  @override
+  String get onboardingBody1 =>
+      'Every product carries a freshness score and a clear record of its history.';
+
+  @override
+  String get onboardingTitle2 => 'Check it with a photo';
+
+  @override
+  String get onboardingBody2 =>
+      'Scan the label or take a photo at the counter to compare with the latest record.';
+
+  @override
+  String get onboardingTitle3 => 'Decide with confidence';
+
+  @override
+  String get onboardingBody3 =>
+      'Comparing is easier when the information comes from real recorded checks.';
 }
