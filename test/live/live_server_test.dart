@@ -11,6 +11,8 @@
 ///   --dart-define=LIVE_SHOP_ID=... \
 ///   --dart-define=LIVE_PRODUCT_ID=...
 /// ```
+// The whole point of this test is to print what the real server returned.
+// ignore_for_file: avoid_print
 library;
 
 import 'package:flutter_test/flutter_test.dart';
