@@ -1473,4 +1473,16 @@ class AppLocalizationsVi extends AppLocalizations {
   String scannerConfidenceValue(Object percent) {
     return 'Tin cậy: $percent%';
   }
+
+  @override
+  String get homeCategoryFreshProduce => 'Nông sản tươi';
+
+  @override
+  String get homeCategoryMeat => 'Thịt';
+
+  @override
+  String get homeCategoryVegetables => 'Rau củ';
+
+  @override
+  String get homeCategoryFruit => 'Trái cây';
 }

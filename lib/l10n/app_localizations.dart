@@ -2797,6 +2797,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confidence: {percent}%'**
   String scannerConfidenceValue(Object percent);
+
+  /// Label for the fresh_produce category key.
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh produce'**
+  String get homeCategoryFreshProduce;
+
+  /// Label for the meat category key.
+  ///
+  /// In en, this message translates to:
+  /// **'Meat'**
+  String get homeCategoryMeat;
+
+  /// Label for the vegetables category key.
+  ///
+  /// In en, this message translates to:
+  /// **'Vegetables'**
+  String get homeCategoryVegetables;
+
+  /// Label for the fruit category key.
+  ///
+  /// In en, this message translates to:
+  /// **'Fruit'**
+  String get homeCategoryFruit;
 }
 
 class _AppLocalizationsDelegate

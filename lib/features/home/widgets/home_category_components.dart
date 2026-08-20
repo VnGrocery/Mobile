@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/features/home/category_presenter.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
-class HomeCategory {
-  final String label;
-  final IconData icon;
-
-  const HomeCategory(this.label, this.icon);
-}
-
 class HomeCategoryList extends StatelessWidget {
-  final List<HomeCategory> categories;
+  /// Raw category values taken from the products on screen.
+  final List<String> categories;
   final String selectedCategory;
   final ValueChanged<String> onSelect;
 
@@ -26,32 +22,46 @@ class HomeCategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final palette = context.palette;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: categories.map((category) {
-          final selected = category.label == selectedCategory;
-          return Expanded(
+    final l10n = AppLocalizations.of(context);
+    return SizedBox(
+      height: 96,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: categories.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        itemBuilder: (context, index) {
+          final category = categories[index];
+          final selected = category == selectedCategory;
+          // A scrolling row rather than equal-width columns: the categories come
+          // from the data, so there may be one or a dozen, and stretching a
+          // single chip across the screen looked broken.
+          return SizedBox(
+            width: 76,
             child: GestureDetector(
-              onTap: () => onSelect(category.label),
+              onTap: () => onSelect(category),
               child: Column(
                 children: [
                   CircleAvatar(
-                    radius: 30,
+                    radius: 28,
                     backgroundColor: selected
                         ? AppColors.primaryGreen
                         : palette.card,
                     child: Icon(
-                      category.icon,
+                      CategoryPresenter.icon(category),
                       color: selected ? Colors.white : AppColors.primaryGreen,
-                      size: 26,
+                      size: 24,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    category.label,
+                    CategoryPresenter.label(l10n, category),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 12,
+                      height: 1.1,
                       fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                       color: selected
                           ? AppColors.primaryGreen
@@ -62,7 +72,7 @@ class HomeCategoryList extends StatelessWidget {
               ),
             ),
           );
-        }).toList(),
+        },
       ),
     );
   }

@@ -42,18 +42,17 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final userName = context.watch<SessionCubit>().state.displayName;
-    final categories = [
-      HomeCategory(l10n.homeCategoryPork, Icons.kebab_dining),
-      HomeCategory(l10n.homeCategoryBeef, Icons.lunch_dining),
-      HomeCategory(l10n.homeCategoryPoultry, Icons.egg_alt),
-      HomeCategory(l10n.homeCategorySeafood, Icons.set_meal),
-    ];
-
     return BlocProvider.value(
       value: _homeCubit,
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          final featuredPledgeItems = state.featuredPledgeItems();
+          final categories = state.categories;
+          final activeCategory = categories.contains(_category)
+              ? _category
+              : _allCategory;
+          final featuredPledgeItems = state.featuredPledgeItems(
+            category: activeCategory == _allCategory ? null : activeCategory,
+          );
 
           return Scaffold(
             backgroundColor: context.palette.appBackground,
@@ -79,18 +78,26 @@ class _HomeTabState extends State<HomeTab> {
                       onTap: () => Navigator.pushNamed(context, Routes.scan),
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  HomeSectionTitle(l10n.homeCategoriesTitle, showAction: false),
-                  const SizedBox(height: 12),
-                  HomeCategoryList(
-                    categories: categories,
-                    selectedCategory: _category,
-                    onSelect: (category) => setState(() {
-                      _category = category == _category
-                          ? _allCategory
-                          : category;
-                    }),
-                  ),
+                  // Hidden entirely when nothing has a category yet, rather
+                  // than showing chips that match no product.
+                  if (categories.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    HomeSectionTitle(
+                      l10n.homeCategoriesTitle,
+                      showAction: false,
+                    ),
+                    const SizedBox(height: 12),
+                    HomeCategoryList(
+                      categories: categories,
+                      selectedCategory: activeCategory,
+                      onSelect: (category) => setState(() {
+                        // Tapping the active one clears the filter.
+                        _category = category == activeCategory
+                            ? _allCategory
+                            : category;
+                      }),
+                    ),
+                  ],
                   const SizedBox(height: 28),
                   HomeSectionTitle(
                     l10n.homeTopRatedStoresTitle,

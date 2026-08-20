@@ -476,5 +476,9 @@
   "scoreLabel": "Điểm đánh giá",
   "qrLabelClipboard": "VnGrocery Check\nMã ghi nhận: {pledgeId}\nQuét mã để kiểm tra thông tin sản phẩm",
   "sellerModeSubtitle": "Chế độ người bán",
-  "scannerConfidenceValue": "Tin cậy: {percent}%"
+  "scannerConfidenceValue": "Tin cậy: {percent}%",
+  "homeCategoryFreshProduce": "Nông sản tươi",
+  "homeCategoryMeat": "Thịt",
+  "homeCategoryVegetables": "Rau củ",
+  "homeCategoryFruit": "Trái cây"
 }

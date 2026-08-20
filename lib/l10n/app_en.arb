@@ -618,5 +618,13 @@
   "sellerModeSubtitle": "Seller mode",
   "@sellerModeSubtitle": {"description": "Subtitle under the seller dashboard heading."},
   "scannerConfidenceValue": "Confidence: {percent}%",
-  "@scannerConfidenceValue": {"description": "AI confidence readout.", "placeholders": {"percent": {}}}
+  "@scannerConfidenceValue": {"description": "AI confidence readout.", "placeholders": {"percent": {}}},
+  "homeCategoryFreshProduce": "Fresh produce",
+  "@homeCategoryFreshProduce": {"description": "Label for the fresh_produce category key."},
+  "homeCategoryMeat": "Meat",
+  "@homeCategoryMeat": {"description": "Label for the meat category key."},
+  "homeCategoryVegetables": "Vegetables",
+  "@homeCategoryVegetables": {"description": "Label for the vegetables category key."},
+  "homeCategoryFruit": "Fruit",
+  "@homeCategoryFruit": {"description": "Label for the fruit category key."}
 }

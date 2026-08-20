@@ -1481,4 +1481,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String scannerConfidenceValue(Object percent) {
     return 'Confidence: $percent%';
   }
+
+  @override
+  String get homeCategoryFreshProduce => 'Fresh produce';
+
+  @override
+  String get homeCategoryMeat => 'Meat';
+
+  @override
+  String get homeCategoryVegetables => 'Vegetables';
+
+  @override
+  String get homeCategoryFruit => 'Fruit';
 }
