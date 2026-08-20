@@ -48,7 +48,10 @@ class _QrLabelScreenState extends State<QrLabelScreen> {
               child: Column(
                 children: [
                   const QrLabelIntro(),
-                  QrLabelPreviewCard(pledgeId: state.pledgeId),
+                  QrLabelPreviewCard(
+                    pledgeId: state.pledgeId,
+                    bundleToken: state.bundleToken,
+                  ),
                   const Spacer(),
                   QrLabelActions(
                     onDownload: () => _downloadLabel(context, state),

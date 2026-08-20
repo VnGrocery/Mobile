@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -33,7 +34,14 @@ class QrLabelIntro extends StatelessWidget {
 class QrLabelPreviewCard extends StatelessWidget {
   final String pledgeId;
 
-  const QrLabelPreviewCard({super.key, required this.pledgeId});
+  /// The bundleToken to encode. Empty means there is nothing to print yet.
+  final String bundleToken;
+
+  const QrLabelPreviewCard({
+    super.key,
+    required this.pledgeId,
+    this.bundleToken = '',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +70,24 @@ class QrLabelPreviewCard extends StatelessWidget {
               Container(
                 width: 200,
                 height: 200,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
+                  color: Colors.white,
                   border: Border.all(color: palette.border),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: FittedBox(
-                  child: Icon(Icons.qr_code_2, color: scheme.onSurface),
-                ),
+                // A real code, not a placeholder icon: this is what the buyer
+                // scans to verify the bundle.
+                child: bundleToken.isEmpty
+                    ? FittedBox(
+                        child: Icon(Icons.qr_code_2, color: scheme.onSurface),
+                      )
+                    : QrImageView(
+                        data: bundleToken,
+                        version: QrVersions.auto,
+                        backgroundColor: Colors.white,
+                        errorCorrectionLevel: QrErrorCorrectLevel.M,
+                      ),
               ),
               const SizedBox(height: 24),
               Text(
@@ -78,10 +96,6 @@ class QrLabelPreviewCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
-              ),
-              const Text(
-                'Thịt bò thăn Úc - Điểm đánh giá: 8.5',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
               const SizedBox(height: 16),
               const Text(
