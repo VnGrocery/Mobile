@@ -29,8 +29,9 @@ class VoucherWalletCard extends StatelessWidget {
     final shopName = shop?.name ?? l10n.cartUnavailableShopName;
     final expired = VoucherPresenter.isExpired(voucher);
     final disabled = VoucherPresenter.isDisabled(userVoucher, voucher);
-    final statusColor =
-        userVoucher.isUsed || expired ? Colors.grey : AppColors.primaryGreen;
+    final statusColor = userVoucher.isUsed || expired
+        ? Colors.grey
+        : AppColors.primaryGreen;
 
     return Material(
       key: ValueKey('voucher_wallet.card.${userVoucher.id}'),
@@ -64,14 +65,21 @@ class VoucherWalletCard extends StatelessWidget {
               Row(
                 children: [
                   VoucherMeta(
-                    icon:
-                        voucher.isManual ? Icons.document_scanner : Icons.sell,
-                    label: VoucherPresenter.discountLabel(voucher),
+                    icon: voucher.isManual
+                        ? Icons.document_scanner
+                        : Icons.sell,
+                    label: VoucherPresenter.discountLabel(
+                      AppLocalizations.of(context),
+                      voucher,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   VoucherMeta(
                     icon: Icons.receipt_long,
-                    label: VoucherPresenter.spendLabel(voucher),
+                    label: VoucherPresenter.spendLabel(
+                      AppLocalizations.of(context),
+                      voucher,
+                    ),
                   ),
                 ],
               ),
@@ -144,16 +152,17 @@ class VoucherWalletHeader extends StatelessWidget {
                 shopName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: palette.textSecondary,
-                  fontSize: 12,
-                ),
+                style: TextStyle(color: palette.textSecondary, fontSize: 12),
               ),
             ],
           ),
         ),
         VoucherPill(
-          label: VoucherPresenter.statusLabel(userVoucher, voucher),
+          label: VoucherPresenter.statusLabel(
+            AppLocalizations.of(context),
+            userVoucher,
+            voucher,
+          ),
           color: statusColor,
         ),
       ],
@@ -185,10 +194,7 @@ class VoucherWalletCodeRow extends StatelessWidget {
             ? const ManualVoucherBadge()
             : Text(
                 VoucherPresenter.expiryLabel(voucher),
-                style: TextStyle(
-                  color: palette.textSecondary,
-                  fontSize: 12,
-                ),
+                style: TextStyle(color: palette.textSecondary, fontSize: 12),
               ),
       ],
     );

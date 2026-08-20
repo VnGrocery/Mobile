@@ -1345,4 +1345,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sellerBuyerAlerts => 'Buyer alerts';
+
+  @override
+  String voucherDiscountPercent(Object value) {
+    return 'Save $value%';
+  }
+
+  @override
+  String voucherDiscountAmount(Object amount) {
+    return 'Save $amount';
+  }
+
+  @override
+  String get voucherManualInfo => 'Manually entered';
+
+  @override
+  String voucherMinSpendFrom(Object amount) {
+    return 'From $amount';
+  }
+
+  @override
+  String get voucherExpiredLabel => 'Expired';
+
+  @override
+  String get voucherUsableLabel => 'Usable';
+
+  @override
+  String get voucherReadyLabel => 'Ready to use';
+
+  @override
+  String get voucherPerYourInput => 'Based on what you entered';
+
+  @override
+  String get qrLabelReadyTitle => 'Your QR code is ready';
+
+  @override
+  String get qrLabelReadyBody => 'Print it and stick it on the packaging.';
+
+  @override
+  String qrLabelRecordId(Object id) {
+    return 'Record: $id';
+  }
+
+  @override
+  String get qrLabelScanHint => 'Scan to check this product';
+
+  @override
+  String get qrLabelDownload => 'Download';
+
+  @override
+  String get qrLabelBackHome => 'Back to home';
+
+  @override
+  String get homeAddToCart => 'Add to cart';
+
+  @override
+  String homeAddedToCart(Object name) {
+    return 'Added $name';
+  }
+
+  @override
+  String get homeRecentChecks => 'Recently checked products';
+
+  @override
+  String get pledgeTimelineTitle => 'Product timeline';
+
+  @override
+  String get pledgeHistoryEmpty => 'No records yet';
+
+  @override
+  String pledgeOriginalReceipt(Object id) {
+    return 'Original receipt: $id';
+  }
+
+  @override
+  String get scannerNoCamera => 'No camera found';
+
+  @override
+  String get scannerOpeningCamera => 'Opening the camera...';
+
+  @override
+  String scannerConfidence(Object percent) {
+    return 'Confidence: $percent%';
+  }
+
+  @override
+  String get voucherUsedShort => 'Used';
 }

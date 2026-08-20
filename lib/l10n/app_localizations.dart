@@ -2563,6 +2563,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Buyer alerts'**
   String get sellerBuyerAlerts;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Save {value}%'**
+  String voucherDiscountPercent(Object value);
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Save {amount}'**
+  String voucherDiscountAmount(Object amount);
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Manually entered'**
+  String get voucherManualInfo;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'From {amount}'**
+  String voucherMinSpendFrom(Object amount);
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get voucherExpiredLabel;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Usable'**
+  String get voucherUsableLabel;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to use'**
+  String get voucherReadyLabel;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on what you entered'**
+  String get voucherPerYourInput;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Your QR code is ready'**
+  String get qrLabelReadyTitle;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Print it and stick it on the packaging.'**
+  String get qrLabelReadyBody;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Record: {id}'**
+  String qrLabelRecordId(Object id);
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan to check this product'**
+  String get qrLabelScanHint;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get qrLabelDownload;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to home'**
+  String get qrLabelBackHome;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to cart'**
+  String get homeAddToCart;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Added {name}'**
+  String homeAddedToCart(Object name);
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently checked products'**
+  String get homeRecentChecks;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Product timeline'**
+  String get pledgeTimelineTitle;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'No records yet'**
+  String get pledgeHistoryEmpty;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Original receipt: {id}'**
+  String pledgeOriginalReceipt(Object id);
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'No camera found'**
+  String get scannerNoCamera;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening the camera...'**
+  String get scannerOpeningCamera;
+
+  /// App copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence: {percent}%'**
+  String scannerConfidence(Object percent);
+
+  /// Short status chip for a used voucher.
+  ///
+  /// In en, this message translates to:
+  /// **'Used'**
+  String get voucherUsedShort;
 }
 
 class _AppLocalizationsDelegate

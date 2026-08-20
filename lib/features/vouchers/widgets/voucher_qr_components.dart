@@ -48,7 +48,11 @@ class VoucherUseHeader extends StatelessWidget {
               const Icon(Icons.info, size: 17, color: AppColors.primaryGreen),
               const SizedBox(width: 6),
               Text(
-                VoucherPresenter.detailStatus(userVoucher, voucher),
+                VoucherPresenter.detailStatus(
+                  AppLocalizations.of(context),
+                  userVoucher,
+                  voucher,
+                ),
                 style: const TextStyle(
                   color: AppColors.primaryGreen,
                   fontWeight: FontWeight.bold,
@@ -124,10 +128,7 @@ class VoucherCodeCard extends StatelessWidget {
             Text(
               payload,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: palette.textSecondary,
-                fontSize: 11,
-              ),
+              style: TextStyle(color: palette.textSecondary, fontSize: 11),
             ),
           ],
         ),
@@ -140,11 +141,7 @@ class VoucherRuleCard extends StatelessWidget {
   final Voucher voucher;
   final Shop shop;
 
-  const VoucherRuleCard({
-    super.key,
-    required this.voucher,
-    required this.shop,
-  });
+  const VoucherRuleCard({super.key, required this.voucher, required this.shop});
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +167,10 @@ class VoucherRuleCard extends StatelessWidget {
           ),
           VoucherRuleRow(
             icon: Icons.local_offer,
-            text: VoucherPresenter.ruleDiscountLabel(voucher),
+            text: VoucherPresenter.ruleDiscountLabel(
+              AppLocalizations.of(context),
+              voucher,
+            ),
           ),
           if (!voucher.isManual)
             VoucherRuleRow(

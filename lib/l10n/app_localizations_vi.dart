@@ -1337,4 +1337,90 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get sellerBuyerAlerts => 'Cảnh báo buyer';
+
+  @override
+  String voucherDiscountPercent(Object value) {
+    return 'Giảm $value%';
+  }
+
+  @override
+  String voucherDiscountAmount(Object amount) {
+    return 'Giảm $amount';
+  }
+
+  @override
+  String get voucherManualInfo => 'Thông tin tự nhập';
+
+  @override
+  String voucherMinSpendFrom(Object amount) {
+    return 'Từ $amount';
+  }
+
+  @override
+  String get voucherExpiredLabel => 'Hết hạn';
+
+  @override
+  String get voucherUsableLabel => 'Có thể dùng';
+
+  @override
+  String get voucherReadyLabel => 'Sẵn sàng sử dụng';
+
+  @override
+  String get voucherPerYourInput => 'Theo thông tin bạn tự nhập';
+
+  @override
+  String get qrLabelReadyTitle => 'Mã QR đã sẵn sàng!';
+
+  @override
+  String get qrLabelReadyBody => 'Hãy in và dán mã này lên bao bì sản phẩm.';
+
+  @override
+  String qrLabelRecordId(Object id) {
+    return 'Mã ghi nhận: $id';
+  }
+
+  @override
+  String get qrLabelScanHint => 'Quét mã để kiểm tra thông tin sản phẩm';
+
+  @override
+  String get qrLabelDownload => 'Tải về';
+
+  @override
+  String get qrLabelBackHome => 'Về màn hình chính';
+
+  @override
+  String get homeAddToCart => 'Thêm vào giỏ';
+
+  @override
+  String homeAddedToCart(Object name) {
+    return 'Đã thêm $name';
+  }
+
+  @override
+  String get homeRecentChecks => 'Sản phẩm mới kiểm tra';
+
+  @override
+  String get pledgeTimelineTitle => 'Dòng thời gian sản phẩm';
+
+  @override
+  String get pledgeHistoryEmpty => 'Chưa có lịch sử ghi nhận';
+
+  @override
+  String pledgeOriginalReceipt(Object id) {
+    return 'Biên lai gốc: $id';
+  }
+
+  @override
+  String get scannerNoCamera => 'Không tìm thấy camera';
+
+  @override
+  String get scannerOpeningCamera => 'Đang mở camera...';
+
+  @override
+  String scannerConfidence(Object percent) {
+    return 'Tin cậy: $percent%';
+  }
+
+  @override
+  String get voucherUsedShort => 'Đã dùng';
 }

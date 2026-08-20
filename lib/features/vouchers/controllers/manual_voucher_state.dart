@@ -16,9 +16,7 @@ class ManualVoucherState {
   });
 
   factory ManualVoucherState.initial() {
-    return ManualVoucherState(
-      expiresAt: DateTime(2026, 6, 30, 23, 59),
-    );
+    return ManualVoucherState(expiresAt: DateTime(2026, 6, 30, 23, 59));
   }
 
   ManualVoucherState copyWith({

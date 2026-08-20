@@ -8,11 +8,7 @@ class VoucherMeta extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const VoucherMeta({
-    super.key,
-    required this.icon,
-    required this.label,
-  });
+  const VoucherMeta({super.key, required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +38,7 @@ class VoucherPill extends StatelessWidget {
   final String label;
   final Color color;
 
-  const VoucherPill({
-    super.key,
-    required this.label,
-    required this.color,
-  });
+  const VoucherPill({super.key, required this.label, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +76,7 @@ class VoucherNotice extends StatelessWidget {
   final String text;
   final IconData icon;
 
-  const VoucherNotice({
-    super.key,
-    required this.text,
-    this.icon = Icons.info,
-  });
+  const VoucherNotice({super.key, required this.text, this.icon = Icons.info});
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +91,7 @@ class VoucherNotice extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.warningOrange),
           const SizedBox(width: 10),
-          Expanded(
-            child: Text(text, style: const TextStyle(height: 1.35)),
-          ),
+          Expanded(child: Text(text, style: const TextStyle(height: 1.35))),
         ],
       ),
     );
@@ -116,11 +102,7 @@ class VoucherRuleRow extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const VoucherRuleRow({
-    super.key,
-    required this.icon,
-    required this.text,
-  });
+  const VoucherRuleRow({super.key, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {

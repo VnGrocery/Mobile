@@ -1,4 +1,5 @@
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/utils/format.dart';
 
@@ -21,27 +22,37 @@ class VoucherPresenter {
     return userVoucher.isUsed || isExpired(voucher) || !voucher.isActive;
   }
 
-  static String discountLabel(Voucher voucher) {
+  static String discountLabel(AppLocalizations l10n, Voucher voucher) {
     if (voucher.isManual) return voucher.codeFormat;
-    if (voucher.isPercent) return 'Giảm ${voucher.discountValue}%';
-    return 'Giảm ${formatVnd(voucher.discountValue)}';
+    if (voucher.isPercent) {
+      return l10n.voucherDiscountPercent(voucher.discountValue);
+    }
+    return l10n.voucherDiscountAmount(formatVnd(voucher.discountValue));
   }
 
-  static String spendLabel(Voucher voucher) {
-    if (voucher.isManual) return 'Thông tin tự nhập';
-    return 'Từ ${formatVnd(voucher.minSpend)}';
+  static String spendLabel(AppLocalizations l10n, Voucher voucher) {
+    if (voucher.isManual) return l10n.voucherManualInfo;
+    return l10n.voucherMinSpendFrom(formatVnd(voucher.minSpend));
   }
 
-  static String statusLabel(UserVoucher userVoucher, Voucher voucher) {
-    if (userVoucher.isUsed) return 'Đã dùng';
-    if (isExpired(voucher)) return 'Hết hạn';
-    return 'Có thể dùng';
+  static String statusLabel(
+    AppLocalizations l10n,
+    UserVoucher userVoucher,
+    Voucher voucher,
+  ) {
+    if (userVoucher.isUsed) return l10n.voucherUsedShort;
+    if (isExpired(voucher)) return l10n.voucherExpiredLabel;
+    return l10n.voucherUsableLabel;
   }
 
-  static String detailStatus(UserVoucher userVoucher, Voucher voucher) {
-    if (userVoucher.isUsed) return 'Đã dùng';
-    if (isExpired(voucher)) return 'Hết hạn';
-    return 'Sẵn sàng sử dụng';
+  static String detailStatus(
+    AppLocalizations l10n,
+    UserVoucher userVoucher,
+    Voucher voucher,
+  ) {
+    if (userVoucher.isUsed) return l10n.voucherUsedShort;
+    if (isExpired(voucher)) return l10n.voucherExpiredLabel;
+    return l10n.voucherReadyLabel;
   }
 
   static String expiryLabel(Voucher voucher) {
@@ -57,8 +68,8 @@ class VoucherPresenter {
     return 'VNGROCERY:${userVoucher.id}:${voucher.code}:${shop.id}';
   }
 
-  static String ruleDiscountLabel(Voucher voucher) {
-    if (voucher.isManual) return 'Theo thông tin bạn tự nhập';
-    return discountLabel(voucher);
+  static String ruleDiscountLabel(AppLocalizations l10n, Voucher voucher) {
+    if (voucher.isManual) return l10n.voucherPerYourInput;
+    return discountLabel(l10n, voucher);
   }
 }

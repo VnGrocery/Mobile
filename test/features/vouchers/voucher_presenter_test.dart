@@ -2,9 +2,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/vouchers/voucher_presenter.dart';
+import 'package:flutter/widgets.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 
 void main() {
   group('VoucherPresenter', () {
+    // The labels are localised now, so the test asserts against the Vietnamese
+    // bundle directly rather than hardcoded literals.
+    final l10n = lookupAppLocalizations(const Locale('vi'));
+
     test('labels and payload reflect voucher type and state', () {
       final manual = Voucher(
         id: 'v-manual',
@@ -42,12 +48,21 @@ void main() {
         description: 'desc',
       );
 
-      expect(VoucherPresenter.discountLabel(manual), 'QR');
-      expect(VoucherPresenter.spendLabel(manual), 'Thông tin tự nhập');
-      expect(VoucherPresenter.ruleDiscountLabel(manual), 'Theo thông tin bạn tự nhập');
-      expect(VoucherPresenter.discountLabel(percent), 'Giảm 20%');
-      expect(VoucherPresenter.statusLabel(userVoucher, percent), 'Có thể dùng');
-      expect(VoucherPresenter.detailStatus(userVoucher, percent), 'Sẵn sàng sử dụng');
+      expect(VoucherPresenter.discountLabel(l10n, manual), 'QR');
+      expect(VoucherPresenter.spendLabel(l10n, manual), 'Thông tin tự nhập');
+      expect(
+        VoucherPresenter.ruleDiscountLabel(l10n, manual),
+        'Theo thông tin bạn tự nhập',
+      );
+      expect(VoucherPresenter.discountLabel(l10n, percent), 'Giảm 20%');
+      expect(
+        VoucherPresenter.statusLabel(l10n, userVoucher, percent),
+        'Có thể dùng',
+      );
+      expect(
+        VoucherPresenter.detailStatus(l10n, userVoucher, percent),
+        'Sẵn sàng sử dụng',
+      );
       expect(
         VoucherPresenter.qrPayload(
           userVoucher: userVoucher,
@@ -84,15 +99,18 @@ void main() {
       )..used = true;
 
       expect(
-        VoucherPresenter.isExpired(
-          expiredVoucher,
-          now: DateTime(2026, 2, 1),
-        ),
+        VoucherPresenter.isExpired(expiredVoucher, now: DateTime(2026, 2, 1)),
         isTrue,
       );
       expect(VoucherPresenter.isDisabled(usedVoucher, expiredVoucher), isTrue);
-      expect(VoucherPresenter.statusLabel(usedVoucher, expiredVoucher), 'Đã dùng');
-      expect(VoucherPresenter.detailStatus(usedVoucher, expiredVoucher), 'Đã dùng');
+      expect(
+        VoucherPresenter.statusLabel(l10n, usedVoucher, expiredVoucher),
+        'Đã dùng',
+      );
+      expect(
+        VoucherPresenter.detailStatus(l10n, usedVoucher, expiredVoucher),
+        'Đã dùng',
+      );
       expect(VoucherPresenter.expiryLabel(expiredVoucher), 'HSD 1/1/2026');
     });
 
