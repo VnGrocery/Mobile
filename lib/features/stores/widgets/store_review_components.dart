@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/features/stores/controllers/store_detail_cubit.dart';
 import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
@@ -90,14 +92,21 @@ class StoreReviewList extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: FilledButton(
-                onPressed: () => Navigator.pushNamed(
-                  context,
-                  Routes.review,
-                  // ReviewArgs, not StoreDetailArgs: the route only accepts its
-                  // own type or a bare string, so the wrong one fell through to
-                  // the fallback and bounced the user back to the home tab.
-                  arguments: ReviewArgs(shopId),
-                ),
+                onPressed: () async {
+                  await Navigator.pushNamed(
+                    context,
+                    Routes.review,
+                    // ReviewArgs, not StoreDetailArgs: the route only accepts
+                    // its own type or a bare string, so the wrong one fell
+                    // through to the fallback and bounced the user home.
+                    arguments: ReviewArgs(shopId),
+                  );
+                  if (!context.mounted) return;
+                  // The screen loaded once in initState, so a review written
+                  // here never showed up until the shop was reopened. Reloading
+                  // also refreshes the rating average, which the review changed.
+                  await context.read<StoreDetailCubit>().load(shopId);
+                },
                 child: Text(
                   AppLocalizations.of(context).storeDetailWriteReview,
                 ),

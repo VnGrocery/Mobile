@@ -83,8 +83,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   Future<void> _submit() async {
     await _reviewCubit.submit(_comment.text);
-    if (!mounted || !_reviewCubit.state.submitted) return;
+    if (!mounted) return;
     final l10n = AppLocalizations.of(context);
+    if (_reviewCubit.state.failed) {
+      AppFeedback.showSnackBar(context, l10n.reviewSubmitFailed);
+      return;
+    }
+    if (!_reviewCubit.state.submitted) return;
     AppFeedback.showSnackBar(
       context,
       _reviewCubit.state.photoAttached

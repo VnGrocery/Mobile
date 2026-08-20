@@ -28,7 +28,7 @@ class ReviewCubit extends Cubit<ReviewState> {
 
   Future<void> submit(String comment) async {
     if (!state.canSubmit(comment)) return;
-    emit(state.copyWith(submitting: true, submitted: false));
+    emit(state.copyWith(submitting: true, submitted: false, failed: false));
     try {
       final id = shopId;
       if (id == null) {
@@ -49,9 +49,9 @@ class ReviewCubit extends Cubit<ReviewState> {
           imageUrls: imageUrls,
         );
       }
-      emit(state.copyWith(submitting: false, submitted: true));
+      emit(state.copyWith(submitting: false, submitted: true, failed: false));
     } catch (_) {
-      emit(state.copyWith(submitting: false, submitted: false));
+      emit(state.copyWith(submitting: false, submitted: false, failed: true));
     }
   }
 }

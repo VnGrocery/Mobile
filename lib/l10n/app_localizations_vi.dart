@@ -1485,4 +1485,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get homeCategoryFruit => 'Trái cây';
+
+  @override
+  String get reviewSubmitFailed => 'Không gửi được đánh giá. Vui lòng thử lại.';
 }

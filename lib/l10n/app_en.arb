@@ -626,5 +626,7 @@
   "homeCategoryVegetables": "Vegetables",
   "@homeCategoryVegetables": {"description": "Label for the vegetables category key."},
   "homeCategoryFruit": "Fruit",
-  "@homeCategoryFruit": {"description": "Label for the fruit category key."}
+  "@homeCategoryFruit": {"description": "Label for the fruit category key."},
+  "reviewSubmitFailed": "Could not send your review. Please try again.",
+  "@reviewSubmitFailed": {"description": "Shown when posting a review fails."}
 }

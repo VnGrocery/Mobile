@@ -1493,4 +1493,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeCategoryFruit => 'Fruit';
+
+  @override
+  String get reviewSubmitFailed =>
+      'Could not send your review. Please try again.';
 }

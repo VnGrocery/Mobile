@@ -480,5 +480,6 @@
   "homeCategoryFreshProduce": "Nông sản tươi",
   "homeCategoryMeat": "Thịt",
   "homeCategoryVegetables": "Rau củ",
-  "homeCategoryFruit": "Trái cây"
+  "homeCategoryFruit": "Trái cây",
+  "reviewSubmitFailed": "Không gửi được đánh giá. Vui lòng thử lại."
 }

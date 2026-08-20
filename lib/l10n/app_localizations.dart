@@ -2821,6 +2821,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fruit'**
   String get homeCategoryFruit;
+
+  /// Shown when posting a review fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send your review. Please try again.'**
+  String get reviewSubmitFailed;
 }
 
 class _AppLocalizationsDelegate
