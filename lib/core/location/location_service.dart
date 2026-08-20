@@ -59,22 +59,39 @@ class LocationService {
       return (null, LocationDenial.denied);
     }
 
+    final position = await _position();
+    if (position == null) return (null, LocationDenial.unavailable);
+
+    final point = GeoPoint(position.latitude, position.longitude);
+    return (
+      ReaderLocation(point: point, areaName: await _areaName(point)),
+      null,
+    );
+  }
+
+  /// A fresh fix if one arrives quickly, otherwise the last one Android saw.
+  ///
+  /// Indoors — which is where someone browses a grocery app — a cold GPS fix
+  /// can take longer than anyone will wait, or never arrive at all. The last
+  /// known position puts the reader within a few hundred metres of where they
+  /// are, which is ample for choosing between a 2 km shop and a 15 km one.
+  /// Waiting for a perfect fix instead left the app claiming it had no idea.
+  Future<Position?> _position() async {
     try {
-      final position = await Geolocator.getCurrentPosition(
+      return await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
           // Ranking by kilometres does not need a metre-accurate fix, and a
           // coarse one arrives far faster and costs much less battery.
           accuracy: LocationAccuracy.low,
-          timeLimit: Duration(seconds: 12),
+          timeLimit: Duration(seconds: 8),
         ),
       );
-      final point = GeoPoint(position.latitude, position.longitude);
-      return (
-        ReaderLocation(point: point, areaName: await _areaName(point)),
-        null,
-      );
     } catch (_) {
-      return (null, LocationDenial.unavailable);
+      try {
+        return await Geolocator.getLastKnownPosition();
+      } catch (_) {
+        return null;
+      }
     }
   }
 
