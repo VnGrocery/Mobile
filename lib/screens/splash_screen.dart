@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/services/app_delay_service.dart';
+import 'package:vngrocery/core/storage/hive_storage_service.dart';
+import 'package:vngrocery/data/session.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -24,7 +26,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigateAfterDelay() async {
     await widget.delayService.wait(AppDelayKind.splash);
     if (!mounted) return;
-    Navigator.pushReplacementNamed(context, Routes.onboarding);
+    Navigator.pushReplacementNamed(context, _destination());
+  }
+
+  /// The session is restored before runApp, so a returning user goes straight
+  /// in. The intro is only for someone who has never opened the app.
+  String _destination() {
+    if (SessionManager.instance.isLoggedIn) return Routes.main;
+    if (HiveStorageService.onboardingSeen) return Routes.auth;
+    return Routes.onboarding;
   }
 
   @override

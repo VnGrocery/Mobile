@@ -6,6 +6,7 @@ class HiveStorageService {
   static const schemaVersion = 1;
   static const metadataBoxName = 'storage_metadata';
   static const _schemaVersionKey = 'schema_version';
+  static const _onboardingSeenKey = 'onboarding_seen';
 
   static const cartBoxName = 'cart_cache';
   static const productBoxName = 'product_cache';
@@ -21,6 +22,15 @@ class HiveStorageService {
   }
 
   static Box<Object> metadataBox() => Hive.box<Object>(metadataBoxName);
+
+  /// Whether the intro has already been shown. It is a one-time thing, so a
+  /// returning user must never be walked through it again.
+  static bool get onboardingSeen =>
+      tryMetadataBox()?.get(_onboardingSeenKey) == true;
+
+  static Future<void> markOnboardingSeen() async {
+    await tryMetadataBox()?.put(_onboardingSeenKey, true);
+  }
 
   static Box<Object>? tryMetadataBox() {
     if (!Hive.isBoxOpen(metadataBoxName)) return null;

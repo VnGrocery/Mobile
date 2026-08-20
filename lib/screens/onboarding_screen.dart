@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/storage/hive_storage_service.dart';
 import 'package:vngrocery/features/onboarding/onboarding_page_data.dart';
 import 'package:vngrocery/features/onboarding/widgets/onboarding_components.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -46,7 +47,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  void _finish() {
+  Future<void> _finish() async {
+    await HiveStorageService.markOnboardingSeen();
+    if (!mounted) return;
     Navigator.pushReplacementNamed(context, Routes.auth);
   }
 
