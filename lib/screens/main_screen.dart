@@ -39,6 +39,10 @@ class _MainScreenState extends State<MainScreen> {
   /// it maps to tabIndex - 1.
   static const int _buyerVoucherWalletMenuIndex = 3;
 
+  /// Position of the scanner among the buyer tabs, used to keep its camera off
+  /// while another tab is showing.
+  static const int _buyerScannerTabIndex = 1;
+
   int _index = 0;
   bool _menuOpen = false;
   double _menuDragDistance = 0;
@@ -48,8 +52,13 @@ class _MainScreenState extends State<MainScreen> {
     return BlocBuilder<SessionCubit, SessionState>(
       builder: (context, session) {
         final isSeller = session.isSeller;
-        final tabs = _tabsForRole(session);
-        final selectedIndex = _index.clamp(0, tabs.length - 1);
+        // Tab count is fixed per role, so the index can be clamped before the
+        // tabs are built; the scanner needs it to know whether it is on screen.
+        // Both roles have four tabs, so the index can be clamped before the
+        // tabs are built; the scanner needs it to know whether it is on screen.
+        const tabCount = 4;
+        final selectedIndex = _index.clamp(0, tabCount - 1);
+        final tabs = _tabsForRole(session, selectedIndex);
 
         return Scaffold(
           backgroundColor: context.palette.appBackground,
@@ -100,7 +109,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  List<Widget> _tabsForRole(SessionState session) {
+  List<Widget> _tabsForRole(SessionState session, int selectedIndex) {
     if (session.isSeller) {
       return [
         const PledgeTab(bottomContentInset: _bottomNavContentInset),
@@ -121,7 +130,10 @@ class _MainScreenState extends State<MainScreen> {
         onOpenMenu: () => setState(() => _menuOpen = true),
         bottomContentInset: _bottomNavContentInset,
       ),
-      const ScannerScreen(bottomContentInset: _bottomNavContentInset),
+      ScannerScreen(
+        bottomContentInset: _bottomNavContentInset,
+        active: selectedIndex == _buyerScannerTabIndex,
+      ),
       const ExploreTab(
         key: ValueKey('store_list'),
         showMap: false,

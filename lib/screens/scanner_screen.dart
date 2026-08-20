@@ -14,7 +14,18 @@ import 'package:vngrocery/screens/qr_scan_screen.dart';
 class ScannerScreen extends StatefulWidget {
   final double bottomContentInset;
 
-  const ScannerScreen({super.key, this.bottomContentInset = 0});
+  /// Whether this tab is the one on screen.
+  ///
+  /// The tabs live in an IndexedStack, so this screen is built as soon as the
+  /// app starts. Opening the camera there kept it powered for the whole
+  /// session, which pinned the camera HAL at 60% CPU and made the app hang.
+  final bool active;
+
+  const ScannerScreen({
+    super.key,
+    this.bottomContentInset = 0,
+    this.active = true,
+  });
 
   @override
   State<ScannerScreen> createState() => _ScannerScreenState();
@@ -41,10 +52,29 @@ class _ScannerScreenState extends State<ScannerScreen>
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat();
-    _initCamera();
+    if (widget.active) _initCamera();
+  }
+
+  @override
+  void didUpdateWidget(covariant ScannerScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.active == oldWidget.active) return;
+    if (widget.active) {
+      _initCamera();
+    } else {
+      _closeCamera();
+    }
+  }
+
+  Future<void> _closeCamera() async {
+    final camera = _camera;
+    _camera = null;
+    if (mounted) setState(() {});
+    await camera?.dispose();
   }
 
   Future<void> _initCamera() async {
+    if (_camera != null) return;
     try {
       final cameras = await availableCameras();
       // Localised where it is shown, not here: reading context after an await
