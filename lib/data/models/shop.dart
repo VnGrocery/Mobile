@@ -1,3 +1,4 @@
+import 'json_helpers.dart';
 import 'trust_summary.dart';
 
 class Shop {
@@ -17,6 +18,10 @@ class Shop {
   /// shop came from local mock data.
   final TrustSummary? trustSummary;
 
+  /// When the shop was created, used to order by "newest". Null when the
+  /// payload omits it, in which case the shop sorts last.
+  final DateTime? createdAt;
+
   const Shop({
     required this.id,
     required this.name,
@@ -30,6 +35,7 @@ class Shop {
     this.status = 'active',
     this.version = 1,
     this.trustSummary,
+    this.createdAt,
   });
 
   factory Shop.fromJson(Map<String, Object?> json) {
@@ -57,6 +63,7 @@ class Shop {
       longitude: (json['longitude'] as num?)?.toDouble() ?? 0,
       status: json['status']?.toString() ?? 'active',
       version: (json['version'] as num?)?.toInt() ?? 1,
+      createdAt: optionalDateTime(json['createdAt']),
       trustSummary: json['trustSummary'] is Map
           ? TrustSummary.fromJson(
               Map<String, Object?>.from(json['trustSummary'] as Map),
@@ -77,6 +84,7 @@ class Shop {
     'longitude': longitude,
     'status': status,
     'version': version,
+    if (createdAt != null) 'createdAt': createdAt!.toIso8601String(),
     if (trustSummary != null) 'trustSummary': trustSummary!.toJson(),
   };
 }

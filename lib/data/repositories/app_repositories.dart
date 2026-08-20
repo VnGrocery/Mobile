@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:vngrocery/data/mock_data.dart';
 import 'package:vngrocery/data/api/remote_data_source.dart';
 import 'buyer_check_repository.dart';
@@ -21,6 +23,12 @@ class AppRepositories {
       ids = IdRepository(db);
 
   static AppRepositories instance = AppRepositories._(MockDb.instance);
+
+  /// Builds a set of repositories over a caller-supplied database, so a test
+  /// can seed exactly the shops it wants without touching the global instance.
+  @visibleForTesting
+  factory AppRepositories.forTesting(MockDb db, [RemoteDataSource? remote]) =>
+      AppRepositories._(db, remote);
 
   static void configureRemote(RemoteDataSource remote) {
     MockDb.instance.shops.clear();
