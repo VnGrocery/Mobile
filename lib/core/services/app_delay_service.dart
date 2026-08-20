@@ -2,7 +2,6 @@ enum AppDelayKind {
   pledgeAnalysis,
   pledgeCommit,
   productSave,
-  reviewSubmit,
   voucherMarkUsed,
   authLogin,
   authRegister,
@@ -34,8 +33,6 @@ class AppDelayService {
       case AppDelayKind.pledgeCommit:
         return const Duration(milliseconds: 900);
       case AppDelayKind.productSave:
-        return const Duration(milliseconds: 900);
-      case AppDelayKind.reviewSubmit:
         return const Duration(milliseconds: 900);
       case AppDelayKind.voucherMarkUsed:
         return const Duration(milliseconds: 450);

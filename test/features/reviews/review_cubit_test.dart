@@ -1,12 +1,11 @@
 import 'dart:typed_data';
 
-import 'package:vngrocery/core/services/app_delay_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/features/reviews/controllers/review_cubit.dart';
 
 void main() {
   test('ReviewCubit tracks rating and photo state', () {
-    final cubit = ReviewCubit(delayService: const NoopAppDelayService());
+    final cubit = ReviewCubit(shopId: 's1');
 
     cubit.setRating(4);
     // The photo is now real bytes the reviewer took, not a bundled asset.
@@ -26,7 +25,8 @@ void main() {
   });
 
   test('ReviewCubit submits only valid reviews', () async {
-    final cubit = ReviewCubit(delayService: const NoopAppDelayService());
+    // No remote is configured, so the review is written to the local store.
+    final cubit = ReviewCubit(shopId: 's1');
 
     await cubit.submit('Missing rating');
     expect(cubit.state.submitted, isFalse);

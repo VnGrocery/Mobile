@@ -17,10 +17,6 @@ void main() {
         const Duration(milliseconds: 900),
       );
       expect(
-        AppDelayService.defaultDuration(AppDelayKind.reviewSubmit),
-        const Duration(milliseconds: 900),
-      );
-      expect(
         AppDelayService.defaultDuration(AppDelayKind.voucherMarkUsed),
         const Duration(milliseconds: 450),
       );
@@ -48,11 +44,11 @@ void main() {
 
     test('override wins', () async {
       final service = AppDelayService(
-        overrides: {AppDelayKind.reviewSubmit: Duration.zero},
+        overrides: {AppDelayKind.productSave: Duration.zero},
       );
 
       final stopwatch = Stopwatch()..start();
-      await service.wait(AppDelayKind.reviewSubmit);
+      await service.wait(AppDelayKind.productSave);
       stopwatch.stop();
 
       expect(stopwatch.elapsed, lessThan(const Duration(milliseconds: 100)));
@@ -60,7 +56,7 @@ void main() {
 
     test('wait falls back to default duration when override missing', () async {
       final service = AppDelayService(
-        overrides: {AppDelayKind.reviewSubmit: Duration.zero},
+        overrides: {AppDelayKind.productSave: Duration.zero},
       );
 
       final stopwatch = Stopwatch()..start();
@@ -95,7 +91,7 @@ void main() {
       const service = NoopAppDelayService();
 
       final stopwatch = Stopwatch()..start();
-      await service.wait(AppDelayKind.reviewSubmit);
+      await service.wait(AppDelayKind.productSave);
       await service.waitDuration(const Duration(seconds: 1));
       stopwatch.stop();
 
