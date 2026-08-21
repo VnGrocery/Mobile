@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
 import 'package:vngrocery/core/location/geo.dart';
+import 'package:vngrocery/core/utils/text_search.dart';
 import 'package:vngrocery/core/location/location_service.dart';
 import 'package:vngrocery/core/location/nearby.dart';
 import 'package:vngrocery/data/models.dart';
@@ -83,8 +84,10 @@ class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
         return false;
       }
       if (normalizedQuery.isEmpty) return true;
-      return shop.name.toLowerCase().contains(normalizedQuery) ||
-          shop.address.toLowerCase().contains(normalizedQuery);
+      // Folded on both sides, so a name typed without tone marks finds the
+      // shop that has them.
+      return searchContains(shop.name, normalizedQuery) ||
+          searchContains(shop.address, normalizedQuery);
     }).toList();
 
     if (activeFilter == ExploreFilters.nearby) {
