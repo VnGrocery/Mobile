@@ -1304,5 +1304,41 @@
   "recommendReasonRated": "Well rated",
   "@recommendReasonRated": {
     "description": "Recommendation section copy."
+  },
+  "marketPriceTitle": "Average price across shops",
+  "@marketPriceTitle": {
+    "description": "Cross-shop price comparison copy."
+  },
+  "marketPriceBasis": "Averaged over {count} shops selling the same item",
+  "@marketPriceBasis": {
+    "description": "Cross-shop price comparison copy.",
+    "placeholders": { "count": {} }
+  },
+  "marketPriceCheaper": "{percent}% below average",
+  "@marketPriceCheaper": {
+    "description": "Cross-shop price comparison copy.",
+    "placeholders": { "percent": {} }
+  },
+  "marketPriceDearer": "{percent}% above average",
+  "@marketPriceDearer": {
+    "description": "Cross-shop price comparison copy.",
+    "placeholders": { "percent": {} }
+  },
+  "marketPriceInline": "In line with the average",
+  "@marketPriceInline": {
+    "description": "Cross-shop price comparison copy."
+  },
+  "marketPriceAverageLabel": "Average",
+  "@marketPriceAverageLabel": {
+    "description": "Cross-shop price comparison copy."
+  },
+  "marketPriceThisShopLabel": "This shop",
+  "@marketPriceThisShopLabel": {
+    "description": "Cross-shop price comparison copy."
+  },
+  "marketPriceRange": "Lowest {low} · Highest {high}",
+  "@marketPriceRange": {
+    "description": "Cross-shop price comparison copy.",
+    "placeholders": { "low": {}, "high": {} }
   }
 }

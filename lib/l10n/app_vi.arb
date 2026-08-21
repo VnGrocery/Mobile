@@ -800,5 +800,41 @@
   "recommendReasonRated": "Được đánh giá tốt",
   "@recommendReasonRated": {
     "description": "Recommendation section copy."
+  },
+  "marketPriceTitle": "Giá trung bình thị trường",
+  "@marketPriceTitle": {
+    "description": "Cross-shop price comparison copy."
+  },
+  "marketPriceBasis": "Trung bình từ {count} cửa hàng cùng bán mặt hàng này",
+  "@marketPriceBasis": {
+    "description": "Cross-shop price comparison copy.",
+    "placeholders": { "count": {} }
+  },
+  "marketPriceCheaper": "Rẻ hơn trung bình {percent}%",
+  "@marketPriceCheaper": {
+    "description": "Cross-shop price comparison copy.",
+    "placeholders": { "percent": {} }
+  },
+  "marketPriceDearer": "Cao hơn trung bình {percent}%",
+  "@marketPriceDearer": {
+    "description": "Cross-shop price comparison copy.",
+    "placeholders": { "percent": {} }
+  },
+  "marketPriceInline": "Ngang giá trung bình",
+  "@marketPriceInline": {
+    "description": "Cross-shop price comparison copy."
+  },
+  "marketPriceAverageLabel": "Trung bình",
+  "@marketPriceAverageLabel": {
+    "description": "Cross-shop price comparison copy."
+  },
+  "marketPriceThisShopLabel": "Cửa hàng này",
+  "@marketPriceThisShopLabel": {
+    "description": "Cross-shop price comparison copy."
+  },
+  "marketPriceRange": "Thấp nhất {low} · Cao nhất {high}",
+  "@marketPriceRange": {
+    "description": "Cross-shop price comparison copy.",
+    "placeholders": { "low": {}, "high": {} }
   }
 }

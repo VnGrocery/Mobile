@@ -153,4 +153,88 @@ void main() {
       expect(ProductHistoryCopy.value('price', 'n/a'), 'n/a');
     });
   });
+
+  _marketTests();
+}
+
+// --- cross-shop price comparison ---
+
+void _marketTests() {
+  MarketPrice parse(Map<String, Object?> json) => MarketPrice.fromJson(json);
+
+  group('MarketPrice', () {
+    test('reads the average, the spread and the series', () {
+      final market = parse({
+        'catalogKey': 'ca chua bi huu co|vegetables',
+        'shopCount': 5,
+        'currentAverage': 45400,
+        'currentLowest': 40000,
+        'currentHighest': 50000,
+        'history': [
+          {'at': '2026-07-22T00:00:00Z', 'price': 43000},
+          {'at': '2026-08-06T00:00:00Z', 'price': 46000},
+        ],
+      });
+
+      expect(market.shopCount, 5);
+      expect(market.currentAverage, 45400);
+      expect(market.hasComparison, isTrue);
+    });
+
+    test('one shop is not a comparison', () {
+      // A line identical to the shop's own price says nothing while looking
+      // like it says something.
+      expect(parse({'shopCount': 1}).hasComparison, isFalse);
+    });
+
+    test('a single point is not a line', () {
+      final market = parse({
+        'shopCount': 3,
+        'history': [
+          {'at': '2026-08-01T00:00:00Z', 'price': 40000},
+        ],
+      });
+
+      expect(market.hasComparison, isFalse);
+    });
+
+    test('places this shop against the average', () {
+      final market = parse({
+        'shopCount': 5,
+        'currentAverage': 50000,
+        'history': [
+          {'at': '2026-07-22T00:00:00Z', 'price': 50000},
+          {'at': '2026-08-06T00:00:00Z', 'price': 50000},
+        ],
+      });
+
+      expect(market.relativeTo(40000), closeTo(-0.2, 0.0001));
+      expect(market.relativeTo(60000), closeTo(0.2, 0.0001));
+      expect(market.relativeTo(50000), 0);
+    });
+
+    test('says nothing about a price it cannot compare', () {
+      expect(
+        parse({'shopCount': 1, 'currentAverage': 50000}).relativeTo(40000),
+        isNull,
+      );
+    });
+  });
+
+  group('ProductHistory.market', () {
+    test('is null when no other shop sells it', () {
+      final history = ProductHistory.fromJson({'productId': 'p1'});
+
+      expect(history.market, isNull);
+    });
+
+    test('is parsed when the server sent one', () {
+      final history = ProductHistory.fromJson({
+        'productId': 'p1',
+        'market': {'shopCount': 3, 'currentAverage': 45000},
+      });
+
+      expect(history.market?.shopCount, 3);
+    });
+  });
 }

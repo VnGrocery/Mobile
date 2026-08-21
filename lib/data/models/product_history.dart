@@ -113,6 +113,64 @@ class PricePoint {
   );
 }
 
+/// What every shop selling the same product charges for it.
+///
+/// Two shops count as selling the same product when the whole name and the
+/// category match once folded, so different pack sizes are never averaged into
+/// one misleading number.
+class MarketPrice {
+  /// What was treated as "the same product", so the reader can see the basis.
+  final String catalogKey;
+
+  /// Includes this shop.
+  final int shopCount;
+
+  final double currentAverage;
+  final double currentLowest;
+  final double currentHighest;
+
+  /// The average price in effect across those shops, over the same window as
+  /// the product's own series.
+  final List<PricePoint> history;
+
+  const MarketPrice({
+    this.catalogKey = '',
+    this.shopCount = 0,
+    this.currentAverage = 0,
+    this.currentLowest = 0,
+    this.currentHighest = 0,
+    this.history = const [],
+  });
+
+  /// True once the line is worth drawing. The server already omits the block
+  /// when nobody else sells it, so this guards the rest.
+  bool get hasComparison => shopCount > 1 && history.length > 1;
+
+  /// How far this shop sits from the average, as a fraction. Negative is
+  /// cheaper. Null when there is nothing to compare against.
+  double? relativeTo(double price) {
+    if (!hasComparison || currentAverage <= 0) return null;
+    return (price - currentAverage) / currentAverage;
+  }
+
+  factory MarketPrice.fromJson(Map<String, Object?> json) {
+    final points = json['history'];
+    return MarketPrice(
+      catalogKey: json['catalogKey']?.toString() ?? '',
+      shopCount: (json['shopCount'] as num?)?.toInt() ?? 0,
+      currentAverage: (json['currentAverage'] as num?)?.toDouble() ?? 0,
+      currentLowest: (json['currentLowest'] as num?)?.toDouble() ?? 0,
+      currentHighest: (json['currentHighest'] as num?)?.toDouble() ?? 0,
+      history: points is List
+          ? points
+                .whereType<Map<String, Object?>>()
+                .map(PricePoint.fromJson)
+                .toList()
+          : const [],
+    );
+  }
+}
+
 /// A product's recorded history and the price series derived from it.
 class ProductHistory {
   final String productId;
@@ -128,12 +186,16 @@ class ProductHistory {
   final List<PricePoint> priceHistory;
   final int windowDays;
 
+  /// What other shops charge for the same product. Null when none do.
+  final MarketPrice? market;
+
   const ProductHistory({
     required this.productId,
     this.entries = const [],
     this.chainVerified = false,
     this.priceHistory = const [],
     this.windowDays = 30,
+    this.market,
   });
 
   /// Nothing recorded at all, which is what a product created before the log
@@ -173,6 +235,9 @@ class ProductHistory {
                 .toList()
           : const [],
       windowDays: (json['windowDays'] as num?)?.toInt() ?? 30,
+      market: json['market'] is Map<String, Object?>
+          ? MarketPrice.fromJson(json['market'] as Map<String, Object?>)
+          : null,
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_event.dart';
 import 'package:vngrocery/features/products/controllers/product_detail_cubit.dart';
 import 'package:vngrocery/features/products/controllers/product_detail_state.dart';
+import 'package:vngrocery/features/products/widgets/market_price_chart.dart';
 import 'package:vngrocery/features/products/widgets/price_history_chart.dart';
 import 'package:vngrocery/features/products/widgets/product_change_log.dart';
 import 'package:vngrocery/features/products/widgets/product_detail_components.dart';
@@ -112,6 +113,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       if (state.hasHistory) ...[
                         const SizedBox(height: 16),
                         PriceHistoryChart(history: state.history!),
+                        if (state.history!.market case final market?) ...[
+                          const SizedBox(height: 12),
+                          MarketPriceChart(
+                            market: market,
+                            shopHistory: state.history!.priceHistory,
+                            shopPrice: product.price.toDouble(),
+                            windowDays: state.history!.windowDays,
+                          ),
+                        ],
                         const SizedBox(height: 12),
                         ProductChangeLog(history: state.history!),
                       ],

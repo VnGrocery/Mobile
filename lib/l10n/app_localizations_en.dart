@@ -1700,4 +1700,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recommendReasonRated => 'Well rated';
+
+  @override
+  String get marketPriceTitle => 'Average price across shops';
+
+  @override
+  String marketPriceBasis(Object count) {
+    return 'Averaged over $count shops selling the same item';
+  }
+
+  @override
+  String marketPriceCheaper(Object percent) {
+    return '$percent% below average';
+  }
+
+  @override
+  String marketPriceDearer(Object percent) {
+    return '$percent% above average';
+  }
+
+  @override
+  String get marketPriceInline => 'In line with the average';
+
+  @override
+  String get marketPriceAverageLabel => 'Average';
+
+  @override
+  String get marketPriceThisShopLabel => 'This shop';
+
+  @override
+  String marketPriceRange(Object low, Object high) {
+    return 'Lowest $low · Highest $high';
+  }
 }

@@ -1690,4 +1690,36 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get recommendReasonRated => 'Được đánh giá tốt';
+
+  @override
+  String get marketPriceTitle => 'Giá trung bình thị trường';
+
+  @override
+  String marketPriceBasis(Object count) {
+    return 'Trung bình từ $count cửa hàng cùng bán mặt hàng này';
+  }
+
+  @override
+  String marketPriceCheaper(Object percent) {
+    return 'Rẻ hơn trung bình $percent%';
+  }
+
+  @override
+  String marketPriceDearer(Object percent) {
+    return 'Cao hơn trung bình $percent%';
+  }
+
+  @override
+  String get marketPriceInline => 'Ngang giá trung bình';
+
+  @override
+  String get marketPriceAverageLabel => 'Trung bình';
+
+  @override
+  String get marketPriceThisShopLabel => 'Cửa hàng này';
+
+  @override
+  String marketPriceRange(Object low, Object high) {
+    return 'Thấp nhất $low · Cao nhất $high';
+  }
 }

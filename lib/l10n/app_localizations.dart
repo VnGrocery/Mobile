@@ -3169,6 +3169,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Well rated'**
   String get recommendReasonRated;
+
+  /// Cross-shop price comparison copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Average price across shops'**
+  String get marketPriceTitle;
+
+  /// Cross-shop price comparison copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Averaged over {count} shops selling the same item'**
+  String marketPriceBasis(Object count);
+
+  /// Cross-shop price comparison copy.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% below average'**
+  String marketPriceCheaper(Object percent);
+
+  /// Cross-shop price comparison copy.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% above average'**
+  String marketPriceDearer(Object percent);
+
+  /// Cross-shop price comparison copy.
+  ///
+  /// In en, this message translates to:
+  /// **'In line with the average'**
+  String get marketPriceInline;
+
+  /// Cross-shop price comparison copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Average'**
+  String get marketPriceAverageLabel;
+
+  /// Cross-shop price comparison copy.
+  ///
+  /// In en, this message translates to:
+  /// **'This shop'**
+  String get marketPriceThisShopLabel;
+
+  /// Cross-shop price comparison copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest {low} · Highest {high}'**
+  String marketPriceRange(Object low, Object high);
 }
 
 class _AppLocalizationsDelegate
