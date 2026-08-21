@@ -29,6 +29,24 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
       // the shops near it rather than keeping the whole catalogue.
       await load();
     }
+    await loadRecommendations();
+  }
+
+  /// Loads suggestions for this reader.
+  ///
+  /// Separate from [load] because it needs a signed-in account and the
+  /// catalogue does not: the home page must still render for a reader whose
+  /// suggestions could not be fetched.
+  Future<void> loadRecommendations() async {
+    final remote = _repositories.products.remote;
+    if (remote == null) return;
+    try {
+      final suggestions = await remote.recommendations(near: state.origin);
+      emit(state.withRecommendations(suggestions));
+    } catch (_) {
+      // The section stays hidden rather than showing an empty list, which
+      // would read as "we have nothing for you".
+    }
   }
 
   Future<void> load() async {
@@ -39,6 +57,7 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
         await _repositories.products.refreshShop(shop.id);
       }
       _emitCached(HomeStatus.ready);
+      await loadRecommendations();
     } catch (_) {
       // Whatever is cached still gets shown; the status is what lets the tab
       // say the refresh failed instead of pretending there is nothing to sell.
@@ -64,9 +83,11 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
         shops: shops,
         products: products,
         pledgeItems: pledgeItems,
-        // A catalogue refresh must not throw away a location already found.
+        // A catalogue refresh must not throw away a location already found,
+        // nor the suggestions loaded alongside it.
         location: state.location,
         locationDenial: state.locationDenial,
+        recommendations: state.recommendations,
       ),
     );
   }

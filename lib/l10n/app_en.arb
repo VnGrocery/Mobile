@@ -1266,5 +1266,43 @@
   "productFieldCurrency": "Currency",
   "@productFieldCurrency": {
     "description": "Product detail history and price copy."
+  },
+  "homeForYouTitle": "Suggested for you",
+  "@homeForYouTitle": {
+    "description": "Recommendation section copy."
+  },
+  "homePopularTitle": "Widely trusted",
+  "@homePopularTitle": {
+    "description": "Recommendation section copy."
+  },
+  "homeForYouBasis": "From {count} things you have done",
+  "@homeForYouBasis": {
+    "description": "Recommendation section copy.",
+    "placeholders": { "count": {} }
+  },
+  "homePopularBasis": "Nothing recorded for you yet — these are the most trusted choices",
+  "@homePopularBasis": {
+    "description": "Recommendation section copy."
+  },
+  "recommendReasonCategory": "Matches the {category} you look at",
+  "@recommendReasonCategory": {
+    "description": "Recommendation section copy.",
+    "placeholders": { "category": {} }
+  },
+  "recommendReasonShopRated": "A shop you reviewed",
+  "@recommendReasonShopRated": {
+    "description": "Recommendation section copy."
+  },
+  "recommendReasonNear": "Near you",
+  "@recommendReasonNear": {
+    "description": "Recommendation section copy."
+  },
+  "recommendReasonTrust": "High trust score",
+  "@recommendReasonTrust": {
+    "description": "Recommendation section copy."
+  },
+  "recommendReasonRated": "Well rated",
+  "@recommendReasonRated": {
+    "description": "Recommendation section copy."
   }
 }

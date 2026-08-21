@@ -23,6 +23,10 @@ class HomeState {
   /// Why there is no location. Null while it has not been asked for yet.
   final LocationDenial? locationDenial;
 
+  /// Suggestions for this reader. Null while loading or when the request
+  /// failed, which hides the section rather than showing an empty one.
+  final Recommendations? recommendations;
+
   const HomeState({
     this.status = HomeStatus.loading,
     this.shops = const [],
@@ -30,6 +34,7 @@ class HomeState {
     this.pledgeItems = const [],
     this.location,
     this.locationDenial,
+    this.recommendations,
   });
 
   /// Replaces the location outcome wholesale.
@@ -45,7 +50,22 @@ class HomeState {
         pledgeItems: pledgeItems,
         location: location,
         locationDenial: denial,
+        recommendations: recommendations,
       );
+
+  HomeState withRecommendations(Recommendations value) => HomeState(
+    status: status,
+    shops: shops,
+    products: products,
+    pledgeItems: pledgeItems,
+    location: location,
+    locationDenial: locationDenial,
+    recommendations: value,
+  );
+
+  /// True once there is something worth showing in the suggestions section.
+  bool get hasRecommendations =>
+      recommendations != null && !recommendations!.isEmpty;
 
   GeoPoint? get origin => location?.point;
 

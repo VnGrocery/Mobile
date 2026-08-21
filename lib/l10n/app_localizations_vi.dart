@@ -1658,4 +1658,36 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get productFieldCurrency => 'Đơn vị tiền';
+
+  @override
+  String get homeForYouTitle => 'Gợi ý cho bạn';
+
+  @override
+  String get homePopularTitle => 'Được quan tâm nhiều';
+
+  @override
+  String homeForYouBasis(Object count) {
+    return 'Dựa trên $count hoạt động của bạn';
+  }
+
+  @override
+  String get homePopularBasis =>
+      'Bạn chưa có hoạt động nào — đây là những lựa chọn đang được tin tưởng nhất';
+
+  @override
+  String recommendReasonCategory(Object category) {
+    return 'Hợp gu $category của bạn';
+  }
+
+  @override
+  String get recommendReasonShopRated => 'Cửa hàng bạn từng đánh giá';
+
+  @override
+  String get recommendReasonNear => 'Gần bạn';
+
+  @override
+  String get recommendReasonTrust => 'Điểm tin cậy cao';
+
+  @override
+  String get recommendReasonRated => 'Được đánh giá tốt';
 }

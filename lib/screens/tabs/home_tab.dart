@@ -6,6 +6,7 @@ import 'package:vngrocery/features/home/controllers/home_cubit.dart';
 import 'package:vngrocery/features/home/controllers/home_state.dart';
 import 'package:vngrocery/features/home/widgets/home_components.dart';
 import 'package:vngrocery/features/home/widgets/home_status_message.dart';
+import 'package:vngrocery/features/home/widgets/recommendation_section.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -111,6 +112,12 @@ class _HomeTabState extends State<HomeTab> {
                             ? _allCategory
                             : category;
                       }),
+                    ),
+                  ],
+                  if (state.hasRecommendations) ...[
+                    const SizedBox(height: 28),
+                    RecommendationSection(
+                      recommendations: state.recommendations!,
                     ),
                   ],
                   if (topRatedShops.isNotEmpty) ...[

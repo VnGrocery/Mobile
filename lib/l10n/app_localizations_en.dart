@@ -1668,4 +1668,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get productFieldCurrency => 'Currency';
+
+  @override
+  String get homeForYouTitle => 'Suggested for you';
+
+  @override
+  String get homePopularTitle => 'Widely trusted';
+
+  @override
+  String homeForYouBasis(Object count) {
+    return 'From $count things you have done';
+  }
+
+  @override
+  String get homePopularBasis =>
+      'Nothing recorded for you yet — these are the most trusted choices';
+
+  @override
+  String recommendReasonCategory(Object category) {
+    return 'Matches the $category you look at';
+  }
+
+  @override
+  String get recommendReasonShopRated => 'A shop you reviewed';
+
+  @override
+  String get recommendReasonNear => 'Near you';
+
+  @override
+  String get recommendReasonTrust => 'High trust score';
+
+  @override
+  String get recommendReasonRated => 'Well rated';
 }

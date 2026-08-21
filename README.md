@@ -7,10 +7,11 @@
 - Xác thực API: đăng nhập, đăng ký, quên mật khẩu, đổi mật khẩu và lưu session.
 - Chuyển chế độ User/Seller ngay trong tab tài khoản.
 - Buyer flow:
-  - Khám phá cửa hàng.
-  - Bản đồ mở rộng toàn màn hình.
+  - Khám phá cửa hàng, ưu tiên cửa hàng trong bán kính 5km rồi mới tới 20km.
+  - Bản đồ kéo/zoom được, ghim theo toạ độ thật, có vòng bán kính quanh vị trí.
   - Quét sản phẩm và xem chi tiết.
   - So sánh AI freshness với cam kết.
+  - Lịch sử thay đổi của sản phẩm (chuỗi hash có chữ ký) và biểu đồ giá 30 ngày.
 - Seller flow:
   - Tổng quan seller.
   - Quản lý sản phẩm.
@@ -54,7 +55,7 @@
 - `explore_map`
 - `scan`
 - `product_detail`
-- `ai_compare`
+- `blockchain_proof`
 - `buyer_check_result`
 - `store_detail`
 - `review`
@@ -79,10 +80,10 @@ flutter test integration_test/app_smoke_test.dart
 flutter run
 ```
 
-API mặc định trên Android emulator là `http://10.0.2.2:8080`. Có thể đổi bằng compile-time define:
+API mặc định trên Android emulator là `http://10.0.2.2:5050`. Có thể đổi bằng compile-time define:
 
 ```bash
-flutter run --dart-define=API_BASE_URL=http://192.168.1.10:8080
+flutter run --dart-define=API_BASE_URL=http://192.168.1.10:5050
 flutter build apk --dart-define=API_BASE_URL=https://api.example.com
 ```
 
@@ -114,7 +115,7 @@ Widget/unit test thuần vẫn chạy được bằng `flutter test`.
 Source of truth hiện nằm trong `lib/data/`:
 
 - `lib/data/models/`: entity UI dùng trực tiếp.
-- `lib/data/mock_json_data.dart`: seed data dạng JSON-like map.
+- `lib/data/mock_json_data.dart`: fixture JSON-like, chỉ nạp trong test (`test/flutter_test_config.dart`); app chạy thật không dùng.
 - `lib/data/repositories/`: query/mutation theo domain.
 - `lib/data/data_hooks.dart`: stub legacy, giữ tạm để tương thích; không dùng cho code mới.
 

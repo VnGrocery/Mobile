@@ -106,8 +106,21 @@ void main() {
     });
   });
 
+  /// A navigation that could not be satisfied.
+  ///
+  /// It used to be answered with the home screen, which pushed a second
+  /// MainScreen on top of wherever the reader was; Back then surfaced a home
+  /// screen from the middle of the history. Now it cancels: a transparent,
+  /// instant route that takes itself back off the stack.
+  void expectCancelled(Route<dynamic> route, String requested) {
+    expect(route.settings.name, requested);
+    expect(route.settings.name, isNot(Routes.main));
+    expect(route.settings.arguments, isNull);
+    expect((route as PageRoute).opaque, isFalse);
+  }
+
   group('Routes', () {
-    test('falls back to main when product detail args are invalid', () {
+    test('cancels product detail when its args are invalid', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
       final route = Routes.onGenerateRoute(
@@ -121,7 +134,7 @@ void main() {
         ),
       );
 
-      expect(route.settings.name, Routes.main);
+      expectCancelled(route, Routes.productDetail);
     });
 
     test('accepts typed product detail args', () {
@@ -143,17 +156,17 @@ void main() {
       expect(route.settings.name, Routes.auth);
     });
 
-    test('redirects buyer sessions away from seller routes', () {
+    test('cancels seller routes for a buyer session', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
       final route = buildRoute(
         const RouteSettings(name: Routes.sellerProducts),
       );
 
-      expect(route.settings.name, Routes.main);
+      expectCancelled(route, Routes.sellerProducts);
     });
 
-    test('redirects seller sessions away from buyer review route', () {
+    test('cancels the buyer review route for a seller session', () {
       SessionManager.instance.login(
         email: 'seller@example.com',
         role: 'seller',
@@ -163,7 +176,7 @@ void main() {
         const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
       );
 
-      expect(route.settings.name, Routes.main);
+      expectCancelled(route, Routes.review);
     });
 
     test('accepts buyer review route with typed args', () {
@@ -195,12 +208,12 @@ void main() {
       expect(route.settings.name, Routes.sellerShop);
     });
 
-    test('falls back to main when required string arg is missing', () {
+    test('cancels a route whose required string arg is missing', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
       final route = buildRoute(const RouteSettings(name: Routes.storeDetail));
 
-      expect(route.settings.name, Routes.main);
+      expectCancelled(route, Routes.storeDetail);
     });
 
     test('accepts typed store detail args', () {
@@ -255,52 +268,54 @@ void main() {
       expect(route.settings.name, Routes.sellerProducts);
     });
 
-    test('drops invalid args when falling back to main', () {
+    test('drops the arguments it rejected', () {
       SessionManager.instance.login(email: 'buyer@example.com');
 
       final route = buildRoute(
         const RouteSettings(name: Routes.storeDetail, arguments: 42),
       );
 
-      expect(route.settings.name, Routes.main);
-      expect(route.settings.arguments, isNull);
+      expectCancelled(route, Routes.storeDetail);
     });
 
-    test('redirects protected Phase D routes by session role', () {
-      var route = buildRoute(
-        const RouteSettings(
-          name: Routes.pledgeHistory,
-          arguments: SellerProductArgs('p1'),
-        ),
-      );
-      expect(route.settings.name, Routes.auth);
+    test(
+      'gates Phase D routes: sign-in when signed out, cancel when not allowed',
+      () {
+        var route = buildRoute(
+          const RouteSettings(
+            name: Routes.pledgeHistory,
+            arguments: SellerProductArgs('p1'),
+          ),
+        );
+        expect(route.settings.name, Routes.auth);
 
-      route = buildRoute(
-        const RouteSettings(
-          name: Routes.qrLabel,
-          arguments: QrLabelArgs('pl1'),
-        ),
-      );
-      expect(route.settings.name, Routes.auth);
+        route = buildRoute(
+          const RouteSettings(
+            name: Routes.qrLabel,
+            arguments: QrLabelArgs('pl1'),
+          ),
+        );
+        expect(route.settings.name, Routes.auth);
 
-      SessionManager.instance.login(email: 'buyer@example.com');
+        SessionManager.instance.login(email: 'buyer@example.com');
 
-      route = buildRoute(
-        const RouteSettings(
-          name: Routes.pledgeHistory,
-          arguments: SellerProductArgs('p1'),
-        ),
-      );
-      expect(route.settings.name, Routes.main);
+        route = buildRoute(
+          const RouteSettings(
+            name: Routes.pledgeHistory,
+            arguments: SellerProductArgs('p1'),
+          ),
+        );
+        expectCancelled(route, Routes.pledgeHistory);
 
-      route = buildRoute(
-        const RouteSettings(
-          name: Routes.qrLabel,
-          arguments: QrLabelArgs('pl1'),
-        ),
-      );
-      expect(route.settings.name, Routes.main);
-    });
+        route = buildRoute(
+          const RouteSettings(
+            name: Routes.qrLabel,
+            arguments: QrLabelArgs('pl1'),
+          ),
+        );
+        expectCancelled(route, Routes.qrLabel);
+      },
+    );
 
     test('accepts typed Phase D seller route args', () {
       SessionManager.instance.login(
@@ -354,7 +369,7 @@ void main() {
       expect(route.settings.name, Routes.review);
     });
 
-    test('falls back when the review screen gets the wrong argument type', () {
+    test('cancels the review route when it gets the wrong argument type', () {
       SessionManager.instance.login(email: 'buyer@example.com', role: 'user');
 
       final route = buildRoute(
@@ -363,7 +378,7 @@ void main() {
           arguments: StoreDetailArgs('s1'),
         ),
       );
-      expect(route.settings.name, Routes.main);
+      expectCancelled(route, Routes.review);
     });
 
     test('opens the blockchain proof screen for a logged-in user', () {
@@ -384,7 +399,7 @@ void main() {
       }
     });
 
-    test('falls back when the blockchain proof args are incomplete', () {
+    test('cancels the blockchain proof route when its args are incomplete', () {
       SessionManager.instance.login(email: 'buyer@example.com', role: 'user');
 
       final route = buildRoute(
@@ -393,10 +408,10 @@ void main() {
           arguments: {'shopId': 's1'},
         ),
       );
-      expect(route.settings.name, Routes.main);
+      expectCancelled(route, Routes.blockchainProof);
     });
 
-    test('falls back for missing required route args', () {
+    test('cancels routes whose required args are missing', () {
       SessionManager.instance.login(
         email: 'seller@example.com',
         role: 'seller',
@@ -409,13 +424,13 @@ void main() {
         Routes.qrLabel,
       ]) {
         final route = buildRoute(RouteSettings(name: routeName));
-        expect(route.settings.name, Routes.main);
+        expectCancelled(route, routeName);
       }
 
       SessionManager.instance.setRole('user');
       for (final routeName in const [Routes.review, Routes.voucherQr]) {
         final route = buildRoute(RouteSettings(name: routeName));
-        expect(route.settings.name, Routes.main);
+        expectCancelled(route, routeName);
       }
     });
   });

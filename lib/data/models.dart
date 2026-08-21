@@ -2,6 +2,7 @@ export 'models/buyer_check_result.dart';
 export 'models/bundle_token.dart';
 export 'models/pledge_history_item.dart';
 export 'models/product_history.dart';
+export 'models/recommendation.dart';
 export 'models/pledge_proof.dart';
 export 'models/product.dart';
 export 'models/review.dart';

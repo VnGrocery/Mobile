@@ -118,9 +118,17 @@ class Routes {
       isLoggedIn: session.isLoggedIn,
       isSeller: session.isSeller,
     )) {
-      final redirect = session.isLoggedIn ? main : auth;
-      if (redirect == settings.name) return _fallbackRoute(settings);
-      return onGenerateRoute(RouteSettings(name: redirect), session: session);
+      // Signed out is a gate worth sending someone through: they can sign in
+      // and carry on. Signed in but not allowed here is not -- there is nowhere
+      // better to send them, and answering with home stacks a second home
+      // screen on top of the page they were reading.
+      if (!session.isLoggedIn && settings.name != auth) {
+        return onGenerateRoute(
+          const RouteSettings(name: auth),
+          session: session,
+        );
+      }
+      return _fallbackRoute(settings);
     }
 
     final args = settings.arguments;
@@ -314,10 +322,36 @@ class Routes {
     return MaterialPageRoute(builder: (_) => page, settings: settings);
   }
 
+  /// Cancels a navigation that cannot be satisfied.
+  ///
+  /// onGenerateRoute has to return a route, so "do nothing" has to be expressed
+  /// as a route that takes itself back off the stack. Answering with the home
+  /// screen instead -- which is what this used to do -- pushed a second
+  /// MainScreen on top of wherever the reader already was. The stack became
+  /// [main, ..., main], so Back surfaced a home screen sitting in the middle of
+  /// the history rather than returning where they came from.
+  ///
+  /// Only when there is nothing to go back to does home make sense: the app was
+  /// opened straight into a route it cannot build.
   static Route<dynamic> _fallbackRoute(RouteSettings settings) {
-    return MaterialPageRoute(
-      builder: (_) => const MainScreen(),
-      settings: const RouteSettings(name: main),
+    return PageRouteBuilder<void>(
+      // The name is kept so the cancelled navigation is still identifiable;
+      // the arguments are not, because they are the ones that were rejected.
+      settings: RouteSettings(name: settings.name),
+      // Transparent and instant, so cancelling never shows a blank frame over
+      // the page the reader is still looking at.
+      opaque: false,
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+      pageBuilder: (context, _, __) {
+        final navigator = Navigator.of(context);
+        if (!navigator.canPop()) return const MainScreen();
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (navigator.mounted) navigator.pop();
+        });
+        return const SizedBox.shrink();
+      },
     );
   }
 

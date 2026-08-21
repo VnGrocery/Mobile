@@ -762,5 +762,43 @@
   "productFieldCurrency": "Đơn vị tiền",
   "@productFieldCurrency": {
     "description": "Product detail history and price copy."
+  },
+  "homeForYouTitle": "Gợi ý cho bạn",
+  "@homeForYouTitle": {
+    "description": "Recommendation section copy."
+  },
+  "homePopularTitle": "Được quan tâm nhiều",
+  "@homePopularTitle": {
+    "description": "Recommendation section copy."
+  },
+  "homeForYouBasis": "Dựa trên {count} hoạt động của bạn",
+  "@homeForYouBasis": {
+    "description": "Recommendation section copy.",
+    "placeholders": { "count": {} }
+  },
+  "homePopularBasis": "Bạn chưa có hoạt động nào — đây là những lựa chọn đang được tin tưởng nhất",
+  "@homePopularBasis": {
+    "description": "Recommendation section copy."
+  },
+  "recommendReasonCategory": "Hợp gu {category} của bạn",
+  "@recommendReasonCategory": {
+    "description": "Recommendation section copy.",
+    "placeholders": { "category": {} }
+  },
+  "recommendReasonShopRated": "Cửa hàng bạn từng đánh giá",
+  "@recommendReasonShopRated": {
+    "description": "Recommendation section copy."
+  },
+  "recommendReasonNear": "Gần bạn",
+  "@recommendReasonNear": {
+    "description": "Recommendation section copy."
+  },
+  "recommendReasonTrust": "Điểm tin cậy cao",
+  "@recommendReasonTrust": {
+    "description": "Recommendation section copy."
+  },
+  "recommendReasonRated": "Được đánh giá tốt",
+  "@recommendReasonRated": {
+    "description": "Recommendation section copy."
   }
 }

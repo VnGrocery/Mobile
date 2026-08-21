@@ -3115,6 +3115,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Currency'**
   String get productFieldCurrency;
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested for you'**
+  String get homeForYouTitle;
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Widely trusted'**
+  String get homePopularTitle;
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'From {count} things you have done'**
+  String homeForYouBasis(Object count);
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing recorded for you yet — these are the most trusted choices'**
+  String get homePopularBasis;
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches the {category} you look at'**
+  String recommendReasonCategory(Object category);
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'A shop you reviewed'**
+  String get recommendReasonShopRated;
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Near you'**
+  String get recommendReasonNear;
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'High trust score'**
+  String get recommendReasonTrust;
+
+  /// Recommendation section copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Well rated'**
+  String get recommendReasonRated;
 }
 
 class _AppLocalizationsDelegate

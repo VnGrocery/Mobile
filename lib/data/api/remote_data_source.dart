@@ -46,6 +46,28 @@ class RemoteDataSource {
     return ProductHistory.fromJson(json);
   }
 
+  /// Shops and products suggested for the signed-in reader.
+  ///
+  /// [near] narrows and orders by distance the same way the discovery screens
+  /// do; without it the server simply leaves proximity out of the ranking.
+  Future<Recommendations> recommendations({
+    GeoPoint? near,
+    double radiusKm = NearbyRadius.far,
+    int limit = 10,
+  }) async {
+    final located = near != null && near.isSet;
+    final json = await client.get(
+      '/v1/me/recommendations',
+      query: {
+        'limit': limit,
+        if (located) 'lat': near.latitude,
+        if (located) 'lng': near.longitude,
+        if (located) 'radiusKm': radiusKm,
+      },
+    );
+    return Recommendations.fromJson(json);
+  }
+
   Future<Shop> shop(String id) async =>
       Shop.fromJson(await client.get('/v1/shops/$id'));
 
