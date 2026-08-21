@@ -1165,5 +1165,106 @@
   "homeOutsideRangeNotice": "No shops within 20 km. These are the closest there are.",
   "@homeOutsideRangeNotice": {
     "description": "Shown when the nearest shops are past the search radius."
+  },
+  "productDetailPostedAt": "Posted {when}",
+  "@productDetailPostedAt": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "when": {} }
+  },
+  "productDetailSoldBy": "Sold by {shop}",
+  "@productDetailSoldBy": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "shop": {} }
+  },
+  "productHistoryTitle": "Change history",
+  "@productHistoryTitle": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistorySubtitle": "Every change is signed and chained by hash, and cannot be rewritten",
+  "@productHistorySubtitle": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryVerified": "Chain intact",
+  "@productHistoryVerified": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryBroken": "Chain shows signs of tampering",
+  "@productHistoryBroken": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryCopied": "Copied {sha}",
+  "@productHistoryCopied": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "sha": {} }
+  },
+  "productHistoryActionCreated": "Product created",
+  "@productHistoryActionCreated": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryActionUpdated": "Updated",
+  "@productHistoryActionUpdated": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryActionDeleted": "Taken off the shelf",
+  "@productHistoryActionDeleted": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryActionModerated": "Moderated",
+  "@productHistoryActionModerated": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryEmpty": "No changes have been recorded yet.",
+  "@productHistoryEmpty": {
+    "description": "Product detail history and price copy."
+  },
+  "productPriceChartTitle": "Price over {days} days",
+  "@productPriceChartTitle": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "days": {} }
+  },
+  "productPriceChartFlat": "The price has not moved in {days} days.",
+  "@productPriceChartFlat": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "days": {} }
+  },
+  "productFieldPrice": "Price",
+  "@productFieldPrice": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldName": "Name",
+  "@productFieldName": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldDescription": "Description",
+  "@productFieldDescription": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldCategory": "Category",
+  "@productFieldCategory": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldFreshnessScore": "Freshness score",
+  "@productFieldFreshnessScore": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldFreshnessNote": "Freshness note",
+  "@productFieldFreshnessNote": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldStatus": "Status",
+  "@productFieldStatus": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldTags": "Tags",
+  "@productFieldTags": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldImages": "Images",
+  "@productFieldImages": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldCurrency": "Currency",
+  "@productFieldCurrency": {
+    "description": "Product detail history and price copy."
   }
 }

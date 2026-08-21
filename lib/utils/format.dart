@@ -35,3 +35,12 @@ String formatDistance(double km) {
   }
   return '${km.toStringAsFixed(1)} km';
 }
+
+/// Date and time, for a record that needs to be pinned to a moment rather than
+/// just a day — when a price changed, when a listing went up.
+String formatDateTime(DateTime value) {
+  final local = value.toLocal();
+  String two(int n) => n.toString().padLeft(2, '0');
+  return '${two(local.day)}/${two(local.month)}/${local.year} '
+      '${two(local.hour)}:${two(local.minute)}';
+}

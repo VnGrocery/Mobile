@@ -17,14 +17,44 @@ class ProductDetailCubit extends Cubit<ProductDetailState> with CloseSafeEmit {
     if (cached != null) emit(ProductDetailState(product: cached));
     if (cached == null) return;
     try {
-      emit(
-        state.copyWith(
-          product: await _repositories.products.fetch(cached.shopId, productId),
-        ),
+      final fresh = await _repositories.products.fetch(
+        cached.shopId,
+        productId,
       );
+      emit(state.copyWith(product: fresh));
     } catch (_) {}
     if (isClosed) return;
-    await loadProof();
+    await Future.wait([loadShop(), loadHistory(), loadProof()]);
+  }
+
+  /// Loads the shop so the page can name the seller.
+  Future<void> loadShop() async {
+    final product = state.product;
+    if (product == null) return;
+    try {
+      // Awaited into a local first: `state.copyWith(shop: await ...)` reads
+      // `state` before the await, so the three loaders running side by side
+      // would each emit a copy of the state as it was when they started, and
+      // whichever finished last would wipe the other two.
+      final shop = await _repositories.shops.fetch(product.shopId);
+      emit(state.copyWith(shop: shop));
+    } catch (_) {
+      // The product still renders without the seller's name.
+    }
+  }
+
+  /// Loads the signed record of every change made to this product.
+  Future<void> loadHistory() async {
+    final product = state.product;
+    final remote = _repositories.products.remote;
+    if (product == null || remote == null) return;
+    try {
+      final history = await remote.productHistory(product.shopId, product.id);
+      emit(state.copyWith(history: history));
+    } catch (_) {
+      // An unreachable log leaves the section hidden rather than showing an
+      // empty history, which would read as "nothing ever changed".
+    }
   }
 
   /// Loads the blockchain verdict for the product's newest pledge.
@@ -42,7 +72,9 @@ class ProductDetailCubit extends Cubit<ProductDetailState> with CloseSafeEmit {
         product.shopId,
         product.id,
       );
-      emit(ProductDetailState(product: state.product, proof: proof));
+      // copyWith, not a fresh state: the shop and the history load alongside
+      // this and must not be wiped by whichever finishes last.
+      emit(state.copyWith(proof: proof, loadingProof: false));
     } catch (_) {
       emit(state.copyWith(loadingProof: false));
     }

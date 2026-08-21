@@ -1575,4 +1575,87 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get homeOutsideRangeNotice =>
       'Không có cửa hàng nào trong 20 km. Đây là những cửa hàng gần bạn nhất.';
+
+  @override
+  String productDetailPostedAt(Object when) {
+    return 'Đăng $when';
+  }
+
+  @override
+  String productDetailSoldBy(Object shop) {
+    return 'Bán bởi $shop';
+  }
+
+  @override
+  String get productHistoryTitle => 'Lịch sử thay đổi';
+
+  @override
+  String get productHistorySubtitle =>
+      'Mỗi thay đổi được ký và móc xích bằng mã băm, không sửa lại được';
+
+  @override
+  String get productHistoryVerified => 'Chuỗi nguyên vẹn';
+
+  @override
+  String get productHistoryBroken => 'Chuỗi có dấu hiệu bị sửa';
+
+  @override
+  String productHistoryCopied(Object sha) {
+    return 'Đã sao chép $sha';
+  }
+
+  @override
+  String get productHistoryActionCreated => 'Tạo sản phẩm';
+
+  @override
+  String get productHistoryActionUpdated => 'Cập nhật';
+
+  @override
+  String get productHistoryActionDeleted => 'Gỡ khỏi quầy';
+
+  @override
+  String get productHistoryActionModerated => 'Kiểm duyệt';
+
+  @override
+  String get productHistoryEmpty => 'Chưa có thay đổi nào được ghi nhận.';
+
+  @override
+  String productPriceChartTitle(Object days) {
+    return 'Giá $days ngày gần nhất';
+  }
+
+  @override
+  String productPriceChartFlat(Object days) {
+    return 'Giá không đổi trong $days ngày qua.';
+  }
+
+  @override
+  String get productFieldPrice => 'Giá';
+
+  @override
+  String get productFieldName => 'Tên';
+
+  @override
+  String get productFieldDescription => 'Mô tả';
+
+  @override
+  String get productFieldCategory => 'Danh mục';
+
+  @override
+  String get productFieldFreshnessScore => 'Điểm độ tươi';
+
+  @override
+  String get productFieldFreshnessNote => 'Ghi chú độ tươi';
+
+  @override
+  String get productFieldStatus => 'Trạng thái';
+
+  @override
+  String get productFieldTags => 'Thẻ';
+
+  @override
+  String get productFieldImages => 'Số ảnh';
+
+  @override
+  String get productFieldCurrency => 'Đơn vị tiền';
 }

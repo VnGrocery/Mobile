@@ -1,29 +1,36 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/widgets/product_thumbnail.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
-import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/widgets/common.dart';
 import 'package:vngrocery/widgets/score_badge.dart';
 
 class ProductHeroImage extends StatelessWidget {
-  const ProductHeroImage({super.key});
+  /// The seller's own photos. Empty draws a placeholder rather than a stock
+  /// picture of something else.
+  final List<String> imageUrls;
+
+  const ProductHeroImage({super.key, this.imageUrls = const []});
 
   @override
   Widget build(BuildContext context) {
-    final palette = context.palette;
     final l10n = AppLocalizations.of(context);
     return Stack(
       children: [
-        Container(
+        SizedBox(
           height: 250,
           width: double.infinity,
-          color: palette.card,
-          alignment: Alignment.center,
-          child: Icon(Icons.image, size: 100, color: palette.textTertiary),
+          // Was a grey box with an icon, ignoring the product's real photo
+          // entirely, so a seller who uploaded one never saw it here.
+          child: ProductThumbnail(
+            imageUrls: imageUrls,
+            size: double.infinity,
+            radius: 0,
+          ),
         ),
         Positioned(
           top: 16,
@@ -48,11 +55,16 @@ class ProductHeroImage extends StatelessWidget {
 class ProductTitleBlock extends StatelessWidget {
   final Product product;
 
-  const ProductTitleBlock({super.key, required this.product});
+  /// Who is selling it. Null while the shop loads.
+  final Shop? shop;
+
+  const ProductTitleBlock({super.key, required this.product, this.shop});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final postedAt = product.createdAt;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -60,6 +72,25 @@ class ProductTitleBlock extends StatelessWidget {
           product.name,
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
+        const SizedBox(height: 4),
+        // Who and when: a listing with neither is a price floating in space.
+        Wrap(
+          spacing: 12,
+          runSpacing: 2,
+          children: [
+            if (shop != null)
+              _MetaLine(
+                icon: Icons.storefront_outlined,
+                text: l10n.productDetailSoldBy(shop!.name),
+              ),
+            if (postedAt != null)
+              _MetaLine(
+                icon: Icons.schedule,
+                text: l10n.productDetailPostedAt(formatDateTime(postedAt)),
+              ),
+          ],
+        ),
+        const SizedBox(height: 8),
         Text(
           l10n.productDetailPricePerKg(formatVnd(product.price)),
           style: const TextStyle(
@@ -67,6 +98,28 @@ class ProductTitleBlock extends StatelessWidget {
             color: AppColors.priceRed,
             fontWeight: FontWeight.bold,
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MetaLine extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const _MetaLine({required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 13, color: AppColors.textSecondary),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
         ),
       ],
     );
@@ -87,7 +140,9 @@ class ProductScoreCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.primaryGreen.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.2)),
+        border: Border.all(
+          color: AppColors.primaryGreen.withValues(alpha: 0.2),
+        ),
       ),
       child: Row(
         children: [

@@ -7,6 +7,8 @@ import 'package:vngrocery/features/cart/controllers/cart_bloc.dart';
 import 'package:vngrocery/features/cart/controllers/cart_event.dart';
 import 'package:vngrocery/features/products/controllers/product_detail_cubit.dart';
 import 'package:vngrocery/features/products/controllers/product_detail_state.dart';
+import 'package:vngrocery/features/products/widgets/price_history_chart.dart';
+import 'package:vngrocery/features/products/widgets/product_change_log.dart';
 import 'package:vngrocery/features/products/widgets/product_detail_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -63,13 +65,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             body: ListView(
               padding: EdgeInsets.zero,
               children: [
-                const ProductHeroImage(),
+                ProductHeroImage(imageUrls: product.imageUrls),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ProductTitleBlock(product: product),
+                      ProductTitleBlock(product: product, shop: state.shop),
                       if (state.hasProof) ...[
                         const SizedBox(height: 12),
                         TrustBadge(
@@ -107,6 +109,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       const SizedBox(height: 16),
                       ProductScoreCard(score: product.freshnessScore),
+                      if (state.hasHistory) ...[
+                        const SizedBox(height: 16),
+                        PriceHistoryChart(history: state.history!),
+                        const SizedBox(height: 12),
+                        ProductChangeLog(history: state.history!),
+                      ],
                       const SizedBox(height: 24),
                       const ProductCheckAction(),
                       const SizedBox(height: 32),

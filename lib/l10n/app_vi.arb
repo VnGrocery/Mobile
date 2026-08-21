@@ -661,5 +661,106 @@
   "homeOutsideRangeNotice": "Không có cửa hàng nào trong 20 km. Đây là những cửa hàng gần bạn nhất.",
   "@homeOutsideRangeNotice": {
     "description": "Shown when the nearest shops are past the search radius."
+  },
+  "productDetailPostedAt": "Đăng {when}",
+  "@productDetailPostedAt": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "when": {} }
+  },
+  "productDetailSoldBy": "Bán bởi {shop}",
+  "@productDetailSoldBy": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "shop": {} }
+  },
+  "productHistoryTitle": "Lịch sử thay đổi",
+  "@productHistoryTitle": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistorySubtitle": "Mỗi thay đổi được ký và móc xích bằng mã băm, không sửa lại được",
+  "@productHistorySubtitle": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryVerified": "Chuỗi nguyên vẹn",
+  "@productHistoryVerified": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryBroken": "Chuỗi có dấu hiệu bị sửa",
+  "@productHistoryBroken": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryCopied": "Đã sao chép {sha}",
+  "@productHistoryCopied": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "sha": {} }
+  },
+  "productHistoryActionCreated": "Tạo sản phẩm",
+  "@productHistoryActionCreated": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryActionUpdated": "Cập nhật",
+  "@productHistoryActionUpdated": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryActionDeleted": "Gỡ khỏi quầy",
+  "@productHistoryActionDeleted": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryActionModerated": "Kiểm duyệt",
+  "@productHistoryActionModerated": {
+    "description": "Product detail history and price copy."
+  },
+  "productHistoryEmpty": "Chưa có thay đổi nào được ghi nhận.",
+  "@productHistoryEmpty": {
+    "description": "Product detail history and price copy."
+  },
+  "productPriceChartTitle": "Giá {days} ngày gần nhất",
+  "@productPriceChartTitle": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "days": {} }
+  },
+  "productPriceChartFlat": "Giá không đổi trong {days} ngày qua.",
+  "@productPriceChartFlat": {
+    "description": "Product detail history and price copy.",
+    "placeholders": { "days": {} }
+  },
+  "productFieldPrice": "Giá",
+  "@productFieldPrice": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldName": "Tên",
+  "@productFieldName": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldDescription": "Mô tả",
+  "@productFieldDescription": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldCategory": "Danh mục",
+  "@productFieldCategory": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldFreshnessScore": "Điểm độ tươi",
+  "@productFieldFreshnessScore": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldFreshnessNote": "Ghi chú độ tươi",
+  "@productFieldFreshnessNote": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldStatus": "Trạng thái",
+  "@productFieldStatus": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldTags": "Thẻ",
+  "@productFieldTags": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldImages": "Số ảnh",
+  "@productFieldImages": {
+    "description": "Product detail history and price copy."
+  },
+  "productFieldCurrency": "Đơn vị tiền",
+  "@productFieldCurrency": {
+    "description": "Product detail history and price copy."
   }
 }

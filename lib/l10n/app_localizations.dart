@@ -2971,6 +2971,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No shops within 20 km. These are the closest there are.'**
   String get homeOutsideRangeNotice;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted {when}'**
+  String productDetailPostedAt(Object when);
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold by {shop}'**
+  String productDetailSoldBy(Object shop);
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Change history'**
+  String get productHistoryTitle;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Every change is signed and chained by hash, and cannot be rewritten'**
+  String get productHistorySubtitle;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain intact'**
+  String get productHistoryVerified;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain shows signs of tampering'**
+  String get productHistoryBroken;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied {sha}'**
+  String productHistoryCopied(Object sha);
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Product created'**
+  String get productHistoryActionCreated;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated'**
+  String get productHistoryActionUpdated;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Taken off the shelf'**
+  String get productHistoryActionDeleted;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderated'**
+  String get productHistoryActionModerated;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'No changes have been recorded yet.'**
+  String get productHistoryEmpty;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Price over {days} days'**
+  String productPriceChartTitle(Object days);
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'The price has not moved in {days} days.'**
+  String productPriceChartFlat(Object days);
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get productFieldPrice;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get productFieldName;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get productFieldDescription;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get productFieldCategory;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Freshness score'**
+  String get productFieldFreshnessScore;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Freshness note'**
+  String get productFieldFreshnessNote;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get productFieldStatus;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get productFieldTags;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get productFieldImages;
+
+  /// Product detail history and price copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get productFieldCurrency;
 }
 
 class _AppLocalizationsDelegate

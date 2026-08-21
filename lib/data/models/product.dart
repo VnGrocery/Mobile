@@ -20,6 +20,10 @@ class Product {
   int version;
   List<String> imageUrls;
 
+  /// When the seller first published it. Null for a product the server has not
+  /// dated, which is the local fixture rather than anything real.
+  final DateTime? createdAt;
+
   Product({
     required this.id,
     required this.shopId,
@@ -33,6 +37,7 @@ class Product {
     required this.status,
     this.version = 1,
     this.imageUrls = const [],
+    this.createdAt,
   });
 
   factory Product.fromJson(Map<String, Object?> json) {
@@ -49,6 +54,7 @@ class Product {
       status: _productStatus(json['status']?.toString() ?? ''),
       version: (json['version'] as num?)?.toInt() ?? 1,
       imageUrls: stringList(json['imageUrls']),
+      createdAt: optionalDateTime(json['createdAt']),
     );
   }
 

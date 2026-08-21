@@ -1585,4 +1585,87 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeOutsideRangeNotice =>
       'No shops within 20 km. These are the closest there are.';
+
+  @override
+  String productDetailPostedAt(Object when) {
+    return 'Posted $when';
+  }
+
+  @override
+  String productDetailSoldBy(Object shop) {
+    return 'Sold by $shop';
+  }
+
+  @override
+  String get productHistoryTitle => 'Change history';
+
+  @override
+  String get productHistorySubtitle =>
+      'Every change is signed and chained by hash, and cannot be rewritten';
+
+  @override
+  String get productHistoryVerified => 'Chain intact';
+
+  @override
+  String get productHistoryBroken => 'Chain shows signs of tampering';
+
+  @override
+  String productHistoryCopied(Object sha) {
+    return 'Copied $sha';
+  }
+
+  @override
+  String get productHistoryActionCreated => 'Product created';
+
+  @override
+  String get productHistoryActionUpdated => 'Updated';
+
+  @override
+  String get productHistoryActionDeleted => 'Taken off the shelf';
+
+  @override
+  String get productHistoryActionModerated => 'Moderated';
+
+  @override
+  String get productHistoryEmpty => 'No changes have been recorded yet.';
+
+  @override
+  String productPriceChartTitle(Object days) {
+    return 'Price over $days days';
+  }
+
+  @override
+  String productPriceChartFlat(Object days) {
+    return 'The price has not moved in $days days.';
+  }
+
+  @override
+  String get productFieldPrice => 'Price';
+
+  @override
+  String get productFieldName => 'Name';
+
+  @override
+  String get productFieldDescription => 'Description';
+
+  @override
+  String get productFieldCategory => 'Category';
+
+  @override
+  String get productFieldFreshnessScore => 'Freshness score';
+
+  @override
+  String get productFieldFreshnessNote => 'Freshness note';
+
+  @override
+  String get productFieldStatus => 'Status';
+
+  @override
+  String get productFieldTags => 'Tags';
+
+  @override
+  String get productFieldImages => 'Images';
+
+  @override
+  String get productFieldCurrency => 'Currency';
 }

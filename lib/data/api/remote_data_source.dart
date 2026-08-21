@@ -34,6 +34,18 @@ class RemoteDataSource {
     return _maps(json['items']).map(Shop.fromJson).toList();
   }
 
+  /// A product's recorded change history and its price series.
+  ///
+  /// The server decodes the audit log for us: the stored payload is its own Go
+  /// domain struct marshalled directly, which is not a shape this app should
+  /// have to know.
+  Future<ProductHistory> productHistory(String shopId, String productId) async {
+    final json = await client.get(
+      '/v1/shops/$shopId/products/$productId/history',
+    );
+    return ProductHistory.fromJson(json);
+  }
+
   Future<Shop> shop(String id) async =>
       Shop.fromJson(await client.get('/v1/shops/$id'));
 
