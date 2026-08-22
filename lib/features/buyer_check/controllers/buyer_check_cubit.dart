@@ -16,11 +16,15 @@ class BuyerCheckCubit extends Cubit<BuyerCheckState> with CloseSafeEmit {
   void loadDemoResult() {
     final result = _repositories.buyerChecks.lastResult;
     final productId = _repositories.buyerChecks.lastProductId;
+    // The last scanned product is remembered across sessions, so by now it may
+    // have been dropped from the cache along with its shop. Either way there is
+    // nothing to show, which is what the early return already says.
     final product = productId == null
         ? _repositories.products.all().firstOrNull
-        : _repositories.products.byId(productId);
+        : _repositories.products.byIdOrNull(productId);
     if (product == null) return;
-    final shop = _repositories.shops.byId(product.shopId);
+    final shop = _repositories.shops.byIdOrNull(product.shopId);
+    if (shop == null) return;
     emit(BuyerCheckState(result: result, product: product, shop: shop));
   }
 

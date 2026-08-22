@@ -39,17 +39,26 @@ class VoucherWalletCubit extends Cubit<VoucherWalletState> with CloseSafeEmit {
     emit(state.copyWith(showUsed: value));
   }
 
+  // Both maps skip what the cache has no answer for instead of throwing: the
+  // wallet outlives the catalogue, so a saved voucher can point at a shop that
+  // has since fallen outside the search radius. The state exposes these through
+  // `voucherOrNull`/`shopOrNull`, so a missing entry degrades one row rather
+  // than taking down the whole wallet.
   Map<String, Voucher> _resolveVouchers(List<UserVoucher> wallet) {
-    return {
-      for (final item in wallet)
-        item.voucherId: _repositories.vouchers.byId(item.voucherId),
-    };
+    final resolved = <String, Voucher>{};
+    for (final item in wallet) {
+      final voucher = _repositories.vouchers.byIdOrNull(item.voucherId);
+      if (voucher != null) resolved[item.voucherId] = voucher;
+    }
+    return resolved;
   }
 
   Map<String, Shop> _resolveShops(Iterable<Voucher> vouchers) {
-    return {
-      for (final voucher in vouchers)
-        voucher.shopId: _repositories.shops.byId(voucher.shopId),
-    };
+    final resolved = <String, Shop>{};
+    for (final voucher in vouchers) {
+      final shop = _repositories.shops.byIdOrNull(voucher.shopId);
+      if (shop != null) resolved[voucher.shopId] = shop;
+    }
+    return resolved;
   }
 }

@@ -7,6 +7,7 @@ import 'package:vngrocery/core/location/geo.dart';
 import 'package:vngrocery/core/network/api_client.dart';
 import 'package:vngrocery/data/api/remote_data_source.dart';
 import 'package:vngrocery/data/mock_data.dart';
+import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 
 Map<String, Object?> _shopJson(String id) => {
@@ -17,6 +18,20 @@ Map<String, Object?> _shopJson(String id) => {
   'latitude': 10.7721,
   'longitude': 106.6980,
 };
+
+Product _productOf(String shopId) => Product(
+  id: 'p-$shopId',
+  shopId: shopId,
+  name: 'Product of $shopId',
+  description: '',
+  category: 'fruit',
+  price: 1000,
+  freshnessScore: 8,
+  freshnessNote: '',
+  tags: const [],
+  imageUrls: const [],
+  status: 'published',
+);
 
 AppRepositories _repositories(http.Client client) => AppRepositories.forTesting(
   MockDb.instance,
@@ -46,7 +61,10 @@ AppRepositories _repositories(http.Client client) => AppRepositories.forTesting(
 }
 
 void main() {
-  setUp(() => MockDb.instance.shops.clear());
+  setUp(() {
+    MockDb.instance.shops.clear();
+    MockDb.instance.products.clear();
+  });
   tearDown(MockDb.instance.resetForTesting);
 
   const somewhereElse = GeoPoint(37.4220, -122.0840);
@@ -79,6 +97,34 @@ void main() {
     await repositories.shops.refresh();
 
     expect(calls, hasLength(1));
+  });
+
+  test('products of shops that dropped out of range are dropped too', () async {
+    // The catalogue is narrowed to a radius, so a shop the reader has moved
+    // away from vanishes from the list. Its products were cached by an earlier,
+    // wider fetch and nothing else clears them — `refreshShop` only replaces
+    // the products of a shop it was asked about. Left behind they outlived
+    // their shop, and every screen that joins a product back to the shop
+    // selling it threw "Shop not found" on the way to the home page.
+    final repositories = _repositories(
+      MockClient((request) async {
+        return http.Response(
+          jsonEncode({
+            'items': [_shopJson('s1')],
+          }),
+          200,
+        );
+      }),
+    );
+    MockDb.instance.products.add(_productOf('gone'));
+    MockDb.instance.products.add(_productOf('s1'));
+
+    await repositories.shops.refresh(near: somewhereElse);
+
+    expect(
+      MockDb.instance.products.map((product) => product.shopId),
+      ['s1'],
+    );
   });
 
   test('a genuinely empty catalogue is not retried forever', () async {

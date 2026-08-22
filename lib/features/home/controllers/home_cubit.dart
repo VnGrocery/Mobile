@@ -68,14 +68,15 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
   void _emitCached(HomeStatus status) {
     final shops = _repositories.shops.all();
     final products = _repositories.products.all();
-    final pledgeItems = products
-        .map(
-          (product) => HomePledgeItem(
-            product: product,
-            shop: _repositories.shops.byId(product.shopId),
-          ),
-        )
-        .toList();
+    // A product whose shop is not in the cache cannot be shown: the card names
+    // the shop selling it. Skipping is right rather than throwing, because this
+    // runs on the failure path too, where the shop list may be mid-refresh.
+    final pledgeItems = <HomePledgeItem>[];
+    for (final product in products) {
+      final shop = _repositories.shops.byIdOrNull(product.shopId);
+      if (shop == null) continue;
+      pledgeItems.add(HomePledgeItem(product: product, shop: shop));
+    }
 
     emit(
       HomeState(

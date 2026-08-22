@@ -36,6 +36,14 @@ class ShopRepository {
     _db.shops
       ..clear()
       ..addAll(items);
+    // The catalogue is narrowed to a radius, so shops the reader has moved away
+    // from disappear from this list. Their products were cached by an earlier,
+    // wider fetch and nothing else clears them: `refreshShop` only replaces the
+    // products of a shop it was asked about. Left behind they outlive their
+    // shop, which both defeats the radius filter and breaks every screen that
+    // joins a product back to the shop selling it.
+    final known = items.map((shop) => shop.id).toSet();
+    _db.products.removeWhere((product) => !known.contains(product.shopId));
     return all();
   }
 
