@@ -190,12 +190,49 @@ void _marketTests() {
     test('a single point is not a line', () {
       final market = parse({
         'shopCount': 3,
+        'currentAverage': 40000,
         'history': [
           {'at': '2026-08-01T00:00:00Z', 'price': 40000},
         ],
       });
 
-      expect(market.hasComparison, isFalse);
+      // The average and the spread still stand — three shops do sell it — but
+      // one point is not something to plot.
+      expect(market.hasComparison, isTrue);
+      expect(market.hasTrend, isFalse);
+    });
+
+    test('shops that all listed at once are not a trend', () {
+      // A freshly seeded catalogue lists the same item across several shops
+      // inside the same second. Plotted against a 30-day axis those points
+      // collapse into a vertical stroke at the right edge, which reads as a
+      // broken chart rather than as "no history yet".
+      final market = parse({
+        'shopCount': 5,
+        'currentAverage': 45400,
+        'history': [
+          {'at': '2026-08-21T14:46:31.929Z', 'price': 43500},
+          {'at': '2026-08-21T14:46:31.958Z', 'price': 43333},
+          {'at': '2026-08-21T14:46:31.968Z', 'price': 44250},
+          {'at': '2026-08-21T14:46:31.976Z', 'price': 45400},
+        ],
+      });
+
+      expect(market.hasComparison, isTrue);
+      expect(market.hasTrend, isFalse);
+    });
+
+    test('an average that moved over days is a trend', () {
+      final market = parse({
+        'shopCount': 5,
+        'currentAverage': 45400,
+        'history': [
+          {'at': '2026-07-22T00:00:00Z', 'price': 43000},
+          {'at': '2026-08-06T00:00:00Z', 'price': 46000},
+        ],
+      });
+
+      expect(market.hasTrend, isTrue);
     });
 
     test('places this shop against the average', () {

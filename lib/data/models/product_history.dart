@@ -142,9 +142,29 @@ class MarketPrice {
     this.history = const [],
   });
 
-  /// True once the line is worth drawing. The server already omits the block
-  /// when nobody else sells it, so this guards the rest.
-  bool get hasComparison => shopCount > 1 && history.length > 1;
+  /// True once there is a market to compare against. The server already omits
+  /// the block when nobody else sells it, so this guards the rest.
+  ///
+  /// Deliberately does not require a drawable series: the count, the average
+  /// and the spread are true and useful the moment a second shop lists the
+  /// item, even if no time has passed since.
+  bool get hasComparison => shopCount > 1 && currentAverage > 0;
+
+  /// The shortest stretch a series has to cover before it reads as a trend.
+  static const _trendSpan = Duration(days: 1);
+
+  /// True when the average has moved over enough time to be worth plotting.
+  ///
+  /// Several shops listing the same item within the same second — which is
+  /// what a freshly seeded catalogue looks like — produces a handful of points
+  /// milliseconds apart. Drawn against a 30-day axis they collapse into a
+  /// vertical stroke at the right edge that says nothing, and reads as a
+  /// broken chart rather than as "no history yet".
+  bool get hasTrend {
+    if (history.length < 2) return false;
+    final span = history.last.at.difference(history.first.at);
+    return span >= _trendSpan;
+  }
 
   /// How far this shop sits from the average, as a fraction. Negative is
   /// cheaper. Null when there is nothing to compare against.

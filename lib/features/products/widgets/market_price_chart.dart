@@ -76,33 +76,37 @@ class MarketPriceChart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          SizedBox(
-            height: 130,
-            child: CustomPaint(
-              size: Size.infinite,
-              painter: _ComparisonPainter(
-                market: market.history,
-                shop: shopHistory,
-                marketColour: AppColors.primaryGreen,
-                shopColour: AppColors.priceRed,
-                grid: palette.mutedSurface,
+          // The average and the spread stand on their own; the chart only
+          // appears once the average has actually moved over time.
+          if (market.hasTrend) ...[
+            SizedBox(
+              height: 130,
+              child: CustomPaint(
+                size: Size.infinite,
+                painter: _ComparisonPainter(
+                  market: market.history,
+                  shop: shopHistory,
+                  marketColour: AppColors.primaryGreen,
+                  shopColour: AppColors.priceRed,
+                  grid: palette.mutedSurface,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              _Legend(
-                colour: AppColors.primaryGreen,
-                label: l10n.marketPriceAverageLabel,
-              ),
-              const SizedBox(width: 14),
-              _Legend(
-                colour: AppColors.priceRed,
-                label: l10n.marketPriceThisShopLabel,
-              ),
-            ],
-          ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                _Legend(
+                  colour: AppColors.primaryGreen,
+                  label: l10n.marketPriceAverageLabel,
+                ),
+                const SizedBox(width: 14),
+                _Legend(
+                  colour: AppColors.priceRed,
+                  label: l10n.marketPriceThisShopLabel,
+                ),
+              ],
+            ),
+          ],
           const SizedBox(height: 6),
           // The spread, because an average alone can hide one shop charging
           // double.
