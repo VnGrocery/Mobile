@@ -6,6 +6,7 @@ import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/utils/format.dart';
 
 class ExploreMapBottomSheet extends StatelessWidget {
   final ScrollController controller;
@@ -202,7 +203,10 @@ class ExploreMapShopTile extends StatelessWidget {
                       color: AppColors.warningOrange,
                     ),
                     Text(
-                      ' ${shop.rating}',
+                      // An average of ratings is a long repeating decimal far
+                      // more often than not; printed raw it read
+                      // "4.666666666666667" next to the star.
+                      ' ${formatRating(shop.rating)}',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
