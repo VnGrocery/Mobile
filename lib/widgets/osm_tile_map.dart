@@ -102,6 +102,13 @@ class OsmTileMap extends StatelessWidget {
         return ClipRect(
           child: Stack(
             children: [
+              // Tiles arrive over the network one by one and show nothing at
+              // all until each one lands, so the map was bare white for as
+              // long as that took — several seconds on a slow connection, with
+              // the pins and the radius ring already drawn on top of nothing.
+              // Filling first gives an unlabelled map to fill in rather than a
+              // hole.
+              const Positioned.fill(child: ColoredBox(color: _tilePlaceholder)),
               for (var dx = 0; dx < columns; dx++)
                 for (var dy = 0; dy < rows; dy++)
                   if (_tileY(firstY + dy, tileCount) case final tileY?)
@@ -118,6 +125,18 @@ class OsmTileMap extends StatelessWidget {
                         ).toString(),
                         semanticLabel: providerConfig.semanticLabel,
                         fit: BoxFit.cover,
+                        // Fading in stops a half-loaded grid from flashing as
+                        // a patchwork of hard-edged squares.
+                        frameBuilder: (_, child, frame, wasSynchronous) {
+                          if (wasSynchronous || frame != null) {
+                            return AnimatedOpacity(
+                              opacity: frame == null ? 0 : 1,
+                              duration: const Duration(milliseconds: 180),
+                              child: child,
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                         errorBuilder: (_, __, ___) => const _MapTileError(),
                       ),
                     ),
@@ -144,6 +163,10 @@ class OsmTileMap extends StatelessWidget {
   static int? _tileY(int y, int tileCount) =>
       y < 0 || y >= tileCount ? null : y;
 }
+
+/// The colour of unlabelled land in the OpenStreetMap style, so a tile that has
+/// not arrived reads as map rather than as a gap.
+const Color _tilePlaceholder = Color(0xFFF2EFE9);
 
 class _MapTileError extends StatelessWidget {
   const _MapTileError();

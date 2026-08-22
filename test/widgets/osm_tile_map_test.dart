@@ -172,7 +172,29 @@ void main() {
     // they are drawn at, so a pinch scales smoothly instead of jumping.
     expect(requested.every((tile) => tile.startsWith('13/')), isTrue);
 
-    final tile = tester.widgetList<Positioned>(find.byType(Positioned)).first;
+    // Not simply the first Positioned in the stack: the map lays a background
+    // fill down before the tiles, and the attribution sits above them. Only the
+    // squares wrapping an Image are tiles.
+    final tile = tester
+        .widgetList<Positioned>(
+          find.ancestor(
+            of: find.byType(Image),
+            matching: find.byType(Positioned),
+          ),
+        )
+        .first;
     expect(tile.width, closeTo(mapTileSize * math.pow(2, 0.25), 0.001));
+  });
+
+  testWidgets('fills the map before any tile has arrived', (tester) async {
+    // Tiles come in over the network one at a time and draw nothing until they
+    // land, which left the map bare white underneath the pins and the radius
+    // ring for as long as that took.
+    await render(tester);
+
+    final fill = tester
+        .widgetList<ColoredBox>(find.byType(ColoredBox))
+        .where((box) => box.color != const Color(0x00000000));
+    expect(fill, isNotEmpty);
   });
 }
