@@ -51,8 +51,8 @@ class _ScannerScreenState extends State<ScannerScreen>
     _line = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
-    )..repeat();
-    if (widget.active) _initCamera();
+    );
+    if (widget.active) _startScanning();
   }
 
   @override
@@ -60,10 +60,26 @@ class _ScannerScreenState extends State<ScannerScreen>
     super.didUpdateWidget(oldWidget);
     if (widget.active == oldWidget.active) return;
     if (widget.active) {
-      _initCamera();
+      _startScanning();
     } else {
-      _closeCamera();
+      _stopScanning();
     }
+  }
+
+  /// The camera was already tied to the tab being visible. The scan line was
+  /// not: it began turning in [initState] and never stopped, and because this
+  /// screen is built up front inside the IndexedStack it kept turning behind
+  /// every other tab for as long as the app was open. A ticker that never
+  /// stops asks for a frame on every vsync, so the app never went idle — the
+  /// raster thread ran flat out drawing a line nobody was looking at.
+  void _startScanning() {
+    if (!_line.isAnimating) _line.repeat();
+    _initCamera();
+  }
+
+  void _stopScanning() {
+    _line.stop();
+    _closeCamera();
   }
 
   Future<void> _closeCamera() async {

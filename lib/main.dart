@@ -88,33 +88,24 @@ class VnGroceryApp extends StatelessWidget {
   }
 }
 
-class _AppBackdrop extends StatefulWidget {
+/// Paints the Dong Son drum motif behind every screen.
+///
+/// The motif used to turn, one revolution every 52 seconds, for as long as the
+/// app was open. Nobody could see it: it is drawn at one-tenth opacity with
+/// most of it past the top-right corner, and a 52-second revolution moves it
+/// about a tenth of a degree per frame. What it did do was ask for a new frame
+/// on every vsync, on every screen, so the app never went idle. Measured in
+/// profile mode on an idle home screen it cost about a quarter of a core,
+/// continuously — with it stopped, the process sits at a flat 0.0%.
+///
+/// To bring the rotation back, wrap the motif in a [RotationTransition] driven
+/// by a repeating controller again, and give it a [RepaintBoundary] so the
+/// turn only re-composites a cached raster instead of re-painting the whole
+/// figure every frame.
+class _AppBackdrop extends StatelessWidget {
   final Widget child;
 
   const _AppBackdrop({required this.child});
-
-  @override
-  State<_AppBackdrop> createState() => _AppBackdropState();
-}
-
-class _AppBackdropState extends State<_AppBackdrop>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _drumSpin;
-
-  @override
-  void initState() {
-    super.initState();
-    _drumSpin = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 52),
-    )..repeat();
-  }
-
-  @override
-  void dispose() {
-    _drumSpin.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,14 +140,11 @@ class _AppBackdropState extends State<_AppBackdrop>
                         right: -motifSize * 0.48,
                         child: Opacity(
                           opacity: 0.10,
-                          child: RotationTransition(
-                            turns: _drumSpin,
-                            child: SizedBox(
-                              width: motifSize,
-                              height: motifSize,
-                              child: const CustomPaint(
-                                painter: _DongSonMotifPainter(),
-                              ),
+                          child: SizedBox(
+                            width: motifSize,
+                            height: motifSize,
+                            child: const CustomPaint(
+                              painter: _DongSonMotifPainter(),
                             ),
                           ),
                         ),
@@ -167,7 +155,7 @@ class _AppBackdropState extends State<_AppBackdrop>
               ),
             ),
           ),
-          widget.child,
+          child,
         ],
       ),
     );
