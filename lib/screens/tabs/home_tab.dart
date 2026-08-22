@@ -43,6 +43,22 @@ class _HomeTabState extends State<HomeTab> {
     super.dispose();
   }
 
+  /// Opens the map, and looks for the reader again on the way back.
+  ///
+  /// The chip doubles as "we do not know where you are, look again", but
+  /// tapping it only ever pushed the map. The map screen finds the position
+  /// through its own cubit, so the reader would come back from a map centred on
+  /// their own street to a header still insisting it had no idea where they
+  /// were - and to a catalogue still ordered as though it did not.
+  ///
+  /// Only when the position was missing: a second fix costs a GPS read and
+  /// would tell us nothing new.
+  Future<void> _openMap({required bool hadLocation}) async {
+    await Navigator.pushNamed(context, Routes.exploreMap);
+    if (!mounted || hadLocation) return;
+    await _homeCubit.locateReader();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -75,8 +91,7 @@ class _HomeTabState extends State<HomeTab> {
                     onOpenMenu: widget.onOpenMenu,
                     areaName: state.location?.areaName ?? '',
                     located: state.location != null,
-                    onOpenMap: () =>
-                        Navigator.pushNamed(context, Routes.exploreMap),
+                    onOpenMap: () => _openMap(hadLocation: state.location != null),
                   ),
                   const SizedBox(height: 16),
                   Padding(
