@@ -818,6 +818,12 @@ abstract class AppLocalizations {
   /// **'Current mode'**
   String get accountCurrentMode;
 
+  /// No description provided for @accountSellerNotApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Want to open a shop? Ask an administrator to approve this account as a seller.'**
+  String get accountSellerNotApproved;
+
   /// No description provided for @accountSellerManagement.
   ///
   /// In en, this message translates to:

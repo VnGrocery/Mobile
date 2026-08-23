@@ -394,6 +394,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get accountCurrentMode => 'Chế độ hiện tại';
 
   @override
+  String get accountSellerNotApproved =>
+      'Muốn mở cửa hàng? Liên hệ quản trị viên để được cấp quyền người bán.';
+
+  @override
   String get accountSellerManagement => 'Quản lý bán hàng';
 
   @override

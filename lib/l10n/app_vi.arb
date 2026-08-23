@@ -154,6 +154,7 @@
   "accountModeSwitchedSeller": "Đã chuyển sang chế độ người bán",
   "accountModeSwitchedBuyer": "Đã chuyển sang chế độ người mua",
   "accountCurrentMode": "Chế độ hiện tại",
+  "accountSellerNotApproved": "Muốn mở cửa hàng? Liên hệ quản trị viên để được cấp quyền người bán.",
   "accountSellerManagement": "Quản lý bán hàng",
   "accountBuyerActivity": "Hoạt động mua hàng",
   "accountSettings": "Cài đặt",

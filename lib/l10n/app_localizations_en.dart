@@ -396,6 +396,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountCurrentMode => 'Current mode';
 
   @override
+  String get accountSellerNotApproved =>
+      'Want to open a shop? Ask an administrator to approve this account as a seller.';
+
+  @override
   String get accountSellerManagement => 'Seller management';
 
   @override

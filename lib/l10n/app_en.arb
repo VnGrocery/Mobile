@@ -154,6 +154,7 @@
   "accountModeSwitchedSeller": "Switched to seller mode",
   "accountModeSwitchedBuyer": "Switched to buyer mode",
   "accountCurrentMode": "Current mode",
+  "accountSellerNotApproved": "Want to open a shop? Ask an administrator to approve this account as a seller.",
   "accountSellerManagement": "Seller management",
   "accountBuyerActivity": "Buyer activity",
   "accountSettings": "Settings",
