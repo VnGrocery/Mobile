@@ -61,6 +61,9 @@ class AuthPasswordField extends StatelessWidget {
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
           onPressed: onToggle,
+          tooltip: visible
+              ? AppLocalizations.of(context).a11yHidePassword
+              : AppLocalizations.of(context).a11yShowPassword,
           icon: Icon(visible ? Icons.visibility_off : Icons.visibility),
         ),
       ),

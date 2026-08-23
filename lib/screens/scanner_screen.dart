@@ -246,7 +246,9 @@ class _ScannerScreenState extends State<ScannerScreen>
             scannedBundleId: _bundle?.bundleId,
           ),
           Positioned(
-            top: 64,
+            // Was a hardcoded 64: on a phone with a taller status bar or a
+            // display cutout the controls crept under the system chrome.
+            top: MediaQuery.of(context).padding.top + 8,
             left: 16,
             right: 16,
             child: Row(
@@ -255,6 +257,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                 IconButton(
                   onPressed: _handleClose,
                   color: Colors.white,
+                  tooltip: l10n.a11yCloseCamera,
                   icon: const Icon(Icons.close),
                 ),
                 IconButton(
@@ -266,6 +269,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                         )
                       : null,
                   color: Colors.white,
+                  tooltip: l10n.a11yToggleFlash,
                   icon: const Icon(Icons.flash_on),
                 ),
               ],

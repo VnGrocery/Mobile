@@ -47,9 +47,12 @@ class RatingPicker extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(5, (index) {
         final selected = index < rating;
+        // Five identical star buttons all announced as "button" told a
+        // TalkBack user nothing about which score they were choosing.
         return IconButton(
           iconSize: 48,
           onPressed: enabled ? () => onChanged(index + 1) : null,
+          tooltip: AppLocalizations.of(context).a11yRateStars(index + 1),
           icon: Icon(
             selected ? Icons.star : Icons.star_border,
             color: selected ? AppColors.warningOrange : palette.textTertiary,
