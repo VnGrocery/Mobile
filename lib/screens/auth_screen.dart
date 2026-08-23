@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/core/validation/app_validators.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/features/auth/auth_error_presenter.dart';
 import 'package:vngrocery/features/auth/widgets/auth_components.dart';
 import 'package:vngrocery/features/auth/widgets/forgot_password_sheet.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -134,6 +136,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context);
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _loading = true);
@@ -154,13 +157,16 @@ class _AuthScreenState extends State<AuthScreen> {
     } catch (error) {
       if (!mounted) return;
       setState(() => _loading = false);
-      ScaffoldMessenger.of(
+      AppFeedback.showSnackBar(
         context,
-      ).showSnackBar(SnackBar(content: Text(error.toString())));
+        AuthErrorPresenter.message(error, l10n),
+        icon: Icons.error_outline,
+      );
     }
   }
 
   Future<void> _continueWithGoogle() async {
+    final l10n = AppLocalizations.of(context);
     FocusScope.of(context).unfocus();
     setState(() => _loading = true);
     try {
@@ -184,9 +190,13 @@ class _AuthScreenState extends State<AuthScreen> {
     } catch (error) {
       if (!mounted) return;
       setState(() => _loading = false);
-      ScaffoldMessenger.of(
+      AppFeedback.showSnackBar(
         context,
-      ).showSnackBar(SnackBar(content: Text(error.toString())));
+        error is StateError && error.message == 'google_id_token_missing'
+            ? l10n.authGoogleTokenError
+            : AuthErrorPresenter.message(error, l10n),
+        icon: Icons.error_outline,
+      );
     }
   }
 
