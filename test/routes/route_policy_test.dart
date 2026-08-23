@@ -197,7 +197,9 @@ void main() {
       expect(route.settings.name, Routes.auth);
     });
 
-    test('seller shop route derives session shop when args are missing', () {
+    test('seller shop route opens without a shop id', () {
+      // The account arriving here from 'create a shop' has no shop yet.
+      // Requiring one cancelled the navigation, so the button did nothing.
       SessionManager.instance.login(
         email: 'seller@example.com',
         role: 'seller',
@@ -206,6 +208,7 @@ void main() {
       final route = buildRoute(const RouteSettings(name: Routes.sellerShop));
 
       expect(route.settings.name, Routes.sellerShop);
+      expect(SessionManager.instance.shopId, isNull);
     });
 
     test('cancels a route whose required string arg is missing', () {

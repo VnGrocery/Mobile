@@ -247,22 +247,10 @@ class Routes {
         page = SellerCreatePledgeScreen(productId: productArgs.productId);
         break;
       case sellerShop:
-        final shopArgs =
-            _singleStringRouteArg(
-              args,
-              typed: (value) => value,
-              aliases: [
-                (value) => value is StoreDetailArgs
-                    ? SellerShopArgs(value.shopId)
-                    : null,
-              ],
-              fromString: SellerShopArgs.new,
-              empty: session.shopId == null
-                  ? null
-                  : SellerShopArgs(session.shopId!),
-            ) ??
-            (session.shopId == null ? null : SellerShopArgs(session.shopId!));
-        if (shopArgs == null) return _fallbackRoute(settings);
+        // No shop id required. The screen reads it from the session itself,
+        // and demanding one here cancelled the navigation for exactly the
+        // account that needed it: 'create a shop' did nothing at all for a
+        // seller who did not have one yet.
         page = const SellerShopScreen();
         break;
       case pledgeHistory:
