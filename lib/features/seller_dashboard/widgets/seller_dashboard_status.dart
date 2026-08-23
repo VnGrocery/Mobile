@@ -29,17 +29,24 @@ class SellerStatusCard extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          SellerStatusRow(label: l10n.sellerStatusLabel, value: 'active'),
+          // Was the literal string 'active', so a suspended shop was told it
+          // was open for business.
+          SellerStatusRow(
+            label: l10n.sellerStatusLabel,
+            value: _shopState(l10n, dashboard.shop.status),
+          ),
           SellerStatusRow(
             label: l10n.sellerTotalRecords,
             value: '${dashboard.pledges.length}',
           ),
           SellerStatusRow(
             label: l10n.sellerLatestReceipt,
-            value: latest?.proofId ?? l10n.sellerNone,
+            // A full UUID told the shopkeeper nothing and filled the row.
+            // Shortened the way receipts are shown elsewhere in the app.
+            value: _shortReceipt(latest?.proofId) ?? l10n.sellerNone,
           ),
           SellerStatusRow(
-            label: 'Integrity',
+            label: l10n.sellerIntegrityLabel,
             value: dashboard.warningCount > 0
                 ? l10n.sellerNeedsReview
                 : l10n.sellerStable,
@@ -48,6 +55,23 @@ class SellerStatusCard extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The shop's own state, in words rather than as the server's key.
+String _shopState(AppLocalizations l10n, String status) {
+  return switch (status.toLowerCase()) {
+    'active' => l10n.sellerShopStateActive,
+    'suspended' => l10n.sellerShopStateSuspended,
+    'deleted' => l10n.sellerShopStateDeleted,
+    _ => status,
+  };
+}
+
+/// First block of a receipt id, which is all anyone reads off a screen.
+String? _shortReceipt(String? proofId) {
+  final id = proofId?.trim() ?? '';
+  if (id.isEmpty) return null;
+  return id.length <= 8 ? id : id.substring(0, 8);
 }
 
 class SellerStatusRow extends StatelessWidget {
