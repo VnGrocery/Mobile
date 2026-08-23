@@ -38,8 +38,9 @@ class AppPalette extends ThemeExtension<AppPalette> {
     mutedSurface: Color(0xFFF3F5F7),
     field: Color(0xFFF3F5F7),
     border: Color(0xFFF1F1F5),
-    textSecondary: Color(0xFF8A8F8B),
-    textTertiary: Color(0xFFB6BDB8),
+    // Đủ 4.5:1 trên cả nền trắng lẫn nền thẻ xám; xem AppColors.textSecondary.
+    textSecondary: Color(0xFF626864),
+    textTertiary: Color(0xFF7C837E),
     iconMuted: Color(0xFF8BA1B2),
     positiveBg: Color(0xFFE8F5E9),
     warningBg: Color(0xFFFFF3E0),

@@ -26,6 +26,10 @@ class AppColors {
   static const Color lightGray = Color(0xFFF3F5F7);
   static const Color darkGray = Color(0xFF333333);
   static const Color gray = Color(0xFF979899);
-  static const Color textSecondary = Color(0xFF979899);
+  /// Nhãn và siêu dữ liệu. Trước là 0xFF979899, chỉ đạt ~2.6:1 trên nền thẻ
+  /// xám 0xFFF3F5F7 - dưới chuẩn 4.5:1 và gần như mất chữ khi cầm ngoài nắng,
+  /// đúng bối cảnh dùng thật của app. Giá trị mới đạt 5.2:1 trên nền thẻ và
+  /// 5.7:1 trên nền trắng.
+  static const Color textSecondary = Color(0xFF626864);
   static const Color border = Color(0xFFF1F1F5);
 }

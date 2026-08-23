@@ -37,6 +37,8 @@ class AppTheme {
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.primaryGreen,
           foregroundColor: Colors.white,
+          // Material đòi vùng chạm tối thiểu 48dp; mặc định của Flutter là 36.
+          minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
@@ -46,6 +48,7 @@ class AppTheme {
           backgroundColor: AppColors.primaryGreen,
           foregroundColor: Colors.white,
           elevation: 0,
+          minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
@@ -54,6 +57,7 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primaryGreen,
           side: const BorderSide(color: AppColors.primaryGreen),
+          minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
         ),
@@ -121,6 +125,8 @@ class AppTheme {
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.primaryGreen,
           foregroundColor: Colors.white,
+          // Material đòi vùng chạm tối thiểu 48dp; mặc định của Flutter là 36.
+          minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
@@ -130,6 +136,7 @@ class AppTheme {
           backgroundColor: AppColors.primaryGreen,
           foregroundColor: Colors.white,
           elevation: 0,
+          minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
@@ -138,6 +145,7 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primaryGreen,
           side: const BorderSide(color: AppColors.primaryGreen),
+          minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
           textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
         ),
