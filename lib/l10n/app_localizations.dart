@@ -2528,6 +2528,12 @@ abstract class AppLocalizations {
   /// **'Products'**
   String get sellerProductsLabel;
 
+  /// No description provided for @sellerPickProductTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which product\'s history?'**
+  String get sellerPickProductTitle;
+
   /// Seller dashboard copy.
   ///
   /// In en, this message translates to:

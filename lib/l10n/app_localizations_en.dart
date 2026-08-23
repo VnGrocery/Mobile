@@ -1331,6 +1331,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerProductsLabel => 'Products';
 
   @override
+  String get sellerPickProductTitle => 'Which product\'s history?';
+
+  @override
   String get sellerHistoryLabel => 'History';
 
   @override

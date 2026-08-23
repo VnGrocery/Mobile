@@ -510,6 +510,7 @@
   "sellerAddRecordBody": "Chọn sản phẩm và lưu thông tin tại quầy.",
   "sellerNeedProductFirst": "Cần tạo sản phẩm trước khi ghi nhận.",
   "sellerProductsLabel": "Sản phẩm",
+  "sellerPickProductTitle": "Xem lịch sử của sản phẩm nào?",
   "sellerHistoryLabel": "Lịch sử",
   "sellerTrustLabel": "Độ tin cậy",
   "sellerRecordsToday": "Ghi nhận hôm nay",

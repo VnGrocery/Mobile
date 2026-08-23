@@ -810,6 +810,7 @@
   "@sellerProductsLabel": {
     "description": "Seller dashboard copy."
   },
+  "sellerPickProductTitle": "Which product's history?",
   "sellerHistoryLabel": "History",
   "@sellerHistoryLabel": {
     "description": "Seller dashboard copy."

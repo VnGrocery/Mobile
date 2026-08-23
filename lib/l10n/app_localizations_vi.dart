@@ -1323,6 +1323,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerProductsLabel => 'Sản phẩm';
 
   @override
+  String get sellerPickProductTitle => 'Xem lịch sử của sản phẩm nào?';
+
+  @override
   String get sellerHistoryLabel => 'Lịch sử';
 
   @override
