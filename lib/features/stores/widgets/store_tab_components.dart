@@ -41,7 +41,7 @@ class LatestReceiptCard extends StatelessWidget {
                     l10n.storeDetailLatestReceiptSubtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    style: TextStyle(fontSize: 12, color: context.palette.textSecondary),
                   ),
                 ],
               ),
@@ -101,7 +101,7 @@ class StoreDetailTabs extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: selected ? AppColors.primaryGreen : Colors.grey,
+                  color: selected ? AppColors.primaryGreen : context.palette.textSecondary,
                   fontWeight: selected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),

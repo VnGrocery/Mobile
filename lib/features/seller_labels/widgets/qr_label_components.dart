@@ -25,7 +25,7 @@ class QrLabelIntro extends StatelessWidget {
           padding: EdgeInsets.only(top: 8, bottom: 32),
           child: Text(
             l10n.qrLabelReadyBody,
-            style: TextStyle(fontSize: 14, color: Colors.grey),
+            style: TextStyle(fontSize: 14, color: context.palette.textSecondary),
           ),
         ),
       ],
@@ -147,7 +147,7 @@ class QrLabelActions extends StatelessWidget {
           onPressed: onBackHome,
           child: Text(
             l10n.qrLabelBackHome,
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(color: context.palette.textSecondary),
           ),
         ),
       ],

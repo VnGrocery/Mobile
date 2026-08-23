@@ -35,7 +35,7 @@ class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.primaryGreen,
+          backgroundColor: AppColors.primaryGreenInk,
           foregroundColor: Colors.white,
           // Material đòi vùng chạm tối thiểu 48dp; mặc định của Flutter là 36.
           minimumSize: const Size(64, 48),
@@ -45,7 +45,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryGreen,
+          backgroundColor: AppColors.primaryGreenInk,
           foregroundColor: Colors.white,
           elevation: 0,
           minimumSize: const Size(64, 48),
@@ -55,7 +55,7 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primaryGreen,
+          foregroundColor: AppColors.primaryGreenInk,
           side: const BorderSide(color: AppColors.primaryGreen),
           minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
@@ -81,6 +81,12 @@ class AppTheme {
           borderRadius: BorderRadius.circular(16),
           borderSide:
               const BorderSide(color: AppColors.primaryGreen, width: 1.4),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primaryGreenInk,
+          minimumSize: const Size(64, 48),
         ),
       ),
       cardTheme: CardThemeData(
@@ -123,7 +129,7 @@ class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: AppColors.primaryGreen,
+          backgroundColor: AppColors.primaryGreenInk,
           foregroundColor: Colors.white,
           // Material đòi vùng chạm tối thiểu 48dp; mặc định của Flutter là 36.
           minimumSize: const Size(64, 48),
@@ -133,7 +139,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryGreen,
+          backgroundColor: AppColors.primaryGreenInk,
           foregroundColor: Colors.white,
           elevation: 0,
           minimumSize: const Size(64, 48),
@@ -143,7 +149,7 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primaryGreen,
+          foregroundColor: AppColors.primaryGreenInk,
           side: const BorderSide(color: AppColors.primaryGreen),
           minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
@@ -169,6 +175,12 @@ class AppTheme {
           borderRadius: BorderRadius.circular(16),
           borderSide:
               const BorderSide(color: AppColors.primaryGreen, width: 1.4),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primaryGreen,
+          minimumSize: const Size(64, 48),
         ),
       ),
       cardTheme: CardThemeData(

@@ -22,7 +22,7 @@ class SellerDashboardHeader extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           l10n.sellerModeSubtitle,
-          // Colors.grey.shade600 không đi qua palette nên đứng nguyên một màu
+          // context.palette.textSecondary không đi qua palette nên đứng nguyên một màu
           // ở chế độ tối.
           style: TextStyle(color: context.palette.textSecondary),
         ),

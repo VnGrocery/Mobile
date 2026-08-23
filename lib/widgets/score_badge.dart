@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/utils/format.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 const _defaultLabel = 'Điểm đánh giá';
 
@@ -24,7 +25,7 @@ class ScoreRingBadge extends StatelessWidget {
     this.strokeWidth = 2,
     this.label = _defaultLabel,
     this.scoreFontSize = 18,
-    this.labelFontSize = 9,
+    this.labelFontSize = 11,
   });
 
   @override
@@ -66,7 +67,7 @@ class ScoreRingBadge extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: const Color(0xFF8E8E93),
+              color: context.palette.textSecondary,
               fontSize: labelFontSize,
               fontWeight: FontWeight.w400,
             ),

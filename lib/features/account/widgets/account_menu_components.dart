@@ -15,10 +15,10 @@ class AccountSectionLabel extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
-          color: Colors.grey,
+          color: context.palette.textSecondary,
         ),
       ),
     );
@@ -54,7 +54,7 @@ class AccountMenuItem extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(icon, color: Colors.grey, size: 22),
+                Icon(icon, color: context.palette.textSecondary, size: 22),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(label, style: const TextStyle(fontSize: 15)),
@@ -96,7 +96,7 @@ class AccountSwitchItem extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              Icon(icon, color: Colors.grey, size: 22),
+              Icon(icon, color: context.palette.textSecondary, size: 22),
               const SizedBox(width: 16),
               Expanded(
                 child: Text(label, style: const TextStyle(fontSize: 15)),

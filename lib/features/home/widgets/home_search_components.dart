@@ -47,8 +47,10 @@ class HomeScanHeroCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: Ink(
         decoration: BoxDecoration(
+          // Deep enough for the white body copy to clear 4.5:1; the brand
+          // green only reaches 2.6:1 under 12px white text.
           gradient: const LinearGradient(
-            colors: [AppColors.primaryGreen, AppColors.primaryGreenDark],
+            colors: [AppColors.primaryGreenInk, Color(0xFF0F5F27)],
           ),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -75,10 +77,7 @@ class HomeScanHeroCard extends StatelessWidget {
                       ),
                       Text(
                         l10n.homeScanHeroBody,
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.85),
-                          fontSize: 12,
-                        ),
+                        style: const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ],
                   ),
@@ -92,7 +91,7 @@ class HomeScanHeroCard extends StatelessWidget {
                   ),
                   child: const Icon(
                     Icons.photo_camera,
-                    color: AppColors.primaryGreen,
+                    color: AppColors.primaryGreenInk,
                   ),
                 ),
               ],

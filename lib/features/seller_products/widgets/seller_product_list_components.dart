@@ -62,9 +62,9 @@ class SellerProductCard extends StatelessWidget {
                         l10n.sellerProductCategoryValue(
                           CategoryPresenter.label(l10n, product.category),
                         ),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
-                          color: Colors.grey,
+                          color: context.palette.textSecondary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -92,7 +92,7 @@ class SellerProductCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.more_horiz, color: Colors.grey),
+                  icon: Icon(Icons.more_horiz, color: context.palette.textSecondary),
                   onPressed: onMore,
                 ),
               ],
@@ -189,7 +189,7 @@ class SellerProductStatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final bg = SellerProductPresenter.statusBackground(context, status);
-    final fg = SellerProductPresenter.statusForeground(status);
+    final fg = SellerProductPresenter.statusForeground(context, status);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(

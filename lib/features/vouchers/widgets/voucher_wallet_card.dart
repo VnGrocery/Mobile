@@ -30,7 +30,7 @@ class VoucherWalletCard extends StatelessWidget {
     final expired = VoucherPresenter.isExpired(voucher);
     final disabled = VoucherPresenter.isDisabled(userVoucher, voucher);
     final statusColor = userVoucher.isUsed || expired
-        ? Colors.grey
+        ? context.palette.textSecondary
         : AppColors.primaryGreen;
 
     return Material(
@@ -131,7 +131,7 @@ class VoucherWalletHeader extends StatelessWidget {
           backgroundColor: disabled ? palette.mutedSurface : palette.positiveBg,
           child: Icon(
             userVoucher.isUsed ? Icons.check : Icons.local_offer,
-            color: disabled ? Colors.grey : AppColors.primaryGreen,
+            color: disabled ? context.palette.textSecondary : AppColors.primaryGreen,
           ),
         ),
         const SizedBox(width: 12),

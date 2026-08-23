@@ -66,7 +66,7 @@ class SellerProductEmptyState extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             AppLocalizations.of(context).sellerProductEmpty,
-            style: const TextStyle(color: Colors.grey),
+            style: TextStyle(color: context.palette.textSecondary),
           ),
         ],
       ),

@@ -22,7 +22,7 @@ class OnboardingSkipButton extends StatelessWidget {
           onPressed: onSkip,
           child: Text(
             l10n.onboardingSkip,
-            style: const TextStyle(color: Colors.grey),
+            style: TextStyle(color: context.palette.textSecondary),
           ),
         ),
       ),
@@ -86,9 +86,9 @@ class OnboardingPageContent extends StatelessWidget {
           Text(
             page.description,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
-              color: Colors.grey,
+              color: context.palette.textSecondary,
               height: 1.5,
             ),
           ),

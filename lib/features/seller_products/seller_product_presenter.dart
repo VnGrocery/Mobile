@@ -46,10 +46,12 @@ class SellerProductPresenter {
     };
   }
 
-  static Color statusForeground(String status) {
+  /// Takes the context so the draft colour follows the theme, the way every
+  /// other surface colour in the app does.
+  static Color statusForeground(BuildContext context, String status) {
     return switch (status.toLowerCase()) {
       publishedState || 'active' => AppColors.trustGreen,
-      draftState => Colors.grey,
+      draftState => context.palette.textSecondary,
       _ => AppColors.warningOrange,
     };
   }

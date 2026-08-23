@@ -62,7 +62,7 @@ class StoreReviewItem extends StatelessWidget {
                 ),
                 Text(
                   formatShortDate(review.date),
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  style: TextStyle(fontSize: 12, color: context.palette.textSecondary),
                 ),
               ],
             ),

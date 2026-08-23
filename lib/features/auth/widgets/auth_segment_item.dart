@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class AuthSegmentItem extends StatelessWidget {
   final String label;
@@ -26,7 +27,7 @@ class AuthSegmentItem extends StatelessWidget {
           child: Text(
             label,
             style: TextStyle(
-              color: active ? AppColors.primaryGreen : Colors.grey,
+              color: active ? AppColors.primaryGreen : context.palette.textSecondary,
               fontWeight: FontWeight.w700,
               fontSize: 15,
             ),

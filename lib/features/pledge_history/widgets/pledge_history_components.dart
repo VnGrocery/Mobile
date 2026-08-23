@@ -32,7 +32,7 @@ class EmptyPledgeHistory extends StatelessWidget {
       child: Center(
         child: Text(
           l10n.pledgeHistoryEmpty,
-          style: const TextStyle(color: Colors.grey),
+          style: TextStyle(color: context.palette.textSecondary),
         ),
       ),
     );
@@ -95,9 +95,9 @@ class PledgeTimelineItem extends StatelessWidget {
                       children: [
                         Text(
                           item.time,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey,
+                            color: context.palette.textSecondary,
                           ),
                         ),
                         const Spacer(),
@@ -155,27 +155,27 @@ class PledgeTimelineItem extends StatelessWidget {
                             : null,
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.link,
                               size: 14,
-                              color: Colors.grey,
+                              color: context.palette.textSecondary,
                             ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 l10n.pledgeOriginalReceipt(item.proofId),
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.grey,
+                                  color: context.palette.textSecondary,
                                 ),
                               ),
                             ),
                             if (_canOpenCertificate)
-                              const Icon(
+                              Icon(
                                 Icons.chevron_right,
                                 size: 16,
-                                color: Colors.grey,
+                                color: context.palette.textSecondary,
                               ),
                           ],
                         ),

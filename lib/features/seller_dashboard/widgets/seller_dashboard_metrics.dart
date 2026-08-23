@@ -27,7 +27,9 @@ class SellerMetricGrid extends StatelessWidget {
         SellerMetricCard(
           label: l10n.sellerTrustLabel,
           value: dashboard.isRated ? dashboard.trustGrade : '—',
-          color: AppColors.primaryGreen,
+          // Figures use trustGreen: the brand green only reaches 2.78:1 on
+          // this card, under the 3:1 floor for large text.
+          color: AppColors.trustGreen,
         ),
         SellerMetricCard(
           label: l10n.sellerProductsLabel,
@@ -37,14 +39,14 @@ class SellerMetricGrid extends StatelessWidget {
         SellerMetricCard(
           label: l10n.sellerRecordsToday,
           value: '${dashboard.pledgesToday}',
-          color: AppColors.primaryGreen,
+          color: AppColors.trustGreen,
         ),
         SellerMetricCard(
           label: l10n.sellerBuyerAlerts,
           value: '${dashboard.warningCount}',
           // Đỏ #FF324B chỉ dành cho tiền; cảnh báo là màu cam.
           color: dashboard.warningCount > 0
-              ? AppColors.warningOrange
+              ? AppColors.warningText
               : AppColors.trustGreen,
         ),
       ],

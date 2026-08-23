@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class AuthBrandHeader extends StatelessWidget {
   const AuthBrandHeader({super.key});
@@ -34,7 +35,7 @@ class AuthSubtitle extends StatelessWidget {
             ? AppLocalizations.of(context).authRegisterSubtitle
             : AppLocalizations.of(context).authWelcomeBack,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 16, color: Colors.grey),
+        style: TextStyle(fontSize: 16, color: context.palette.textSecondary),
       ),
     );
   }

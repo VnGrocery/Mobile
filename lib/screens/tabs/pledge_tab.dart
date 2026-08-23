@@ -160,8 +160,8 @@ class _PledgeTabState extends State<PledgeTab> {
                   const SizedBox(height: 22),
                   Text(
                     l10n.pledgeOverviewHint,
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: context.palette.textSecondary,
                       height: 1.35,
                     ),
                   ),

@@ -8,6 +8,7 @@ import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/utils/format.dart';
 import 'package:vngrocery/widgets/common.dart';
 import 'package:vngrocery/widgets/score_badge.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class ProductHeroImage extends StatelessWidget {
   /// The seller's own photos. Empty draws a placeholder rather than a stock
@@ -160,7 +161,7 @@ class ProductScoreCard extends StatelessWidget {
                 ),
                 Text(
                   l10n.productDetailLatestScoreSubtitle,
-                  style: const TextStyle(fontSize: 11, color: Colors.grey),
+                  style: TextStyle(fontSize: 11, color: context.palette.textSecondary),
                 ),
               ],
             ),
@@ -210,7 +211,7 @@ class ProductCheckAction extends StatelessWidget {
           child: Text(
             l10n.productDetailCheckActionHint,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, color: Colors.grey),
+            style: TextStyle(fontSize: 12, color: context.palette.textSecondary),
           ),
         ),
       ],

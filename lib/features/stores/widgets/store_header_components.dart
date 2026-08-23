@@ -37,7 +37,7 @@ class StoreHeader extends StatelessWidget {
                     color: palette.mutedSurface,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.store, size: 40, color: Colors.grey),
+                  child: Icon(Icons.store, size: 40, color: context.palette.textSecondary),
                 ),
               ),
               const SizedBox(height: 8),
@@ -83,7 +83,7 @@ class StoreHeader extends StatelessWidget {
                 child: Text(
                   shop.description,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  style: TextStyle(fontSize: 14, color: context.palette.textSecondary),
                 ),
               ),
             ],

@@ -44,10 +44,10 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
               children: [
                 Text(
                   l10n.sellerPledgeSuggestedScoreTitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey,
+                    color: context.palette.textSecondary,
                   ),
                 ),
                 Text(

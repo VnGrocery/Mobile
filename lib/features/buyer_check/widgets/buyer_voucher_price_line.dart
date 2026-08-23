@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class PriceLine extends StatelessWidget {
   final String label;
@@ -17,7 +18,7 @@ class PriceLine extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Text(label, style: const TextStyle(color: Colors.grey)),
+          child: Text(label, style: TextStyle(color: context.palette.textSecondary)),
         ),
         Text(
           value,

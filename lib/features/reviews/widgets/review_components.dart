@@ -20,7 +20,7 @@ class ReviewIntro extends StatelessWidget {
           padding: const EdgeInsets.only(top: 4, bottom: 24),
           child: Text(
             l10n.reviewIntroBody,
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
+            style: TextStyle(fontSize: 14, color: context.palette.textSecondary),
           ),
         ),
       ],
@@ -118,12 +118,12 @@ class ReviewPhotoAttachment extends StatelessWidget {
           children: [
             Icon(
               attached ? Icons.check_circle : Icons.add_a_photo,
-              color: attached ? AppColors.primaryGreen : Colors.grey,
+              color: attached ? AppColors.primaryGreen : context.palette.textSecondary,
             ),
             Text(
               attached ? l10n.reviewPhotoAttached : l10n.reviewPhotoAdd,
               style: TextStyle(
-                color: attached ? AppColors.primaryGreen : Colors.grey,
+                color: attached ? AppColors.primaryGreen : context.palette.textSecondary,
                 fontSize: 12,
                 fontWeight: attached ? FontWeight.bold : FontWeight.normal,
               ),

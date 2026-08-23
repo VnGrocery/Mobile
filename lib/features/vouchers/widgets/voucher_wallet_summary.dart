@@ -78,7 +78,7 @@ class VoucherEmptyState extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Icon(Icons.local_offer_outlined, size: 48, color: Colors.grey),
+          Icon(Icons.local_offer_outlined, size: 48, color: context.palette.textSecondary),
           const SizedBox(height: 10),
           Text(
             l10n.voucherWalletEmptyTitle,
@@ -88,7 +88,7 @@ class VoucherEmptyState extends StatelessWidget {
           Text(
             l10n.voucherWalletEmptyBody,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.grey),
+            style: TextStyle(color: context.palette.textSecondary),
           ),
         ],
       ),

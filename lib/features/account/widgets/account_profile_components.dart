@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/core/widgets/user_avatar.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class AccountProfileSummary extends StatelessWidget {
   final String displayName;
@@ -32,7 +33,7 @@ class AccountProfileSummary extends StatelessWidget {
           ),
           Text(
             email,
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
+            style: TextStyle(fontSize: 14, color: context.palette.textSecondary),
           ),
           const SizedBox(height: 16),
           AccountRoleSwitch(

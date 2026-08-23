@@ -95,7 +95,7 @@ class _BuyerCheckResultScreenState extends State<BuyerCheckResultScreen> {
                     onPressed: () => Navigator.pop(context),
                     child: Text(
                       l10n.buyerCheckRetake,
-                      style: const TextStyle(color: Colors.grey),
+                      style: TextStyle(color: context.palette.textSecondary),
                     ),
                   ),
                 ],

@@ -22,7 +22,7 @@ class CreateSellerPledgeCard extends StatelessWidget {
     // đặc y như lúc bấm được, nên người bán bấm vào và không có gì xảy ra -
     // với người không quen khái niệm "nút bị khoá" thì đó là "app hỏng".
     final background = canCreatePledge
-        ? AppColors.primaryGreen
+        ? AppColors.primaryGreenInk
         : palette.mutedSurface;
     final foreground = canCreatePledge
         ? Colors.white
@@ -57,9 +57,10 @@ class CreateSellerPledgeCard extends StatelessWidget {
                           ? l10n.sellerAddRecordBody
                           : l10n.sellerNeedProductFirst,
                       style: TextStyle(
-                        color: canCreatePledge
-                            ? Colors.white.withValues(alpha: 0.85)
-                            : foreground,
+                        // Full white: at 0.85 over green this line measured
+                        // 2.59:1, and it is the sentence that explains why the
+                        // card is or is not usable.
+                        color: canCreatePledge ? Colors.white : foreground,
                         height: 1.35,
                       ),
                     ),

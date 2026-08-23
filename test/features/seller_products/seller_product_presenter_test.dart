@@ -4,6 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/theme/app_theme.dart';
 
 void main() {
   group('SellerProductPresenter', () {
@@ -32,18 +34,38 @@ void main() {
       expect(SellerProductPresenter.stateLabel('Paused', l10n), 'Paused');
     });
 
-    test('statusForeground maps statuses to expected colors', () {
+    testWidgets('statusForeground maps statuses to expected colors', (
+      tester,
+    ) async {
+      late BuildContext context;
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.light,
+          home: Builder(
+            builder: (ctx) {
+              context = ctx;
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
       expect(
-        SellerProductPresenter.statusForeground('published'),
+        SellerProductPresenter.statusForeground(context, 'published'),
         AppColors.trustGreen,
       );
       expect(
-        SellerProductPresenter.statusForeground('Published'),
+        SellerProductPresenter.statusForeground(context, 'Published'),
         AppColors.trustGreen,
       );
-      expect(SellerProductPresenter.statusForeground('draft'), Colors.grey);
+      // Draft follows the theme now: Colors.grey was #9E9E9E, which only
+      // reaches 2.7:1 on this app's surfaces.
       expect(
-        SellerProductPresenter.statusForeground('archived'),
+        SellerProductPresenter.statusForeground(context, 'draft'),
+        AppPalette.light.textSecondary,
+      );
+      expect(
+        SellerProductPresenter.statusForeground(context, 'archived'),
         AppColors.warningOrange,
       );
     });

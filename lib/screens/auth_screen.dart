@@ -113,7 +113,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     onPressed: _forgotPassword,
                     child: Text(
                       AppLocalizations.of(context).authForgotPassword,
-                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                      style: TextStyle(color: context.palette.textSecondary, fontSize: 14),
                     ),
                   ),
                 ),

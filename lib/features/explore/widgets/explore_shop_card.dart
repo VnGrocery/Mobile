@@ -72,7 +72,7 @@ class ExploreShopCard extends StatelessWidget {
                       shop.address,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                      style: TextStyle(fontSize: 13, color: context.palette.textSecondary),
                     ),
                     if (shop.trustSummary != null) ...[
                       const SizedBox(height: 6),
@@ -141,7 +141,7 @@ class ExploreShopCard extends StatelessWidget {
               const SizedBox(width: 8),
               Icon(
                 selected ? Icons.place : Icons.chevron_right,
-                color: selected ? AppColors.primaryGreen : Colors.grey,
+                color: selected ? AppColors.primaryGreen : context.palette.textSecondary,
               ),
             ],
           ),
