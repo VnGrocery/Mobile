@@ -1379,6 +1379,8 @@
   "sellerDashboardNoShopAction": "Create a shop",
   "sellerDashboardFailedTitle": "Could not load the shop figures",
   "sellerDashboardFailedBody": "Check the connection and try again.",
+  "sellerShopSaveFailed": "Could not save the shop. Check the connection and try again.",
+  "sellerShopLoadFailedTitle": "Could not load the shop details",
   "sellerShopStateActive": "Active",
   "sellerShopStateSuspended": "Suspended",
   "sellerShopStateDeleted": "Deleted",

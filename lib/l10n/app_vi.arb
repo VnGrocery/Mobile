@@ -875,6 +875,8 @@
   "sellerDashboardNoShopAction": "Tạo cửa hàng",
   "sellerDashboardFailedTitle": "Không tải được số liệu cửa hàng",
   "sellerDashboardFailedBody": "Kiểm tra kết nối rồi thử lại.",
+  "sellerShopSaveFailed": "Không lưu được cửa hàng. Kiểm tra kết nối rồi thử lại.",
+  "sellerShopLoadFailedTitle": "Không tải được thông tin cửa hàng",
   "sellerShopStateActive": "Đang hoạt động",
   "sellerShopStateSuspended": "Tạm ngưng",
   "sellerShopStateDeleted": "Đã xoá",

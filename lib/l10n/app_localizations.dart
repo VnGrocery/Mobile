@@ -3248,6 +3248,18 @@ abstract class AppLocalizations {
   /// **'Check the connection and try again.'**
   String get sellerDashboardFailedBody;
 
+  /// No description provided for @sellerShopSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the shop. Check the connection and try again.'**
+  String get sellerShopSaveFailed;
+
+  /// No description provided for @sellerShopLoadFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the shop details'**
+  String get sellerShopLoadFailedTitle;
+
   /// No description provided for @sellerShopStateActive.
   ///
   /// In en, this message translates to:

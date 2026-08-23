@@ -1740,6 +1740,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerDashboardFailedBody => 'Kiểm tra kết nối rồi thử lại.';
 
   @override
+  String get sellerShopSaveFailed =>
+      'Không lưu được cửa hàng. Kiểm tra kết nối rồi thử lại.';
+
+  @override
+  String get sellerShopLoadFailedTitle => 'Không tải được thông tin cửa hàng';
+
+  @override
   String get sellerShopStateActive => 'Đang hoạt động';
 
   @override

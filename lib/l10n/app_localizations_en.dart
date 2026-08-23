@@ -1750,6 +1750,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerDashboardFailedBody => 'Check the connection and try again.';
 
   @override
+  String get sellerShopSaveFailed =>
+      'Could not save the shop. Check the connection and try again.';
+
+  @override
+  String get sellerShopLoadFailedTitle => 'Could not load the shop details';
+
+  @override
   String get sellerShopStateActive => 'Active';
 
   @override
