@@ -53,3 +53,4 @@ app.*.map.json
 .claude/skills/
 .agents/
 skills-lock.json
+.serena/
