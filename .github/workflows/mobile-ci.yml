@@ -13,6 +13,8 @@ concurrency:
 env:
   # Matches the SDK this app is developed against; bump both together.
   FLUTTER_VERSION: "3.47.1"
+  ANDROID_APP_ID: "com.example.grocery_app_ui"
+  IOS_BUNDLE_ID: "com.example.groceryAppUi"
   # android/app/build.gradle pins this NDK, so the runner has to have exactly it.
   ANDROID_NDK_VERSION: "28.2.13676358"
   # CI must never reach a real server. Pointing the app at a closed port keeps
@@ -155,7 +157,17 @@ jobs:
           # the trailing backslash reached flutter as a second test path, and
           # flutter refused: "Integration tests and unit tests cannot be run in
           # a single invocation."
-          script: flutter test --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }} integration_test/ci_smoke_test.dart
+          # Install first and answer the location prompt the way a returning
+          # user already has. Left to itself the runtime dialog opens over the
+          # app on the first launch after install and the test times out
+          # waiting for a shell it cannot see.
+          script: |
+            flutter build apk --debug --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
+            adb install -r build/app/outputs/flutter-apk/app-debug.apk
+            adb shell pm grant ${{ env.ANDROID_APP_ID }} android.permission.ACCESS_FINE_LOCATION
+            adb shell pm grant ${{ env.ANDROID_APP_ID }} android.permission.ACCESS_COARSE_LOCATION
+            adb shell pm grant ${{ env.ANDROID_APP_ID }} android.permission.CAMERA
+            flutter test --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }} integration_test/ci_smoke_test.dart
 
   ios-build:
     name: iOS build (no codesign)
@@ -219,6 +231,10 @@ jobs:
           echo "SIM_UDID=$udid" >> "$GITHUB_ENV"
           xcrun simctl boot "$udid"
           xcrun simctl bootstatus "$udid" -b
+          # Same reason as the Android job: answer the location prompt up front
+          # so no system dialog opens over the app mid-test.
+          xcrun simctl privacy "$udid" grant location ${{ env.IOS_BUNDLE_ID }} || true
+          xcrun simctl privacy "$udid" grant camera ${{ env.IOS_BUNDLE_ID }} || true
 
       - name: Run the smoke test on the simulator
         # Same offline test the Android job runs; see the note there on why

@@ -35,15 +35,44 @@ class ReaderLocation {
 /// The home header used to print a hardcoded "Quận 1" for everyone, wherever
 /// they were, and the map always opened on the centre of Ho Chi Minh City.
 class LocationService {
-  const LocationService();
+  LocationService();
 
-  static const LocationService instance = LocationService();
+  static final LocationService instance = LocationService();
+
+  /// The ask in flight, if any.
+  ///
+  /// MainScreen builds every tab at once, so the home tab, the store list and
+  /// the map all ask on the same frame. The plugin answers the second overlap
+  /// by throwing PermissionRequestInProgressException; they now share one
+  /// request and one answer.
+  Future<(ReaderLocation?, LocationDenial?)>? _inFlight;
 
   /// Asks for permission if it has not been decided yet, then reads a fix.
   ///
   /// Returns a [LocationDenial] rather than throwing: not knowing where the
   /// reader is degrades the ordering of a list, it does not break a screen.
-  Future<(ReaderLocation?, LocationDenial?)> current() async {
+  Future<(ReaderLocation?, LocationDenial?)> current() {
+    return _inFlight ??= _guarded().whenComplete(() => _inFlight = null);
+  }
+
+  Future<(ReaderLocation?, LocationDenial?)> _guarded() async {
+    try {
+      return await _current();
+    } on PermissionRequestInProgressException {
+      // Two screens asked at once - the home tab on open and the map behind
+      // it. The plugin refuses the second request by throwing, and this method
+      // promises never to throw: not knowing where the reader is degrades an
+      // ordering, it does not break a screen. The answer from the first
+      // request arrives through the caller that made it.
+      return (null, LocationDenial.unavailable);
+    } catch (_) {
+      // Any other platform failure - no location provider on the device, a
+      // simulator with location off, a channel error - is the same answer.
+      return (null, LocationDenial.unavailable);
+    }
+  }
+
+  Future<(ReaderLocation?, LocationDenial?)> _current() async {
     if (!await Geolocator.isLocationServiceEnabled()) {
       return (null, LocationDenial.serviceOff);
     }
