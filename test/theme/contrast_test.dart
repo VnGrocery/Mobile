@@ -68,6 +68,22 @@ void main() {
     });
   });
 
+  group('green and orange that carry text follow the theme', () {
+    test('light ink reads on white and on the card', () {
+      expect(contrast(AppPalette.light.greenInk, white), greaterThanOrEqualTo(4.5));
+      expect(contrast(AppPalette.light.greenInk, lightCard), greaterThanOrEqualTo(4.5));
+      expect(contrast(AppPalette.light.warnInk, lightCard), greaterThanOrEqualTo(4.5));
+    });
+
+    test('dark ink reads on the dark canvas', () {
+      // The light ink measures 2.8:1 on #0B100D, which is how the outlined
+      // buttons went dim the first time this split was made.
+      expect(contrast(AppPalette.dark.greenInk, darkBg), greaterThanOrEqualTo(4.5));
+      expect(contrast(AppPalette.dark.greenInk, darkCard), greaterThanOrEqualTo(4.5));
+      expect(contrast(AppPalette.dark.warnInk, darkCard), greaterThanOrEqualTo(4.5));
+    });
+  });
+
   test('the brand green stays the brand green for paint', () {
     // Icons, borders and chart lines only need 3:1, and primaryGreen is the
     // identity: this test is here so the ink/paint split is not "fixed" by

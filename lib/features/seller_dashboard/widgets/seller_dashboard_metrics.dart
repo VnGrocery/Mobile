@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/data/repositories.dart';
-import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerMetricGrid extends StatelessWidget {
@@ -29,7 +28,7 @@ class SellerMetricGrid extends StatelessWidget {
           value: dashboard.isRated ? dashboard.trustGrade : '—',
           // Figures use trustGreen: the brand green only reaches 2.78:1 on
           // this card, under the 3:1 floor for large text.
-          color: AppColors.trustGreen,
+          color: context.palette.greenInk,
         ),
         SellerMetricCard(
           label: l10n.sellerProductsLabel,
@@ -39,15 +38,15 @@ class SellerMetricGrid extends StatelessWidget {
         SellerMetricCard(
           label: l10n.sellerRecordsToday,
           value: '${dashboard.pledgesToday}',
-          color: AppColors.trustGreen,
+          color: context.palette.greenInk,
         ),
         SellerMetricCard(
           label: l10n.sellerBuyerAlerts,
           value: '${dashboard.warningCount}',
           // Đỏ #FF324B chỉ dành cho tiền; cảnh báo là màu cam.
           color: dashboard.warningCount > 0
-              ? AppColors.warningText
-              : AppColors.trustGreen,
+              ? context.palette.warnInk
+              : context.palette.greenInk,
         ),
       ],
     );

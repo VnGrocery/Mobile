@@ -149,7 +149,7 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primaryGreenInk,
+          foregroundColor: AppPalette.dark.greenInk,
           side: const BorderSide(color: AppColors.primaryGreen),
           minimumSize: const Size(64, 48),
           shape: const StadiumBorder(),
@@ -179,7 +179,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.primaryGreen,
+          foregroundColor: AppPalette.dark.greenInk,
           minimumSize: const Size(64, 48),
         ),
       ),

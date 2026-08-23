@@ -15,6 +15,13 @@ class AppPalette extends ThemeExtension<AppPalette> {
   final Color glass;
   final Color glassBorder;
 
+  /// Green that carries text, per theme. A deep ink reads on white and is
+  /// unreadable on the dark canvas; a bright green is the other way round.
+  final Color greenInk;
+
+  /// Warning colour for text, per theme, on the same principle.
+  final Color warnInk;
+
   const AppPalette({
     required this.appBackground,
     required this.card,
@@ -29,6 +36,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
     required this.warningBg,
     required this.glass,
     required this.glassBorder,
+    required this.greenInk,
+    required this.warnInk,
   });
 
   static const light = AppPalette(
@@ -46,6 +55,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
     warningBg: Color(0xFFFFF3E0),
     glass: Color(0xC7FFFFFF),
     glassBorder: Color(0xB8FFFFFF),
+    greenInk: Color(0xFF157A33),
+    warnInk: Color(0xFFA65200),
   );
 
   static const dark = AppPalette(
@@ -62,6 +73,10 @@ class AppPalette extends ThemeExtension<AppPalette> {
     warningBg: Color(0xFF3A2A13),
     glass: Color(0xB8151B17),
     glassBorder: Color(0x1AFFFFFF),
+    // On #0B100D the light-mode ink measures 2.8:1; these are the same two
+    // meanings, lifted so they read on the dark canvas.
+    greenInk: Color(0xFF4FC776),
+    warnInk: Color(0xFFFFB74D),
   );
 
   @override
@@ -79,6 +94,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
     Color? warningBg,
     Color? glass,
     Color? glassBorder,
+    Color? greenInk,
+    Color? warnInk,
   }) {
     return AppPalette(
       appBackground: appBackground ?? this.appBackground,
@@ -94,6 +111,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
       warningBg: warningBg ?? this.warningBg,
       glass: glass ?? this.glass,
       glassBorder: glassBorder ?? this.glassBorder,
+      greenInk: greenInk ?? this.greenInk,
+      warnInk: warnInk ?? this.warnInk,
     );
   }
 
@@ -114,6 +133,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
       warningBg: Color.lerp(warningBg, other.warningBg, t)!,
       glass: Color.lerp(glass, other.glass, t)!,
       glassBorder: Color.lerp(glassBorder, other.glassBorder, t)!,
+      greenInk: Color.lerp(greenInk, other.greenInk, t)!,
+      warnInk: Color.lerp(warnInk, other.warnInk, t)!,
     );
   }
 }

@@ -100,7 +100,9 @@ class _ChainBadge extends StatelessWidget {
           Icon(
             verified ? Icons.verified_user : Icons.gpp_maybe,
             size: 13,
-            color: verified ? AppColors.primaryGreen : AppColors.warningOrange,
+            // Ink colours: the badge sits on a tinted background where the
+            // brand green measures 2.7:1 and #FF9800 measures 1.97:1.
+            color: verified ? palette.greenInk : palette.warnInk,
           ),
           const SizedBox(width: 4),
           Text(
@@ -109,8 +111,8 @@ class _ChainBadge extends StatelessWidget {
               fontSize: 10,
               fontWeight: FontWeight.bold,
               color: verified
-                  ? AppColors.primaryGreen
-                  : AppColors.warningOrange,
+                  ? palette.greenInk
+                  : palette.warnInk,
             ),
           ),
         ],
