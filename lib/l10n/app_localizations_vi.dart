@@ -550,6 +550,18 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
+  String get sellerPledgeCaptureInvalidImage =>
+      'Ảnh không dùng được. Chụp lại rõ hơn.';
+
+  @override
+  String get sellerPledgeCaptureUnavailable =>
+      'Dịch vụ chấm điểm ảnh đang bận. Thử lại sau ít phút.';
+
+  @override
+  String get sellerPledgeCaptureFailed =>
+      'Không chấm được ảnh. Kiểm tra kết nối rồi chụp lại.';
+
+  @override
   String get sellerPledgeCaptureAction => 'Chụp ảnh hàng hóa';
 
   @override

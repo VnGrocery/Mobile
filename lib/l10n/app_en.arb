@@ -205,6 +205,9 @@
       "category": {}
     }
   },
+  "sellerPledgeCaptureInvalidImage": "That photo could not be used. Take a clearer one.",
+  "sellerPledgeCaptureUnavailable": "The scoring service is unavailable. Try again in a few minutes.",
+  "sellerPledgeCaptureFailed": "The photo could not be scored. Check the connection and try again.",
   "sellerPledgeCaptureAction": "Capture product photo",
   "sellerPledgeSuggestedScoreTitle": "SUGGESTED SCORE FROM IMAGE",
   "sellerPledgeSellerScoreTitle": "SELLER SCORE",

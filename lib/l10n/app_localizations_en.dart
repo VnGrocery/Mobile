@@ -552,6 +552,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get sellerPledgeCaptureInvalidImage =>
+      'That photo could not be used. Take a clearer one.';
+
+  @override
+  String get sellerPledgeCaptureUnavailable =>
+      'The scoring service is unavailable. Try again in a few minutes.';
+
+  @override
+  String get sellerPledgeCaptureFailed =>
+      'The photo could not be scored. Check the connection and try again.';
+
+  @override
   String get sellerPledgeCaptureAction => 'Capture product photo';
 
   @override

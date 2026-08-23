@@ -1124,6 +1124,24 @@ abstract class AppLocalizations {
   /// **'Score {score}/10 for category: {category}.'**
   String sellerPledgeRecordDescription(Object score, Object category);
 
+  /// No description provided for @sellerPledgeCaptureInvalidImage.
+  ///
+  /// In en, this message translates to:
+  /// **'That photo could not be used. Take a clearer one.'**
+  String get sellerPledgeCaptureInvalidImage;
+
+  /// No description provided for @sellerPledgeCaptureUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The scoring service is unavailable. Try again in a few minutes.'**
+  String get sellerPledgeCaptureUnavailable;
+
+  /// No description provided for @sellerPledgeCaptureFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The photo could not be scored. Check the connection and try again.'**
+  String get sellerPledgeCaptureFailed;
+
   /// No description provided for @sellerPledgeCaptureAction.
   ///
   /// In en, this message translates to:
