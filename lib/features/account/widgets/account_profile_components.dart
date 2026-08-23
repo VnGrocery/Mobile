@@ -9,14 +9,20 @@ class AccountProfileSummary extends StatelessWidget {
   final String displayName;
   final String email;
   final bool isSeller;
-  final ValueChanged<String> onRoleChanged;
+
+  /// Whether an admin has approved this account to sell. The switch is only
+  /// shown to accounts that have been: it used to be shown to everyone, and
+  /// flipping it put a buyer into a seller app the server would refuse.
+  final bool canSell;
+  final ValueChanged<bool> onSellerModeChanged;
 
   const AccountProfileSummary({
     super.key,
     required this.displayName,
     required this.email,
     required this.isSeller,
-    required this.onRoleChanged,
+    required this.canSell,
+    required this.onSellerModeChanged,
   });
 
   @override
@@ -36,10 +42,21 @@ class AccountProfileSummary extends StatelessWidget {
             style: TextStyle(fontSize: 14, color: context.palette.textSecondary),
           ),
           const SizedBox(height: 16),
-          AccountRoleSwitch(
-            isSeller: isSeller,
-            onRoleChanged: onRoleChanged,
-          ),
+          if (canSell)
+            AccountRoleSwitch(
+              isSeller: isSeller,
+              onSellerModeChanged: onSellerModeChanged,
+            )
+          else
+            Text(
+              AppLocalizations.of(context).accountSellerNotApproved,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13,
+                color: context.palette.textSecondary,
+                height: 1.35,
+              ),
+            ),
         ],
       ),
     );
@@ -48,12 +65,12 @@ class AccountProfileSummary extends StatelessWidget {
 
 class AccountRoleSwitch extends StatelessWidget {
   final bool isSeller;
-  final ValueChanged<String> onRoleChanged;
+  final ValueChanged<bool> onSellerModeChanged;
 
   const AccountRoleSwitch({
     super.key,
     required this.isSeller,
-    required this.onRoleChanged,
+    required this.onSellerModeChanged,
   });
 
   @override
@@ -73,13 +90,13 @@ class AccountRoleSwitch extends StatelessWidget {
             label: l10n.commonBuyer,
             icon: Icons.person,
             selected: !isSeller,
-            onTap: () => onRoleChanged('user'),
+            onTap: () => onSellerModeChanged(false),
           ),
           AccountRoleItem(
             label: l10n.commonSeller,
             icon: Icons.storefront,
             selected: isSeller,
-            onTap: () => onRoleChanged('seller'),
+            onTap: () => onSellerModeChanged(true),
           ),
         ],
       ),

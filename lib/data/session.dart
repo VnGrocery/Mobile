@@ -8,7 +8,17 @@ class SessionSnapshot {
   final String? shopId;
   final String email;
   final String displayName;
+
+  /// The role the server issued in the token: 'user', 'seller' or 'admin'.
+  ///
+  /// Only auth sets this. It used to double as the buyer/seller switch, so
+  /// tapping that switch made the app believe the account had been granted
+  /// something the server had never granted it.
   final String role;
+
+  /// Which side of the app is being shown. Only meaningful for an account the
+  /// server has approved as a seller.
+  final bool sellerMode;
   final String refreshToken;
   final String userId;
   final int version;
@@ -19,6 +29,7 @@ class SessionSnapshot {
     required this.email,
     required this.displayName,
     required this.role,
+    this.sellerMode = false,
     this.refreshToken = '',
     this.userId = '',
     this.version = 1,
@@ -26,7 +37,12 @@ class SessionSnapshot {
 
   bool get isLoggedIn => token != null;
 
-  bool get isSeller => role == 'seller';
+  /// Whether this account may sell at all. An admin grants the seller role;
+  /// the app cannot grant it to itself.
+  bool get canSell => role == 'seller' || role == 'admin';
+
+  /// Whether the seller side is what is currently on screen.
+  bool get isSeller => canSell && sellerMode;
 
   static String fallbackDisplayName(String email, String? displayName) {
     final name = displayName?.trim();
@@ -42,6 +58,7 @@ class SessionSnapshot {
     String? email,
     String? displayName,
     String? role,
+    bool? sellerMode,
     String? refreshToken,
     String? userId,
     int? version,
@@ -54,6 +71,7 @@ class SessionSnapshot {
       email: nextEmail,
       displayName: fallbackDisplayName(nextEmail, nextDisplayName),
       role: role ?? this.role,
+      sellerMode: sellerMode ?? this.sellerMode,
       refreshToken: refreshToken ?? this.refreshToken,
       userId: userId ?? this.userId,
       version: version ?? this.version,
@@ -174,7 +192,8 @@ class SessionManager {
       shopId: storedShopId.isEmpty ? null : storedShopId,
       email: box.get('session_email') as String? ?? '',
       displayName: box.get('session_display_name') as String? ?? 'User',
-      role: box.get('session_role') as String? ?? 'buyer',
+      role: box.get('session_role') as String? ?? 'user',
+      sellerMode: box.get('session_seller_mode') as bool? ?? false,
       version: box.get('session_version') as int? ?? 1,
     );
   }
@@ -190,6 +209,7 @@ class SessionManager {
       'session_email': current.email,
       'session_display_name': current.displayName,
       'session_role': current.role,
+      'session_seller_mode': current.sellerMode,
       'session_version': current.version,
     });
   }
@@ -261,16 +281,17 @@ class SessionManager {
     );
   }
 
-  void setRole(String role) {
-    if (current.role == role) return;
-    // Switching into seller mode does not conjure a shop. This used to hand
-    // out the demo shop 's1', so any buyer who flipped the switch was shown
-    // somebody else's storefront; the shop id now only ever comes from the
-    // server, via setShopId once /me/shop has answered.
-    _current.value = current.copyWith(
-      role: role,
-      shopId: role == 'seller' ? current.shopId : null,
-    );
+  /// Switches which side of the app is shown.
+  ///
+  /// Only an account the server approved as a seller can turn this on. It used
+  /// to rewrite `role` itself, so a buyer tapping the switch made the app
+  /// believe the server had granted something it never had - and the seller
+  /// screens then failed one API call at a time.
+  void setSellerMode(bool sellerMode) {
+    if (sellerMode && !current.canSell) return;
+    if (current.sellerMode == sellerMode) return;
+    _current.value = current.copyWith(sellerMode: sellerMode);
+    _persist();
   }
 
   void setShopId(String shopId) {
@@ -296,6 +317,7 @@ class SessionManager {
         'session_email',
         'session_display_name',
         'session_role',
+        'session_seller_mode',
         'session_version',
       ]);
     }

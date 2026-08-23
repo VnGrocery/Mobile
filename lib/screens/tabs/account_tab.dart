@@ -79,12 +79,12 @@ class _AccountTabState extends State<AccountTab> {
     }
   }
 
-  void _switchRole(String role) {
+  void _switchSellerMode(bool sellerMode) {
     final l10n = AppLocalizations.of(context);
-    context.read<SessionCubit>().setRole(role);
+    context.read<SessionCubit>().setSellerMode(sellerMode);
     AppFeedback.showSnackBar(
       context,
-      role == 'seller'
+      sellerMode
           ? l10n.accountModeSwitchedSeller
           : l10n.accountModeSwitchedBuyer,
     );
@@ -111,7 +111,8 @@ class _AccountTabState extends State<AccountTab> {
             displayName: session.displayName,
             email: session.email,
             isSeller: isSeller,
-            onRoleChanged: _switchRole,
+            canSell: session.canSell,
+            onSellerModeChanged: _switchSellerMode,
           ),
           AccountSectionLabel(l10n.accountCurrentMode),
           AccountModeCard(isSeller: isSeller),

@@ -53,8 +53,8 @@ class SessionCubit extends Cubit<SessionState> with CloseSafeEmit {
     _emitCurrent();
   }
 
-  void setRole(String role) {
-    _session.setRole(role);
+  void setSellerMode(bool sellerMode) {
+    _session.setSellerMode(sellerMode);
     _emitCurrent();
   }
 

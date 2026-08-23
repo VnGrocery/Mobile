@@ -171,6 +171,8 @@ void main() {
         email: 'seller@example.com',
         role: 'seller',
       );
+      // The role is the permission; this is the side of the app being shown.
+      SessionManager.instance.setSellerMode(true);
 
       final route = buildRoute(
         const RouteSettings(name: Routes.review, arguments: ReviewArgs('s1')),
@@ -354,7 +356,7 @@ void main() {
         expect(route.settings.name, settings.name);
       }
 
-      SessionManager.instance.setRole('user');
+      SessionManager.instance.setSellerMode(false);
       final route = buildRoute(
         const RouteSettings(name: Routes.voucherQr, arguments: 'uv1'),
       );
@@ -430,7 +432,7 @@ void main() {
         expectCancelled(route, routeName);
       }
 
-      SessionManager.instance.setRole('user');
+      SessionManager.instance.setSellerMode(false);
       for (final routeName in const [Routes.review, Routes.voucherQr]) {
         final route = buildRoute(RouteSettings(name: routeName));
         expectCancelled(route, routeName);

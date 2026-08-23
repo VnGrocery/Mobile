@@ -21,16 +21,35 @@ void main() {
     cubit.close();
   });
 
-  test('SessionCubit switching to seller mode does not invent a shop', () {
-    // It used to hand out the demo shop 's1', so any buyer who flipped the
-    // switch was shown a storefront that was not theirs.
+  test('a buyer cannot put themselves into the seller side', () {
+    // The switch used to rewrite the role itself, so a buyer who flipped it
+    // was shown a seller app the server would refuse at every call. Selling is
+    // a permission an admin grants, and only the token carries it.
     final cubit = SessionCubit();
-    cubit.login(email: 'seller@example.com');
+    cubit.login(email: 'buyer@example.com');
 
-    cubit.setRole('seller');
+    cubit.setSellerMode(true);
 
-    expect(cubit.state.isSeller, isTrue);
+    expect(cubit.state.canSell, isFalse);
+    expect(cubit.state.isSeller, isFalse);
     expect(cubit.state.shopId, isNull);
+
+    cubit.close();
+  });
+
+  test('an approved seller can switch sides', () {
+    final cubit = SessionCubit();
+    cubit.login(email: 'seller@example.com', role: 'seller');
+
+    expect(cubit.state.canSell, isTrue);
+    // Opens on the buyer side; the switch is one tap away.
+    expect(cubit.state.isSeller, isFalse);
+
+    cubit.setSellerMode(true);
+    expect(cubit.state.isSeller, isTrue);
+
+    cubit.setSellerMode(false);
+    expect(cubit.state.isSeller, isFalse);
 
     cubit.close();
   });
@@ -46,14 +65,19 @@ void main() {
     cubit.close();
   });
 
-  test('SessionCubit clears shop id when switching back to buyer mode', () {
+  test('switching back to the buyer side keeps the shop the account owns', () {
+    // The shop belongs to the account, not to the side of the app being
+    // looked at; clearing it here used to make the seller tabs re-fetch it
+    // every time the switch was touched.
     final cubit = SessionCubit();
     cubit.login(email: 'seller@example.com', role: 'seller');
+    cubit.setShopId('shop-7');
 
-    cubit.setRole('user');
+    cubit.setSellerMode(true);
+    cubit.setSellerMode(false);
 
     expect(cubit.state.isSeller, isFalse);
-    expect(cubit.state.shopId, isNull);
+    expect(cubit.state.shopId, 'shop-7');
 
     cubit.close();
   });
@@ -124,7 +148,7 @@ void main() {
 
     cubit.login(email: 'seller@example.com', role: 'seller');
 
-    expect(cubit.state.isSeller, isTrue);
+    expect(cubit.state.canSell, isTrue);
     // Only /me/shop knows, and it has not answered yet.
     expect(cubit.state.shopId, isNull);
 
@@ -134,7 +158,8 @@ void main() {
   test('SessionManager exposes immutable current snapshot listenable', () {
     final session = SessionManager.instance;
 
-    session.setRole('seller');
+    session.login(email: 'seller@example.com', role: 'seller');
+    session.setSellerMode(true);
     expect(session.currentListenable.value.role, 'seller');
     expect(session.currentListenable.value.isSeller, isTrue);
     session.logout();
