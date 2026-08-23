@@ -29,7 +29,7 @@ class ProductChangeLog extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: palette.card,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.all(14),
       child: Column(
@@ -54,9 +54,9 @@ class ProductChangeLog extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             l10n.productHistorySubtitle,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11,
-              color: AppColors.textSecondary,
+              color: context.palette.textSecondary,
             ),
           ),
           const SizedBox(height: 14),
@@ -162,9 +162,11 @@ class _ChangeRow extends StatelessWidget {
                       if (entry.actorName.isNotEmpty) entry.actorName,
                       if (occurredAt != null) formatDateTime(occurredAt),
                     ].join(' · '),
-                    style: const TextStyle(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
                       fontSize: 11,
-                      color: AppColors.textSecondary,
+                      color: context.palette.textSecondary,
                     ),
                   ),
                   for (final change in entry.changes) ...[
@@ -225,39 +227,49 @@ class _ShaChip extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final palette = context.palette;
 
-    return Material(
-      color: palette.mutedSurface,
-      borderRadius: BorderRadius.circular(6),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(6),
-        // Copies the full digest, not the six characters on screen: the short
-        // form is for reading, the full one is what you verify against.
-        onTap: () async {
-          await Clipboard.setData(ClipboardData(text: sha));
-          if (!context.mounted) return;
-          AppFeedback.showSnackBar(
-            context,
-            l10n.productHistoryCopied(shortSha),
-            icon: Icons.copy,
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                shortSha,
-                style: const TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'monospace',
-                  fontFamilyFallback: ['Courier', 'monospace'],
+    return Semantics(
+      button: true,
+      label: l10n.a11yCopyHash,
+      child: Material(
+        color: palette.mutedSurface,
+        borderRadius: BorderRadius.circular(8),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          // Copies the full digest, not the six characters on screen: the short
+          // form is for reading, the full one is what you verify against.
+          onTap: () async {
+            await Clipboard.setData(ClipboardData(text: sha));
+            if (!context.mounted) return;
+            AppFeedback.showSnackBar(
+              context,
+              l10n.productHistoryCopied(shortSha),
+              icon: Icons.copy,
+            );
+          },
+          child: Padding(
+            // 12 vertical, not 3: this is a tap target that copies the full
+            // digest, and it measured about 20dp tall against a 48dp floor.
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  shortSha,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'monospace',
+                    fontFamilyFallback: ['Courier', 'monospace'],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 4),
-              const Icon(Icons.copy, size: 11, color: AppColors.textSecondary),
-            ],
+                const SizedBox(width: 4),
+                Icon(
+                  Icons.copy,
+                  size: 11,
+                  color: context.palette.textSecondary,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -280,7 +292,7 @@ class _ChangeLine extends StatelessWidget {
       children: [
         Text(
           '${ProductHistoryCopy.field(l10n, change.field)}: ',
-          style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+          style: TextStyle(fontSize: 12, color: context.palette.textSecondary),
         ),
         Expanded(
           child: Text.rich(
@@ -288,9 +300,9 @@ class _ChangeLine extends StatelessWidget {
               children: [
                 TextSpan(
                   text: ProductHistoryCopy.value(change.field, change.before),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: AppColors.textSecondary,
+                    color: context.palette.textSecondary,
                     decoration: TextDecoration.lineThrough,
                   ),
                 ),

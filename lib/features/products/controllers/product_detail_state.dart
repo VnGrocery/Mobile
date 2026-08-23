@@ -11,6 +11,12 @@ class ProductDetailState {
   /// without blanking the badge it already has.
   final bool loadingProof;
 
+  /// The signed log could not be reached. Distinct from "this product has no
+  /// history": hiding both looked identical, so a network failure read as
+  /// "nothing ever changed" - the one claim this app must never make by
+  /// accident.
+  final bool historyFailed;
+
   /// The shop selling it, so the page can name the seller rather than showing a
   /// product that belongs to nobody.
   final Shop? shop;
@@ -23,6 +29,7 @@ class ProductDetailState {
     this.product,
     this.proof,
     this.loadingProof = false,
+    this.historyFailed = false,
     this.shop,
     this.history,
   });
@@ -37,6 +44,7 @@ class ProductDetailState {
     Product? product,
     PledgeProof? proof,
     bool? loadingProof,
+    bool? historyFailed,
     Shop? shop,
     ProductHistory? history,
   }) {
@@ -44,6 +52,7 @@ class ProductDetailState {
       product: product ?? this.product,
       proof: proof ?? this.proof,
       loadingProof: loadingProof ?? this.loadingProof,
+      historyFailed: historyFailed ?? this.historyFailed,
       shop: shop ?? this.shop,
       history: history ?? this.history,
     );

@@ -71,7 +71,9 @@ class ProductTitleBlock extends StatelessWidget {
       children: [
         Text(
           product.name,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
         // Who and when: a listing with neither is a price floating in space.
@@ -113,14 +115,21 @@ class _MetaLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 13, color: AppColors.textSecondary),
+        Icon(icon, size: 13, color: palette.textSecondary),
         const SizedBox(width: 4),
-        Text(
-          text,
-          style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+        // A long shop name used to push this row past the card edge before the
+        // surrounding Wrap ever got a chance to break the line.
+        Flexible(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 12, color: palette.textSecondary),
+          ),
         ),
       ],
     );
@@ -170,7 +179,7 @@ class ProductScoreCard extends StatelessWidget {
             score: score,
             size: 56,
             scoreFontSize: 20,
-            labelFontSize: 8,
+            labelFontSize: 11,
           ),
         ],
       ),
@@ -183,20 +192,20 @@ class ProductCheckAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
     return Column(
       children: [
         SizedBox(
-          height: 56,
-          child: ElevatedButton.icon(
+          width: double.infinity,
+          child: FilledButton.icon(
             // The real check lives in the scanner: read the bundle code, then
             // photograph the product. The old screen scored a bundled image
             // against the seller's own in-memory payload.
             onPressed: () => Navigator.pushNamed(context, Routes.scan),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: scheme.onSurface,
-              foregroundColor: scheme.surface,
+            // Was a black fill - a third button style the design system does
+            // not have, on the button that performs the verification this
+            // whole screen exists for.
+            style: FilledButton.styleFrom(
               minimumSize: const Size.fromHeight(56),
             ),
             icon: const Icon(Icons.photo_camera),
@@ -248,7 +257,6 @@ class ProductCounterInfo extends StatelessWidget {
         const SizedBox(height: 16),
         SizedBox(
           width: double.infinity,
-          height: 50,
           child: OutlinedButton(
             onPressed: () => Navigator.pushNamed(
               context,
@@ -259,6 +267,71 @@ class ProductCounterInfo extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// What the product page shows when the signed log could not be read.
+///
+/// The section used to disappear, which made an unreachable server look
+/// exactly like a product nobody has ever changed - the one thing this app
+/// must never say by accident.
+class ProductHistoryUnavailable extends StatelessWidget {
+  final VoidCallback onRetry;
+
+  const ProductHistoryUnavailable({super.key, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final palette = context.palette;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: palette.card,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.cloud_off,
+                size: 18,
+                color: AppColors.warningText,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  l10n.productHistoryUnavailableTitle,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            l10n.productHistoryUnavailableBody,
+            style: TextStyle(
+              fontSize: 13,
+              color: palette.textSecondary,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton(
+              onPressed: onRetry,
+              child: Text(l10n.homeRetryAction),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

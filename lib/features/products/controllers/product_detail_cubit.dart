@@ -50,10 +50,11 @@ class ProductDetailCubit extends Cubit<ProductDetailState> with CloseSafeEmit {
     if (product == null || remote == null) return;
     try {
       final history = await remote.productHistory(product.shopId, product.id);
-      emit(state.copyWith(history: history));
+      emit(state.copyWith(history: history, historyFailed: false));
     } catch (_) {
-      // An unreachable log leaves the section hidden rather than showing an
-      // empty history, which would read as "nothing ever changed".
+      // Say it could not be read. Hiding the section made an unreachable log
+      // look exactly like a product nobody has ever changed.
+      emit(state.copyWith(historyFailed: true));
     }
   }
 

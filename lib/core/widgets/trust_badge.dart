@@ -88,26 +88,44 @@ class TrustProofCopy {
 /// `hide_trust_badge` in `recommendedActions` for revoked pledges, and this
 /// widget honours that rather than deciding for itself.
 class TrustBadge extends StatelessWidget {
-  final PledgeProof proof;
+  final PledgeProof? proof;
   final VoidCallback? onTap;
 
   /// Show the badge even when the server asked for it to be hidden. Used by the
   /// proof screen, where hiding the verdict would leave the page blank.
   final bool ignoreHideAction;
 
+  /// The verdict to draw when there is no proof object at all.
+  final ProofStatus? _absentStatus;
+
   const TrustBadge({
     super.key,
-    required this.proof,
+    required PledgeProof this.proof,
     this.onTap,
     this.ignoreHideAction = false,
-  });
+  }) : _absentStatus = null;
+
+  /// The same badge for a product whose chain has not answered yet.
+  ///
+  /// The product screen used to render nothing when there was no proof, so a
+  /// buyer could not tell a record still being anchored from a product with no
+  /// record at all - on the one screen this product exists to make legible.
+  const TrustBadge.absent({super.key, required bool loading, this.onTap})
+    : proof = null,
+      ignoreHideAction = true,
+      _absentStatus = loading ? ProofStatus.pending : ProofStatus.unknown;
+
+  ProofStatus get _status => proof?.status ?? _absentStatus!;
 
   @override
   Widget build(BuildContext context) {
-    if (!ignoreHideAction && !proof.showBadge) return const SizedBox.shrink();
+    final current = proof;
+    if (!ignoreHideAction && current != null && !current.showBadge) {
+      return const SizedBox.shrink();
+    }
 
-    final style = _styles[proof.status]!;
-    final label = TrustProofCopy.label(context, proof.status);
+    final style = _styles[_status]!;
+    final label = TrustProofCopy.label(context, _status);
 
     final badge = DecoratedBox(
       decoration: BoxDecoration(
@@ -115,7 +133,12 @@ class TrustBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        // 14 vertical, not 6: with a tap target on it this has to clear the
+        // 48dp Material floor, and it was 28.
+        padding: EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: onTap == null ? 6 : 14,
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

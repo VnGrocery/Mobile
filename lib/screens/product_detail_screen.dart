@@ -73,8 +73,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ProductTitleBlock(product: product, shop: state.shop),
-                      if (state.hasProof) ...[
-                        const SizedBox(height: 12),
+                      const SizedBox(height: 12),
+                      // Always something. Rendering nothing when the proof was
+                      // missing meant a buyer - and an examiner - could not
+                      // tell a chain still being anchored from a product with
+                      // no record at all, on the screen built to show exactly
+                      // that.
+                      if (state.hasProof)
                         TrustBadge(
                           proof: state.proof!,
                           // The certificate screen is otherwise unreachable for
@@ -87,11 +92,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               pledgeId: state.proof!.pledgeId,
                             ),
                           ),
-                        ),
-                      ],
+                        )
+                      else
+                        TrustBadge.absent(loading: state.loadingProof),
                       const SizedBox(height: 12),
                       SizedBox(
-                        height: 52,
+                        // Minimum, not fixed: a fixed 52 clipped the label at
+                        // the system font scales this app has to survive.
                         width: double.infinity,
                         child: FilledButton.icon(
                           onPressed: () {
@@ -110,6 +117,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       const SizedBox(height: 16),
                       ProductScoreCard(score: product.freshnessScore),
+                      if (state.historyFailed && !state.hasHistory) ...[
+                        const SizedBox(height: 16),
+                        ProductHistoryUnavailable(
+                          onRetry: () => _productCubit.loadHistory(),
+                        ),
+                      ],
                       if (state.hasHistory) ...[
                         const SizedBox(height: 16),
                         PriceHistoryChart(history: state.history!),

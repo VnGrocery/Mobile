@@ -25,7 +25,7 @@ class PriceHistoryChart extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: palette.card,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
       child: Column(
@@ -57,35 +57,52 @@ class PriceHistoryChart extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Text(
                 l10n.productPriceChartFlat(history.windowDays),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.textSecondary,
+                  color: context.palette.textSecondary,
                 ),
               ),
             )
           else ...[
-            SizedBox(
-              height: 130,
-              child: CustomPaint(
-                size: Size.infinite,
-                painter: _PriceLinePainter(
-                  points: history.priceHistory,
-                  line: AppColors.primaryGreen,
-                  grid: palette.mutedSurface,
+            // A CustomPaint announces nothing at all to a screen reader; the
+            // range is the part of this chart a person can actually act on.
+            Semantics(
+              image: true,
+              label: l10n.a11yPriceChart(
+                history.windowDays,
+                formatVnd(history.lowestPrice.round()),
+                formatVnd(history.highestPrice.round()),
+              ),
+              child: SizedBox(
+                height: 130,
+                child: CustomPaint(
+                  size: Size.infinite,
+                  painter: _PriceLinePainter(
+                    points: history.priceHistory,
+                    line: AppColors.primaryGreen,
+                    grid: palette.mutedSurface,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 8),
+            // Flexible: at a large system font scale the two bounds together
+            // grew wider than the card and overflowed the row.
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _Bound(
-                  label: formatVnd(history.lowestPrice.round()),
-                  caption: '↓',
+                Flexible(
+                  child: _Bound(
+                    label: formatVnd(history.lowestPrice.round()),
+                    caption: '↓',
+                  ),
                 ),
-                _Bound(
-                  label: formatVnd(history.highestPrice.round()),
-                  caption: '↑',
+                const SizedBox(width: 8),
+                Flexible(
+                  child: _Bound(
+                    label: formatVnd(history.highestPrice.round()),
+                    caption: '↑',
+                  ),
                 ),
               ],
             ),
@@ -106,7 +123,7 @@ class _Bound extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       '$caption $label',
-      style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
+      style: TextStyle(fontSize: 11, color: context.palette.textSecondary),
     );
   }
 }

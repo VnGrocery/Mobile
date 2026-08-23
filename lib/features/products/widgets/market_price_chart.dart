@@ -39,7 +39,7 @@ class MarketPriceChart extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: palette.card,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
       child: Column(
@@ -70,9 +70,9 @@ class MarketPriceChart extends StatelessWidget {
           // how much it is worth.
           Text(
             l10n.marketPriceBasis(market.shopCount),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11,
-              color: AppColors.textSecondary,
+              color: context.palette.textSecondary,
             ),
           ),
           const SizedBox(height: 12),
@@ -93,13 +93,16 @@ class MarketPriceChart extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Row(
+            // Wrap, not Row: the two legends together outgrew the card at a
+            // large system font scale and overflowed.
+            Wrap(
+              spacing: 14,
+              runSpacing: 4,
               children: [
                 _Legend(
                   colour: AppColors.primaryGreen,
                   label: l10n.marketPriceAverageLabel,
                 ),
-                const SizedBox(width: 14),
                 _Legend(
                   colour: AppColors.priceRed,
                   label: l10n.marketPriceThisShopLabel,
@@ -115,9 +118,9 @@ class MarketPriceChart extends StatelessWidget {
               formatVnd(market.currentLowest.round()),
               formatVnd(market.currentHighest.round()),
             ),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11,
-              color: AppColors.textSecondary,
+              color: context.palette.textSecondary,
             ),
           ),
         ],
@@ -192,13 +195,13 @@ class _Legend extends StatelessWidget {
           height: 3,
           decoration: BoxDecoration(
             color: colour,
-            borderRadius: BorderRadius.circular(2),
+            borderRadius: BorderRadius.circular(4),
           ),
         ),
         const SizedBox(width: 5),
         Text(
           label,
-          style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
+          style: TextStyle(fontSize: 11, color: context.palette.textSecondary),
         ),
       ],
     );

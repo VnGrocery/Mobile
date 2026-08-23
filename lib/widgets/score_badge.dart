@@ -34,45 +34,52 @@ class ScoreRingBadge extends StatelessWidget {
     final resolvedLabel = label == _defaultLabel
         ? AppLocalizations.of(context).scoreBadgeLabel
         : label;
-    return SizedBox(
-      width: size + 26,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: size,
-            height: size,
-            child: CustomPaint(
-              painter: ScoreRingPainter(
-                progress: score.clamp(0, maxScore) / maxScore,
-                color: scoreColor,
-                strokeWidth: strokeWidth,
-              ),
-              child: Center(
-                child: Text(
-                  formatRating(score),
-                  style: TextStyle(
-                    color: scoreColor,
-                    fontSize: scoreFontSize,
-                    fontWeight: FontWeight.w900,
+    // The ring is a CustomPaint: it announces nothing, and the digits and the
+    // caption below it read as two unrelated fragments.
+    return Semantics(
+      label: AppLocalizations.of(
+        context,
+      ).a11yFreshnessScore(score.toStringAsFixed(1)),
+      child: SizedBox(
+        width: size + 26,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: size,
+              height: size,
+              child: CustomPaint(
+                painter: ScoreRingPainter(
+                  progress: score.clamp(0, maxScore) / maxScore,
+                  color: scoreColor,
+                  strokeWidth: strokeWidth,
+                ),
+                child: Center(
+                  child: Text(
+                    formatRating(score),
+                    style: TextStyle(
+                      color: scoreColor,
+                      fontSize: scoreFontSize,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            resolvedLabel,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: context.palette.textSecondary,
-              fontSize: labelFontSize,
-              fontWeight: FontWeight.w400,
+            const SizedBox(height: 4),
+            Text(
+              resolvedLabel,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: context.palette.textSecondary,
+                fontSize: labelFontSize,
+                fontWeight: FontWeight.w400,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -130,7 +137,14 @@ class ScoreRingPainter extends CustomPainter {
 const double maxScore = 10;
 
 Color scoreTrustColor(double value) {
-  if (value >= 9) return AppColors.primaryGreen;
-  if (value >= 7) return AppColors.warningOrange;
+  // Text on a light card, so these are the ink colours: the brand green only
+  // reaches 2.78:1 there, and #FF9800 1.97:1.
+  //
+  // 7-8.9 used to be orange, which put the app's warning colour inside a card
+  // framed as reassuring - the two signals argued with each other over the
+  // most load-bearing number on the product page. Orange now means what it
+  // means everywhere else: something needs looking at.
+  if (value >= 7) return AppColors.trustGreen;
+  if (value >= 5) return AppColors.warningText;
   return AppColors.priceRed;
 }
