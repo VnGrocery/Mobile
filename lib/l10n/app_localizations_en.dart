@@ -9,6 +9,26 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get a11yBack => 'Back';
+
+  @override
+  String get a11yToggleFlash => 'Toggle the flash';
+
+  @override
+  String get a11yCloseCamera => 'Close the camera';
+
+  @override
+  String get a11yShowPassword => 'Show the password';
+
+  @override
+  String get a11yHidePassword => 'Hide the password';
+
+  @override
+  String a11yRateStars(Object count) {
+    return 'Rate $count stars';
+  }
+
+  @override
   String get appTitle => 'VnGrocery';
 
   @override

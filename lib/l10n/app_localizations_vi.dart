@@ -9,6 +9,26 @@ class AppLocalizationsVi extends AppLocalizations {
   AppLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
+  String get a11yBack => 'Quay lại';
+
+  @override
+  String get a11yToggleFlash => 'Bật/tắt đèn flash';
+
+  @override
+  String get a11yCloseCamera => 'Đóng camera';
+
+  @override
+  String get a11yShowPassword => 'Hiện mật khẩu';
+
+  @override
+  String get a11yHidePassword => 'Ẩn mật khẩu';
+
+  @override
+  String a11yRateStars(Object count) {
+    return 'Chấm $count sao';
+  }
+
+  @override
   String get appTitle => 'VnGrocery';
 
   @override

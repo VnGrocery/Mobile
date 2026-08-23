@@ -1,4 +1,15 @@
 {
+  "a11yBack": "Back",
+  "a11yToggleFlash": "Toggle the flash",
+  "a11yCloseCamera": "Close the camera",
+  "a11yShowPassword": "Show the password",
+  "a11yHidePassword": "Hide the password",
+  "a11yRateStars": "Rate {count} stars",
+  "@a11yRateStars": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "appTitle": "VnGrocery",
   "@appTitle": {
     "description": "Application title."

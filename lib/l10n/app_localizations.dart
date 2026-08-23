@@ -98,6 +98,42 @@ abstract class AppLocalizations {
     Locale('vi'),
   ];
 
+  /// No description provided for @a11yBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get a11yBack;
+
+  /// No description provided for @a11yToggleFlash.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle the flash'**
+  String get a11yToggleFlash;
+
+  /// No description provided for @a11yCloseCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Close the camera'**
+  String get a11yCloseCamera;
+
+  /// No description provided for @a11yShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the password'**
+  String get a11yShowPassword;
+
+  /// No description provided for @a11yHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide the password'**
+  String get a11yHidePassword;
+
+  /// No description provided for @a11yRateStars.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate {count} stars'**
+  String a11yRateStars(Object count);
+
   /// Application title.
   ///
   /// In en, this message translates to:

@@ -1,4 +1,15 @@
 {
+  "a11yBack": "Quay lại",
+  "a11yToggleFlash": "Bật/tắt đèn flash",
+  "a11yCloseCamera": "Đóng camera",
+  "a11yShowPassword": "Hiện mật khẩu",
+  "a11yHidePassword": "Ẩn mật khẩu",
+  "a11yRateStars": "Chấm {count} sao",
+  "@a11yRateStars": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "appTitle": "VnGrocery",
   "@appTitle": {
     "description": "Tên ứng dụng."
