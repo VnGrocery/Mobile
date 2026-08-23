@@ -392,6 +392,9 @@ class AppLocalizationsVi extends AppLocalizations {
       'Thông tin này dùng để hiển thị trên trang cửa hàng và tem sản phẩm.';
 
   @override
+  String get sellerShopNotRatedYet => 'Chưa có đánh giá';
+
+  @override
   String sellerShopGradeSummary(Object grade, Object rating) {
     return 'Hạng $grade - $rating điểm';
   }

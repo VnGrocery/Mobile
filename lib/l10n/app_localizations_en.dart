@@ -394,6 +394,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'This information is shown on the store page and product labels.';
 
   @override
+  String get sellerShopNotRatedYet => 'Not rated yet';
+
+  @override
   String sellerShopGradeSummary(Object grade, Object rating) {
     return 'Grade $grade - $rating points';
   }

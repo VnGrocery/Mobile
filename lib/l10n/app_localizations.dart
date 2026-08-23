@@ -824,6 +824,12 @@ abstract class AppLocalizations {
   /// **'This information is shown on the store page and product labels.'**
   String get sellerShopFootnote;
 
+  /// No description provided for @sellerShopNotRatedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not rated yet'**
+  String get sellerShopNotRatedYet;
+
   /// No description provided for @sellerShopGradeSummary.
   ///
   /// In en, this message translates to:

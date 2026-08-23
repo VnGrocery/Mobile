@@ -138,6 +138,7 @@
   "sellerShopDescriptionLabel": "Description",
   "sellerShopAddressLabel": "Address",
   "sellerShopFootnote": "This information is shown on the store page and product labels.",
+  "sellerShopNotRatedYet": "Not rated yet",
   "sellerShopGradeSummary": "Grade {grade} - {rating} points",
   "@sellerShopGradeSummary": {
     "placeholders": {

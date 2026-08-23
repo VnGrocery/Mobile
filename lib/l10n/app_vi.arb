@@ -138,6 +138,7 @@
   "sellerShopDescriptionLabel": "Mô tả",
   "sellerShopAddressLabel": "Địa chỉ",
   "sellerShopFootnote": "Thông tin này dùng để hiển thị trên trang cửa hàng và tem sản phẩm.",
+  "sellerShopNotRatedYet": "Chưa có đánh giá",
   "sellerShopGradeSummary": "Hạng {grade} - {rating} điểm",
   "@sellerShopGradeSummary": {
     "placeholders": {
