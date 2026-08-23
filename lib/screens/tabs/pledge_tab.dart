@@ -49,7 +49,15 @@ class _PledgeTabState extends State<PledgeTab> {
             return Scaffold(
               backgroundColor: context.palette.appBackground,
               appBar: AppBar(title: Text(l10n.pledgeOverviewTitle)),
-              body: const Center(child: CircularProgressIndicator()),
+              body: _EmptyDashboard(
+                status: state.status,
+                onCreateShop: () => Navigator.pushNamed(
+                  context,
+                  Routes.sellerShop,
+                  arguments: shopId == null ? null : SellerShopArgs(shopId),
+                ),
+                onRetry: () => _dashboardCubit.load(shopId),
+              ),
             );
           }
 
@@ -119,6 +127,76 @@ class _PledgeTabState extends State<PledgeTab> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+/// What the dashboard shows when there are no figures to show.
+///
+/// All three reasons used to render the same spinner, and two of them - having
+/// no shop, and a request that failed - never stopped spinning, because
+/// nothing further was ever going to arrive.
+class _EmptyDashboard extends StatelessWidget {
+  final SellerDashboardStatus status;
+  final VoidCallback onCreateShop;
+  final VoidCallback onRetry;
+
+  const _EmptyDashboard({
+    required this.status,
+    required this.onCreateShop,
+    required this.onRetry,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    if (status == SellerDashboardStatus.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final noShop = status == SellerDashboardStatus.noShop;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              noShop ? Icons.storefront_outlined : Icons.cloud_off,
+              size: 44,
+              color: AppColors.textSecondary,
+            ),
+            const SizedBox(height: 14),
+            Text(
+              noShop
+                  ? l10n.sellerDashboardNoShopTitle
+                  : l10n.sellerDashboardFailedTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              noShop
+                  ? l10n.sellerDashboardNoShopBody
+                  : l10n.sellerDashboardFailedBody,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: AppColors.textSecondary,
+                height: 1.35,
+              ),
+            ),
+            const SizedBox(height: 18),
+            FilledButton(
+              onPressed: noShop ? onCreateShop : onRetry,
+              child: Text(
+                noShop
+                    ? l10n.sellerDashboardNoShopAction
+                    : l10n.homeRetryAction,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
