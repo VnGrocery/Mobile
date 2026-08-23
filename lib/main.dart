@@ -34,8 +34,16 @@ Future<void> main() async {
   apiClient.setUnauthorizedHandler(SessionManager.instance.refreshAccessToken);
   AppRepositories.configureRemote(RemoteDataSource(apiClient));
   if (SessionManager.instance.isLoggedIn) {
-    final shop = await AppRepositories.instance.shops.fetchMine();
-    if (shop != null) SessionManager.instance.setShopId(shop.id);
+    try {
+      final shop = await AppRepositories.instance.shops.fetchMine();
+      if (shop != null) SessionManager.instance.setShopId(shop.id);
+    } catch (_) {
+      // Starting without a connection is normal for this app. fetchMine only
+      // answers null for a 404 and rethrows everything else, and an unhandled
+      // throw here means runApp is never reached - the launch dies on a blank
+      // screen instead of opening offline. The shop id is filled in by the
+      // seller tabs once the server answers.
+    }
   }
   runApp(const VnGroceryApp());
 }
