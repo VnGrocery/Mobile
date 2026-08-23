@@ -21,10 +21,21 @@ class ScannerScreen extends StatefulWidget {
   /// session, which pinned the camera HAL at 60% CPU and made the app hang.
   final bool active;
 
+  /// Called when the close (X) button is tapped.
+  ///
+  /// This screen lives as a tab inside the buyer's IndexedStack, so it is not
+  /// a pushed route. Calling Navigator.pop here would pop the MainScreen route
+  /// itself and strand the app on the cancelled-route/blank screen. When a
+  /// callback is supplied (the tab case) it switches back to a real tab
+  /// instead; when it is null (opened as the `scan` route) the button falls
+  /// back to popping the route it was actually pushed on.
+  final VoidCallback? onClose;
+
   const ScannerScreen({
     super.key,
     this.bottomContentInset = 0,
     this.active = true,
+    this.onClose,
   });
 
   @override
@@ -181,6 +192,22 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
+  /// Handles the close (X) button.
+  ///
+  /// As a tab this screen sits at the root of the navigator, so popping would
+  /// tear down MainScreen and land the app on the blank cancelled-route
+  /// screen. The [ScannerScreen.onClose] callback switches back to another tab
+  /// instead. When opened as the pushed `scan` route there is no callback, so
+  /// it pops that route safely.
+  void _handleClose() {
+    final onClose = widget.onClose;
+    if (onClose != null) {
+      onClose();
+      return;
+    }
+    Navigator.of(context).maybePop();
+  }
+
   @override
   void dispose() {
     _camera?.dispose();
@@ -226,7 +253,7 @@ class _ScannerScreenState extends State<ScannerScreen>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: _handleClose,
                   color: Colors.white,
                   icon: const Icon(Icons.close),
                 ),

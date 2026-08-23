@@ -133,6 +133,9 @@ class _MainScreenState extends State<MainScreen> {
       ScannerScreen(
         bottomContentInset: _bottomNavContentInset,
         active: selectedIndex == _buyerScannerTabIndex,
+        // The scanner is a tab, not a pushed route: its X button must switch
+        // back to the home tab rather than pop MainScreen off the navigator.
+        onClose: () => _setIndex(0),
       ),
       const ExploreTab(
         key: ValueKey('store_list'),
