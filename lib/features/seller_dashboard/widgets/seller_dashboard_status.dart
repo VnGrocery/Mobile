@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/data/repositories.dart';
-import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerStatusCard extends StatelessWidget {
@@ -19,7 +18,7 @@ class SellerStatusCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: palette.card,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,6 +43,9 @@ class SellerStatusCard extends StatelessWidget {
             // A full UUID told the shopkeeper nothing and filled the row.
             // Shortened the way receipts are shown elsewhere in the app.
             value: _shortReceipt(latest?.proofId) ?? l10n.sellerNone,
+            // Đây là bằng chứng, không phải một con số thống kê: mã biên nhận
+            // mang mặt chữ monospace như mọi hash khác trong app.
+            mono: latest?.proofId.trim().isNotEmpty ?? false,
           ),
           SellerStatusRow(
             label: l10n.sellerIntegrityLabel,
@@ -78,10 +80,19 @@ class SellerStatusRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const SellerStatusRow({super.key, required this.label, required this.value});
+  /// Giá trị là một định danh đã ký (mã biên nhận, hash), không phải số liệu.
+  final bool mono;
+
+  const SellerStatusRow({
+    super.key,
+    required this.label,
+    required this.value,
+    this.mono = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -89,10 +100,40 @@ class SellerStatusRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(color: AppColors.textSecondary),
+              style: TextStyle(color: palette.textSecondary),
             ),
           ),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w700)),
+          if (mono)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                color: palette.mutedSurface,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'monospace',
+                  fontFamilyFallback: ['Courier', 'monospace'],
+                ),
+              ),
+            )
+          else
+            // Trạng thái lạ từ server rơi thẳng ra đây (`_ => status`), nên
+            // dòng này phải cắt được thay vì đẩy vỡ hàng.
+            Flexible(
+              child: Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.right,
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
         ],
       ),
     );

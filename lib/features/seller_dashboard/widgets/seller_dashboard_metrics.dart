@@ -19,7 +19,10 @@ class SellerMetricGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 12,
       mainAxisSpacing: 12,
-      childAspectRatio: 1.55,
+      // Ô cao cố định theo tỉ lệ: ở cỡ chữ hệ thống 1.3 lần thì nhãn + số
+      // tràn ra ngoài, nên chiều cao ô phải nới theo textScaler.
+      childAspectRatio:
+          1.55 / MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 1.6),
       children: [
         SellerMetricCard(
           label: l10n.sellerTrustLabel,
@@ -39,8 +42,9 @@ class SellerMetricGrid extends StatelessWidget {
         SellerMetricCard(
           label: l10n.sellerBuyerAlerts,
           value: '${dashboard.warningCount}',
+          // Đỏ #FF324B chỉ dành cho tiền; cảnh báo là màu cam.
           color: dashboard.warningCount > 0
-              ? AppColors.priceRed
+              ? AppColors.warningOrange
               : AppColors.trustGreen,
         ),
       ],
@@ -67,7 +71,8 @@ class SellerMetricCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: palette.card,
-        borderRadius: BorderRadius.circular(14),
+        // 14 là bán kính thứ tư, ngoài hệ 8/12/16/20/30.
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,14 +80,15 @@ class SellerMetricCard extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 12,
-            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: palette.textSecondary, fontSize: 12),
           ),
           const SizedBox(height: 6),
           Text(
             value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: color,
               fontSize: 22,

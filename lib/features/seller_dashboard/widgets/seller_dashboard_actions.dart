@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class CreateSellerPledgeCard extends StatelessWidget {
   final bool canCreatePledge;
@@ -16,11 +17,21 @@ class CreateSellerPledgeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final palette = context.palette;
+    // Khi chưa có sản phẩm thì thẻ này không bấm được. Trước đây nó vẫn xanh
+    // đặc y như lúc bấm được, nên người bán bấm vào và không có gì xảy ra -
+    // với người không quen khái niệm "nút bị khoá" thì đó là "app hỏng".
+    final background = canCreatePledge
+        ? AppColors.primaryGreen
+        : palette.mutedSurface;
+    final foreground = canCreatePledge
+        ? Colors.white
+        : palette.textSecondary;
     return Material(
-      color: AppColors.primaryGreen,
-      borderRadius: BorderRadius.circular(20),
+      color: background,
+      borderRadius: BorderRadius.circular(16),
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         onTap: canCreatePledge ? onTap : null,
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -30,12 +41,12 @@ class CreateSellerPledgeCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.add_a_photo, color: Colors.white),
+                    Icon(Icons.add_a_photo, color: foreground),
                     const SizedBox(height: 12),
                     Text(
                       l10n.sellerAddRecordTitle,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: foreground,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -46,16 +57,26 @@ class CreateSellerPledgeCard extends StatelessWidget {
                           ? l10n.sellerAddRecordBody
                           : l10n.sellerNeedProductFirst,
                       style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.85),
+                        color: canCreatePledge
+                            ? Colors.white.withValues(alpha: 0.85)
+                            : foreground,
+                        height: 1.35,
                       ),
                     ),
                   ],
                 ),
               ),
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 24,
-                backgroundColor: Colors.white,
-                child: Icon(Icons.arrow_forward, color: AppColors.primaryGreen),
+                backgroundColor: canCreatePledge
+                    ? Colors.white
+                    : palette.appBackground,
+                child: Icon(
+                  canCreatePledge ? Icons.arrow_forward : Icons.lock_outline,
+                  color: canCreatePledge
+                      ? AppColors.primaryGreen
+                      : palette.textSecondary,
+                ),
               ),
             ],
           ),
@@ -67,7 +88,10 @@ class CreateSellerPledgeCard extends StatelessWidget {
 
 class SellerDashboardActions extends StatelessWidget {
   final VoidCallback onOpenProducts;
-  final VoidCallback onOpenHistory;
+
+  /// Null khi cửa hàng chưa có sản phẩm nào để xem lịch sử. Trước đây nút vẫn
+  /// bấm được và handler lặng lẽ `return`, nên nó chết câm.
+  final VoidCallback? onOpenHistory;
 
   const SellerDashboardActions({
     super.key,

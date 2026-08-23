@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerDashboardHeader extends StatelessWidget {
   final String shopName;
@@ -21,7 +22,9 @@ class SellerDashboardHeader extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           l10n.sellerModeSubtitle,
-          style: TextStyle(color: Colors.grey.shade600),
+          // Colors.grey.shade600 không đi qua palette nên đứng nguyên một màu
+          // ở chế độ tối.
+          style: TextStyle(color: context.palette.textSecondary),
         ),
       ],
     );

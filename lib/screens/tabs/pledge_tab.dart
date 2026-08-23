@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/widgets/product_thumbnail.dart';
+import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/account/controllers/session_state.dart';
 import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_cubit.dart';
@@ -11,6 +13,7 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
+import 'package:vngrocery/core/utils/currency_formatter.dart';
 
 class PledgeTab extends StatefulWidget {
   final double bottomContentInset;
@@ -35,6 +38,32 @@ class _PledgeTabState extends State<PledgeTab> {
   void dispose() {
     _dashboardCubit.close();
     super.dispose();
+  }
+
+  /// Mở lịch sử ghi nhận của một sản phẩm.
+  ///
+  /// Trước đây màn hình tự chọn `products.first` mà không nói là của sản phẩm
+  /// nào, nên người bán có nhiều mặt hàng đọc nhầm lịch sử của mặt hàng khác.
+  Future<void> _openHistory(List<Product> products) async {
+    var product = products.first;
+    if (products.length > 1) {
+      final picked = await showModalBottomSheet<Product>(
+        context: context,
+        backgroundColor: context.palette.appBackground,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (sheetContext) => _ProductPicker(products: products),
+      );
+      if (picked == null || !mounted) return;
+      product = picked;
+    }
+    if (!mounted) return;
+    await Navigator.pushNamed(
+      context,
+      Routes.pledgeHistory,
+      arguments: SellerProductArgs(product.id),
+    );
   }
 
   @override
@@ -102,30 +131,28 @@ class _PledgeTabState extends State<PledgeTab> {
                       Routes.sellerProducts,
                       arguments: shopId == null ? null : SellerShopArgs(shopId),
                     ),
-                    onOpenHistory: () {
-                      final firstProduct = dashboard.products.isEmpty
-                          ? null
-                          : dashboard.products.first;
-                      if (firstProduct == null) return;
-                      Navigator.pushNamed(
-                        context,
-                        Routes.pledgeHistory,
-                        arguments: SellerProductArgs(firstProduct.id),
-                      );
-                    },
+                    // Không có sản phẩm thì không có lịch sử để mở: nút phải
+                    // tắt hẳn thay vì bấm vào rồi im lặng.
+                    onOpenHistory: dashboard.products.isEmpty
+                        ? null
+                        : () => _openHistory(dashboard.products),
                   ),
+                  const SizedBox(height: 22),
+                  // Bằng chứng đứng trước số liệu. Trước đây thẻ này nằm cuối
+                  // trang, kẻ y hệt một chỉ số thường, nên thứ duy nhất chứng
+                  // minh chuỗi ghi nhận còn nguyên vẹn lại là thứ khó thấy
+                  // nhất trên màn hình.
+                  SellerStatusCard(dashboard: dashboard),
                   const SizedBox(height: 22),
                   Text(
                     l10n.pledgeOverviewMetricsTitle,
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 12),
                   SellerMetricGrid(dashboard: dashboard),
-                  const SizedBox(height: 22),
-                  SellerStatusCard(dashboard: dashboard),
                   const SizedBox(height: 22),
                   Text(
                     l10n.pledgeOverviewHint,
@@ -180,6 +207,59 @@ class _EmptyDashboard extends StatelessWidget {
           ? l10n.sellerDashboardNoShopAction
           : l10n.homeRetryAction,
       onAction: noShop ? onCreateShop : onRetry,
+    );
+  }
+}
+
+/// Chọn sản phẩm để xem lịch sử, khi cửa hàng có nhiều hơn một mặt hàng.
+class _ProductPicker extends StatelessWidget {
+  final List<Product> products;
+
+  const _ProductPicker({required this.products});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+            child: Text(
+              l10n.sellerPickProductTitle,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return ListTile(
+                  leading: ProductThumbnail(
+                    imageUrls: product.imageUrls,
+                    size: 44,
+                  ),
+                  title: Text(
+                    product.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                    formatCurrencyVnd(product.price),
+                    style: const TextStyle(color: AppColors.priceRed),
+                  ),
+                  onTap: () => Navigator.pop(context, product),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
     );
   }
 }
