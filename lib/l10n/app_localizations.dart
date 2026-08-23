@@ -3217,6 +3217,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Lowest {low} · Highest {high}'**
   String marketPriceRange(Object low, Object high);
+
+  /// No description provided for @sellerDashboardNoShopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has no shop yet'**
+  String get sellerDashboardNoShopTitle;
+
+  /// No description provided for @sellerDashboardNoShopBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a shop first, then you can add products and records.'**
+  String get sellerDashboardNoShopBody;
+
+  /// No description provided for @sellerDashboardNoShopAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a shop'**
+  String get sellerDashboardNoShopAction;
+
+  /// No description provided for @sellerDashboardFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the shop figures'**
+  String get sellerDashboardFailedTitle;
+
+  /// No description provided for @sellerDashboardFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the connection and try again.'**
+  String get sellerDashboardFailedBody;
+
+  /// No description provided for @sellerShopStateActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get sellerShopStateActive;
+
+  /// No description provided for @sellerShopStateSuspended.
+  ///
+  /// In en, this message translates to:
+  /// **'Suspended'**
+  String get sellerShopStateSuspended;
+
+  /// No description provided for @sellerShopStateDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get sellerShopStateDeleted;
+
+  /// No description provided for @sellerIntegrityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Integrity'**
+  String get sellerIntegrityLabel;
 }
 
 class _AppLocalizationsDelegate

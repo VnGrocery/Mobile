@@ -1732,4 +1732,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String marketPriceRange(Object low, Object high) {
     return 'Lowest $low · Highest $high';
   }
+
+  @override
+  String get sellerDashboardNoShopTitle => 'This account has no shop yet';
+
+  @override
+  String get sellerDashboardNoShopBody =>
+      'Create a shop first, then you can add products and records.';
+
+  @override
+  String get sellerDashboardNoShopAction => 'Create a shop';
+
+  @override
+  String get sellerDashboardFailedTitle => 'Could not load the shop figures';
+
+  @override
+  String get sellerDashboardFailedBody => 'Check the connection and try again.';
+
+  @override
+  String get sellerShopStateActive => 'Active';
+
+  @override
+  String get sellerShopStateSuspended => 'Suspended';
+
+  @override
+  String get sellerShopStateDeleted => 'Deleted';
+
+  @override
+  String get sellerIntegrityLabel => 'Integrity';
 }

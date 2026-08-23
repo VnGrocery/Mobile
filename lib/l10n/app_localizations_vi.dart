@@ -1722,4 +1722,32 @@ class AppLocalizationsVi extends AppLocalizations {
   String marketPriceRange(Object low, Object high) {
     return 'Thấp nhất $low · Cao nhất $high';
   }
+
+  @override
+  String get sellerDashboardNoShopTitle => 'Tài khoản này chưa có cửa hàng';
+
+  @override
+  String get sellerDashboardNoShopBody =>
+      'Tạo cửa hàng trước, rồi mới thêm sản phẩm và ghi nhận được.';
+
+  @override
+  String get sellerDashboardNoShopAction => 'Tạo cửa hàng';
+
+  @override
+  String get sellerDashboardFailedTitle => 'Không tải được số liệu cửa hàng';
+
+  @override
+  String get sellerDashboardFailedBody => 'Kiểm tra kết nối rồi thử lại.';
+
+  @override
+  String get sellerShopStateActive => 'Đang hoạt động';
+
+  @override
+  String get sellerShopStateSuspended => 'Tạm ngưng';
+
+  @override
+  String get sellerShopStateDeleted => 'Đã xoá';
+
+  @override
+  String get sellerIntegrityLabel => 'Tính toàn vẹn';
 }
