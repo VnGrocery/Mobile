@@ -122,16 +122,30 @@ class _ExploreTabState extends State<ExploreTab> {
                         ),
                 ),
                 Expanded(
-                  child: shops.isEmpty
-                      ? Center(
-                          child: Text(
-                            l10n.exploreNoResults,
-                            style: const TextStyle(
-                              color: AppColors.textSecondary,
+                  child: RefreshIndicator(
+                    color: AppColors.primaryGreen,
+                    onRefresh: () => _exploreCubit.load(),
+                    child: shops.isEmpty
+                      // A ListView, not a Center, so the empty state can still
+                      // be pulled down to refresh.
+                      ? ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 96),
+                              child: Center(
+                                child: Text(
+                                  l10n.exploreNoResults,
+                                  style: const TextStyle(
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         )
                       : ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
                           padding: EdgeInsets.fromLTRB(
                             16,
                             4,
@@ -159,6 +173,7 @@ class _ExploreTabState extends State<ExploreTab> {
                             },
                           ),
                         ),
+                  ),
                 ),
               ],
             ),

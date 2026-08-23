@@ -161,6 +161,9 @@ class SellerProductList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      // AlwaysScrollable so a wrapping RefreshIndicator can be pulled even
+      // when the list is short enough to fit without scrolling.
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + bottomContentInset),
       itemCount: products.length,
       separatorBuilder: (_, __) => const SizedBox(height: 12),

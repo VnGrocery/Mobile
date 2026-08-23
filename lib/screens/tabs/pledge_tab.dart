@@ -106,7 +106,11 @@ class _PledgeTabState extends State<PledgeTab> {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              body: ListView(
+              body: RefreshIndicator(
+                color: AppColors.primaryGreen,
+                onRefresh: () => _dashboardCubit.load(shopId),
+                child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.fromLTRB(
                   16,
                   16,
@@ -162,6 +166,7 @@ class _PledgeTabState extends State<PledgeTab> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },

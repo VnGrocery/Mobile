@@ -111,15 +111,29 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
                   onChanged: productCubit.setStateFilter,
                 ),
                 Expanded(
-                  child: state.products.isEmpty
-                      ? const SellerProductEmptyState()
-                      : SellerProductList(
-                          products: state.products,
-                          bottomContentInset: widget.bottomContentInset,
-                          onMore: _showProductActions,
-                          onOpenHistory: _openHistory,
-                          onCreatePledge: _openCreatePledgeForProduct,
-                        ),
+                  child: RefreshIndicator(
+                    color: AppColors.primaryGreen,
+                    onRefresh: productCubit.load,
+                    child: state.products.isEmpty
+                        // Wrapped in a scrollable so the empty state can also
+                        // be pulled down to refresh.
+                        ? ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: const [
+                              SizedBox(
+                                height: 400,
+                                child: SellerProductEmptyState(),
+                              ),
+                            ],
+                          )
+                        : SellerProductList(
+                            products: state.products,
+                            bottomContentInset: widget.bottomContentInset,
+                            onMore: _showProductActions,
+                            onOpenHistory: _openHistory,
+                            onCreatePledge: _openCreatePledgeForProduct,
+                          ),
+                  ),
                 ),
               ],
             );

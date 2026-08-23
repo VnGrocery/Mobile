@@ -59,6 +59,13 @@ class _HomeTabState extends State<HomeTab> {
     await _homeCubit.locateReader();
   }
 
+  /// Reloads the catalogue when the reader pulls the page down. The two calls
+  /// run together so the spinner covers both the catalogue and the location
+  /// fix, and it stays until the slower of the two finishes.
+  Future<void> _refresh() async {
+    await Future.wait([_homeCubit.load(), _homeCubit.locateReader()]);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -83,7 +90,13 @@ class _HomeTabState extends State<HomeTab> {
             backgroundColor: context.palette.appBackground,
             body: SafeArea(
               bottom: false,
-              child: ListView(
+              child: RefreshIndicator(
+                color: AppColors.primaryGreen,
+                onRefresh: _refresh,
+                child: ListView(
+                // AlwaysScrollable so the pull-to-refresh gesture works even
+                // when the catalogue is short enough to fit on one screen.
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.only(bottom: widget.bottomContentInset),
                 children: [
                   HomeHeader(
@@ -222,6 +235,7 @@ class _HomeTabState extends State<HomeTab> {
                     const SizedBox(height: 30),
                   ],
                 ],
+                ),
               ),
             ),
           );
