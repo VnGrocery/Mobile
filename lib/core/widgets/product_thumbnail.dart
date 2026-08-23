@@ -62,11 +62,18 @@ class ProductThumbnail extends StatelessWidget {
             // CachedNetworkImage keeps the bytes on disk, so a photo already
             // fetched in a previous session shows immediately on the next cold
             // start instead of being downloaded again.
+            // Decode to the size actually drawn. A 60dp thumbnail was
+            // decoding a full-resolution Wikimedia photo into memory, once per
+            // visible card.
+            final pixels =
+                (drawn * MediaQuery.devicePixelRatioOf(context)).round();
             return CachedNetworkImage(
               imageUrl: url,
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
+              memCacheWidth: pixels,
+              memCacheHeight: pixels,
               fadeInDuration: const Duration(milliseconds: 150),
               errorWidget: (_, __, ___) => _placeholder(drawn),
               placeholder: (context, _) => Center(

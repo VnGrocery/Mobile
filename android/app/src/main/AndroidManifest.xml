@@ -5,8 +5,12 @@
         so a user who grants it gets a tighter "within 5 km" ring. -->
    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   <!-- enableOnBackInvokedCallback opts into the Android 13+ predictive back
+        preview. Nothing in the app blocks the gesture; without the flag it
+        just falls back to the legacy instant pop. -->
    <application
         android:label="VnGrocery"
+        android:enableOnBackInvokedCallback="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:networkSecurityConfig="@xml/network_security_config">

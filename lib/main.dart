@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -33,17 +34,22 @@ Future<void> main() async {
   SessionManager.instance.configure(AuthApi(apiClient));
   apiClient.setUnauthorizedHandler(SessionManager.instance.refreshAccessToken);
   AppRepositories.configureRemote(RemoteDataSource(apiClient));
+  // The shop id is resolved after the first frame. Awaiting it here paid the
+  // full latency of a /me/shop round trip - on the weak connection PRODUCT.md
+  // calls the normal case - before anything at all was painted, splash
+  // included. The seller tabs already ask for it themselves and handle its
+  // absence, so nothing waits on this.
   if (SessionManager.instance.isLoggedIn) {
-    try {
-      final shop = await AppRepositories.instance.shops.fetchMine();
-      if (shop != null) SessionManager.instance.setShopId(shop.id);
-    } catch (_) {
-      // Starting without a connection is normal for this app. fetchMine only
-      // answers null for a 404 and rethrows everything else, and an unhandled
-      // throw here means runApp is never reached - the launch dies on a blank
-      // screen instead of opening offline. The shop id is filled in by the
-      // seller tabs once the server answers.
-    }
+    unawaited(
+      AppRepositories.instance.shops
+          .fetchMine()
+          .then((shop) {
+            if (shop != null) SessionManager.instance.setShopId(shop.id);
+          })
+          .catchError((Object _) {
+            // Offline start is normal; the seller tabs retry.
+          }),
+    );
   }
   runApp(const VnGroceryApp());
 }
