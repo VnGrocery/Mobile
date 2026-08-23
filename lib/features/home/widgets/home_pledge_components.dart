@@ -45,7 +45,7 @@ class HomePledgeCard extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              ProductThumbnail(imageUrls: product.imageUrls, radius: 12),
+              ProductThumbnail(imageUrls: product.imageUrls, size: 84, radius: 12),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

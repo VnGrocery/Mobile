@@ -68,7 +68,9 @@ class RecommendationSection extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         SizedBox(
-          height: 208,
+          // Tall enough for a card-width photo: the row was cut for a 72dp
+          // thumbnail and clipped the price line by 44 when the photo grew.
+          height: 260,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -118,7 +120,18 @@ class _SuggestionCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ProductThumbnail(imageUrls: product.imageUrls, size: 72),
+                // Fills the card. A 72dp square inside a 164dp card left the
+                // photo smaller than the name under it, with dead space beside
+                // it - and the photo is the fastest thing to recognise at a
+                // stall.
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: ProductThumbnail(
+                    imageUrls: product.imageUrls,
+                    size: double.infinity,
+                    radius: 12,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 Text(
                   product.name,

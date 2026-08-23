@@ -34,7 +34,7 @@ class GroceryProductCard extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              ProductThumbnail(imageUrls: product.imageUrls, radius: 10),
+              ProductThumbnail(imageUrls: product.imageUrls, size: 84, radius: 10),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
