@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/account/controllers/session_state.dart';
 import 'package:vngrocery/features/seller_shop/controllers/seller_shop_cubit.dart';
 import 'package:vngrocery/features/seller_shop/controllers/seller_shop_state.dart';
 import 'package:vngrocery/features/seller_shop/widgets/seller_shop_components.dart';
@@ -68,61 +69,68 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _shopCubit,
-      child: BlocConsumer<SellerShopCubit, SellerShopState>(
-        listener: (context, state) => setState(() => _fill(state)),
-        builder: (context, state) {
-          final l10n = AppLocalizations.of(context);
-          final title = state.isCreating
-              ? l10n.sellerDashboardNoShopAction
-              : l10n.accountStoreInfo;
+      // The tab is kept alive behind an IndexedStack, so it loaded once and
+      // never again: a shop created elsewhere in the app left this screen
+      // still offering to create one.
+      child: BlocListener<SessionCubit, SessionState>(
+        listenWhen: (previous, current) => previous.shopId != current.shopId,
+        listener: (context, _) => _shopCubit.load(),
+        child: BlocConsumer<SellerShopCubit, SellerShopState>(
+          listener: (context, state) => setState(() => _fill(state)),
+          builder: (context, state) {
+            final l10n = AppLocalizations.of(context);
+            final title = state.isCreating
+                ? l10n.sellerDashboardNoShopAction
+                : l10n.accountStoreInfo;
 
-          if (state.isBusy) {
+            if (state.isBusy) {
+              return _shell(
+                title: title,
+                body: const Center(child: CircularProgressIndicator()),
+              );
+            }
+            if (state.status == SellerShopStatus.failed && state.shop == null) {
+              return _shell(
+                title: title,
+                body: _LoadFailed(onRetry: _shopCubit.load),
+              );
+            }
+
+            final dashboard = state.dashboard;
             return _shell(
               title: title,
-              body: const Center(child: CircularProgressIndicator()),
-            );
-          }
-          if (state.status == SellerShopStatus.failed && state.shop == null) {
-            return _shell(
-              title: title,
-              body: _LoadFailed(onRetry: _shopCubit.load),
-            );
-          }
-
-          final dashboard = state.dashboard;
-          return _shell(
-            title: title,
-            body: ListView(
-              padding: EdgeInsets.fromLTRB(
-                16,
-                16,
-                16,
-                16 + widget.bottomContentInset,
-              ),
-              children: [
-                if (dashboard != null) ...[
-                  SellerShopSummaryCard(dashboard: dashboard),
+              body: ListView(
+                padding: EdgeInsets.fromLTRB(
+                  16,
+                  16,
+                  16,
+                  16 + widget.bottomContentInset,
+                ),
+                children: [
+                  if (dashboard != null) ...[
+                    SellerShopSummaryCard(dashboard: dashboard),
+                    const SizedBox(height: 16),
+                  ],
+                  SellerShopFields(
+                    name: _name,
+                    description: _description,
+                    address: _address,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 18),
+                  SellerShopSaveButton(
+                    saving: state.saving,
+                    enabled: _canSave,
+                    creating: state.isCreating,
+                    onSave: _save,
+                  ),
                   const SizedBox(height: 16),
+                  const SellerShopFootnote(),
                 ],
-                SellerShopFields(
-                  name: _name,
-                  description: _description,
-                  address: _address,
-                  onChanged: (_) => setState(() {}),
-                ),
-                const SizedBox(height: 18),
-                SellerShopSaveButton(
-                  saving: state.saving,
-                  enabled: _canSave,
-                  creating: state.isCreating,
-                  onSave: _save,
-                ),
-                const SizedBox(height: 16),
-                const SellerShopFootnote(),
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -177,7 +185,11 @@ class _LoadFailed extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.cloud_off, size: 44, color: AppColors.textSecondary),
+            const Icon(
+              Icons.cloud_off,
+              size: 44,
+              color: AppColors.textSecondary,
+            ),
             const SizedBox(height: 14),
             Text(
               l10n.sellerShopLoadFailedTitle,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/features/account/controllers/session_state.dart';
 import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_cubit.dart';
 import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_state.dart';
 import 'package:vngrocery/features/seller_dashboard/widgets/seller_dashboard_components.dart';
@@ -42,91 +43,101 @@ class _PledgeTabState extends State<PledgeTab> {
 
     return BlocProvider.value(
       value: _dashboardCubit,
-      child: BlocBuilder<SellerDashboardCubit, SellerDashboardState>(
-        builder: (context, state) {
-          final dashboard = state.dashboard;
-          if (dashboard == null) {
+      // The tab is kept alive behind an IndexedStack, so it loaded once and
+      // never again: a seller who created their shop from the empty state came
+      // back to "this account has no shop" over the shop they had just made.
+      child: BlocListener<SessionCubit, SessionState>(
+        listenWhen: (previous, current) => previous.shopId != current.shopId,
+        listener: (context, session) => _dashboardCubit.load(session.shopId),
+        child: BlocBuilder<SellerDashboardCubit, SellerDashboardState>(
+          builder: (context, state) {
+            final dashboard = state.dashboard;
+            if (dashboard == null) {
+              return Scaffold(
+                backgroundColor: context.palette.appBackground,
+                appBar: AppBar(title: Text(l10n.pledgeOverviewTitle)),
+                body: _EmptyDashboard(
+                  status: state.status,
+                  onCreateShop: () => Navigator.pushNamed(
+                    context,
+                    Routes.sellerShop,
+                    arguments: shopId == null ? null : SellerShopArgs(shopId),
+                  ),
+                  onRetry: () => _dashboardCubit.load(shopId),
+                ),
+              );
+            }
+
             return Scaffold(
               backgroundColor: context.palette.appBackground,
-              appBar: AppBar(title: Text(l10n.pledgeOverviewTitle)),
-              body: _EmptyDashboard(
-                status: state.status,
-                onCreateShop: () => Navigator.pushNamed(
-                  context,
-                  Routes.sellerShop,
-                  arguments: shopId == null ? null : SellerShopArgs(shopId),
+              appBar: AppBar(
+                title: Text(
+                  l10n.pledgeOverviewTitle,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                onRetry: () => _dashboardCubit.load(shopId),
+              ),
+              body: ListView(
+                padding: EdgeInsets.fromLTRB(
+                  16,
+                  16,
+                  16,
+                  16 + widget.bottomContentInset,
+                ),
+                children: [
+                  SellerDashboardHeader(shopName: dashboard.shop.name),
+                  const SizedBox(height: 18),
+                  CreateSellerPledgeCard(
+                    canCreatePledge: state.canCreatePledge,
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      Routes.sellerProducts,
+                      arguments: shopId == null ? null : SellerShopArgs(shopId),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  SellerDashboardActions(
+                    onOpenProducts: () => Navigator.pushNamed(
+                      context,
+                      Routes.sellerProducts,
+                      arguments: shopId == null ? null : SellerShopArgs(shopId),
+                    ),
+                    onOpenHistory: () {
+                      final firstProduct = dashboard.products.isEmpty
+                          ? null
+                          : dashboard.products.first;
+                      if (firstProduct == null) return;
+                      Navigator.pushNamed(
+                        context,
+                        Routes.pledgeHistory,
+                        arguments: SellerProductArgs(firstProduct.id),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 22),
+                  Text(
+                    l10n.pledgeOverviewMetricsTitle,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  SellerMetricGrid(dashboard: dashboard),
+                  const SizedBox(height: 22),
+                  SellerStatusCard(dashboard: dashboard),
+                  const SizedBox(height: 22),
+                  Text(
+                    l10n.pledgeOverviewHint,
+                    style: const TextStyle(
+                      color: AppColors.textSecondary,
+                      height: 1.35,
+                    ),
+                  ),
+                ],
               ),
             );
-          }
-
-          return Scaffold(
-            backgroundColor: context.palette.appBackground,
-            appBar: AppBar(
-              title: Text(
-                l10n.pledgeOverviewTitle,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            body: ListView(
-              padding: EdgeInsets.fromLTRB(
-                16,
-                16,
-                16,
-                16 + widget.bottomContentInset,
-              ),
-              children: [
-                SellerDashboardHeader(shopName: dashboard.shop.name),
-                const SizedBox(height: 18),
-                CreateSellerPledgeCard(
-                  canCreatePledge: state.canCreatePledge,
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    Routes.sellerProducts,
-                    arguments: shopId == null ? null : SellerShopArgs(shopId),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                SellerDashboardActions(
-                  onOpenProducts: () => Navigator.pushNamed(
-                    context,
-                    Routes.sellerProducts,
-                    arguments: shopId == null ? null : SellerShopArgs(shopId),
-                  ),
-                  onOpenHistory: () {
-                    final firstProduct = dashboard.products.isEmpty
-                        ? null
-                        : dashboard.products.first;
-                    if (firstProduct == null) return;
-                    Navigator.pushNamed(
-                      context,
-                      Routes.pledgeHistory,
-                      arguments: SellerProductArgs(firstProduct.id),
-                    );
-                  },
-                ),
-                const SizedBox(height: 22),
-                Text(
-                  l10n.pledgeOverviewMetricsTitle,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
-                SellerMetricGrid(dashboard: dashboard),
-                const SizedBox(height: 22),
-                SellerStatusCard(dashboard: dashboard),
-                const SizedBox(height: 22),
-                Text(
-                  l10n.pledgeOverviewHint,
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
-                    height: 1.35,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+          },
+        ),
       ),
     );
   }
