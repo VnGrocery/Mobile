@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
+import 'package:vngrocery/core/network/api_exception.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
@@ -28,7 +29,13 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
   /// what gets anchored on chain.
   Future<void> capture(Uint8List photo) async {
     if (state.analyzing) return;
-    emit(state.copyWith(analyzing: true, committed: false));
+    emit(
+      state.copyWith(
+        analyzing: true,
+        committed: false,
+        failure: SellerPledgeCaptureFailure.none,
+      ),
+    );
     final remote = _repositories.pledges.remote;
     if (remote == null) {
       emit(state.copyWith(analyzing: false, step: 2));
@@ -47,9 +54,24 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
           category: result['category']?.toString() ?? state.category,
         ),
       );
+    } on ApiException catch (error) {
+      emit(state.copyWith(analyzing: false, failure: _failureFor(error)));
     } catch (_) {
-      emit(state.copyWith(analyzing: false));
+      emit(
+        state.copyWith(
+          analyzing: false,
+          failure: SellerPledgeCaptureFailure.failed,
+        ),
+      );
     }
+  }
+
+  static SellerPledgeCaptureFailure _failureFor(ApiException error) {
+    return switch (error.statusCode) {
+      400 || 413 => SellerPledgeCaptureFailure.invalidImage,
+      503 => SellerPledgeCaptureFailure.unavailable,
+      _ => SellerPledgeCaptureFailure.failed,
+    };
   }
 
   void setCategory(String category) {

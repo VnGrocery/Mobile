@@ -80,6 +80,10 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
               child: switch (state.step) {
                 1 => SellerPledgeCaptureStep(
                   analyzing: state.analyzing,
+                  failure: SellerPledgePresenter.captureFailureMessage(
+                    state.failure,
+                    l10n,
+                  ),
                   onCapture: _capturePhoto,
                 ),
                 2 => SellerPledgeEvaluateStep(

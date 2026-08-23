@@ -1,4 +1,5 @@
 import 'package:vngrocery/features/home/category_presenter.dart';
+import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_state.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 class SellerPledgePresenter {
@@ -32,6 +33,20 @@ class SellerPledgePresenter {
   static bool isValidScore(String raw) {
     final score = double.tryParse(normalizedScore(raw));
     return score != null && score >= 0 && score <= 10;
+  }
+
+  static String? captureFailureMessage(
+    SellerPledgeCaptureFailure failure,
+    AppLocalizations l10n,
+  ) {
+    return switch (failure) {
+      SellerPledgeCaptureFailure.none => null,
+      SellerPledgeCaptureFailure.invalidImage =>
+        l10n.sellerPledgeCaptureInvalidImage,
+      SellerPledgeCaptureFailure.unavailable =>
+        l10n.sellerPledgeCaptureUnavailable,
+      SellerPledgeCaptureFailure.failed => l10n.sellerPledgeCaptureFailed,
+    };
   }
 
   static String recordDescription({

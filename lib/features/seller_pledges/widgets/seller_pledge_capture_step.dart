@@ -6,12 +6,16 @@ import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerPledgeCaptureStep extends StatelessWidget {
   final bool analyzing;
+
+  /// Why the last photo could not be scored, in the reader's language.
+  final String? failure;
   final VoidCallback onCapture;
 
   const SellerPledgeCaptureStep({
     super.key,
     required this.analyzing,
     required this.onCapture,
+    this.failure,
   });
 
   @override
@@ -52,6 +56,29 @@ class SellerPledgeCaptureStep extends StatelessWidget {
             ),
           ),
         ),
+        if (failure != null) ...[
+          const SizedBox(height: 16),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.error_outline,
+                size: 20,
+                color: AppColors.warningOrange,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  failure!,
+                  style: const TextStyle(
+                    color: AppColors.warningOrange,
+                    height: 1.35,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
         const SizedBox(height: 32),
         SizedBox(
           height: 56,

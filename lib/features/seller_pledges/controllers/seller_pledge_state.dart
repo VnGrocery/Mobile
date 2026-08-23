@@ -1,5 +1,13 @@
 import 'package:vngrocery/features/home/category_presenter.dart';
 
+/// Why the photo could not be scored.
+///
+/// A failure used to leave the step exactly as it was - the seller tapped,
+/// waited, and was returned to the same screen with no idea why nothing had
+/// happened. The pledge cannot go on without a score: the server anchors the
+/// image hash the scorer returns, and refuses a commit without one.
+enum SellerPledgeCaptureFailure { none, invalidImage, unavailable, failed }
+
 class SellerPledgeState {
   final int step;
   final bool analyzing;
@@ -10,6 +18,7 @@ class SellerPledgeState {
   final double confidence;
   final String imageHash;
   final String imageCid;
+  final SellerPledgeCaptureFailure failure;
 
   const SellerPledgeState({
     this.step = 1,
@@ -21,6 +30,7 @@ class SellerPledgeState {
     this.confidence = 0,
     this.imageHash = '',
     this.imageCid = '',
+    this.failure = SellerPledgeCaptureFailure.none,
   });
 
   /// Whether the scoring service actually returned a score. It used to start
@@ -42,6 +52,7 @@ class SellerPledgeState {
     double? confidence,
     String? imageHash,
     String? imageCid,
+    SellerPledgeCaptureFailure? failure,
   }) {
     return SellerPledgeState(
       step: step ?? this.step,
@@ -53,6 +64,7 @@ class SellerPledgeState {
       confidence: confidence ?? this.confidence,
       imageHash: imageHash ?? this.imageHash,
       imageCid: imageCid ?? this.imageCid,
+      failure: failure ?? this.failure,
     );
   }
 }
