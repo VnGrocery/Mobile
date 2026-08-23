@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
@@ -33,12 +34,12 @@ class ShopAvatar extends StatelessWidget {
       child: url == null
           ? _fallback()
           : ClipOval(
-              child: Image.network(
-                url,
+              child: CachedNetworkImage(
+                imageUrl: url,
                 width: radius * 2,
                 height: radius * 2,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => _fallback(),
+                errorWidget: (_, __, ___) => _fallback(),
               ),
             ),
     );

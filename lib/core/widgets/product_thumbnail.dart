@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
@@ -58,22 +59,23 @@ class ProductThumbnail extends StatelessWidget {
 
             if (url == null) return _placeholder(drawn);
 
-            return Image.network(
-              url,
+            // CachedNetworkImage keeps the bytes on disk, so a photo already
+            // fetched in a previous session shows immediately on the next cold
+            // start instead of being downloaded again.
+            return CachedNetworkImage(
+              imageUrl: url,
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
-              errorBuilder: (_, __, ___) => _placeholder(drawn),
-              loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
-                return Center(
-                  child: SizedBox(
-                    width: drawn / 3,
-                    height: drawn / 3,
-                    child: const CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                );
-              },
+              fadeInDuration: const Duration(milliseconds: 150),
+              errorWidget: (_, __, ___) => _placeholder(drawn),
+              placeholder: (context, _) => Center(
+                child: SizedBox(
+                  width: drawn / 3,
+                  height: drawn / 3,
+                  child: const CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
             );
           },
         ),

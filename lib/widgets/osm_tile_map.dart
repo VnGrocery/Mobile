@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/core/location/geo.dart';
@@ -117,27 +118,26 @@ class OsmTileMap extends StatelessWidget {
                       top: (firstY + dy) * drawnTileSize - origin.dy,
                       width: drawnTileSize,
                       height: drawnTileSize,
-                      child: Image.network(
-                        effectiveTileUriBuilder(
-                          tileZoom,
-                          _wrapTileX(firstX + dx, tileCount),
-                          tileY,
-                        ).toString(),
-                        semanticLabel: providerConfig.semanticLabel,
-                        fit: BoxFit.cover,
-                        // Fading in stops a half-loaded grid from flashing as
-                        // a patchwork of hard-edged squares.
-                        frameBuilder: (_, child, frame, wasSynchronous) {
-                          if (wasSynchronous || frame != null) {
-                            return AnimatedOpacity(
-                              opacity: frame == null ? 0 : 1,
-                              duration: const Duration(milliseconds: 180),
-                              child: child,
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
-                        errorBuilder: (_, __, ___) => const _MapTileError(),
+                      // CachedNetworkImage keeps tiles on disk, so panning
+                      // back over the same area — or reopening the map on the
+                      // next launch — reuses them instead of refetching. The
+                      // placeholder stays empty so the map-coloured fill below
+                      // shows through until a tile lands, and the fade-in keeps
+                      // the grid from flashing as hard-edged squares.
+                      child: Semantics(
+                        label: providerConfig.semanticLabel,
+                        image: true,
+                        child: CachedNetworkImage(
+                          imageUrl: effectiveTileUriBuilder(
+                            tileZoom,
+                            _wrapTileX(firstX + dx, tileCount),
+                            tileY,
+                          ).toString(),
+                          fit: BoxFit.cover,
+                          fadeInDuration: const Duration(milliseconds: 180),
+                          placeholder: (_, __) => const SizedBox.shrink(),
+                          errorWidget: (_, __, ___) => const _MapTileError(),
+                        ),
                       ),
                     ),
               Positioned(
