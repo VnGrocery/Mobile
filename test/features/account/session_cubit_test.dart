@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:vngrocery/data/app_data_config.dart';
 import 'package:vngrocery/data/session.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 
@@ -22,14 +21,16 @@ void main() {
     cubit.close();
   });
 
-  test('SessionCubit switches seller mode and assigns demo shop', () {
+  test('SessionCubit switching to seller mode does not invent a shop', () {
+    // It used to hand out the demo shop 's1', so any buyer who flipped the
+    // switch was shown a storefront that was not theirs.
     final cubit = SessionCubit();
     cubit.login(email: 'seller@example.com');
 
     cubit.setRole('seller');
 
     expect(cubit.state.isSeller, isTrue);
-    expect(cubit.state.shopId, AppDataConfig.demoShopId);
+    expect(cubit.state.shopId, isNull);
 
     cubit.close();
   });
@@ -118,13 +119,14 @@ void main() {
     cubit.close();
   });
 
-  test('SessionCubit seller login directly assigns demo shop', () {
+  test('SessionCubit seller login waits for the server to name the shop', () {
     final cubit = SessionCubit();
 
     cubit.login(email: 'seller@example.com', role: 'seller');
 
     expect(cubit.state.isSeller, isTrue);
-    expect(cubit.state.shopId, AppDataConfig.demoShopId);
+    // Only /me/shop knows, and it has not answered yet.
+    expect(cubit.state.shopId, isNull);
 
     cubit.close();
   });

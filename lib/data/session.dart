@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-import 'app_data_config.dart';
 import 'package:vngrocery/core/storage/hive_storage_service.dart';
 import 'package:vngrocery/data/api/auth_api.dart';
 
@@ -111,7 +110,7 @@ class SessionManager {
     );
     _current.value = SessionSnapshot(
       token: 'mock-token-${DateTime.now().millisecondsSinceEpoch}',
-      shopId: role == 'seller' ? AppDataConfig.demoShopId : null,
+      shopId: null,
       email: normalizedEmail,
       displayName: normalizedDisplayName,
       role: role,
@@ -264,11 +263,13 @@ class SessionManager {
 
   void setRole(String role) {
     if (current.role == role) return;
+    // Switching into seller mode does not conjure a shop. This used to hand
+    // out the demo shop 's1', so any buyer who flipped the switch was shown
+    // somebody else's storefront; the shop id now only ever comes from the
+    // server, via setShopId once /me/shop has answered.
     _current.value = current.copyWith(
       role: role,
-      shopId: role == 'seller'
-          ? (current.shopId ?? AppDataConfig.demoShopId)
-          : null,
+      shopId: role == 'seller' ? current.shopId : null,
     );
   }
 
