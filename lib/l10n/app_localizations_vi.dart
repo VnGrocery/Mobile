@@ -9,6 +9,19 @@ class AppLocalizationsVi extends AppLocalizations {
   AppLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
+  String a11yPriceChart(Object days, Object low, Object high) {
+    return 'Biểu đồ giá $days ngày, thấp nhất $low, cao nhất $high';
+  }
+
+  @override
+  String get a11yCopyHash => 'Chép mã băm đầy đủ';
+
+  @override
+  String a11yFreshnessScore(Object score) {
+    return 'Điểm độ tươi $score trên 10';
+  }
+
+  @override
   String get a11yBack => 'Quay lại';
 
   @override
@@ -1673,6 +1686,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String productDetailSoldBy(Object shop) {
     return 'Bán bởi $shop';
   }
+
+  @override
+  String get productHistoryUnavailableTitle => 'Chưa đọc được lịch sử';
+
+  @override
+  String get productHistoryUnavailableBody =>
+      'Không lấy được chuỗi ghi nhận của sản phẩm này. Kiểm tra kết nối rồi thử lại.';
 
   @override
   String get productHistoryTitle => 'Lịch sử thay đổi';

@@ -9,6 +9,19 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String a11yPriceChart(Object days, Object low, Object high) {
+    return 'Price chart over $days days, low $low, high $high';
+  }
+
+  @override
+  String get a11yCopyHash => 'Copy the full hash';
+
+  @override
+  String a11yFreshnessScore(Object score) {
+    return 'Freshness score $score out of 10';
+  }
+
+  @override
   String get a11yBack => 'Back';
 
   @override
@@ -1682,6 +1695,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String productDetailSoldBy(Object shop) {
     return 'Sold by $shop';
   }
+
+  @override
+  String get productHistoryUnavailableTitle => 'The history could not be read';
+
+  @override
+  String get productHistoryUnavailableBody =>
+      'This product\'s signed record could not be fetched. Check the connection and try again.';
 
   @override
   String get productHistoryTitle => 'Change history';

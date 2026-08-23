@@ -98,6 +98,24 @@ abstract class AppLocalizations {
     Locale('vi'),
   ];
 
+  /// No description provided for @a11yPriceChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Price chart over {days} days, low {low}, high {high}'**
+  String a11yPriceChart(Object days, Object low, Object high);
+
+  /// No description provided for @a11yCopyHash.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the full hash'**
+  String get a11yCopyHash;
+
+  /// No description provided for @a11yFreshnessScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Freshness score {score} out of 10'**
+  String a11yFreshnessScore(Object score);
+
   /// No description provided for @a11yBack.
   ///
   /// In en, this message translates to:
@@ -3127,6 +3145,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sold by {shop}'**
   String productDetailSoldBy(Object shop);
+
+  /// No description provided for @productHistoryUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The history could not be read'**
+  String get productHistoryUnavailableTitle;
+
+  /// No description provided for @productHistoryUnavailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This product\'s signed record could not be fetched. Check the connection and try again.'**
+  String get productHistoryUnavailableBody;
 
   /// Product detail history and price copy.
   ///

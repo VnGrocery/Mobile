@@ -1,4 +1,19 @@
 {
+  "a11yPriceChart": "Price chart over {days} days, low {low}, high {high}",
+  "@a11yPriceChart": {
+    "placeholders": {
+      "days": {},
+      "low": {},
+      "high": {}
+    }
+  },
+  "a11yCopyHash": "Copy the full hash",
+  "a11yFreshnessScore": "Freshness score {score} out of 10",
+  "@a11yFreshnessScore": {
+    "placeholders": {
+      "score": {}
+    }
+  },
   "a11yBack": "Back",
   "a11yToggleFlash": "Toggle the flash",
   "a11yCloseCamera": "Close the camera",
@@ -1229,6 +1244,8 @@
       "shop": {}
     }
   },
+  "productHistoryUnavailableTitle": "The history could not be read",
+  "productHistoryUnavailableBody": "This product's signed record could not be fetched. Check the connection and try again.",
   "productHistoryTitle": "Change history",
   "@productHistoryTitle": {
     "description": "Product detail history and price copy."
