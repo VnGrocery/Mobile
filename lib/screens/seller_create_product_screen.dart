@@ -116,15 +116,35 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
 
   Future<void> _save() async {
     final l10n = AppLocalizations.of(context);
-    await _createCubit.save(
-      name: _name.text,
-      description: _desc.text,
-      price: _price.text,
-      tags: _tags.text,
-      l10n: l10n,
-    );
+    try {
+      await _createCubit.save(
+        name: _name.text,
+        description: _desc.text,
+        price: _price.text,
+        tags: _tags.text,
+        l10n: l10n,
+      );
+    } catch (_) {
+      // This screen used to report success whatever happened and pop, so a
+      // product that never reached the server looked saved.
+      if (!mounted) return;
+      AppFeedback.showSnackBar(
+        context,
+        l10n.sellerProductSaveFailed,
+        icon: Icons.error_outline,
+      );
+      return;
+    }
     if (!mounted) return;
-    AppFeedback.showSnackBar(context, l10n.sellerProductSavedDraft);
+    AppFeedback.showSnackBar(
+      context,
+      _createCubit.state.imageFailed
+          ? l10n.sellerProductImageUploadFailed
+          : l10n.sellerProductSaved,
+      icon: _createCubit.state.imageFailed
+          ? Icons.error_outline
+          : Icons.check_circle_rounded,
+    );
     Navigator.pop(context);
   }
 }

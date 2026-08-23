@@ -53,9 +53,20 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState>
     final imageUrls = <String>[];
     final photo = _image;
     final remote = _repositories.products.remote;
+    var imageFailed = false;
     if (photo != null && remote != null) {
-      final url = await remote.uploadImage(photo);
-      if (url != null) imageUrls.add(url);
+      try {
+        final url = await remote.uploadImage(photo);
+        if (url != null) {
+          imageUrls.add(url);
+        } else {
+          imageFailed = true;
+        }
+      } catch (_) {
+        // A photo that will not upload must not cost the seller the whole
+        // listing - but they are told it went without one.
+        imageFailed = true;
+      }
     }
 
     final product = Product(
@@ -77,8 +88,15 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState>
       // add a product and never see it in their shop.
       status: 'published',
     );
-    final savedProduct = await _repositories.products.saveRemote(product);
-    emit(state.copyWith(saving: false, saved: true));
-    return savedProduct;
+    try {
+      final savedProduct = await _repositories.products.saveRemote(product);
+      emit(state.copyWith(saving: false, saved: true, imageFailed: imageFailed));
+      return savedProduct;
+    } catch (_) {
+      // Without this the button span for ever and the screen still announced
+      // success, so a product that never reached the server looked saved.
+      emit(state.copyWith(saving: false, saved: false));
+      rethrow;
+    }
   }
 }
