@@ -409,7 +409,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerProductCreateTitle => 'Thêm sản phẩm mới';
 
   @override
-  String get sellerProductSavedDraft => 'Đã lưu sản phẩm nháp';
+  String get sellerProductSaved => 'Đã đăng sản phẩm';
+
+  @override
+  String get sellerProductSaveFailed =>
+      'Không lưu được sản phẩm. Kiểm tra kết nối rồi thử lại.';
+
+  @override
+  String get sellerProductImageUploadFailed =>
+      'Không tải được ảnh lên. Sản phẩm đã lưu nhưng chưa có ảnh.';
 
   @override
   String get sellerProductImageRemoved => 'Đã bỏ ảnh sản phẩm';

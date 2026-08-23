@@ -411,7 +411,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerProductCreateTitle => 'Add new product';
 
   @override
-  String get sellerProductSavedDraft => 'Draft product saved';
+  String get sellerProductSaved => 'Product published';
+
+  @override
+  String get sellerProductSaveFailed =>
+      'Could not save the product. Check the connection and try again.';
+
+  @override
+  String get sellerProductImageUploadFailed =>
+      'The photo could not be uploaded. The product was saved without it.';
 
   @override
   String get sellerProductImageRemoved => 'Product image removed';

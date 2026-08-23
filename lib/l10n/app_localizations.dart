@@ -854,11 +854,23 @@ abstract class AppLocalizations {
   /// **'Add new product'**
   String get sellerProductCreateTitle;
 
-  /// No description provided for @sellerProductSavedDraft.
+  /// No description provided for @sellerProductSaved.
   ///
   /// In en, this message translates to:
-  /// **'Draft product saved'**
-  String get sellerProductSavedDraft;
+  /// **'Product published'**
+  String get sellerProductSaved;
+
+  /// No description provided for @sellerProductSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the product. Check the connection and try again.'**
+  String get sellerProductSaveFailed;
+
+  /// No description provided for @sellerProductImageUploadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The photo could not be uploaded. The product was saved without it.'**
+  String get sellerProductImageUploadFailed;
 
   /// No description provided for @sellerProductImageRemoved.
   ///
