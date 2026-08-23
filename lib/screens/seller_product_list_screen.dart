@@ -5,6 +5,7 @@ import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_product_list_cubit.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_product_list_state.dart';
 import 'package:vngrocery/features/seller_products/widgets/seller_product_components.dart';
+import 'package:vngrocery/features/seller_shop/widgets/seller_empty_state.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -37,6 +38,21 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
     }
   }
 
+  /// The screen is kept alive behind an IndexedStack, so the shop id it was
+  /// built with can change under it - most obviously when the seller creates
+  /// their first shop and comes back to a list that still says they have none.
+  @override
+  void didUpdateWidget(SellerProductListScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final shopId = widget.shopId;
+    if (shopId == oldWidget.shopId) return;
+    _productCubit?.close();
+    _productCubit = shopId == null || shopId.isEmpty
+        ? null
+        : (SellerProductListCubit(shopId: shopId)..load());
+    setState(() {});
+  }
+
   @override
   void dispose() {
     _productCubit?.close();
@@ -57,8 +73,12 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        body: Center(
-          child: Text(l10n.sellerProductNoShop),
+        body: SellerEmptyState(
+          icon: Icons.storefront_outlined,
+          title: l10n.sellerDashboardNoShopTitle,
+          body: l10n.sellerProductNoShop,
+          actionLabel: l10n.sellerDashboardNoShopAction,
+          onAction: () => Navigator.pushNamed(context, Routes.sellerShop),
         ),
       );
     }

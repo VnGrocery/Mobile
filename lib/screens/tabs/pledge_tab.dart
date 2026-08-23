@@ -6,6 +6,7 @@ import 'package:vngrocery/features/account/controllers/session_state.dart';
 import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_cubit.dart';
 import 'package:vngrocery/features/seller_dashboard/controllers/seller_dashboard_state.dart';
 import 'package:vngrocery/features/seller_dashboard/widgets/seller_dashboard_components.dart';
+import 'package:vngrocery/features/seller_shop/widgets/seller_empty_state.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -167,48 +168,18 @@ class _EmptyDashboard extends StatelessWidget {
     }
 
     final noShop = status == SellerDashboardStatus.noShop;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              noShop ? Icons.storefront_outlined : Icons.cloud_off,
-              size: 44,
-              color: AppColors.textSecondary,
-            ),
-            const SizedBox(height: 14),
-            Text(
-              noShop
-                  ? l10n.sellerDashboardNoShopTitle
-                  : l10n.sellerDashboardFailedTitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              noShop
-                  ? l10n.sellerDashboardNoShopBody
-                  : l10n.sellerDashboardFailedBody,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                height: 1.35,
-              ),
-            ),
-            const SizedBox(height: 18),
-            FilledButton(
-              onPressed: noShop ? onCreateShop : onRetry,
-              child: Text(
-                noShop
-                    ? l10n.sellerDashboardNoShopAction
-                    : l10n.homeRetryAction,
-              ),
-            ),
-          ],
-        ),
-      ),
+    return SellerEmptyState(
+      icon: noShop ? Icons.storefront_outlined : Icons.cloud_off,
+      title: noShop
+          ? l10n.sellerDashboardNoShopTitle
+          : l10n.sellerDashboardFailedTitle,
+      body: noShop
+          ? l10n.sellerDashboardNoShopBody
+          : l10n.sellerDashboardFailedBody,
+      actionLabel: noShop
+          ? l10n.sellerDashboardNoShopAction
+          : l10n.homeRetryAction,
+      onAction: noShop ? onCreateShop : onRetry,
     );
   }
 }
