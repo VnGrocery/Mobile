@@ -14,6 +14,11 @@ class Shop {
   final String status;
   final int version;
 
+  /// The shop screens product comments before buyers read them. Shown to
+  /// buyers and discounted in the trust score, so it is part of the shop's
+  /// public shape rather than a private setting.
+  final bool commentModeration;
+
   /// Server-computed trust verdict. Null when the payload predates it or the
   /// shop came from local mock data.
   final TrustSummary? trustSummary;
@@ -34,6 +39,7 @@ class Shop {
     this.longitude = 0,
     this.status = 'active',
     this.version = 1,
+    this.commentModeration = false,
     this.trustSummary,
     this.createdAt,
   });
@@ -63,6 +69,7 @@ class Shop {
       longitude: (json['longitude'] as num?)?.toDouble() ?? 0,
       status: json['status']?.toString() ?? 'active',
       version: (json['version'] as num?)?.toInt() ?? 1,
+      commentModeration: json['commentModeration'] == true,
       createdAt: optionalDateTime(json['createdAt']),
       trustSummary: json['trustSummary'] is Map
           ? TrustSummary.fromJson(

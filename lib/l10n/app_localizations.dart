@@ -884,6 +884,180 @@ abstract class AppLocalizations {
   /// **'The reason is signed with the change and shown in the product history — it cannot be edited later.'**
   String get changeReasonExplainer;
 
+  /// No description provided for @commentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer comments'**
+  String get commentsTitle;
+
+  /// No description provided for @commentsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody has commented on this product yet.'**
+  String get commentsEmpty;
+
+  /// No description provided for @commentsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments could not be read. Pull down to try again.'**
+  String get commentsFailed;
+
+  /// No description provided for @commentsNeedCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the product at the stall before commenting — a comment needs evidence behind it.'**
+  String get commentsNeedCheck;
+
+  /// No description provided for @commentsWriteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How were the goods?'**
+  String get commentsWriteHint;
+
+  /// No description provided for @commentsSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Post comment'**
+  String get commentsSend;
+
+  /// No description provided for @commentsTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Write at least 5 characters'**
+  String get commentsTooShort;
+
+  /// No description provided for @commentsSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment posted'**
+  String get commentsSent;
+
+  /// No description provided for @commentsSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The comment could not be posted'**
+  String get commentsSendFailed;
+
+  /// No description provided for @commentsPendingMine.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the shop to review it'**
+  String get commentsPendingMine;
+
+  /// No description provided for @commentsRejectedMine.
+  ///
+  /// In en, this message translates to:
+  /// **'The shop rejected this comment'**
+  String get commentsRejectedMine;
+
+  /// No description provided for @commentsVerifiedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked at the stall'**
+  String get commentsVerifiedBadge;
+
+  /// No description provided for @commentsModerationOn.
+  ///
+  /// In en, this message translates to:
+  /// **'This shop reviews comments before they appear'**
+  String get commentsModerationOn;
+
+  /// No description provided for @commentsWithheld.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{{count} comments are not being shown}}'**
+  String commentsWithheld(int count);
+
+  /// No description provided for @commentsModerationEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments held back lower the shop\'s trust score.'**
+  String get commentsModerationEffect;
+
+  /// No description provided for @commentsWithdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw my comment'**
+  String get commentsWithdraw;
+
+  /// No description provided for @commentsWithdrawReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Why withdraw it?'**
+  String get commentsWithdrawReason;
+
+  /// No description provided for @commentsWithdrawn.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment withdrawn'**
+  String get commentsWithdrawn;
+
+  /// No description provided for @sellerCommentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review comments'**
+  String get sellerCommentsTitle;
+
+  /// No description provided for @sellerCommentsModerationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Review comments before they appear'**
+  String get sellerCommentsModerationLabel;
+
+  /// No description provided for @sellerCommentsModerationExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'With this on, new comments wait for you. Buyers still see how many are being held, and the comment part of your trust score is reduced by the share you do not publish.'**
+  String get sellerCommentsModerationExplainer;
+
+  /// No description provided for @sellerCommentsApprove.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get sellerCommentsApprove;
+
+  /// No description provided for @sellerCommentsReject.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not publish'**
+  String get sellerCommentsReject;
+
+  /// No description provided for @sellerCommentsReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for the decision'**
+  String get sellerCommentsReasonLabel;
+
+  /// No description provided for @sellerCommentsApproveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: matches today\'s goods'**
+  String get sellerCommentsApproveHint;
+
+  /// No description provided for @sellerCommentsReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: posted on the wrong product'**
+  String get sellerCommentsReasonHint;
+
+  /// No description provided for @sellerCommentsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is waiting for review.'**
+  String get sellerCommentsEmpty;
+
+  /// No description provided for @sellerCommentsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Decision saved'**
+  String get sellerCommentsDone;
+
+  /// No description provided for @sellerCommentsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The decision could not be saved'**
+  String get sellerCommentsFailed;
+
   /// No description provided for @sellerPledgeNoteLabel.
   ///
   /// In en, this message translates to:

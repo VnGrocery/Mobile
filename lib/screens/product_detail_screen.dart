@@ -11,6 +11,9 @@ import 'package:vngrocery/features/products/widgets/market_price_chart.dart';
 import 'package:vngrocery/features/products/widgets/price_history_chart.dart';
 import 'package:vngrocery/features/products/widgets/product_change_log.dart';
 import 'package:vngrocery/features/products/widgets/product_detail_components.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/products/controllers/product_comments_cubit.dart';
+import 'package:vngrocery/features/products/widgets/product_comments.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -32,6 +35,10 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   late final ProductDetailCubit _productCubit;
 
+  /// Created once the product is known, because the comment endpoints are
+  /// addressed by shop as well as by product.
+  ProductCommentsCubit? _commentsCubit;
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +47,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   void dispose() {
+    _commentsCubit?.close();
     _productCubit.close();
     super.dispose();
+  }
+
+  void _ensureComments(Product product) {
+    if (_commentsCubit != null) return;
+    _commentsCubit = ProductCommentsCubit(
+      shopId: product.shopId,
+      productId: product.id,
+    )..load();
   }
 
   @override
@@ -138,6 +154,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(height: 12),
                         ProductChangeLog(history: state.history!),
                       ],
+                      const SizedBox(height: 16),
+                      Builder(
+                        builder: (context) {
+                          _ensureComments(product);
+                          return BlocProvider.value(
+                            value: _commentsCubit!,
+                            child: const ProductComments(),
+                          );
+                        },
+                      ),
                       const SizedBox(height: 24),
                       const ProductCheckAction(),
                       const SizedBox(height: 32),

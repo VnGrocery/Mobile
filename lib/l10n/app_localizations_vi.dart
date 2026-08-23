@@ -430,6 +430,107 @@ class AppLocalizationsVi extends AppLocalizations {
       'Lý do được ký cùng thay đổi và hiện trong lịch sử sản phẩm — không sửa lại được.';
 
   @override
+  String get commentsTitle => 'Bình luận của người mua';
+
+  @override
+  String get commentsEmpty => 'Chưa có ai bình luận sản phẩm này.';
+
+  @override
+  String get commentsFailed =>
+      'Không đọc được bình luận. Kéo xuống để thử lại.';
+
+  @override
+  String get commentsNeedCheck =>
+      'Kiểm tra sản phẩm tại quầy rồi mới bình luận được — bình luận phải có bằng chứng.';
+
+  @override
+  String get commentsWriteHint => 'Bạn thấy hàng thế nào?';
+
+  @override
+  String get commentsSend => 'Gửi bình luận';
+
+  @override
+  String get commentsTooShort => 'Ghi ít nhất 5 ký tự';
+
+  @override
+  String get commentsSent => 'Đã gửi bình luận';
+
+  @override
+  String get commentsSendFailed => 'Không gửi được bình luận';
+
+  @override
+  String get commentsPendingMine => 'Đang chờ cửa hàng duyệt';
+
+  @override
+  String get commentsRejectedMine => 'Cửa hàng đã từ chối bình luận này';
+
+  @override
+  String get commentsVerifiedBadge => 'Đã kiểm tra tại quầy';
+
+  @override
+  String get commentsModerationOn =>
+      'Cửa hàng này duyệt bình luận trước khi hiển thị';
+
+  @override
+  String commentsWithheld(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count bình luận chưa được hiển thị',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsModerationEffect =>
+      'Bình luận bị giữ lại làm giảm điểm tin cậy của cửa hàng.';
+
+  @override
+  String get commentsWithdraw => 'Gỡ bình luận của tôi';
+
+  @override
+  String get commentsWithdrawReason => 'Vì sao gỡ?';
+
+  @override
+  String get commentsWithdrawn => 'Đã gỡ bình luận';
+
+  @override
+  String get sellerCommentsTitle => 'Duyệt bình luận';
+
+  @override
+  String get sellerCommentsModerationLabel =>
+      'Duyệt bình luận trước khi hiển thị';
+
+  @override
+  String get sellerCommentsModerationExplainer =>
+      'Bật thì bình luận mới phải chờ bạn duyệt. Người mua vẫn thấy số bình luận đang bị giữ, và phần bình luận trong điểm tin cậy bị trừ theo tỉ lệ bạn không cho hiển thị.';
+
+  @override
+  String get sellerCommentsApprove => 'Cho hiển thị';
+
+  @override
+  String get sellerCommentsReject => 'Không hiển thị';
+
+  @override
+  String get sellerCommentsReasonLabel => 'Lý do quyết định';
+
+  @override
+  String get sellerCommentsApproveHint =>
+      'Ví dụ: bình luận đúng với hàng hôm nay';
+
+  @override
+  String get sellerCommentsReasonHint => 'Ví dụ: bình luận nhầm sản phẩm khác';
+
+  @override
+  String get sellerCommentsEmpty => 'Không có bình luận nào đang chờ.';
+
+  @override
+  String get sellerCommentsDone => 'Đã lưu quyết định';
+
+  @override
+  String get sellerCommentsFailed => 'Không lưu được quyết định';
+
+  @override
   String get sellerPledgeNoteLabel => 'Vì sao chấm điểm này?';
 
   @override

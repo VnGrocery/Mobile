@@ -46,6 +46,81 @@ class RemoteDataSource {
     return ProductHistory.fromJson(json);
   }
 
+  /// The comment section of a product: what was published, plus the counts of
+  /// what a moderating shop is holding back.
+  Future<ProductCommentThread> productComments(
+    String shopId,
+    String productId,
+  ) async {
+    final json = await client.get(
+      '/v1/shops/$shopId/products/$productId/comments',
+    );
+    return ProductCommentThread.fromJson(json);
+  }
+
+  /// The owner's moderation queue: everything written across their shop,
+  /// optionally narrowed to one status.
+  Future<ProductCommentThread> shopComments(
+    String shopId, {
+    String status = '',
+  }) async {
+    final json = await client.get(
+      '/v1/seller/shops/$shopId/comments',
+      query: {if (status.isNotEmpty) 'status': status},
+    );
+    return ProductCommentThread.fromJson(json);
+  }
+
+  /// Writes or rewrites the reader's own comment on a product.
+  ///
+  /// The server rejects this unless the account has checked this product, and
+  /// holds it for the shop when the shop moderates.
+  Future<ProductComment> createProductComment(
+    String shopId,
+    String productId,
+    String body,
+  ) async {
+    final json = await client.post(
+      '/v1/shops/$shopId/products/$productId/comments',
+      body: {'body': body},
+    );
+    return ProductComment.fromJson(json);
+  }
+
+  /// Publishes or hides one comment. Owner only, and the reason is signed
+  /// alongside the decision.
+  Future<ProductComment> moderateProductComment(
+    String shopId,
+    String commentId, {
+    required int expectedVersion,
+    required bool approve,
+    required String reason,
+  }) async {
+    final json = await client.post(
+      '/v1/shops/$shopId/comments/$commentId/moderation',
+      body: {
+        'expectedVersion': expectedVersion,
+        'approve': approve,
+        'reason': reason,
+      },
+    );
+    return ProductComment.fromJson(json);
+  }
+
+  /// Withdraws the reader's own comment.
+  Future<ProductComment> deleteProductComment(
+    String shopId,
+    String commentId, {
+    required int expectedVersion,
+    required String reason,
+  }) async {
+    final json = await client.delete(
+      '/v1/shops/$shopId/comments/$commentId',
+      body: {'expectedVersion': expectedVersion, 'reason': reason},
+    );
+    return ProductComment.fromJson(json);
+  }
+
   /// Shops and products suggested for the signed-in reader.
   ///
   /// [near] narrows and orders by distance the same way the discovery screens
@@ -81,9 +156,13 @@ class RemoteDataSource {
     required int version,
     double latitude = 0,
     double longitude = 0,
+
     /// Why the shop is being changed. Required by the server on an update: it
     /// is signed into the event log, so the record says why and not only what.
     String changeReason = '',
+
+    /// Whether new product comments wait for the owner before buyers see them.
+    bool commentModeration = false,
   }) async {
     final body = {
       'expectedVersion': version,
@@ -93,6 +172,7 @@ class RemoteDataSource {
       'address': address,
       'latitude': latitude,
       'longitude': longitude,
+      'commentModeration': commentModeration,
     };
     final json = id == null || id.isEmpty
         ? await client.post('/v1/shops', body: body)
@@ -238,6 +318,7 @@ class RemoteDataSource {
     required double confidence,
     required String imageHash,
     required String imageCid,
+
     /// Why the seller is recording this score. Hashed and anchored with the
     /// pledge, so it cannot be rewritten later.
     required String note,

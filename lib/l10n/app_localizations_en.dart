@@ -432,6 +432,107 @@ class AppLocalizationsEn extends AppLocalizations {
       'The reason is signed with the change and shown in the product history — it cannot be edited later.';
 
   @override
+  String get commentsTitle => 'Buyer comments';
+
+  @override
+  String get commentsEmpty => 'Nobody has commented on this product yet.';
+
+  @override
+  String get commentsFailed =>
+      'Comments could not be read. Pull down to try again.';
+
+  @override
+  String get commentsNeedCheck =>
+      'Check the product at the stall before commenting — a comment needs evidence behind it.';
+
+  @override
+  String get commentsWriteHint => 'How were the goods?';
+
+  @override
+  String get commentsSend => 'Post comment';
+
+  @override
+  String get commentsTooShort => 'Write at least 5 characters';
+
+  @override
+  String get commentsSent => 'Comment posted';
+
+  @override
+  String get commentsSendFailed => 'The comment could not be posted';
+
+  @override
+  String get commentsPendingMine => 'Waiting for the shop to review it';
+
+  @override
+  String get commentsRejectedMine => 'The shop rejected this comment';
+
+  @override
+  String get commentsVerifiedBadge => 'Checked at the stall';
+
+  @override
+  String get commentsModerationOn =>
+      'This shop reviews comments before they appear';
+
+  @override
+  String commentsWithheld(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count comments are not being shown',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsModerationEffect =>
+      'Comments held back lower the shop\'s trust score.';
+
+  @override
+  String get commentsWithdraw => 'Withdraw my comment';
+
+  @override
+  String get commentsWithdrawReason => 'Why withdraw it?';
+
+  @override
+  String get commentsWithdrawn => 'Comment withdrawn';
+
+  @override
+  String get sellerCommentsTitle => 'Review comments';
+
+  @override
+  String get sellerCommentsModerationLabel =>
+      'Review comments before they appear';
+
+  @override
+  String get sellerCommentsModerationExplainer =>
+      'With this on, new comments wait for you. Buyers still see how many are being held, and the comment part of your trust score is reduced by the share you do not publish.';
+
+  @override
+  String get sellerCommentsApprove => 'Publish';
+
+  @override
+  String get sellerCommentsReject => 'Do not publish';
+
+  @override
+  String get sellerCommentsReasonLabel => 'Reason for the decision';
+
+  @override
+  String get sellerCommentsApproveHint => 'For example: matches today\'s goods';
+
+  @override
+  String get sellerCommentsReasonHint =>
+      'For example: posted on the wrong product';
+
+  @override
+  String get sellerCommentsEmpty => 'Nothing is waiting for review.';
+
+  @override
+  String get sellerCommentsDone => 'Decision saved';
+
+  @override
+  String get sellerCommentsFailed => 'The decision could not be saved';
+
+  @override
   String get sellerPledgeNoteLabel => 'Why this score?';
 
   @override

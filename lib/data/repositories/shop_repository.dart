@@ -105,6 +105,7 @@ class ShopRepository {
     required String description,
     required String address,
     String changeReason = '',
+    bool commentModeration = false,
   }) async {
     final remote = _remote;
     if (remote == null) {
@@ -118,6 +119,7 @@ class ShopRepository {
     final current = shopId == null ? null : byIdOrNull(shopId);
     final item = await remote.saveShop(
       changeReason: changeReason,
+      commentModeration: commentModeration,
       id: current?.id,
       name: name,
       description: description,

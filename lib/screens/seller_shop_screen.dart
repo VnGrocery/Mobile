@@ -8,6 +8,7 @@ import 'package:vngrocery/features/seller_shop/controllers/seller_shop_cubit.dar
 import 'package:vngrocery/features/seller_shop/controllers/seller_shop_state.dart';
 import 'package:vngrocery/features/seller_shop/widgets/seller_shop_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/screens/seller_comment_queue_screen.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -34,6 +35,9 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
   /// first build, so the form has to be filled when it lands - but only once,
   /// or a background refresh would wipe out what the seller is typing.
   String? _filledFrom;
+
+  /// Whether new product comments wait for this shop before buyers read them.
+  bool _commentModeration = false;
 
   bool _canSave(SellerShopState state) {
     if (_name.text.trim().isEmpty || _address.text.trim().isEmpty) return false;
@@ -62,6 +66,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
     _name.text = shop.name;
     _description.text = shop.description;
     _address.text = shop.address;
+    _commentModeration = shop.commentModeration;
   }
 
   @override
@@ -125,8 +130,17 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                     description: _description,
                     address: _address,
                     changeReason: state.isCreating ? null : _changeReason,
+                    commentModeration: state.isCreating
+                        ? null
+                        : _commentModeration,
+                    onCommentModerationChanged: (value) =>
+                        setState(() => _commentModeration = value),
                     onChanged: (_) => setState(() {}),
                   ),
+                  if (!state.isCreating && state.shop != null) ...[
+                    const SizedBox(height: 12),
+                    SellerCommentQueueLink(shopId: state.shop!.id),
+                  ],
                   const SizedBox(height: 18),
                   SellerShopSaveButton(
                     saving: state.saving,
@@ -163,6 +177,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
         description: _description.text,
         address: _address.text,
         changeReason: _changeReason.text,
+        commentModeration: _commentModeration,
       );
     } catch (_) {
       // The save used to report success whatever happened, so a shop that

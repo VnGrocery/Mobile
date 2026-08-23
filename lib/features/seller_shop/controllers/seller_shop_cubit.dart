@@ -68,6 +68,7 @@ class SellerShopCubit extends Cubit<SellerShopState> with CloseSafeEmit {
     required String description,
     required String address,
     String changeReason = '',
+    bool commentModeration = false,
   }) async {
     emit(state.copyWith(saving: true));
     try {
@@ -77,6 +78,7 @@ class SellerShopCubit extends Cubit<SellerShopState> with CloseSafeEmit {
         description: description.trim(),
         address: address.trim(),
         changeReason: changeReason.trim(),
+        commentModeration: commentModeration,
       );
       _shopId = shop.id;
       emit(
