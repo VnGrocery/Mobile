@@ -5,6 +5,10 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 class SellerShopSaveButton extends StatelessWidget {
   final bool saving;
   final bool enabled;
+
+  /// There is no shop behind the form yet, so the button creates one rather
+  /// than saving changes to something that does not exist.
+  final bool creating;
   final VoidCallback onSave;
 
   const SellerShopSaveButton({
@@ -12,6 +16,7 @@ class SellerShopSaveButton extends StatelessWidget {
     required this.saving,
     required this.enabled,
     required this.onSave,
+    this.creating = false,
   });
 
   @override
@@ -29,10 +34,12 @@ class SellerShopSaveButton extends StatelessWidget {
                   color: Colors.white,
                 ),
               )
-            : const Icon(Icons.save),
+            : Icon(creating ? Icons.add_business : Icons.save),
         label: Text(
           saving
               ? AppLocalizations.of(context).authPasswordUpdateSaving
+              : creating
+              ? AppLocalizations.of(context).sellerDashboardNoShopAction
               : AppLocalizations.of(context).accountSaveProfileChanges,
         ),
       ),

@@ -114,6 +114,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                 SellerShopSaveButton(
                   saving: state.saving,
                   enabled: _canSave,
+                  creating: state.isCreating,
                   onSave: _save,
                 ),
                 const SizedBox(height: 16),
