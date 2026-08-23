@@ -509,7 +509,7 @@
   "sellerHistoryLabel": "Lịch sử",
   "sellerTrustLabel": "Độ tin cậy",
   "sellerRecordsToday": "Ghi nhận hôm nay",
-  "sellerBuyerAlerts": "Cảnh báo buyer",
+  "sellerBuyerAlerts": "Cảnh báo từ người mua",
   "voucherDiscountPercent": "Giảm {value}%",
   "voucherDiscountAmount": "Giảm {amount}",
   "voucherManualInfo": "Thông tin tự nhập",

@@ -1316,7 +1316,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerRecordsToday => 'Ghi nhận hôm nay';
 
   @override
-  String get sellerBuyerAlerts => 'Cảnh báo buyer';
+  String get sellerBuyerAlerts => 'Cảnh báo từ người mua';
 
   @override
   String voucherDiscountPercent(Object value) {
