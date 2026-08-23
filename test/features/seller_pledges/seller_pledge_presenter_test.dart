@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 void main() {
@@ -58,20 +59,15 @@ void main() {
         ),
       );
 
-      expect(
-        SellerPledgePresenter.categoryLabel(
-          SellerPledgePresenter.otherCategory,
-          l10n,
-        ),
-        'Khác',
-      );
+      // The description now names the category the way every other screen
+      // does, instead of through a private list that no real category was in.
       expect(
         SellerPledgePresenter.recordDescription(
           score: '9.2',
-          category: SellerPledgePresenter.otherCategory,
+          category: 'seafood',
           l10n: l10n,
         ),
-        'Điểm đánh giá 9.2/10 cho loại: Khác.',
+        'Điểm đánh giá 9.2/10 cho loại: ${CategoryPresenter.label(l10n, 'seafood')}.',
       );
     });
 

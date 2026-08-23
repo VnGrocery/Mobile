@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -108,11 +108,11 @@ class SellerPledgeCategoryPill extends StatelessWidget {
     final palette = context.palette;
     return PopupMenuButton<String>(
       onSelected: onChanged,
-      itemBuilder: (_) => SellerPledgePresenter.categories
+      itemBuilder: (_) => CategoryPresenter.selectable
           .map(
             (category) => PopupMenuItem(
               value: category,
-              child: Text(SellerPledgePresenter.categoryLabel(category, l10n)),
+              child: Text(CategoryPresenter.label(l10n, category)),
             ),
           )
           .toList(),
@@ -127,7 +127,7 @@ class SellerPledgeCategoryPill extends StatelessWidget {
           children: [
             Text(
               l10n.sellerPledgeCategoryValue(
-                SellerPledgePresenter.categoryLabel(category, l10n),
+                CategoryPresenter.label(l10n, category),
               ),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),

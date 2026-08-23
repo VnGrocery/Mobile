@@ -1,32 +1,15 @@
+import 'package:vngrocery/features/home/category_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 class SellerPledgePresenter {
   const SellerPledgePresenter._();
 
-  static const beefCategory = 'beef';
-  static const porkCategory = 'pork';
-  static const chickenCategory = 'chicken';
-  static const seafoodCategory = 'seafood';
-  static const otherCategory = 'other';
-
-  static const categories = [
-    beefCategory,
-    porkCategory,
-    chickenCategory,
-    seafoodCategory,
-    otherCategory,
-  ];
-
-  static String categoryLabel(String category, AppLocalizations l10n) {
-    return switch (category) {
-      beefCategory => l10n.sellerPledgeCategoryBeef,
-      porkCategory => l10n.sellerPledgeCategoryPork,
-      chickenCategory => l10n.sellerPledgeCategoryChicken,
-      seafoodCategory => l10n.sellerPledgeCategorySeafood,
-      otherCategory => l10n.sellerPledgeCategoryOther,
-      _ => category,
-    };
-  }
+  /// Categories and their labels come from [CategoryPresenter].
+  ///
+  /// This file used to carry a third copy of that list - beef, pork, chicken,
+  /// seafood, other - which neither the server nor the buyer screens have ever
+  /// used. Recording a pledge therefore filed it under a category nothing else
+  /// could match, and any real category printed as its raw key.
 
   static String titleForStep(int step, AppLocalizations l10n) {
     return switch (step) {
@@ -47,7 +30,7 @@ class SellerPledgePresenter {
   }) {
     return l10n.sellerPledgeRecordDescription(
       score,
-      categoryLabel(category, l10n),
+      CategoryPresenter.label(l10n, category),
     );
   }
 }

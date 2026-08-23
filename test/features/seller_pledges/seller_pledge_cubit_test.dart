@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_cubit.dart';
-import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 void main() {
@@ -40,13 +40,16 @@ void main() {
     final before = AppRepositories.instance.pledges.ofProduct(productId).length;
     final cubit = SellerPledgeCubit(productId: productId);
 
-    cubit.setCategory(SellerPledgePresenter.otherCategory);
+    cubit.setCategory('seafood');
     await cubit.commit('9.1', l10n);
 
     final after = AppRepositories.instance.pledges.ofProduct(productId);
     expect(after.length, before + 1);
     expect(after.first.description, contains('9.1/10'));
-    expect(after.first.description, contains('Khác'));
+    expect(
+      after.first.description,
+      contains(CategoryPresenter.label(l10n, 'seafood')),
+    );
     expect(cubit.state.committed, isTrue);
     expect(cubit.state.committing, isFalse);
 

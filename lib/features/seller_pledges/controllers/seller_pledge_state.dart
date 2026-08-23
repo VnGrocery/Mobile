@@ -1,4 +1,4 @@
-import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 
 class SellerPledgeState {
   final int step;
@@ -24,7 +24,7 @@ class SellerPledgeState {
   });
 
   factory SellerPledgeState.initial() {
-    return SellerPledgeState(category: SellerPledgePresenter.categories.first);
+    return SellerPledgeState(category: CategoryPresenter.selectable.first);
   }
 
   SellerPledgeState copyWith({
