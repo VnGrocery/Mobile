@@ -16,4 +16,9 @@ class SellerDashboard {
     required this.warningCount,
     required this.trustGrade,
   });
+
+  /// A shop nobody has rated yet has no grade. It used to be given the letters
+  /// 'N/A', which the screens then printed at Vietnamese readers as
+  /// "Hang N/A - 0.0 diem".
+  bool get isRated => trustGrade.isNotEmpty;
 }

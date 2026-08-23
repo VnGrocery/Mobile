@@ -55,6 +55,7 @@ class SellerRepository {
     if (rating >= 4.7) return 'A';
     if (rating >= 4.3) return 'B';
     if (rating > 0) return 'C';
-    return 'N/A';
+    // No rating yet is not a grade. The screens say so in words.
+    return '';
   }
 }

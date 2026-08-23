@@ -47,10 +47,12 @@ class SellerShopSummaryCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      l10n.sellerShopGradeSummary(
-                        dashboard.trustGrade,
-                        formatRating(dashboard.shop.rating),
-                      ),
+                      dashboard.isRated
+                          ? l10n.sellerShopGradeSummary(
+                              dashboard.trustGrade,
+                              formatRating(dashboard.shop.rating),
+                            )
+                          : l10n.sellerShopNotRatedYet,
                       style: const TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 12,

@@ -103,4 +103,28 @@ void main() {
     expect(seller.dashboard(null), isNull);
     expect(seller.dashboard(''), isNull);
   });
+
+  test('a shop nobody has rated yet has no grade', () {
+    // It used to be given the letters 'N/A', which the seller screens printed
+    // as "Hang N/A - 0.0 diem".
+    db.shops
+      ..clear()
+      ..add(
+        Shop(
+          id: _shopId,
+          name: 'Rau Cô Ba',
+          address: 'Chợ Bến Thành',
+          rating: 0,
+          reviewCount: 0,
+          description: '',
+          latitude: 10.77,
+          longitude: 106.70,
+        ),
+      );
+
+    final dashboard = SellerRepository(db).dashboard(_shopId);
+
+    expect(dashboard?.trustGrade, isEmpty);
+    expect(dashboard?.isRated, isFalse);
+  });
 }

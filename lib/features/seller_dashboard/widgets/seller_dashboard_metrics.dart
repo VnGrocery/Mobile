@@ -23,7 +23,7 @@ class SellerMetricGrid extends StatelessWidget {
       children: [
         SellerMetricCard(
           label: l10n.sellerTrustLabel,
-          value: dashboard.trustGrade,
+          value: dashboard.isRated ? dashboard.trustGrade : '—',
           color: AppColors.primaryGreen,
         ),
         SellerMetricCard(
