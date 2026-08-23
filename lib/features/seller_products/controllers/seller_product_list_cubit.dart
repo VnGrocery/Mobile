@@ -35,6 +35,10 @@ class SellerProductListCubit extends Cubit<SellerProductListState> with CloseSaf
   List<Product> _filteredProducts(String state) {
     final all = _repositories.products.all(shopId: shopId);
     if (state == SellerProductPresenter.allState) return all;
-    return all.where((product) => product.status == state).toList();
+    // Case-insensitive: the server writes 'published', older cached rows and
+    // the mock data carry 'Published'.
+    return all
+        .where((product) => product.status.toLowerCase() == state)
+        .toList();
   }
 }

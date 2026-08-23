@@ -23,20 +23,27 @@ void main() {
         ),
       );
 
+      // The server writes these lower case; the mock rows carry the older
+      // capitalised spelling, and both have to read the same.
+      expect(SellerProductPresenter.stateLabel('published', l10n), 'Đang bán');
       expect(SellerProductPresenter.stateLabel('Published', l10n), 'Đang bán');
-      expect(SellerProductPresenter.stateLabel('Draft', l10n), 'Bản nháp');
-      expect(SellerProductPresenter.stateLabel('Archived', l10n), 'Đã ẩn');
+      expect(SellerProductPresenter.stateLabel('draft', l10n), 'Bản nháp');
+      expect(SellerProductPresenter.stateLabel('archived', l10n), 'Đã ẩn');
       expect(SellerProductPresenter.stateLabel('Paused', l10n), 'Paused');
     });
 
     test('statusForeground maps statuses to expected colors', () {
       expect(
+        SellerProductPresenter.statusForeground('published'),
+        AppColors.trustGreen,
+      );
+      expect(
         SellerProductPresenter.statusForeground('Published'),
         AppColors.trustGreen,
       );
-      expect(SellerProductPresenter.statusForeground('Draft'), Colors.grey);
+      expect(SellerProductPresenter.statusForeground('draft'), Colors.grey);
       expect(
-        SellerProductPresenter.statusForeground('Archived'),
+        SellerProductPresenter.statusForeground('archived'),
         AppColors.warningOrange,
       );
     });
