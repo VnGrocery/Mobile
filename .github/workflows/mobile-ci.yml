@@ -1,0 +1,229 @@
+name: Mobile CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: mobile-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Matches the SDK this app is developed against; bump both together.
+  FLUTTER_VERSION: "3.47.1"
+  # android/app/build.gradle pins this NDK, so the runner has to have exactly it.
+  ANDROID_NDK_VERSION: "28.2.13676358"
+  # CI must never reach a real server. Pointing the app at a closed port keeps
+  # every run deterministic and offline: a red build then means the app broke,
+  # not that a host was down.
+  OFFLINE_API_BASE_URL: "http://127.0.0.1:1"
+
+jobs:
+  analyze:
+    name: Analyze and unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Resolve dependencies
+        run: flutter pub get
+
+      - name: Generated localisations match the ARB files
+        # The generated app_localizations*.dart are committed. Regenerating has
+        # to be a no-op, otherwise someone edited an ARB and shipped a stale
+        # string - in Vietnamese, the app's own language - to the screen.
+        run: |
+          flutter gen-l10n
+          git diff --exit-code -- lib/l10n
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Unit and widget tests
+        run: flutter test --coverage --reporter=expanded
+
+      - name: Keep the coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
+          if-no-files-found: warn
+
+  android-build:
+    name: Android debug APK
+    runs-on: ubuntu-latest
+    needs: analyze
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Install the pinned NDK
+        run: |
+          set -euo pipefail
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            --install "ndk;${ANDROID_NDK_VERSION}"
+
+      - run: flutter pub get
+
+      - name: Build the debug APK
+        run: |
+          flutter build apk --debug \
+            --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
+
+  android-smoke:
+    name: Android smoke test (emulator)
+    runs-on: ubuntu-latest
+    needs: analyze
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Install the pinned NDK
+        run: |
+          set -euo pipefail
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            --install "ndk;${ANDROID_NDK_VERSION}"
+
+      - name: Enable KVM
+        # Without it the x86_64 emulator drops to software rendering and the
+        # job times out instead of failing usefully.
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - run: flutter pub get
+
+      - name: Run the smoke test on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 4096M
+          disk-size: 8G
+          # The app opens the camera on the pledge and scan flows, so the
+          # emulator needs one it can actually start.
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back emulated
+          disable-animations: true
+          # ci_smoke_test.dart, not app_smoke_test.dart: the latter enters
+          # through the Google sign-in button, which needs a Google account on
+          # the device, a live server and a real client id. Keep that one for
+          # runs against a real stack.
+          script: |
+            flutter test integration_test/ci_smoke_test.dart \
+              --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
+
+  ios-build:
+    name: iOS build (no codesign)
+    runs-on: macos-latest
+    needs: analyze
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Build for a device without signing
+        # There are no certificates in CI, so this proves the iOS side compiles
+        # and its pods resolve - not that it could be shipped. The Podfile is
+        # not committed: Flutter writes it and runs pod install as part of this
+        # build, so there is nothing stable to key a Pods cache on.
+        run: |
+          flutter build ios --debug --no-codesign \
+            --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
+
+  ios-smoke:
+    name: iOS smoke test (simulator)
+    runs-on: macos-latest
+    needs: analyze
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Boot an iPhone simulator
+        run: |
+          set -euo pipefail
+          # Newest runtime first, so the run follows whatever Xcode the image
+          # ships instead of pinning a device name that disappears with the
+          # next image.
+          udid=$(xcrun simctl list devices available --json | jq -r '
+            [ .devices
+              | to_entries
+              | sort_by(.key)
+              | reverse
+              | .[].value[]
+              | select(.isAvailable and (.name | test("iPhone")))
+            ][0].udid // empty')
+          if [ -z "$udid" ]; then
+            echo "no available iPhone simulator on this runner" >&2
+            xcrun simctl list devices available >&2
+            exit 1
+          fi
+          echo "SIM_UDID=$udid" >> "$GITHUB_ENV"
+          xcrun simctl boot "$udid"
+          xcrun simctl bootstatus "$udid" -b
+
+      - name: Run the smoke test on the simulator
+        # Same offline test the Android job runs; see the note there on why
+        # app_smoke_test.dart cannot run on a hosted runner.
+        run: |
+          flutter test integration_test/ci_smoke_test.dart \
+            -d "$SIM_UDID" \
+            --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
