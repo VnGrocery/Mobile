@@ -1,4 +1,5 @@
 import 'package:vngrocery/core/location/geo.dart';
+import 'package:vngrocery/core/network/api_exception.dart';
 import 'package:vngrocery/data/mock_data.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/app_data_config.dart';
@@ -55,6 +56,12 @@ class ShopRepository {
     return item;
   }
 
+  /// The signed-in account's own shop, or null when it does not keep one.
+  ///
+  /// Only a 404 means "no shop". Everything else - the server down, no
+  /// network, a bad token - is rethrown, because this used to swallow the lot
+  /// and answer null: a seller with a flaky connection was told their shop did
+  /// not exist and invited to create another one.
   Future<Shop?> fetchMine() async {
     final remote = _remote;
     if (remote == null) return _db.shops.firstOrNull;
@@ -62,8 +69,9 @@ class ShopRepository {
       final item = await remote.myShop();
       _replace(item);
       return item;
-    } catch (_) {
-      return null;
+    } on ApiException catch (error) {
+      if (error.statusCode == 404) return null;
+      rethrow;
     }
   }
 
