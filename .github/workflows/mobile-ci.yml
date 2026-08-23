@@ -90,8 +90,7 @@ jobs:
 
       - name: Build the debug APK
         run: |
-          flutter build apk --debug \
-            --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
+          flutter build apk --debug --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -152,9 +151,11 @@ jobs:
           # through the Google sign-in button, which needs a Google account on
           # the device, a live server and a real client id. Keep that one for
           # runs against a real stack.
-          script: |
-            flutter test integration_test/ci_smoke_test.dart \
-              --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
+          # One line on purpose. With the command split over a continuation,
+          # the trailing backslash reached flutter as a second test path, and
+          # flutter refused: "Integration tests and unit tests cannot be run in
+          # a single invocation."
+          script: flutter test --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }} integration_test/ci_smoke_test.dart
 
   ios-build:
     name: iOS build (no codesign)
@@ -178,8 +179,7 @@ jobs:
         # not committed: Flutter writes it and runs pod install as part of this
         # build, so there is nothing stable to key a Pods cache on.
         run: |
-          flutter build ios --debug --no-codesign \
-            --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
+          flutter build ios --debug --no-codesign --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
 
   ios-smoke:
     name: iOS smoke test (simulator)
@@ -223,7 +223,4 @@ jobs:
       - name: Run the smoke test on the simulator
         # Same offline test the Android job runs; see the note there on why
         # app_smoke_test.dart cannot run on a hosted runner.
-        run: |
-          flutter test integration_test/ci_smoke_test.dart \
-            -d "$SIM_UDID" \
-            --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }}
+        run: flutter test --dart-define=API_BASE_URL=${{ env.OFFLINE_API_BASE_URL }} -d "$SIM_UDID" integration_test/ci_smoke_test.dart
