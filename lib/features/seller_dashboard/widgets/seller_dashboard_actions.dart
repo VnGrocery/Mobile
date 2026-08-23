@@ -24,9 +24,7 @@ class CreateSellerPledgeCard extends StatelessWidget {
     final background = canCreatePledge
         ? AppColors.primaryGreenInk
         : palette.mutedSurface;
-    final foreground = canCreatePledge
-        ? Colors.white
-        : palette.textSecondary;
+    final foreground = canCreatePledge ? Colors.white : palette.textSecondary;
     return Material(
       color: background,
       borderRadius: BorderRadius.circular(16),
@@ -94,32 +92,54 @@ class SellerDashboardActions extends StatelessWidget {
   /// bấm được và handler lặng lẽ `return`, nên nó chết câm.
   final VoidCallback? onOpenHistory;
 
+  /// Why the history button is off. The pledge card explains itself; this
+  /// button used to just go grey next to it, which reads as broken.
+  final String? disabledHistoryHint;
+
   const SellerDashboardActions({
     super.key,
     required this.onOpenProducts,
     required this.onOpenHistory,
+    this.disabledHistoryHint,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Row(
+    final hint = disabledHistoryHint;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: onOpenProducts,
-            icon: const Icon(Icons.inventory_2),
-            label: Text(l10n.sellerProductsLabel),
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: onOpenProducts,
+                icon: const Icon(Icons.inventory_2),
+                label: Text(l10n.sellerProductsLabel),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: onOpenHistory,
+                icon: const Icon(Icons.history),
+                label: Text(l10n.sellerHistoryLabel),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: onOpenHistory,
-            icon: const Icon(Icons.history),
-            label: Text(l10n.sellerHistoryLabel),
+        if (hint != null) ...[
+          const SizedBox(height: 8),
+          Text(
+            hint,
+            style: TextStyle(
+              fontSize: 12,
+              color: context.palette.textSecondary,
+              height: 1.35,
+            ),
           ),
-        ),
+        ],
       ],
     );
   }

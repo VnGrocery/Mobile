@@ -44,25 +44,45 @@ class _PledgeTabState extends State<PledgeTab> {
   ///
   /// Trước đây màn hình tự chọn `products.first` mà không nói là của sản phẩm
   /// nào, nên người bán có nhiều mặt hàng đọc nhầm lịch sử của mặt hàng khác.
-  Future<void> _openHistory(List<Product> products) async {
-    var product = products.first;
-    if (products.length > 1) {
-      final picked = await showModalBottomSheet<Product>(
-        context: context,
-        backgroundColor: context.palette.appBackground,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        builder: (sheetContext) => _ProductPicker(products: products),
-      );
-      if (picked == null || !mounted) return;
-      product = picked;
+  /// Picks a product, then records against it.
+  Future<void> _openPledge(List<Product> products) async {
+    final product = await _pickProduct(products);
+    if (product == null || !mounted) return;
+    await Navigator.pushNamed(
+      context,
+      Routes.sellerCreatePledge,
+      arguments: SellerProductArgs(product.id),
+    );
+    if (mounted) {
+      _dashboardCubit.load(context.read<SessionCubit>().state.shopId);
     }
-    if (!mounted) return;
+  }
+
+  Future<void> _openHistory(List<Product> products) async {
+    final product = await _pickProduct(products);
+    if (product == null || !mounted) return;
     await Navigator.pushNamed(
       context,
       Routes.pledgeHistory,
       arguments: SellerProductArgs(product.id),
+    );
+  }
+
+  /// The product to act on.
+  ///
+  /// One product needs no question. More than one used to be resolved as
+  /// `products.first` without saying which, so a seller with several lines
+  /// read the wrong product's history.
+  Future<Product?> _pickProduct(List<Product> products) async {
+    if (products.isEmpty) return null;
+    if (products.length == 1) return products.first;
+    return showModalBottomSheet<Product>(
+      context: context,
+      backgroundColor: context.palette.appBackground,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetContext) => _ProductPicker(products: products),
     );
   }
 
@@ -110,62 +130,71 @@ class _PledgeTabState extends State<PledgeTab> {
                 color: AppColors.primaryGreen,
                 onRefresh: () => _dashboardCubit.load(shopId),
                 child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.fromLTRB(
-                  16,
-                  16,
-                  16,
-                  16 + widget.bottomContentInset,
-                ),
-                children: [
-                  SellerDashboardHeader(shopName: dashboard.shop.name),
-                  const SizedBox(height: 18),
-                  CreateSellerPledgeCard(
-                    canCreatePledge: state.canCreatePledge,
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      Routes.sellerProducts,
-                      arguments: shopId == null ? null : SellerShopArgs(shopId),
-                    ),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.fromLTRB(
+                    16,
+                    16,
+                    16,
+                    16 + widget.bottomContentInset,
                   ),
-                  const SizedBox(height: 14),
-                  SellerDashboardActions(
-                    onOpenProducts: () => Navigator.pushNamed(
-                      context,
-                      Routes.sellerProducts,
-                      arguments: shopId == null ? null : SellerShopArgs(shopId),
+                  children: [
+                    SellerDashboardHeader(shopName: dashboard.shop.name),
+                    const SizedBox(height: 18),
+                    CreateSellerPledgeCard(
+                      canCreatePledge: state.canCreatePledge,
+                      // Straight to a product to record against. It used to open
+                      // the product list, which is exactly where the "Sản phẩm"
+                      // button below already goes.
+                      onTap: () => _openPledge(dashboard.products),
                     ),
-                    // Không có sản phẩm thì không có lịch sử để mở: nút phải
-                    // tắt hẳn thay vì bấm vào rồi im lặng.
-                    onOpenHistory: dashboard.products.isEmpty
-                        ? null
-                        : () => _openHistory(dashboard.products),
-                  ),
-                  const SizedBox(height: 22),
-                  // Bằng chứng đứng trước số liệu. Trước đây thẻ này nằm cuối
-                  // trang, kẻ y hệt một chỉ số thường, nên thứ duy nhất chứng
-                  // minh chuỗi ghi nhận còn nguyên vẹn lại là thứ khó thấy
-                  // nhất trên màn hình.
-                  SellerStatusCard(dashboard: dashboard),
-                  const SizedBox(height: 22),
-                  Text(
-                    l10n.pledgeOverviewMetricsTitle,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(height: 14),
+                    SellerDashboardActions(
+                      onOpenProducts: () => Navigator.pushNamed(
+                        context,
+                        Routes.sellerProducts,
+                        arguments: shopId == null
+                            ? null
+                            : SellerShopArgs(shopId),
+                      ),
+                      // Không có sản phẩm thì không có lịch sử để mở: nút phải
+                      // tắt hẳn thay vì bấm vào rồi im lặng.
+                      onOpenHistory: dashboard.products.isEmpty
+                          ? null
+                          : () => _openHistory(dashboard.products),
+                      disabledHistoryHint: dashboard.products.isEmpty
+                          ? l10n.sellerHistoryNeedsProduct
+                          : null,
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  SellerMetricGrid(dashboard: dashboard),
-                  const SizedBox(height: 22),
-                  Text(
-                    l10n.pledgeOverviewHint,
-                    style: TextStyle(
-                      color: context.palette.textSecondary,
-                      height: 1.35,
+                    const SizedBox(height: 22),
+                    // Bằng chứng đứng trước số liệu. Trước đây thẻ này nằm cuối
+                    // trang, kẻ y hệt một chỉ số thường, nên thứ duy nhất chứng
+                    // minh chuỗi ghi nhận còn nguyên vẹn lại là thứ khó thấy
+                    // nhất trên màn hình.
+                    SellerStatusCard(
+                      dashboard: dashboard,
+                      onOpenProof: dashboard.products.isEmpty
+                          ? null
+                          : () => _openHistory(dashboard.products),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 22),
+                    Text(
+                      l10n.pledgeOverviewMetricsTitle,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SellerMetricGrid(dashboard: dashboard),
+                    const SizedBox(height: 22),
+                    Text(
+                      l10n.pledgeOverviewHint,
+                      style: TextStyle(
+                        color: context.palette.textSecondary,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );

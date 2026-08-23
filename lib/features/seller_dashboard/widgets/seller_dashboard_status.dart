@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/data/repositories.dart';
@@ -7,7 +10,15 @@ import 'package:vngrocery/theme/app_palette.dart';
 class SellerStatusCard extends StatelessWidget {
   final SellerDashboard dashboard;
 
-  const SellerStatusCard({super.key, required this.dashboard});
+  /// Opens the signed record behind these numbers. Null when there is nothing
+  /// recorded yet.
+  final VoidCallback? onOpenProof;
+
+  const SellerStatusCard({
+    super.key,
+    required this.dashboard,
+    this.onOpenProof,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +28,12 @@ class SellerStatusCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: palette.card,
+        // White on the grey page, where the metric tiles are grey: this card
+        // carries the evidence and has to outrank them at a glance, not read
+        // as one more statistic.
+        color: palette.elevatedCard,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,12 +61,18 @@ class SellerStatusCard extends StatelessWidget {
             // Đây là bằng chứng, không phải một con số thống kê: mã biên nhận
             // mang mặt chữ monospace như mọi hash khác trong app.
             mono: latest?.proofId.trim().isNotEmpty ?? false,
+            // DESIGN.md: a shortened identifier is for reading, and tapping it
+            // gives you the whole thing.
+            copyValue: latest?.proofId,
           ),
           SellerStatusRow(
             label: l10n.sellerIntegrityLabel,
             value: dashboard.warningCount > 0
                 ? l10n.sellerNeedsReview
                 : l10n.sellerStable,
+            // The one line on this screen that claims the record is intact is
+            // also the way to go and look at it.
+            onTap: onOpenProof,
           ),
         ],
       ),
@@ -83,59 +104,96 @@ class SellerStatusRow extends StatelessWidget {
   /// Giá trị là một định danh đã ký (mã biên nhận, hash), không phải số liệu.
   final bool mono;
 
+  /// The full identifier behind a shortened [value]; tapping copies it.
+  final String? copyValue;
+
+  /// Opens whatever backs this row.
+  final VoidCallback? onTap;
+
   const SellerStatusRow({
     super.key,
     required this.label,
     required this.value,
     this.mono = false,
+    this.copyValue,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final palette = context.palette;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+    final l10n = AppLocalizations.of(context);
+    final full = copyValue?.trim() ?? '';
+
+    Widget valueWidget;
+    if (mono) {
+      valueWidget = Material(
+        color: palette.mutedSurface,
+        borderRadius: BorderRadius.circular(8),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: full.isEmpty
+              ? null
+              : () async {
+                  await Clipboard.setData(ClipboardData(text: full));
+                  if (!context.mounted) return;
+                  AppFeedback.showSnackBar(
+                    context,
+                    l10n.sellerReceiptCopied(value),
+                    icon: Icons.copy,
+                  );
+                },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            child: Text(
+              value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'monospace',
+                fontFamilyFallback: ['Courier', 'monospace'],
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      // Trạng thái lạ từ server rơi thẳng ra đây (`_ => status`), nên dòng này
+      // phải cắt được thay vì đẩy vỡ hàng.
+      valueWidget = Flexible(
+        child: Text(
+          value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.right,
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+      );
+    }
+
+    final row = Padding(
+      padding: EdgeInsets.symmetric(vertical: mono ? 2 : 4),
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              label,
-              style: TextStyle(color: palette.textSecondary),
-            ),
+            child: Text(label, style: TextStyle(color: palette.textSecondary)),
           ),
-          if (mono)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(
-                color: palette.mutedSurface,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                value,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'monospace',
-                  fontFamilyFallback: ['Courier', 'monospace'],
-                ),
-              ),
-            )
-          else
-            // Trạng thái lạ từ server rơi thẳng ra đây (`_ => status`), nên
-            // dòng này phải cắt được thay vì đẩy vỡ hàng.
-            Flexible(
-              child: Text(
-                value,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.right,
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              ),
-            ),
+          valueWidget,
+          if (onTap != null) ...[
+            const SizedBox(width: 4),
+            Icon(Icons.chevron_right, size: 18, color: palette.textSecondary),
+          ],
         ],
       ),
+    );
+
+    if (onTap == null) return row;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: row,
     );
   }
 }

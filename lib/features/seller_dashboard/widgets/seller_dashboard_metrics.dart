@@ -22,7 +22,7 @@ class SellerMetricGrid extends StatelessWidget {
       // Ô cao cố định theo tỉ lệ: ở cỡ chữ hệ thống 1.3 lần thì nhãn + số
       // tràn ra ngoài, nên chiều cao ô phải nới theo textScaler.
       childAspectRatio:
-          1.55 / MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 1.6),
+          1.55 / MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0),
       children: [
         SellerMetricCard(
           label: l10n.sellerTrustLabel,
