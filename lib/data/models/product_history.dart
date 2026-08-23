@@ -39,6 +39,10 @@ class ProductHistoryEntry {
   final String actorName;
   final DateTime? occurredAt;
 
+  /// Why the actor made this change, in their own words. Signed with the
+  /// entry. Empty on changes recorded before the field existed.
+  final String reason;
+
   /// True only when the content hash, the signature and the link to the
   /// previous entry all check out.
   final bool verified;
@@ -59,6 +63,7 @@ class ProductHistoryEntry {
     required this.action,
     this.actorName = '',
     this.occurredAt,
+    this.reason = '',
     this.verified = false,
     this.contentHashValid = false,
     this.signatureValid = false,
@@ -76,6 +81,7 @@ class ProductHistoryEntry {
       action: json['action']?.toString() ?? '',
       actorName: json['actorName']?.toString() ?? '',
       occurredAt: optionalDateTime(json['occurredAt']),
+      reason: json['reason']?.toString() ?? '',
       verified: json['verified'] as bool? ?? false,
       contentHashValid: json['contentHashValid'] as bool? ?? false,
       signatureValid: json['signatureValid'] as bool? ?? false,

@@ -29,6 +29,10 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   // straight through recorded a score they never gave.
   final _sellerScore = TextEditingController();
 
+  /// Why this score. The server hashes it into the pledge and anchors it, so
+  /// it is refused when empty.
+  final _note = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +43,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   void dispose() {
     _pledgeCubit.close();
     _sellerScore.dispose();
+    _note.dispose();
     super.dispose();
   }
 
@@ -104,7 +109,9 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
                     _sellerScore.text,
                   ),
                   loading: state.committing,
-                  onCommit: _commit,
+                  note: _note,
+                  onNoteChanged: (_) => setState(() {}),
+                  onCommit: _note.text.trim().length >= 5 ? _commit : null,
                 ),
               },
             ),
@@ -126,7 +133,11 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
     final l10n = AppLocalizations.of(context);
     final String? pledgeId;
     try {
-      pledgeId = await _pledgeCubit.commit(_sellerScore.text, l10n);
+      pledgeId = await _pledgeCubit.commit(
+        _sellerScore.text,
+        l10n,
+        note: _note.text,
+      );
     } catch (_) {
       // The screen used to announce a record the server had refused.
       if (!mounted) return;

@@ -82,7 +82,11 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
     emit(state.copyWith(step: 3, committed: false));
   }
 
-  Future<String?> commit(String rawScore, AppLocalizations l10n) async {
+  Future<String?> commit(
+    String rawScore,
+    AppLocalizations l10n, {
+    String note = '',
+  }) async {
     if (state.committing) return null;
     emit(state.copyWith(committing: true, committed: false));
     final score = SellerPledgePresenter.normalizedScore(rawScore);
@@ -99,6 +103,7 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
           confidence: state.confidence,
           imageHash: state.imageHash,
           imageCid: state.imageCid,
+          note: note.trim(),
         );
         _repositories.pledges.latestQrPayload = result;
         await _repositories.pledges.refresh(product.shopId, productId);

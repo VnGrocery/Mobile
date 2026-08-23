@@ -6,12 +6,21 @@ import 'package:vngrocery/theme/app_colors.dart';
 class SellerPledgeConfirmStep extends StatelessWidget {
   final String score;
   final bool loading;
-  final VoidCallback onCommit;
+
+  /// Why the seller is recording this score. Hashed and anchored with the
+  /// pledge, so the number on a buyer's screen comes with its reasoning.
+  final TextEditingController note;
+  final ValueChanged<String> onNoteChanged;
+
+  /// Null until the note is long enough to mean anything.
+  final VoidCallback? onCommit;
 
   const SellerPledgeConfirmStep({
     super.key,
     required this.score,
     required this.loading,
+    required this.note,
+    required this.onNoteChanged,
     required this.onCommit,
   });
 
@@ -45,7 +54,20 @@ class SellerPledgeConfirmStep extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 20),
+        TextField(
+          controller: note,
+          onChanged: onNoteChanged,
+          maxLines: 2,
+          maxLength: 200,
+          decoration: InputDecoration(
+            labelText: l10n.sellerPledgeNoteLabel,
+            hintText: l10n.sellerPledgeNoteHint,
+            helperText: l10n.changeReasonExplainer,
+            helperMaxLines: 2,
+          ),
+        ),
+        const SizedBox(height: 12),
         SizedBox(
           height: 56,
           child: FilledButton(

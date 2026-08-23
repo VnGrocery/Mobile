@@ -171,6 +171,20 @@ class _ChangeRow extends StatelessWidget {
                       color: context.palette.textSecondary,
                     ),
                   ),
+                  if (entry.reason.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    // The seller's own words for this change, signed with it.
+                    // Without this the log said what moved and never why.
+                    Text(
+                      entry.reason,
+                      style: TextStyle(
+                        fontSize: 13,
+                        height: 1.35,
+                        fontStyle: FontStyle.italic,
+                        color: context.palette.textSecondary,
+                      ),
+                    ),
+                  ],
                   for (final change in entry.changes) ...[
                     const SizedBox(height: 6),
                     _ChangeLine(change: change),

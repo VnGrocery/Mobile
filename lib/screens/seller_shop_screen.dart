@@ -26,13 +26,21 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
   final TextEditingController _description = TextEditingController();
   final TextEditingController _address = TextEditingController();
 
+  /// Why this edit is being made. Signed with the change, so the server
+  /// refuses an update without it.
+  final TextEditingController _changeReason = TextEditingController();
+
   /// The shop the fields were last filled from. The shop arrives after the
   /// first build, so the form has to be filled when it lands - but only once,
   /// or a background refresh would wipe out what the seller is typing.
   String? _filledFrom;
 
-  bool get _canSave =>
-      _name.text.trim().isNotEmpty && _address.text.trim().isNotEmpty;
+  bool _canSave(SellerShopState state) {
+    if (_name.text.trim().isEmpty || _address.text.trim().isEmpty) return false;
+    // Creating a shop explains itself; changing one has to say why.
+    if (state.isCreating) return true;
+    return _changeReason.text.trim().length >= 5;
+  }
 
   @override
   void initState() {
@@ -62,6 +70,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
     _name.dispose();
     _description.dispose();
     _address.dispose();
+    _changeReason.dispose();
     super.dispose();
   }
 
@@ -115,12 +124,13 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                     name: _name,
                     description: _description,
                     address: _address,
+                    changeReason: state.isCreating ? null : _changeReason,
                     onChanged: (_) => setState(() {}),
                   ),
                   const SizedBox(height: 18),
                   SellerShopSaveButton(
                     saving: state.saving,
-                    enabled: _canSave,
+                    enabled: _canSave(state),
                     creating: state.isCreating,
                     onSave: _save,
                   ),
@@ -152,6 +162,7 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
         name: _name.text,
         description: _description.text,
         address: _address.text,
+        changeReason: _changeReason.text,
       );
     } catch (_) {
       // The save used to report success whatever happened, so a shop that
@@ -166,6 +177,10 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
     }
     final shop = _shopCubit.state.shop;
     if (!mounted || shop == null) return;
+    // The next change needs its own reason. Leaving this one in the field lets
+    // an unrelated edit be signed with a sentence written for the last one.
+    _changeReason.clear();
+    setState(() {});
     context.read<SessionCubit>().setShopId(shop.id);
     AppFeedback.showSnackBar(context, l10n.sellerShopSaved);
   }

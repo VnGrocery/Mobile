@@ -416,6 +416,26 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerShopSaved => 'Đã lưu thông tin cửa hàng';
 
   @override
+  String get changeReasonLabel => 'Lý do thay đổi';
+
+  @override
+  String get changeReasonHint => 'Ví dụ: đổi địa chỉ sau khi chuyển sạp';
+
+  @override
+  String get changeReasonTooShort =>
+      'Ghi ít nhất 5 ký tự để người mua hiểu vì sao';
+
+  @override
+  String get changeReasonExplainer =>
+      'Lý do được ký cùng thay đổi và hiện trong lịch sử sản phẩm — không sửa lại được.';
+
+  @override
+  String get sellerPledgeNoteLabel => 'Vì sao chấm điểm này?';
+
+  @override
+  String get sellerPledgeNoteHint => 'Ví dụ: hàng mới nhập sáng nay';
+
+  @override
   String get sellerShopNameLabel => 'Tên cửa hàng';
 
   @override

@@ -81,9 +81,13 @@ class RemoteDataSource {
     required int version,
     double latitude = 0,
     double longitude = 0,
+    /// Why the shop is being changed. Required by the server on an update: it
+    /// is signed into the event log, so the record says why and not only what.
+    String changeReason = '',
   }) async {
     final body = {
       'expectedVersion': version,
+      'changeReason': changeReason,
       'name': name,
       'description': description,
       'address': address,
@@ -110,10 +114,15 @@ class RemoteDataSource {
         await client.get('/v1/shops/$shopId/products/$productId'),
       );
 
-  Future<Product> saveProduct(Product product, {bool create = true}) async {
+  Future<Product> saveProduct(
+    Product product, {
+    bool create = true,
+    String changeReason = '',
+  }) async {
     final body = {
       'productId': product.id,
       'expectedVersion': product.version,
+      'changeReason': changeReason,
       'name': product.name,
       'description': product.description,
       'category': product.category,
@@ -229,6 +238,9 @@ class RemoteDataSource {
     required double confidence,
     required String imageHash,
     required String imageCid,
+    /// Why the seller is recording this score. Hashed and anchored with the
+    /// pledge, so it cannot be rewritten later.
+    required String note,
   }) => client.post(
     '/v1/seller/commit',
     body: {
@@ -240,6 +252,7 @@ class RemoteDataSource {
       'confidence': confidence,
       'imageHash': imageHash,
       'imageCid': imageCid,
+      'note': note,
     },
   );
 

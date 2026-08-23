@@ -418,6 +418,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerShopSaved => 'Store details saved';
 
   @override
+  String get changeReasonLabel => 'Reason for the change';
+
+  @override
+  String get changeReasonHint => 'For example: moved to a new stall';
+
+  @override
+  String get changeReasonTooShort =>
+      'Write at least 5 characters so a buyer understands why';
+
+  @override
+  String get changeReasonExplainer =>
+      'The reason is signed with the change and shown in the product history — it cannot be edited later.';
+
+  @override
+  String get sellerPledgeNoteLabel => 'Why this score?';
+
+  @override
+  String get sellerPledgeNoteHint =>
+      'For example: delivered fresh this morning';
+
+  @override
   String get sellerShopNameLabel => 'Store name';
 
   @override

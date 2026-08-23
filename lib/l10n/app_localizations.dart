@@ -860,6 +860,42 @@ abstract class AppLocalizations {
   /// **'Store details saved'**
   String get sellerShopSaved;
 
+  /// No description provided for @changeReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for the change'**
+  String get changeReasonLabel;
+
+  /// No description provided for @changeReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: moved to a new stall'**
+  String get changeReasonHint;
+
+  /// No description provided for @changeReasonTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Write at least 5 characters so a buyer understands why'**
+  String get changeReasonTooShort;
+
+  /// No description provided for @changeReasonExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'The reason is signed with the change and shown in the product history — it cannot be edited later.'**
+  String get changeReasonExplainer;
+
+  /// No description provided for @sellerPledgeNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Why this score?'**
+  String get sellerPledgeNoteLabel;
+
+  /// No description provided for @sellerPledgeNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: delivered fresh this morning'**
+  String get sellerPledgeNoteHint;
+
   /// No description provided for @sellerShopNameLabel.
   ///
   /// In en, this message translates to:

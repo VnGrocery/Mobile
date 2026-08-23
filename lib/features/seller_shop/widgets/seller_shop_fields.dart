@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 import 'seller_shop_text_field.dart';
 
@@ -8,6 +9,10 @@ class SellerShopFields extends StatelessWidget {
   final TextEditingController name;
   final TextEditingController description;
   final TextEditingController address;
+
+  /// Why the shop is being changed. Null while creating one: there is no
+  /// previous state to explain.
+  final TextEditingController? changeReason;
   final ValueChanged<String> onChanged;
 
   const SellerShopFields({
@@ -16,6 +21,7 @@ class SellerShopFields extends StatelessWidget {
     required this.description,
     required this.address,
     required this.onChanged,
+    this.changeReason,
   });
 
   @override
@@ -44,6 +50,26 @@ class SellerShopFields extends StatelessWidget {
           icon: Icons.location_on,
           onChanged: onChanged,
         ),
+        if (changeReason != null) ...[
+          const SizedBox(height: 12),
+          SellerShopTextField(
+            controller: changeReason!,
+            label: l10n.changeReasonLabel,
+            icon: Icons.edit_note,
+            onChanged: onChanged,
+          ),
+          const SizedBox(height: 6),
+          // Says what the reason is for, so it does not read as one more box
+          // to fill in.
+          Text(
+            l10n.changeReasonExplainer,
+            style: TextStyle(
+              fontSize: 12,
+              color: context.palette.textSecondary,
+              height: 1.35,
+            ),
+          ),
+        ],
       ],
     );
   }
