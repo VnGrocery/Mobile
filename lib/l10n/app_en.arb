@@ -909,6 +909,13 @@
   "@pledgeTimelineTitle": {
     "description": "App copy."
   },
+  "historyShowMore": "Show {count} more",
+  "@historyShowMore": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "historyShowLess": "Show less",
   "pledgeHistoryEmpty": "No records yet",
   "@pledgeHistoryEmpty": {
     "description": "App copy."

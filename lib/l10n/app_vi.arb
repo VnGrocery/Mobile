@@ -531,6 +531,13 @@
   "homeAddedToCart": "Đã thêm {name}",
   "homeRecentChecks": "Sản phẩm mới kiểm tra",
   "pledgeTimelineTitle": "Dòng thời gian sản phẩm",
+  "historyShowMore": "Xem thêm {count} mục",
+  "@historyShowMore": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "historyShowLess": "Thu gọn",
   "pledgeHistoryEmpty": "Chưa có lịch sử ghi nhận",
   "pledgeOriginalReceipt": "Biên lai gốc: {id}",
   "scannerNoCamera": "Không tìm thấy camera",

@@ -1396,6 +1396,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get pledgeTimelineTitle => 'Dòng thời gian sản phẩm';
 
   @override
+  String historyShowMore(Object count) {
+    return 'Xem thêm $count mục';
+  }
+
+  @override
+  String get historyShowLess => 'Thu gọn';
+
+  @override
   String get pledgeHistoryEmpty => 'Chưa có lịch sử ghi nhận';
 
   @override

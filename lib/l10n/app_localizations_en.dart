@@ -1404,6 +1404,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pledgeTimelineTitle => 'Product timeline';
 
   @override
+  String historyShowMore(Object count) {
+    return 'Show $count more';
+  }
+
+  @override
+  String get historyShowLess => 'Show less';
+
+  @override
   String get pledgeHistoryEmpty => 'No records yet';
 
   @override

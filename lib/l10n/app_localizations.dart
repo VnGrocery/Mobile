@@ -2654,6 +2654,18 @@ abstract class AppLocalizations {
   /// **'Product timeline'**
   String get pledgeTimelineTitle;
 
+  /// No description provided for @historyShowMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {count} more'**
+  String historyShowMore(Object count);
+
+  /// No description provided for @historyShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get historyShowLess;
+
   /// App copy.
   ///
   /// In en, this message translates to:
