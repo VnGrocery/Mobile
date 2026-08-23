@@ -1435,6 +1435,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'Scan a valid pledge label before checking.';
 
   @override
+  String get authErrorInvalidCredentials => 'Wrong email or password';
+
+  @override
+  String get authErrorAccountDeleted => 'This account has been disabled';
+
+  @override
+  String get authErrorEmailTaken => 'That email is already registered';
+
+  @override
+  String get authErrorInvalidInput =>
+      'Check the email and password. Passwords need at least 8 characters.';
+
+  @override
+  String get authErrorNetwork =>
+      'Could not reach the server. Check the connection and try again.';
+
+  @override
+  String get authErrorGeneric => 'Sign in failed. Please try again.';
+
+  @override
   String get authGoogleTokenError => 'Could not get a Google ID token';
 
   @override

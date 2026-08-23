@@ -973,6 +973,12 @@
   "@buyerCheckScanFirst": {
     "description": "App copy."
   },
+  "authErrorInvalidCredentials": "Wrong email or password",
+  "authErrorAccountDeleted": "This account has been disabled",
+  "authErrorEmailTaken": "That email is already registered",
+  "authErrorInvalidInput": "Check the email and password. Passwords need at least 8 characters.",
+  "authErrorNetwork": "Could not reach the server. Check the connection and try again.",
+  "authErrorGeneric": "Sign in failed. Please try again.",
   "authGoogleTokenError": "Could not get a Google ID token",
   "@authGoogleTokenError": {
     "description": "App copy."

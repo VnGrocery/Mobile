@@ -2714,6 +2714,42 @@ abstract class AppLocalizations {
   /// **'Scan a valid pledge label before checking.'**
   String get buyerCheckScanFirst;
 
+  /// No description provided for @authErrorInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong email or password'**
+  String get authErrorInvalidCredentials;
+
+  /// No description provided for @authErrorAccountDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has been disabled'**
+  String get authErrorAccountDeleted;
+
+  /// No description provided for @authErrorEmailTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'That email is already registered'**
+  String get authErrorEmailTaken;
+
+  /// No description provided for @authErrorInvalidInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the email and password. Passwords need at least 8 characters.'**
+  String get authErrorInvalidInput;
+
+  /// No description provided for @authErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check the connection and try again.'**
+  String get authErrorNetwork;
+
+  /// No description provided for @authErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in failed. Please try again.'**
+  String get authErrorGeneric;
+
   /// App copy.
   ///
   /// In en, this message translates to:

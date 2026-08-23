@@ -1427,6 +1427,27 @@ class AppLocalizationsVi extends AppLocalizations {
       'Hãy quét tem pledge hợp lệ trước khi kiểm tra.';
 
   @override
+  String get authErrorInvalidCredentials => 'Email hoặc mật khẩu không đúng';
+
+  @override
+  String get authErrorAccountDeleted => 'Tài khoản này đã bị khoá';
+
+  @override
+  String get authErrorEmailTaken => 'Email này đã được đăng ký';
+
+  @override
+  String get authErrorInvalidInput =>
+      'Email hoặc mật khẩu chưa hợp lệ. Mật khẩu cần ít nhất 8 ký tự.';
+
+  @override
+  String get authErrorNetwork =>
+      'Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.';
+
+  @override
+  String get authErrorGeneric =>
+      'Đăng nhập không thành công. Vui lòng thử lại.';
+
+  @override
   String get authGoogleTokenError => 'Không lấy được Google ID token';
 
   @override
