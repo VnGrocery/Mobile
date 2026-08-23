@@ -14,21 +14,9 @@ class SellerProductPresenter {
 
   static const states = [allState, publishedState, draftState, archivedState];
 
-  static const beefCategory = 'beef';
-  static const porkCategory = 'pork';
-  static const chickenCategory = 'chicken';
-  static const seafoodCategory = 'seafood';
-  static const poultryCategory = 'poultry';
-  static const otherCategory = 'other';
-
-  static const categories = [
-    beefCategory,
-    porkCategory,
-    chickenCategory,
-    seafoodCategory,
-    poultryCategory,
-    otherCategory,
-  ];
+  /// Categories and their labels live in [CategoryPresenter], which is what
+  /// the buyer screens and the server agree on. The list that used to sit here
+  /// - beef, pork, chicken, poultry, other - matched neither.
 
   static String stateLabel(String status, AppLocalizations l10n) {
     return switch (status) {
@@ -37,18 +25,6 @@ class SellerProductPresenter {
       draftState => l10n.sellerProductStateDraft,
       archivedState => l10n.sellerProductStateArchived,
       _ => status,
-    };
-  }
-
-  static String categoryLabel(String category, AppLocalizations l10n) {
-    return switch (category) {
-      beefCategory => l10n.sellerCategoryBeef,
-      porkCategory => l10n.sellerCategoryPork,
-      chickenCategory => l10n.sellerCategoryChicken,
-      seafoodCategory => l10n.sellerCategorySeafood,
-      poultryCategory => l10n.sellerCategoryPoultry,
-      otherCategory => l10n.sellerCategoryOther,
-      _ => category,
     };
   }
 

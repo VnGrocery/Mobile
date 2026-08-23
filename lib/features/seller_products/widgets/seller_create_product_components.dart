@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -114,13 +114,11 @@ class SellerCreateProductFields extends StatelessWidget {
         DropdownButtonFormField<String>(
           initialValue: category,
           decoration: const InputDecoration(),
-          items: SellerProductPresenter.categories
+          items: CategoryPresenter.selectable
               .map(
                 (category) => DropdownMenuItem(
                   value: category,
-                  child: Text(
-                    SellerProductPresenter.categoryLabel(category, l10n),
-                  ),
+                  child: Text(CategoryPresenter.label(l10n, category)),
                 ),
               )
               .toList(),

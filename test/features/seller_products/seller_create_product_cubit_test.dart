@@ -5,18 +5,20 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:vngrocery/data/app_data_config.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_cubit.dart';
-import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 void main() {
   test('SellerCreateProductCubit updates category and image state', () {
     final cubit = SellerCreateProductCubit(shopId: AppDataConfig.demoShopId);
 
-    cubit.setCategory(SellerProductPresenter.otherCategory);
+    // A category the rest of the system actually stores. The seller screens
+    // used to offer beef/pork/chicken/other, which nothing else matched.
+    cubit.setCategory(CategoryPresenter.selectable.last);
     // The photo is real bytes now, not a flag with nothing behind it.
     cubit.attachImage(Uint8List.fromList(const [1, 2, 3]));
 
-    expect(cubit.state.category, SellerProductPresenter.otherCategory);
+    expect(cubit.state.category, CategoryPresenter.selectable.last);
     expect(cubit.state.imageSelected, isTrue);
 
     cubit.close();

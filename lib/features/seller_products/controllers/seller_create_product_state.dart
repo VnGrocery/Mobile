@@ -1,4 +1,4 @@
-import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 
 class SellerCreateProductState {
   final String category;
@@ -15,7 +15,7 @@ class SellerCreateProductState {
 
   factory SellerCreateProductState.initial() {
     return SellerCreateProductState(
-      category: SellerProductPresenter.beefCategory,
+      category: CategoryPresenter.selectable.first,
     );
   }
 

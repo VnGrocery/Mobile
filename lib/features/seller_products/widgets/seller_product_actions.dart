@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/core/ui/app_sheet.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -37,7 +38,7 @@ class SellerProductActionSheet extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '${SellerProductPresenter.categoryLabel(product.category, AppLocalizations.of(context))} - ${SellerProductPresenter.stateLabel(product.status, AppLocalizations.of(context))}',
+            '${CategoryPresenter.label(AppLocalizations.of(context), product.category)} - ${SellerProductPresenter.stateLabel(product.status, AppLocalizations.of(context))}',
             style: const TextStyle(color: AppColors.textSecondary),
           ),
           const SizedBox(height: 16),

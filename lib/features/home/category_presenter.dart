@@ -11,6 +11,21 @@ import 'package:vngrocery/l10n/app_localizations.dart';
 class CategoryPresenter {
   const CategoryPresenter._();
 
+  /// Categories a seller can pick from.
+  ///
+  /// The seller screens used to offer their own list - beef, pork, chicken,
+  /// poultry, other - which the server has never stored and no buyer filter
+  /// has ever matched. A product created through that picker was effectively
+  /// filed under nothing.
+  static const selectable = [
+    'fresh_produce',
+    'vegetables',
+    'fruit',
+    'meat',
+    'seafood',
+    'poultry',
+  ];
+
   static String label(AppLocalizations l10n, String category) {
     switch (category.toLowerCase()) {
       case 'fresh_produce':

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/utils/currency_formatter.dart';
+import 'package:vngrocery/core/widgets/product_thumbnail.dart';
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/home/category_presenter.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
+import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -33,15 +37,10 @@ class SellerProductCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: palette.mutedSurface,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(Icons.image, color: Colors.grey),
-                ),
+                // Was a fixed grey icon, so a seller's own listings looked
+                // pictureless to them while buyers saw the photo they had
+                // uploaded.
+                ProductThumbnail(imageUrls: product.imageUrls, size: 60),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -55,11 +54,13 @@ class SellerProductCard extends StatelessWidget {
                         ),
                       ),
                       Text(
+                        // The same presenter the buyer side uses. The seller
+                        // had its own list of categories - beef, pork,
+                        // chicken - which the server has never used, so every
+                        // real category fell through it and the shopkeeper was
+                        // shown the raw key: "Danh mục: vegetables".
                         l10n.sellerProductCategoryValue(
-                          SellerProductPresenter.categoryLabel(
-                            product.category,
-                            l10n,
-                          ),
+                          CategoryPresenter.label(l10n, product.category),
                         ),
                         style: const TextStyle(
                           fontSize: 12,
@@ -67,7 +68,26 @@ class SellerProductCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      SellerProductStatusBadge(status: product.status),
+                      Row(
+                        children: [
+                          SellerProductStatusBadge(status: product.status),
+                          const SizedBox(width: 8),
+                          // The price was on none of these cards, which is an
+                          // odd thing to hide from the person who sets it.
+                          Flexible(
+                            child: Text(
+                              formatCurrencyVnd(product.price),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.priceRed,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
