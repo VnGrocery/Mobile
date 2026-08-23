@@ -58,19 +58,31 @@ class HomeTrustShopCard extends StatelessWidget {
                       color: AppColors.warningOrange,
                       size: 14,
                     ),
-                    Text(
-                      l10n.homeShopRatingValue(formatRating(shop.rating)),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                    // Cả hai dòng đều phải cắt được: thẻ cửa hàng rộng cố
+                    // định, còn "1.234 đánh giá" thì không - hàng này tràn ra
+                    // ngoài thẻ khi số đánh giá dài.
+                    Flexible(
+                      child: Text(
+                        l10n.homeShopRatingValue(formatRating(shop.rating)),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    const Spacer(),
-                    Text(
-                      l10n.homeShopReviewCount(shop.reviewCount),
-                      style: const TextStyle(
-                        fontSize: 10,
-                        color: AppColors.textSecondary,
+                    const SizedBox(width: 6),
+                    Flexible(
+                      child: Text(
+                        l10n.homeShopReviewCount(shop.reviewCount),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                     ),
                   ],
