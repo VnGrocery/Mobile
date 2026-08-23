@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/core/widgets/collapsible_list.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/products/product_history_copy.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
@@ -59,13 +60,17 @@ class ProductChangeLog extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-          for (var i = 0; i < history.entries.length; i++)
-            _ChangeRow(
-              entry: history.entries[i],
+          // Only the most recent few. A product with a long price record used
+          // to print every entry, pushing everything below it off the page.
+          CollapsibleList(
+            itemCount: history.entries.length,
+            itemBuilder: (context, index, isLast) => _ChangeRow(
+              entry: history.entries[index],
               // The line is what makes it read as a chain rather than a list;
-              // the last entry has nothing below it to join to.
-              showConnector: i < history.entries.length - 1,
+              // the last entry shown has nothing below it to join to.
+              showConnector: !isLast,
             ),
+          ),
         ],
       ),
     );

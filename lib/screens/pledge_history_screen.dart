@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/widgets/collapsible_list.dart';
 import 'package:vngrocery/features/pledge_history/controllers/pledge_history_cubit.dart';
 import 'package:vngrocery/features/pledge_history/controllers/pledge_history_state.dart';
 import 'package:vngrocery/features/pledge_history/widgets/pledge_history_components.dart';
@@ -50,8 +51,13 @@ class _PledgeHistoryScreenState extends State<PledgeHistoryScreen> {
                 if (state.isEmpty)
                   const EmptyPledgeHistory()
                 else
-                  for (final item in state.history)
-                    PledgeTimelineItem(item: item, shopId: state.shopId),
+                  CollapsibleList(
+                    itemCount: state.history.length,
+                    itemBuilder: (context, index, _) => PledgeTimelineItem(
+                      item: state.history[index],
+                      shopId: state.shopId,
+                    ),
+                  ),
               ],
             ),
           );
