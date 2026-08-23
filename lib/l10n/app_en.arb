@@ -822,6 +822,13 @@
     "description": "Seller dashboard copy."
   },
   "sellerPickProductTitle": "Which product's history?",
+  "sellerReceiptCopied": "Copied receipt {code}",
+  "@sellerReceiptCopied": {
+    "placeholders": {
+      "code": {}
+    }
+  },
+  "sellerHistoryNeedsProduct": "History appears once there is a product.",
   "sellerHistoryLabel": "History",
   "@sellerHistoryLabel": {
     "description": "Seller dashboard copy."

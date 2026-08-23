@@ -2570,6 +2570,18 @@ abstract class AppLocalizations {
   /// **'Which product\'s history?'**
   String get sellerPickProductTitle;
 
+  /// No description provided for @sellerReceiptCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied receipt {code}'**
+  String sellerReceiptCopied(Object code);
+
+  /// No description provided for @sellerHistoryNeedsProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'History appears once there is a product.'**
+  String get sellerHistoryNeedsProduct;
+
   /// Seller dashboard copy.
   ///
   /// In en, this message translates to:

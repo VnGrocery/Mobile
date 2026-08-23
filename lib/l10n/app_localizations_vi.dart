@@ -1346,6 +1346,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerPickProductTitle => 'Xem lịch sử của sản phẩm nào?';
 
   @override
+  String sellerReceiptCopied(Object code) {
+    return 'Đã chép mã biên lai $code';
+  }
+
+  @override
+  String get sellerHistoryNeedsProduct =>
+      'Có sản phẩm rồi mới có lịch sử để xem.';
+
+  @override
   String get sellerHistoryLabel => 'Lịch sử';
 
   @override

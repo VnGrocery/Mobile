@@ -1354,6 +1354,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerPickProductTitle => 'Which product\'s history?';
 
   @override
+  String sellerReceiptCopied(Object code) {
+    return 'Copied receipt $code';
+  }
+
+  @override
+  String get sellerHistoryNeedsProduct =>
+      'History appears once there is a product.';
+
+  @override
   String get sellerHistoryLabel => 'History';
 
   @override

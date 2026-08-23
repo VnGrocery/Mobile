@@ -522,6 +522,13 @@
   "sellerNeedProductFirst": "Cần tạo sản phẩm trước khi ghi nhận.",
   "sellerProductsLabel": "Sản phẩm",
   "sellerPickProductTitle": "Xem lịch sử của sản phẩm nào?",
+  "sellerReceiptCopied": "Đã chép mã biên lai {code}",
+  "@sellerReceiptCopied": {
+    "placeholders": {
+      "code": {}
+    }
+  },
+  "sellerHistoryNeedsProduct": "Có sản phẩm rồi mới có lịch sử để xem.",
   "sellerHistoryLabel": "Lịch sử",
   "sellerTrustLabel": "Độ tin cậy",
   "sellerRecordsToday": "Ghi nhận hôm nay",
