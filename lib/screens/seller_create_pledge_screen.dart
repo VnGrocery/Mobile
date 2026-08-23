@@ -24,7 +24,9 @@ class SellerCreatePledgeScreen extends StatefulWidget {
 class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
   late final SellerPledgeCubit _pledgeCubit;
 
-  final _sellerScore = TextEditingController(text: '8.5');
+  // Starts empty. It used to be prefilled with 8.5, so a seller who tapped
+  // straight through recorded a score they never gave.
+  final _sellerScore = TextEditingController();
 
   @override
   void initState() {
@@ -50,6 +52,11 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
     );
     if (photo == null || !mounted) return;
     await _pledgeCubit.capture(photo);
+    // Offer the model's reading as the starting point - a real number, not an
+    // invented one - and only while the seller has not typed their own.
+    if (!mounted || _sellerScore.text.isNotEmpty) return;
+    final state = _pledgeCubit.state;
+    if (state.hasAiScore) _sellerScore.text = '${state.aiScore}';
   }
 
   @override
@@ -77,10 +84,15 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
                 ),
                 2 => SellerPledgeEvaluateStep(
                   aiScore: state.aiScore,
+                  hasAiScore: state.hasAiScore,
                   sellerScore: _sellerScore,
                   category: state.category,
                   onCategoryChanged: _pledgeCubit.setCategory,
-                  onContinue: _pledgeCubit.continueToConfirm,
+                  onScoreChanged: (_) => setState(() {}),
+                  onContinue:
+                      SellerPledgePresenter.isValidScore(_sellerScore.text)
+                      ? _pledgeCubit.continueToConfirm
+                      : null,
                 ),
                 _ => SellerPledgeConfirmStep(
                   score: SellerPledgePresenter.normalizedScore(
@@ -107,7 +119,19 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
 
   Future<void> _commit() async {
     final l10n = AppLocalizations.of(context);
-    final pledgeId = await _pledgeCubit.commit(_sellerScore.text, l10n);
+    final String? pledgeId;
+    try {
+      pledgeId = await _pledgeCubit.commit(_sellerScore.text, l10n);
+    } catch (_) {
+      // The screen used to announce a record the server had refused.
+      if (!mounted) return;
+      AppFeedback.showSnackBar(
+        context,
+        l10n.sellerPledgeSaveFailed,
+        icon: Icons.error_outline,
+      );
+      return;
+    }
     if (!mounted) return;
     AppFeedback.showSnackBar(context, l10n.sellerPledgeSaved);
     if (pledgeId == null) {

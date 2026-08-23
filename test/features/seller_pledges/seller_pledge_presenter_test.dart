@@ -71,10 +71,26 @@ void main() {
       );
     });
 
-    test('normalizedScore trims input and falls back for blank values', () {
+    test('normalizedScore trims and invents nothing', () {
       expect(SellerPledgePresenter.normalizedScore(' 9.2 '), '9.2');
-      expect(SellerPledgePresenter.normalizedScore(''), '8.5');
-      expect(SellerPledgePresenter.normalizedScore('   '), '8.5');
+      // A Vietnamese keyboard gives a decimal comma; the server wants a dot.
+      expect(SellerPledgePresenter.normalizedScore('8,5'), '8.5');
+      // A blank field used to become '8.5' - a quality claim nobody made,
+      // signed into the product's history and anchored on chain.
+      expect(SellerPledgePresenter.normalizedScore(''), '');
+      expect(SellerPledgePresenter.normalizedScore('   '), '');
+    });
+
+    test('isValidScore accepts a number from 0 to 10 and nothing else', () {
+      expect(SellerPledgePresenter.isValidScore('9.2'), isTrue);
+      expect(SellerPledgePresenter.isValidScore(' 0 '), isTrue);
+      expect(SellerPledgePresenter.isValidScore('10'), isTrue);
+      // Vietnamese keyboards produce a comma.
+      expect(SellerPledgePresenter.isValidScore('8,5'), isTrue);
+      expect(SellerPledgePresenter.isValidScore(''), isFalse);
+      expect(SellerPledgePresenter.isValidScore('11'), isFalse);
+      expect(SellerPledgePresenter.isValidScore('-1'), isFalse);
+      expect(SellerPledgePresenter.isValidScore('tốt'), isFalse);
     });
   });
 }

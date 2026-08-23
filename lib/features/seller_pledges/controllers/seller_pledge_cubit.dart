@@ -83,8 +83,10 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
         emit(state.copyWith(committing: false, committed: true));
         return result['pledgeId']?.toString();
       } catch (_) {
+        // Returning null here was indistinguishable from the offline path, so
+        // the screen announced a record that the server had refused.
         emit(state.copyWith(committing: false));
-        return null;
+        rethrow;
       }
     }
     _repositories.pledges.add(

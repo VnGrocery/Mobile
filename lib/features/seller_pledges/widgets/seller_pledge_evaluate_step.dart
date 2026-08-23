@@ -7,17 +7,21 @@ import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerPledgeEvaluateStep extends StatelessWidget {
   final double aiScore;
+  final bool hasAiScore;
   final TextEditingController sellerScore;
   final String category;
   final ValueChanged<String> onCategoryChanged;
-  final VoidCallback onContinue;
+  final ValueChanged<String> onScoreChanged;
+  final VoidCallback? onContinue;
 
   const SellerPledgeEvaluateStep({
     super.key,
     required this.aiScore,
+    required this.hasAiScore,
     required this.sellerScore,
     required this.category,
     required this.onCategoryChanged,
+    required this.onScoreChanged,
     required this.onContinue,
   });
 
@@ -47,7 +51,7 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '$aiScore',
+                  hasAiScore ? '$aiScore' : '—',
                   style: const TextStyle(
                     fontSize: 56,
                     fontWeight: FontWeight.w900,
@@ -71,8 +75,10 @@ class SellerPledgeEvaluateStep extends StatelessWidget {
         TextField(
           controller: sellerScore,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          onChanged: onScoreChanged,
           decoration: InputDecoration(
             labelText: l10n.sellerPledgeSellerScoreLabel,
+            helperText: l10n.sellerPledgeScoreRange,
           ),
         ),
         const SizedBox(height: 32),

@@ -17,11 +17,16 @@ class SellerPledgeState {
     this.committing = false,
     this.committed = false,
     required this.category,
-    this.aiScore = 8.2,
+    this.aiScore = 0,
     this.confidence = 0,
     this.imageHash = '',
     this.imageCid = '',
   });
+
+  /// Whether the scoring service actually returned a score. It used to start
+  /// at 8.2 - a number the model never produced - so the seller was shown a
+  /// suggestion invented by the app.
+  bool get hasAiScore => aiScore > 0;
 
   factory SellerPledgeState.initial() {
     return SellerPledgeState(category: CategoryPresenter.selectable.first);

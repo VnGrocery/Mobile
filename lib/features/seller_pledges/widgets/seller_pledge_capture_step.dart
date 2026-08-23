@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerPledgeCaptureStep extends StatelessWidget {
   final bool analyzing;
@@ -18,16 +20,35 @@ class SellerPledgeCaptureStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Not a camera. It used to be a black rectangle with the words
+        // "camera preview" in it, which read as a camera that had failed to
+        // start - the real one opens full screen when the button is tapped.
         Container(
-          height: 350,
+          height: 280,
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: context.palette.mutedSurface,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Center(
-            child: Text(
-              l10n.sellerPledgeCameraPreview,
-              style: const TextStyle(color: Color(0xFF555555)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.photo_camera_outlined,
+                  size: 48,
+                  color: AppColors.textSecondary,
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  l10n.pledgeCaptureHint,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: AppColors.textSecondary,
+                    height: 1.35,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
