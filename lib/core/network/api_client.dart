@@ -78,7 +78,7 @@ class ApiClient {
     if (response.statusCode < 200 || response.statusCode >= 300) {
       _decode(response);
     }
-    final decoded = jsonDecode(response.body);
+    final decoded = jsonDecode(_text(response));
     if (decoded is! List) {
       throw const ApiException(500, 'Invalid server response');
     }
@@ -158,11 +158,26 @@ class ApiClient {
     return _decode(await _send(send));
   }
 
+  /// The body as text, always read as UTF-8.
+  ///
+  /// http.Response.body falls back to latin1 when the response carries no
+  /// charset, which turns every Vietnamese name into mojibake. JSON is UTF-8
+  /// by definition (RFC 8259), so the header is not worth trusting.
+  String _text(http.Response response) {
+    if (response.bodyBytes.isEmpty) return '';
+    try {
+      return utf8.decode(response.bodyBytes);
+    } on FormatException {
+      return response.body;
+    }
+  }
+
   Map<String, Object?> _decode(http.Response response) {
     Object? decoded;
-    if (response.body.isNotEmpty) {
+    final text = _text(response);
+    if (text.isNotEmpty) {
       try {
-        decoded = jsonDecode(response.body);
+        decoded = jsonDecode(text);
       } on FormatException {
         decoded = null;
       }
