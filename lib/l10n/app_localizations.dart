@@ -1124,12 +1124,6 @@ abstract class AppLocalizations {
   /// **'Score {score}/10 for category: {category}.'**
   String sellerPledgeRecordDescription(Object score, Object category);
 
-  /// No description provided for @sellerPledgeCameraPreview.
-  ///
-  /// In en, this message translates to:
-  /// **'Camera preview'**
-  String get sellerPledgeCameraPreview;
-
   /// No description provided for @sellerPledgeCaptureAction.
   ///
   /// In en, this message translates to:
@@ -1147,6 +1141,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SELLER SCORE'**
   String get sellerPledgeSellerScoreTitle;
+
+  /// No description provided for @sellerPledgeScoreRange.
+  ///
+  /// In en, this message translates to:
+  /// **'A score from 0 to 10'**
+  String get sellerPledgeScoreRange;
+
+  /// No description provided for @sellerPledgeSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the record. Check the connection and try again.'**
+  String get sellerPledgeSaveFailed;
 
   /// No description provided for @sellerPledgeSellerScoreLabel.
   ///

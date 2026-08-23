@@ -552,9 +552,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get sellerPledgeCameraPreview => 'Camera preview';
-
-  @override
   String get sellerPledgeCaptureAction => 'Capture product photo';
 
   @override
@@ -562,6 +559,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sellerPledgeSellerScoreTitle => 'SELLER SCORE';
+
+  @override
+  String get sellerPledgeScoreRange => 'A score from 0 to 10';
+
+  @override
+  String get sellerPledgeSaveFailed =>
+      'Could not save the record. Check the connection and try again.';
 
   @override
   String get sellerPledgeSellerScoreLabel => 'Enter score (0-10)';

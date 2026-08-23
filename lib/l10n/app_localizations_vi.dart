@@ -550,9 +550,6 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get sellerPledgeCameraPreview => 'Xem trước camera';
-
-  @override
   String get sellerPledgeCaptureAction => 'Chụp ảnh hàng hóa';
 
   @override
@@ -560,6 +557,13 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get sellerPledgeSellerScoreTitle => 'ĐIỂM NGƯỜI BÁN NHẬP';
+
+  @override
+  String get sellerPledgeScoreRange => 'Điểm từ 0 đến 10';
+
+  @override
+  String get sellerPledgeSaveFailed =>
+      'Không lưu được ghi nhận. Kiểm tra kết nối rồi thử lại.';
 
   @override
   String get sellerPledgeSellerScoreLabel => 'Nhập điểm đánh giá (0-10)';

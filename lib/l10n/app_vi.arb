@@ -205,10 +205,11 @@
       "category": {}
     }
   },
-  "sellerPledgeCameraPreview": "Xem trước camera",
   "sellerPledgeCaptureAction": "Chụp ảnh hàng hóa",
   "sellerPledgeSuggestedScoreTitle": "ĐIỂM GỢI Ý TỪ ẢNH",
   "sellerPledgeSellerScoreTitle": "ĐIỂM NGƯỜI BÁN NHẬP",
+  "sellerPledgeScoreRange": "Điểm từ 0 đến 10",
+  "sellerPledgeSaveFailed": "Không lưu được ghi nhận. Kiểm tra kết nối rồi thử lại.",
   "sellerPledgeSellerScoreLabel": "Nhập điểm đánh giá (0-10)",
   "sellerPledgeContinueConfirm": "Tiếp tục xác nhận",
   "sellerPledgeCategoryValue": "Loại: {category}",
