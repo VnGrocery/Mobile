@@ -96,13 +96,11 @@ void main() {
     );
 
     expect(find.text('© Example Maps'), findsOneWidget);
-    expect(
-      find.byWidgetPredicate(
-        (widget) =>
-            widget is Image && widget.semanticLabel == 'Example map tile',
-      ),
-      findsWidgets,
-    );
+    // The label lives on the Semantics wrapper around each tile, not on an
+    // Image: tiles are CachedNetworkImage, which renders its placeholder in a
+    // test until the file cache happens to hold that URL. Asserting on Image
+    // made this test pass or fail depending on what was left in the cache.
+    expect(find.bySemanticsLabel('Example map tile'), findsWidgets);
   });
 
   testWidgets('wraps tile columns across the antimeridian', (tester) async {
