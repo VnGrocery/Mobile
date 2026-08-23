@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
@@ -42,11 +44,25 @@ class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
 
   Future<void> load() async {
     emit(state.copyWith(shops: _visibleShops()));
+    final asked = state.query;
     try {
-      await _repositories.shops.refresh(query: state.query, near: state.origin);
+      await _repositories.shops.refresh(query: asked, near: state.origin);
+      // The reader kept typing while this was in the air. Painting it now
+      // would put the results for "ra" over the results for "rau sạch".
+      if (asked != state.query) return;
       emit(state.copyWith(shops: _visibleShops()));
     } catch (_) {}
   }
+
+  /// How long to wait after the last keystroke before asking the server.
+  ///
+  /// Every keystroke used to fire its own request: typing "rau sạch" sent
+  /// eight, over a connection PRODUCT.md calls unreliable, and whichever came
+  /// back last won. The list still filters locally on every letter, so the
+  /// screen keeps up with the typing either way.
+  static const searchDebounce = Duration(milliseconds: 350);
+
+  Timer? _searchTimer;
 
   void setQuery(String query) {
     emit(
@@ -56,7 +72,14 @@ class ExploreCubit extends Cubit<ExploreState> with CloseSafeEmit {
         shops: _visibleShops(query: query),
       ),
     );
-    load();
+    _searchTimer?.cancel();
+    _searchTimer = Timer(searchDebounce, load);
+  }
+
+  @override
+  Future<void> close() {
+    _searchTimer?.cancel();
+    return super.close();
   }
 
   void setFilter(String filter) {

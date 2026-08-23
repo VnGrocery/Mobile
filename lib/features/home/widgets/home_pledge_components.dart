@@ -45,7 +45,14 @@ class HomePledgeCard extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              ProductThumbnail(imageUrls: product.imageUrls, size: 84, radius: 12),
+              // The row is as tall as the score ring plus its label plus the cart
+              // button; at 84 the photo sat in the middle of that with air above
+              // and below it.
+              ProductThumbnail(
+                imageUrls: product.imageUrls,
+                size: 104,
+                radius: 14,
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
