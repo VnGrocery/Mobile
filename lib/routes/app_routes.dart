@@ -128,7 +128,7 @@ class Routes {
           session: session,
         );
       }
-      return _fallbackRoute(settings);
+      return _fallbackRoute(settings, session: session);
     }
 
     final args = settings.arguments;
@@ -183,7 +183,7 @@ class Routes {
             return ProductDetailArgs(shopId: shopId!, productId: productId!);
           },
         );
-        if (detailArgs == null) return _fallbackRoute(settings);
+        if (detailArgs == null) return _fallbackRoute(settings, session: session);
         page = ProductDetailScreen(
           shopId: detailArgs.shopId,
           productId: detailArgs.productId,
@@ -198,7 +198,7 @@ class Routes {
           typed: (value) => value,
           fromString: StoreDetailArgs.new,
         );
-        if (detailArgs == null) return _fallbackRoute(settings);
+        if (detailArgs == null) return _fallbackRoute(settings, session: session);
         page = StoreDetailScreen(shopId: detailArgs.shopId);
         break;
       case review:
@@ -207,7 +207,7 @@ class Routes {
           typed: (value) => value,
           fromString: ReviewArgs.new,
         );
-        if (reviewArgs == null) return _fallbackRoute(settings);
+        if (reviewArgs == null) return _fallbackRoute(settings, session: session);
         page = ReviewScreen(shopId: reviewArgs.shopId);
         break;
       case sellerProducts:
@@ -234,7 +234,7 @@ class Routes {
           ],
           fromString: SellerShopArgs.new,
         );
-        if (shopArgs == null) return _fallbackRoute(settings);
+        if (shopArgs == null) return _fallbackRoute(settings, session: session);
         page = SellerCreateProductScreen(shopId: shopArgs.shopId);
         break;
       case sellerCreatePledge:
@@ -243,7 +243,7 @@ class Routes {
           typed: (value) => value,
           fromString: SellerProductArgs.new,
         );
-        if (productArgs == null) return _fallbackRoute(settings);
+        if (productArgs == null) return _fallbackRoute(settings, session: session);
         page = SellerCreatePledgeScreen(productId: productArgs.productId);
         break;
       case sellerShop:
@@ -259,7 +259,7 @@ class Routes {
           typed: (value) => value,
           fromString: SellerProductArgs.new,
         );
-        if (productArgs == null) return _fallbackRoute(settings);
+        if (productArgs == null) return _fallbackRoute(settings, session: session);
         page = PledgeHistoryScreen(productId: productArgs.productId);
         break;
       case qrLabel:
@@ -268,7 +268,7 @@ class Routes {
           typed: (value) => value,
           fromString: QrLabelArgs.new,
         );
-        if (labelArgs == null) return _fallbackRoute(settings);
+        if (labelArgs == null) return _fallbackRoute(settings, session: session);
         page = QrLabelScreen(pledgeId: labelArgs.pledgeId);
         break;
       case voucherWallet:
@@ -280,7 +280,7 @@ class Routes {
           typed: (value) => value,
           fromString: VoucherQrArgs.new,
         );
-        if (qrArgs == null) return _fallbackRoute(settings);
+        if (qrArgs == null) return _fallbackRoute(settings, session: session);
         page = VoucherQrScreen(userVoucherId: qrArgs.userVoucherId);
         break;
       case cart:
@@ -298,7 +298,7 @@ class Routes {
             return BlockchainProofArgs(shopId: shopId!, pledgeId: pledgeId!);
           },
         );
-        if (proofArgs == null) return _fallbackRoute(settings);
+        if (proofArgs == null) return _fallbackRoute(settings, session: session);
         page = BlockchainProofScreen(
           shopId: proofArgs.shopId,
           pledgeId: proofArgs.pledgeId,
@@ -321,7 +321,10 @@ class Routes {
   ///
   /// Only when there is nothing to go back to does home make sense: the app was
   /// opened straight into a route it cannot build.
-  static Route<dynamic> _fallbackRoute(RouteSettings settings) {
+  static Route<dynamic> _fallbackRoute(
+    RouteSettings settings, {
+    required SessionState session,
+  }) {
     return PageRouteBuilder<void>(
       // The name is kept so the cancelled navigation is still identifiable;
       // the arguments are not, because they are the ones that were rejected.
@@ -331,15 +334,7 @@ class Routes {
       opaque: false,
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
-      pageBuilder: (context, _, __) {
-        final navigator = Navigator.of(context);
-        if (!navigator.canPop()) return const MainScreen();
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (navigator.mounted) navigator.pop();
-        });
-        return const SizedBox.shrink();
-      },
+      pageBuilder: (context, _, __) => _CancelledRoute(session: session),
     );
   }
 
@@ -395,5 +390,50 @@ class Routes {
       }
     }
     return result;
+  }
+}
+
+/// The body of a cancelled navigation.
+///
+/// It takes itself back off the stack, and if there is nothing left underneath
+/// it, it becomes the home screen instead of disappearing.
+///
+/// The pop used to be scheduled from the route builder after asking canPop
+/// there. That question is asked too early: pushReplacementNamed and
+/// pushNamedAndRemoveUntil remove the routes underneath *after* the new one is
+/// pushed, so a history that looks poppable during the build can be gone by the
+/// time the callback runs. Popping then emptied the navigator completely and
+/// left a blank page with no way back - the app had to be killed from the task
+/// switcher.
+class _CancelledRoute extends StatefulWidget {
+  final SessionState session;
+
+  const _CancelledRoute({required this.session});
+
+  @override
+  State<_CancelledRoute> createState() => _CancelledRouteState();
+}
+
+class _CancelledRouteState extends State<_CancelledRoute> {
+  bool _stranded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final navigator = Navigator.of(context);
+      if (navigator.canPop()) {
+        navigator.pop();
+        return;
+      }
+      setState(() => _stranded = true);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_stranded) return const SizedBox.shrink();
+    return widget.session.isLoggedIn ? const MainScreen() : const AuthScreen();
   }
 }

@@ -9,6 +9,7 @@ import 'package:vngrocery/features/seller_pledges/controllers/seller_pledge_stat
 import 'package:vngrocery/features/seller_pledges/seller_pledge_presenter.dart';
 import 'package:vngrocery/features/seller_pledges/widgets/seller_pledge_steps.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
 class SellerCreatePledgeScreen extends StatefulWidget {
@@ -141,7 +142,11 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
     if (pledgeId == null) {
       Navigator.pop(context);
     } else {
-      Navigator.pushReplacementNamed(context, 'qr_label', arguments: pledgeId);
+      Navigator.pushReplacementNamed(
+        context,
+        Routes.qrLabel,
+        arguments: pledgeId,
+      );
     }
   }
 }
