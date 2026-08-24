@@ -223,6 +223,20 @@ class RemoteDataSource {
     return Product.fromJson(json);
   }
 
+  /// The reason travels in the query string because the server reads it from
+  /// there for deletes; it is signed exactly like the one on an update.
+  Future<void> deleteProduct({
+    required String shopId,
+    required String productId,
+    required int expectedVersion,
+    required String changeReason,
+  }) async {
+    await client.delete(
+      '/v1/shops/$shopId/products/$productId',
+      query: {'expectedVersion': expectedVersion, 'changeReason': changeReason},
+    );
+  }
+
   Future<List<Review>> reviews(String shopId) async => (await client.getList(
     '/v1/shops/$shopId/reviews',
   )).map((e) => Review.fromJson(_map(e))).toList();

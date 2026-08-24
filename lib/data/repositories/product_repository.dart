@@ -41,15 +41,45 @@ class ProductRepository {
     return item;
   }
 
-  Future<Product> saveRemote(Product product) async {
+  /// Creates or updates one product.
+  ///
+  /// [changeReason] is required by the server on every update: the edit is
+  /// signed with that sentence inside it and shows up in the product's change
+  /// log, which is the whole reason a shopper can trust the listing.
+  Future<Product> saveRemote(
+    Product product, {
+    bool create = true,
+    String changeReason = '',
+  }) async {
     final remote = _remote;
     if (remote == null) {
       add(product);
       return product;
     }
-    final item = await remote.saveProduct(product);
+    final item = await remote.saveProduct(
+      product,
+      create: create,
+      changeReason: changeReason,
+    );
     _replace(item);
     return item;
+  }
+
+  /// Removes a product, with the reason signed alongside it. The record of it
+  /// having existed stays in the log; only the listing goes.
+  Future<void> deleteRemote(Product product, String changeReason) async {
+    final remote = _remote;
+    if (remote == null) {
+      _db.products.removeWhere((item) => item.id == product.id);
+      return;
+    }
+    await remote.deleteProduct(
+      shopId: product.shopId,
+      productId: product.id,
+      expectedVersion: product.version,
+      changeReason: changeReason,
+    );
+    _db.products.removeWhere((item) => item.id == product.id);
   }
 
   void _replace(Product product) {

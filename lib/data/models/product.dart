@@ -40,6 +40,40 @@ class Product {
     this.createdAt,
   });
 
+  /// A copy with one or two fields moved.
+  ///
+  /// The fields are mutable, but a status change is sent to the server as a
+  /// whole product: editing the cached instance in place would leave the list
+  /// showing the new status even when the request failed.
+  Product copyWith({
+    String? name,
+    String? description,
+    String? category,
+    double? freshnessScore,
+    String? freshnessNote,
+    int? price,
+    List<String>? tags,
+    String? status,
+    int? version,
+    List<String>? imageUrls,
+  }) {
+    return Product(
+      id: id,
+      shopId: shopId,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      freshnessScore: freshnessScore ?? this.freshnessScore,
+      freshnessNote: freshnessNote ?? this.freshnessNote,
+      price: price ?? this.price,
+      tags: tags ?? this.tags,
+      status: status ?? this.status,
+      version: version ?? this.version,
+      imageUrls: imageUrls ?? this.imageUrls,
+      createdAt: createdAt,
+    );
+  }
+
   factory Product.fromJson(Map<String, Object?> json) {
     return Product(
       id: (json['productId'] ?? json['id']) as String,

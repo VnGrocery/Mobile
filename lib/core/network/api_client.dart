@@ -126,11 +126,15 @@ class ApiClient {
     );
   }
 
-  Future<Map<String, Object?>> delete(String path, {Object? body}) async {
+  Future<Map<String, Object?>> delete(
+    String path, {
+    Object? body,
+    Map<String, Object?> query = const {},
+  }) async {
     return _decode(
       await _send(
         () => _client.delete(
-          _uri(path),
+          _uri(path, query),
           headers: _headers(),
           body: body == null ? null : jsonEncode(body),
         ),
