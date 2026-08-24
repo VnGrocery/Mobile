@@ -102,6 +102,49 @@ class ProductTitleBlock extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        // What the seller says the goods are. It was collected on the create
+        // and edit forms, stored, and written into the signed change log -
+        // and then never shown to the one person it was written for.
+        if (product.description.trim().isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Text(
+            product.description.trim(),
+            style: TextStyle(
+              fontSize: 14,
+              height: 1.4,
+              color: context.palette.textSecondary,
+            ),
+          ),
+        ],
+        // The shop's product list has always shown these; the page the buyer
+        // opens from it did not.
+        if (product.tags.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              for (final tag in product.tags)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: context.palette.mutedSurface,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    tag,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.palette.textSecondary,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
       ],
     );
   }
@@ -170,7 +213,10 @@ class ProductScoreCard extends StatelessWidget {
                 ),
                 Text(
                   l10n.productDetailLatestScoreSubtitle,
-                  style: TextStyle(fontSize: 11, color: context.palette.textSecondary),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: context.palette.textSecondary,
+                  ),
                 ),
               ],
             ),
@@ -220,7 +266,10 @@ class ProductCheckAction extends StatelessWidget {
           child: Text(
             l10n.productDetailCheckActionHint,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12, color: context.palette.textSecondary),
+            style: TextStyle(
+              fontSize: 12,
+              color: context.palette.textSecondary,
+            ),
           ),
         ),
       ],
