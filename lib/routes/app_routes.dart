@@ -8,6 +8,7 @@ import 'package:vngrocery/screens/main_screen.dart';
 import 'package:vngrocery/screens/manual_voucher_screen.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/screens/my_checks_screen.dart';
+import 'package:vngrocery/screens/seller_voucher_screen.dart';
 import 'package:vngrocery/screens/change_password_screen.dart';
 import 'package:vngrocery/screens/explore_map_screen.dart';
 import 'package:vngrocery/screens/scanner_screen.dart';
@@ -102,6 +103,7 @@ class Routes {
   static const changePassword = 'change_password';
   static const myChecks = 'my_checks';
   static const sellerEditProduct = 'seller_edit_product';
+  static const sellerVouchers = 'seller_vouchers';
   static const exploreMap = 'explore_map';
   static const scan = 'scan';
   static const productDetail = 'product_detail';
@@ -253,6 +255,17 @@ class Routes {
         );
         if (shopArgs == null) return _fallbackRoute(settings, session: session);
         page = SellerCreateProductScreen(shopId: shopArgs.shopId);
+        break;
+      case sellerVouchers:
+        final voucherShop = _singleStringRouteArg(
+          args,
+          typed: (value) => value,
+          fromString: SellerShopArgs.new,
+        );
+        if (voucherShop == null) {
+          return _fallbackRoute(settings, session: session);
+        }
+        page = SellerVoucherScreen(shopId: voucherShop.shopId);
         break;
       case sellerEditProduct:
         if (args is! SellerEditProductArgs) {

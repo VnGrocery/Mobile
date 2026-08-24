@@ -1059,5 +1059,59 @@
   "sellerProductStatusFailed": "Không đổi được trạng thái",
   "sellerProductDeleted": "Đã xoá sản phẩm",
   "sellerProductDeleteFailed": "Không xoá được sản phẩm",
-  "sellerProductUpdated": "Đã lưu thay đổi"
+  "sellerProductUpdated": "Đã lưu thay đổi",
+  "voucherSectionTitle": "Ưu đãi của cửa hàng",
+  "voucherClaim": "Nhận",
+  "voucherClaimed": "Đã nhận",
+  "voucherSoldOut": "Đã hết",
+  "voucherClaimedOk": "Đã lưu vào ví voucher",
+  "voucherClaimFailed": "Không nhận được ưu đãi",
+  "voucherGoneNow": "Ưu đãi vừa hết hoặc đã ngừng",
+  "voucherRemaining": "Còn {count} lượt",
+  "@voucherRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "voucherUnlimited": "Không giới hạn lượt",
+  "voucherEmpty": "Cửa hàng chưa có ưu đãi nào.",
+  "voucherFailed": "Không đọc được ưu đãi.",
+  "voucherCreateTitle": "Tạo ưu đãi",
+  "voucherCreateAction": "Tạo ưu đãi",
+  "voucherFieldCode": "Mã ưu đãi",
+  "voucherFieldTitle": "Tên ưu đãi",
+  "voucherFieldDiscount": "Mức giảm",
+  "voucherFieldPercent": "Giảm theo phần trăm",
+  "voucherFieldMinSpend": "Đơn tối thiểu (đ)",
+  "voucherFieldQuantity": "Số lượng",
+  "voucherFieldQuantityHint": "Để trống là không giới hạn",
+  "voucherFieldExpiry": "Hạn dùng",
+  "voucherPickExpiry": "Chọn ngày hết hạn",
+  "voucherCreated": "Đã tạo ưu đãi",
+  "voucherCreateFailed": "Không tạo được ưu đãi",
+  "voucherCodeTaken": "Mã này đã có người dùng",
+  "sellerVouchersTitle": "Ưu đãi cửa hàng",
+  "sellerVouchersEmptyTitle": "Chưa có ưu đãi nào",
+  "sellerVouchersEmptyBody": "Tạo một ưu đãi để nó xuất hiện trên trang cửa hàng và ở mục ưu đãi ngoài trang chủ.",
+  "sellerVouchersClaimedOf": "Đã phát {claimed}/{total}",
+  "@sellerVouchersClaimedOf": {
+    "placeholders": {
+      "claimed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "sellerVouchersClaimedFree": "Đã phát {claimed} lượt",
+  "@sellerVouchersClaimedFree": {
+    "placeholders": {
+      "claimed": {
+        "type": "int"
+      }
+    }
+  }
 }

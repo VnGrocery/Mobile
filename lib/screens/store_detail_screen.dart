@@ -8,6 +8,8 @@ import 'package:vngrocery/core/widgets/trust_score_card.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_cubit.dart';
+import 'package:vngrocery/features/vouchers/controllers/shop_vouchers_cubit.dart';
+import 'package:vngrocery/features/vouchers/widgets/shop_voucher_section.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_state.dart';
 import 'package:vngrocery/features/stores/widgets/store_detail_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
@@ -25,24 +27,30 @@ class StoreDetailScreen extends StatefulWidget {
 
 class _StoreDetailScreenState extends State<StoreDetailScreen> {
   late final StoreDetailCubit _storeCubit;
+  late final ShopVouchersCubit _vouchersCubit;
   int _tab = 0;
 
   @override
   void initState() {
     super.initState();
     _storeCubit = StoreDetailCubit()..load(widget.shopId);
+    _vouchersCubit = ShopVouchersCubit(shopId: widget.shopId)..load();
   }
 
   @override
   void dispose() {
+    _vouchersCubit.close();
     _storeCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _storeCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _storeCubit),
+        BlocProvider.value(value: _vouchersCubit),
+      ],
       child: BlocBuilder<StoreDetailCubit, StoreDetailState>(
         builder: (context, state) {
           final l10n = AppLocalizations.of(context);
@@ -76,6 +84,9 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                     child: TrustScoreCard(summary: shop.trustSummary!),
                   ),
+                // Above the catalogue: an offer is a reason to keep reading,
+                // and it is the one thing on this page with a deadline on it.
+                const ShopVoucherSection(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                   child: Column(

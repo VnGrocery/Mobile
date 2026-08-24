@@ -29,6 +29,13 @@ class HomeState {
   /// nothing in it would be an advert for nothing.
   final List<FeaturedVoucher> offers;
 
+  /// Offers the reader already holds, so the advert can say so rather than
+  /// inviting a claim that would do nothing.
+  final Set<String> claimedOffers;
+
+  /// The offer a claim is in flight for.
+  final String? claimingOffer;
+
   const HomeState({
     this.status = HomeStatus.loading,
     this.shops = const [],
@@ -37,6 +44,8 @@ class HomeState {
     this.locationDenial,
     this.recommendations,
     this.offers = const [],
+    this.claimedOffers = const {},
+    this.claimingOffer,
   });
 
   /// Replaces the location outcome wholesale.
@@ -53,6 +62,8 @@ class HomeState {
         locationDenial: denial,
         recommendations: recommendations,
         offers: offers,
+        claimedOffers: claimedOffers,
+        claimingOffer: claimingOffer,
       );
 
   HomeState withRecommendations(Recommendations value) => HomeState(
@@ -63,9 +74,16 @@ class HomeState {
     locationDenial: locationDenial,
     recommendations: value,
     offers: offers,
+    claimedOffers: claimedOffers,
+    claimingOffer: claimingOffer,
   );
 
-  HomeState withOffers(List<FeaturedVoucher> value) => HomeState(
+  HomeState withOffers(
+    List<FeaturedVoucher> value, {
+    Set<String>? claimed,
+    String? claiming,
+    bool clearClaiming = false,
+  }) => HomeState(
     status: status,
     shops: shops,
     products: products,
@@ -73,6 +91,8 @@ class HomeState {
     locationDenial: locationDenial,
     recommendations: recommendations,
     offers: value,
+    claimedOffers: claimed ?? claimedOffers,
+    claimingOffer: clearClaiming ? null : (claiming ?? claimingOffer),
   );
 
   /// True once there is something worth showing in the suggestions section.

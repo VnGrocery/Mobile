@@ -2138,4 +2138,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sellerProductUpdated => 'Changes saved';
+
+  @override
+  String get voucherSectionTitle => 'Offers from this shop';
+
+  @override
+  String get voucherClaim => 'Claim';
+
+  @override
+  String get voucherClaimed => 'Claimed';
+
+  @override
+  String get voucherSoldOut => 'All gone';
+
+  @override
+  String get voucherClaimedOk => 'Saved to your voucher wallet';
+
+  @override
+  String get voucherClaimFailed => 'The offer could not be claimed';
+
+  @override
+  String get voucherGoneNow => 'That offer has just run out or been stopped';
+
+  @override
+  String voucherRemaining(int count) {
+    return '$count left';
+  }
+
+  @override
+  String get voucherUnlimited => 'No limit';
+
+  @override
+  String get voucherEmpty => 'This shop is not running any offers.';
+
+  @override
+  String get voucherFailed => 'The offers could not be loaded.';
+
+  @override
+  String get voucherCreateTitle => 'New offer';
+
+  @override
+  String get voucherCreateAction => 'Create offer';
+
+  @override
+  String get voucherFieldCode => 'Offer code';
+
+  @override
+  String get voucherFieldTitle => 'Offer name';
+
+  @override
+  String get voucherFieldDiscount => 'Discount';
+
+  @override
+  String get voucherFieldPercent => 'Discount as a percentage';
+
+  @override
+  String get voucherFieldMinSpend => 'Minimum order (đ)';
+
+  @override
+  String get voucherFieldQuantity => 'Quantity';
+
+  @override
+  String get voucherFieldQuantityHint => 'Leave blank for no limit';
+
+  @override
+  String get voucherFieldExpiry => 'Valid until';
+
+  @override
+  String get voucherPickExpiry => 'Pick an expiry date';
+
+  @override
+  String get voucherCreated => 'Offer created';
+
+  @override
+  String get voucherCreateFailed => 'The offer could not be created';
+
+  @override
+  String get voucherCodeTaken => 'That code is already taken';
+
+  @override
+  String get sellerVouchersTitle => 'Shop offers';
+
+  @override
+  String get sellerVouchersEmptyTitle => 'No offers yet';
+
+  @override
+  String get sellerVouchersEmptyBody =>
+      'Create one and it shows on your shop page and in the offer slot on the home screen.';
+
+  @override
+  String sellerVouchersClaimedOf(int claimed, int total) {
+    return '$claimed of $total claimed';
+  }
+
+  @override
+  String sellerVouchersClaimedFree(int claimed) {
+    return '$claimed claimed';
+  }
 }

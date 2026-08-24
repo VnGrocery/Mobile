@@ -2127,4 +2127,101 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get sellerProductUpdated => 'Đã lưu thay đổi';
+
+  @override
+  String get voucherSectionTitle => 'Ưu đãi của cửa hàng';
+
+  @override
+  String get voucherClaim => 'Nhận';
+
+  @override
+  String get voucherClaimed => 'Đã nhận';
+
+  @override
+  String get voucherSoldOut => 'Đã hết';
+
+  @override
+  String get voucherClaimedOk => 'Đã lưu vào ví voucher';
+
+  @override
+  String get voucherClaimFailed => 'Không nhận được ưu đãi';
+
+  @override
+  String get voucherGoneNow => 'Ưu đãi vừa hết hoặc đã ngừng';
+
+  @override
+  String voucherRemaining(int count) {
+    return 'Còn $count lượt';
+  }
+
+  @override
+  String get voucherUnlimited => 'Không giới hạn lượt';
+
+  @override
+  String get voucherEmpty => 'Cửa hàng chưa có ưu đãi nào.';
+
+  @override
+  String get voucherFailed => 'Không đọc được ưu đãi.';
+
+  @override
+  String get voucherCreateTitle => 'Tạo ưu đãi';
+
+  @override
+  String get voucherCreateAction => 'Tạo ưu đãi';
+
+  @override
+  String get voucherFieldCode => 'Mã ưu đãi';
+
+  @override
+  String get voucherFieldTitle => 'Tên ưu đãi';
+
+  @override
+  String get voucherFieldDiscount => 'Mức giảm';
+
+  @override
+  String get voucherFieldPercent => 'Giảm theo phần trăm';
+
+  @override
+  String get voucherFieldMinSpend => 'Đơn tối thiểu (đ)';
+
+  @override
+  String get voucherFieldQuantity => 'Số lượng';
+
+  @override
+  String get voucherFieldQuantityHint => 'Để trống là không giới hạn';
+
+  @override
+  String get voucherFieldExpiry => 'Hạn dùng';
+
+  @override
+  String get voucherPickExpiry => 'Chọn ngày hết hạn';
+
+  @override
+  String get voucherCreated => 'Đã tạo ưu đãi';
+
+  @override
+  String get voucherCreateFailed => 'Không tạo được ưu đãi';
+
+  @override
+  String get voucherCodeTaken => 'Mã này đã có người dùng';
+
+  @override
+  String get sellerVouchersTitle => 'Ưu đãi cửa hàng';
+
+  @override
+  String get sellerVouchersEmptyTitle => 'Chưa có ưu đãi nào';
+
+  @override
+  String get sellerVouchersEmptyBody =>
+      'Tạo một ưu đãi để nó xuất hiện trên trang cửa hàng và ở mục ưu đãi ngoài trang chủ.';
+
+  @override
+  String sellerVouchersClaimedOf(int claimed, int total) {
+    return 'Đã phát $claimed/$total';
+  }
+
+  @override
+  String sellerVouchersClaimedFree(int claimed) {
+    return 'Đã phát $claimed lượt';
+  }
 }

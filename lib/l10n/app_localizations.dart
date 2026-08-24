@@ -3925,6 +3925,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Changes saved'**
   String get sellerProductUpdated;
+
+  /// No description provided for @voucherSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers from this shop'**
+  String get voucherSectionTitle;
+
+  /// No description provided for @voucherClaim.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim'**
+  String get voucherClaim;
+
+  /// No description provided for @voucherClaimed.
+  ///
+  /// In en, this message translates to:
+  /// **'Claimed'**
+  String get voucherClaimed;
+
+  /// No description provided for @voucherSoldOut.
+  ///
+  /// In en, this message translates to:
+  /// **'All gone'**
+  String get voucherSoldOut;
+
+  /// No description provided for @voucherClaimedOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to your voucher wallet'**
+  String get voucherClaimedOk;
+
+  /// No description provided for @voucherClaimFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The offer could not be claimed'**
+  String get voucherClaimFailed;
+
+  /// No description provided for @voucherGoneNow.
+  ///
+  /// In en, this message translates to:
+  /// **'That offer has just run out or been stopped'**
+  String get voucherGoneNow;
+
+  /// No description provided for @voucherRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} left'**
+  String voucherRemaining(int count);
+
+  /// No description provided for @voucherUnlimited.
+  ///
+  /// In en, this message translates to:
+  /// **'No limit'**
+  String get voucherUnlimited;
+
+  /// No description provided for @voucherEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'This shop is not running any offers.'**
+  String get voucherEmpty;
+
+  /// No description provided for @voucherFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The offers could not be loaded.'**
+  String get voucherFailed;
+
+  /// No description provided for @voucherCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New offer'**
+  String get voucherCreateTitle;
+
+  /// No description provided for @voucherCreateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create offer'**
+  String get voucherCreateAction;
+
+  /// No description provided for @voucherFieldCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer code'**
+  String get voucherFieldCode;
+
+  /// No description provided for @voucherFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer name'**
+  String get voucherFieldTitle;
+
+  /// No description provided for @voucherFieldDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get voucherFieldDiscount;
+
+  /// No description provided for @voucherFieldPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount as a percentage'**
+  String get voucherFieldPercent;
+
+  /// No description provided for @voucherFieldMinSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum order (đ)'**
+  String get voucherFieldMinSpend;
+
+  /// No description provided for @voucherFieldQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get voucherFieldQuantity;
+
+  /// No description provided for @voucherFieldQuantityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave blank for no limit'**
+  String get voucherFieldQuantityHint;
+
+  /// No description provided for @voucherFieldExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until'**
+  String get voucherFieldExpiry;
+
+  /// No description provided for @voucherPickExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick an expiry date'**
+  String get voucherPickExpiry;
+
+  /// No description provided for @voucherCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer created'**
+  String get voucherCreated;
+
+  /// No description provided for @voucherCreateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The offer could not be created'**
+  String get voucherCreateFailed;
+
+  /// No description provided for @voucherCodeTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'That code is already taken'**
+  String get voucherCodeTaken;
+
+  /// No description provided for @sellerVouchersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop offers'**
+  String get sellerVouchersTitle;
+
+  /// No description provided for @sellerVouchersEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No offers yet'**
+  String get sellerVouchersEmptyTitle;
+
+  /// No description provided for @sellerVouchersEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create one and it shows on your shop page and in the offer slot on the home screen.'**
+  String get sellerVouchersEmptyBody;
+
+  /// No description provided for @sellerVouchersClaimedOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{claimed} of {total} claimed'**
+  String sellerVouchersClaimedOf(int claimed, int total);
+
+  /// No description provided for @sellerVouchersClaimedFree.
+  ///
+  /// In en, this message translates to:
+  /// **'{claimed} claimed'**
+  String sellerVouchersClaimedFree(int claimed);
 }
 
 class _AppLocalizationsDelegate

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/features/account/controllers/session_cubit.dart';
+import 'package:vngrocery/core/network/api_exception.dart';
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/home/controllers/home_cubit.dart';
 import 'package:vngrocery/features/home/controllers/home_state.dart';
 import 'package:vngrocery/features/home/widgets/home_components.dart';
@@ -59,6 +62,26 @@ class _HomeTabState extends State<HomeTab> {
     await Navigator.pushNamed(context, Routes.exploreMap);
     if (!mounted || hadLocation) return;
     await _homeCubit.locateReader();
+  }
+
+  Future<void> _claimOffer(FeaturedVoucher offer) async {
+    final l10n = AppLocalizations.of(context);
+    try {
+      await _homeCubit.claimOffer(offer);
+    } catch (error) {
+      if (!mounted) return;
+      // 409 means the shop ran out or stopped the offer while this page was
+      // open - a different thing from a connection that dropped.
+      final gone = error is ApiException && error.statusCode == 409;
+      AppFeedback.showSnackBar(
+        context,
+        gone ? l10n.voucherGoneNow : l10n.voucherClaimFailed,
+        icon: Icons.error_outline,
+      );
+      return;
+    }
+    if (!mounted) return;
+    AppFeedback.showSnackBar(context, l10n.voucherClaimedOk);
   }
 
   /// Reloads the catalogue when the reader pulls the page down. The two calls
@@ -133,7 +156,12 @@ class _HomeTabState extends State<HomeTab> {
                     // to a shop that is gone, and an empty list hides the slot
                     // rather than showing a banner for nothing.
                     if (state.offers.isNotEmpty) ...[
-                      HomeOfferCard(offers: state.offers),
+                      HomeOfferCard(
+                        offers: state.offers,
+                        claimed: state.claimedOffers,
+                        claiming: state.claimingOffer,
+                        onClaim: _claimOffer,
+                      ),
                       const SizedBox(height: 8),
                     ],
                     // Hidden entirely when nothing has a category yet, rather

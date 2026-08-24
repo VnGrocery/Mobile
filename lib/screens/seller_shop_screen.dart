@@ -8,6 +8,7 @@ import 'package:vngrocery/features/seller_shop/controllers/seller_shop_cubit.dar
 import 'package:vngrocery/features/seller_shop/controllers/seller_shop_state.dart';
 import 'package:vngrocery/features/seller_shop/widgets/seller_shop_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/screens/seller_comment_queue_screen.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -153,6 +154,15 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                     const SizedBox(height: 8),
                     const Divider(height: 24),
                     SellerCommentQueueLink(shopId: state.shop!.id),
+                    SellerShopLinkRow(
+                      icon: Icons.local_activity_outlined,
+                      label: l10n.sellerVouchersTitle,
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        Routes.sellerVouchers,
+                        arguments: SellerShopArgs(state.shop!.id),
+                      ),
+                    ),
                   ],
                 ],
               ),

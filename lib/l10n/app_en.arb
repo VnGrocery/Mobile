@@ -1563,5 +1563,59 @@
   "sellerProductStatusFailed": "The status could not be changed",
   "sellerProductDeleted": "Product deleted",
   "sellerProductDeleteFailed": "The product could not be deleted",
-  "sellerProductUpdated": "Changes saved"
+  "sellerProductUpdated": "Changes saved",
+  "voucherSectionTitle": "Offers from this shop",
+  "voucherClaim": "Claim",
+  "voucherClaimed": "Claimed",
+  "voucherSoldOut": "All gone",
+  "voucherClaimedOk": "Saved to your voucher wallet",
+  "voucherClaimFailed": "The offer could not be claimed",
+  "voucherGoneNow": "That offer has just run out or been stopped",
+  "voucherRemaining": "{count} left",
+  "@voucherRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "voucherUnlimited": "No limit",
+  "voucherEmpty": "This shop is not running any offers.",
+  "voucherFailed": "The offers could not be loaded.",
+  "voucherCreateTitle": "New offer",
+  "voucherCreateAction": "Create offer",
+  "voucherFieldCode": "Offer code",
+  "voucherFieldTitle": "Offer name",
+  "voucherFieldDiscount": "Discount",
+  "voucherFieldPercent": "Discount as a percentage",
+  "voucherFieldMinSpend": "Minimum order (đ)",
+  "voucherFieldQuantity": "Quantity",
+  "voucherFieldQuantityHint": "Leave blank for no limit",
+  "voucherFieldExpiry": "Valid until",
+  "voucherPickExpiry": "Pick an expiry date",
+  "voucherCreated": "Offer created",
+  "voucherCreateFailed": "The offer could not be created",
+  "voucherCodeTaken": "That code is already taken",
+  "sellerVouchersTitle": "Shop offers",
+  "sellerVouchersEmptyTitle": "No offers yet",
+  "sellerVouchersEmptyBody": "Create one and it shows on your shop page and in the offer slot on the home screen.",
+  "sellerVouchersClaimedOf": "{claimed} of {total} claimed",
+  "@sellerVouchersClaimedOf": {
+    "placeholders": {
+      "claimed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "sellerVouchersClaimedFree": "{claimed} claimed",
+  "@sellerVouchersClaimedFree": {
+    "placeholders": {
+      "claimed": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -14,6 +14,15 @@ class Voucher {
   final String note;
   final String codeFormat;
 
+  /// How many claims the shop offered, and how many are gone. [limited] is
+  /// false for an offer with no cap, and then [remaining] means nothing - the
+  /// UI must not print a zero that reads as sold out.
+  final int totalQuantity;
+  final int claimedCount;
+  final int remaining;
+  final bool limited;
+  final bool soldOut;
+
   const Voucher({
     required this.id,
     required this.code,
@@ -27,9 +36,18 @@ class Voucher {
     this.manual = false,
     this.note = '',
     this.codeFormat = 'QR',
+    this.totalQuantity = 0,
+    this.claimedCount = 0,
+    this.remaining = 0,
+    this.limited = false,
+    this.soldOut = false,
   });
 
   bool get isActive => active ?? true;
+
+  /// Whether a buyer could still take one right now.
+  bool get isClaimable =>
+      isActive && !soldOut && DateTime.now().isBefore(expiresAt);
 
   bool get isManual => manual ?? false;
 
@@ -47,6 +65,11 @@ class Voucher {
       manual: json['manual'] as bool? ?? false,
       note: json['note'] as String? ?? '',
       codeFormat: json['codeFormat'] as String? ?? 'QR',
+      totalQuantity: (json['totalQuantity'] as num?)?.toInt() ?? 0,
+      claimedCount: (json['claimedCount'] as num?)?.toInt() ?? 0,
+      remaining: (json['remaining'] as num?)?.toInt() ?? 0,
+      limited: json['limited'] == true,
+      soldOut: json['soldOut'] == true,
     );
   }
 

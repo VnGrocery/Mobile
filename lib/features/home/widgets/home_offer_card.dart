@@ -16,7 +16,22 @@ import 'package:vngrocery/utils/format.dart';
 class HomeOfferCard extends StatefulWidget {
   final List<FeaturedVoucher> offers;
 
-  const HomeOfferCard({super.key, required this.offers});
+  /// Offers the reader already holds, so the card can say so instead of
+  /// inviting a claim that would do nothing.
+  final Set<String> claimed;
+
+  /// The offer a claim is in flight for.
+  final String? claiming;
+
+  final ValueChanged<FeaturedVoucher> onClaim;
+
+  const HomeOfferCard({
+    super.key,
+    required this.offers,
+    required this.claimed,
+    required this.claiming,
+    required this.onClaim,
+  });
 
   @override
   State<HomeOfferCard> createState() => _HomeOfferCardState();
@@ -61,7 +76,12 @@ class _HomeOfferCardState extends State<HomeOfferCard> {
                 left: 16,
                 right: index == offers.length - 1 ? 16 : 8,
               ),
-              child: _OfferTile(offer: offers[index]),
+              child: _OfferTile(
+                offer: offers[index],
+                claimed: widget.claimed.contains(offers[index].voucher.id),
+                claiming: widget.claiming == offers[index].voucher.id,
+                onClaim: () => widget.onClaim(offers[index]),
+              ),
             ),
           ),
         ),
@@ -93,8 +113,16 @@ class _HomeOfferCardState extends State<HomeOfferCard> {
 
 class _OfferTile extends StatelessWidget {
   final FeaturedVoucher offer;
+  final bool claimed;
+  final bool claiming;
+  final VoidCallback onClaim;
 
-  const _OfferTile({required this.offer});
+  const _OfferTile({
+    required this.offer,
+    required this.claimed,
+    required this.claiming,
+    required this.onClaim,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -189,23 +217,22 @@ class _OfferTile extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(
-                      color: Colors.white24,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.local_activity_outlined,
-                      color: Colors.white,
-                      size: 26,
-                    ),
+                  // The claim happens here rather than two screens away: the
+                  // advert and the thing it advertises should not be separated
+                  // by a navigation.
+                  _ClaimControl(
+                    claimed: claimed,
+                    claiming: claiming,
+                    claimable: voucher.isClaimable,
+                    onClaim: onClaim,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    l10n.homeOfferExpiry(
-                      formatShortDate('${voucher.expiresAt}'),
-                    ),
+                    voucher.limited
+                        ? l10n.voucherRemaining(voucher.remaining)
+                        : l10n.homeOfferExpiry(
+                            formatShortDate('${voucher.expiresAt}'),
+                          ),
                     style: const TextStyle(color: Colors.white70, fontSize: 10),
                   ),
                 ],
@@ -214,6 +241,67 @@ class _OfferTile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ClaimControl extends StatelessWidget {
+  final bool claimed;
+  final bool claiming;
+  final bool claimable;
+  final VoidCallback onClaim;
+
+  const _ClaimControl({
+    required this.claimed,
+    required this.claiming,
+    required this.claimable,
+    required this.onClaim,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    if (claimed) {
+      return Column(
+        children: [
+          const Icon(Icons.check_circle, color: Colors.white, size: 26),
+          const SizedBox(height: 4),
+          Text(
+            l10n.voucherClaimed,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      );
+    }
+    if (!claimable) {
+      return Text(
+        l10n.voucherSoldOut,
+        style: const TextStyle(color: Colors.white70, fontSize: 12),
+      );
+    }
+    return FilledButton(
+      onPressed: claiming ? null : onClaim,
+      style: FilledButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: AppColors.primaryGreenInk,
+        minimumSize: const Size(80, 40),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+      ),
+      child: claiming
+          ? const SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : Text(
+              l10n.voucherClaim,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
     );
   }
 }

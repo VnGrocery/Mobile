@@ -131,7 +131,9 @@ class VoucherWalletHeader extends StatelessWidget {
           backgroundColor: disabled ? palette.mutedSurface : palette.positiveBg,
           child: Icon(
             userVoucher.isUsed ? Icons.check : Icons.local_offer,
-            color: disabled ? context.palette.textSecondary : AppColors.primaryGreen,
+            color: disabled
+                ? context.palette.textSecondary
+                : AppColors.primaryGreen,
           ),
         ),
         const SizedBox(width: 12),

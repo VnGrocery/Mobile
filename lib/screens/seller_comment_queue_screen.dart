@@ -295,6 +295,35 @@ class _QueueCard extends StatelessWidget {
   }
 }
 
+/// One destination in the list under the shop form.
+class SellerShopLinkRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const SellerShopLinkRow({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = context.palette;
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: CircleAvatar(
+        backgroundColor: palette.positiveBg,
+        child: Icon(icon, color: palette.greenInk),
+      ),
+      title: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: onTap,
+    );
+  }
+}
+
 /// Row on the shop screen that opens the queue.
 class SellerCommentQueueLink extends StatelessWidget {
   final String shopId;
@@ -303,19 +332,9 @@ class SellerCommentQueueLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final palette = context.palette;
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: CircleAvatar(
-        backgroundColor: palette.positiveBg,
-        child: Icon(Icons.rate_review_outlined, color: palette.greenInk),
-      ),
-      title: Text(
-        l10n.sellerCommentsTitle,
-        style: const TextStyle(fontWeight: FontWeight.w600),
-      ),
-      trailing: const Icon(Icons.chevron_right),
+    return SellerShopLinkRow(
+      icon: Icons.rate_review_outlined,
+      label: AppLocalizations.of(context).sellerCommentsTitle,
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute<void>(
           builder: (_) => SellerCommentQueueScreen(shopId: shopId),

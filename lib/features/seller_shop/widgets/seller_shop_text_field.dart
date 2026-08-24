@@ -5,6 +5,10 @@ class SellerShopTextField extends StatelessWidget {
   final String label;
   final IconData icon;
   final int maxLines;
+
+  /// A number field gets the number pad. Typing a price on the letter
+  /// keyboard is the sort of friction a seller feels every single time.
+  final TextInputType? keyboardType;
   final ValueChanged<String> onChanged;
 
   const SellerShopTextField({
@@ -13,6 +17,7 @@ class SellerShopTextField extends StatelessWidget {
     required this.label,
     required this.icon,
     this.maxLines = 1,
+    this.keyboardType,
     required this.onChanged,
   });
 
@@ -21,11 +26,9 @@ class SellerShopTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       maxLines: maxLines,
+      keyboardType: keyboardType,
       onChanged: onChanged,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon),
-      ),
+      decoration: InputDecoration(labelText: label, prefixIcon: Icon(icon)),
     );
   }
 }

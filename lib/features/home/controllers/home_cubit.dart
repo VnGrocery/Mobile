@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
 import 'package:vngrocery/core/location/location_service.dart';
+import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'home_state.dart';
 
@@ -62,10 +63,42 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
     final remote = _repositories.products.remote;
     if (remote == null) return;
     try {
-      emit(state.withOffers(await remote.featuredVouchers()));
+      // The wallet comes with them: an advert that invites a claim the reader
+      // already made is worse than no advert.
+      final results = await Future.wait([
+        remote.featuredVouchers(),
+        remote.wallet(),
+      ]);
+      final offers = results[0] as List<FeaturedVoucher>;
+      final wallet =
+          results[1] as List<({UserVoucher userVoucher, Voucher voucher})>;
+      emit(
+        state.withOffers(
+          offers,
+          claimed: wallet.map((item) => item.voucher.id).toSet(),
+        ),
+      );
     } catch (_) {
       // The slot hides itself rather than advertising an error.
     }
+  }
+
+  /// Takes one of the advertised offers. Rethrows so the tab can tell a shop
+  /// that ran out apart from a connection that dropped.
+  Future<void> claimOffer(FeaturedVoucher offer) async {
+    final remote = _repositories.products.remote;
+    if (remote == null) throw StateError('no remote data source');
+    emit(state.withOffers(state.offers, claiming: offer.voucher.id));
+    try {
+      await remote.saveVoucher(offer.voucher.id);
+    } catch (_) {
+      emit(state.withOffers(state.offers, clearClaiming: true));
+      rethrow;
+    }
+    // Reloaded rather than counted down here: how many are left is the
+    // server's answer, and the slot drops an offer that has just run out.
+    await loadOffers();
+    emit(state.withOffers(state.offers, clearClaiming: true));
   }
 
   Future<void> load() async {

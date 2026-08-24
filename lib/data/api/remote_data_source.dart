@@ -413,10 +413,48 @@ class RemoteDataSource {
         .toList();
   }
 
+  /// Offers a shop is running, with how many claims are left on each.
+  Future<List<Voucher>> shopVouchers(String shopId) async {
+    // The endpoint answers {items: [...]}, not a bare array, so getList would
+    // reject it outright.
+    final json = await client.get('/v1/shops/$shopId/vouchers');
+    return _maps(json['items']).map(Voucher.fromJson).toList();
+  }
+
+  /// Takes one of the offer's claims. The server answers 409 when the offer
+  /// has run out or expired; claiming one already held is a plain success.
   Future<({UserVoucher userVoucher, Voucher voucher})> saveVoucher(
     String voucherId,
   ) async => _walletItem(
     await client.post('/v1/me/vouchers', body: {'voucherId': voucherId}),
+  );
+
+  /// Creates one of the shop's own offers.
+  Future<Voucher> createVoucher({
+    required String shopId,
+    required String code,
+    required String title,
+    required int discountValue,
+    required bool isPercent,
+    required int minSpend,
+    required DateTime expiresAt,
+    required int totalQuantity,
+    String note = '',
+  }) async => Voucher.fromJson(
+    await client.post(
+      '/v1/shops/$shopId/vouchers',
+      body: {
+        'code': code,
+        'title': title,
+        'discountValue': discountValue,
+        'isPercent': isPercent,
+        'minSpend': minSpend,
+        'expiresAt': expiresAt.toUtc().toIso8601String(),
+        'totalQuantity': totalQuantity,
+        'note': note,
+        'codeFormat': 'QR',
+      },
+    ),
   );
 
   Future<({UserVoucher userVoucher, Voucher voucher})> manualVoucher({
