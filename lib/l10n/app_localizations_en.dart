@@ -2080,4 +2080,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountMyActivity => 'My activity';
+
+  @override
+  String get verdictTrusted => 'Matches the pledge';
+
+  @override
+  String get verdictWarning => 'Slightly off';
+
+  @override
+  String get verdictHighRisk => 'Well off';
+
+  @override
+  String get verdictNoPledge => 'No pledge yet';
+
+  @override
+  String get verdictUnknown => 'Unclear';
 }

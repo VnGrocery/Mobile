@@ -41,7 +41,10 @@ class BuyerScoreSummary extends StatelessWidget {
               ),
               Text(
                 l10n.scoreBadgeLabel,
-                style: TextStyle(fontSize: 14, color: context.palette.textSecondary),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: context.palette.textSecondary,
+                ),
               ),
             ],
           ),
@@ -76,7 +79,10 @@ class BuyerScoreSummary extends StatelessWidget {
           child: Text(
             BuyerCheckPresenter.locationDescription(result, l10n),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12, color: context.palette.textSecondary),
+            style: TextStyle(
+              fontSize: 12,
+              color: context.palette.textSecondary,
+            ),
           ),
         ),
       ],

@@ -1544,5 +1544,10 @@
   },
   "myChecksNoPledge": "No pledge to compare against",
   "commonProduct": "Product",
-  "accountMyActivity": "My activity"
+  "accountMyActivity": "My activity",
+  "verdictTrusted": "Matches the pledge",
+  "verdictWarning": "Slightly off",
+  "verdictHighRisk": "Well off",
+  "verdictNoPledge": "No pledge yet",
+  "verdictUnknown": "Unclear"
 }

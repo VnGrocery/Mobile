@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/buyer_check/verdict_copy.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -41,7 +42,9 @@ class BuyerVerdictCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    l10n.buyerCheckVerdictValue(result.verdict),
+                    l10n.buyerCheckVerdictValue(
+                      VerdictCopy.label(l10n, result.verdict),
+                    ),
                     style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                 ),

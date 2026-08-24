@@ -38,13 +38,16 @@ class HomeProductGrid extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
         // Square photo plus two lines of name, the shop, the price and the
-        // note. 0.62 left a band of dead space under every one-line name.
-        childAspectRatio: 0.70,
+        // note. The photo is sized by the column, so every extra millimetre of
+        // type has to come out of the ratio - at the system's largest sizes a
+        // fixed 0.70 pushed the price clean off the bottom of the card.
+        childAspectRatio:
+            0.70 / MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0),
       ),
       itemCount: products.length,
       itemBuilder: (context, index) => _GridCard(product: products[index]),

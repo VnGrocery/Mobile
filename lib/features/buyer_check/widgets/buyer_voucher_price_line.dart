@@ -18,7 +18,10 @@ class PriceLine extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Text(label, style: TextStyle(color: context.palette.textSecondary)),
+          child: Text(
+            label,
+            style: TextStyle(color: context.palette.textSecondary),
+          ),
         ),
         Text(
           value,

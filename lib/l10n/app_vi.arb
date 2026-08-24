@@ -1040,5 +1040,10 @@
   },
   "myChecksNoPledge": "Không có cam kết để đối chiếu",
   "commonProduct": "Sản phẩm",
-  "accountMyActivity": "Hoạt động của tôi"
+  "accountMyActivity": "Hoạt động của tôi",
+  "verdictTrusted": "Khớp cam kết",
+  "verdictWarning": "Lệch nhẹ",
+  "verdictHighRisk": "Lệch nhiều",
+  "verdictNoPledge": "Chưa có cam kết",
+  "verdictUnknown": "Chưa rõ"
 }

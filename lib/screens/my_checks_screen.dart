@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/buyer_check/verdict_copy.dart';
 import 'package:vngrocery/features/seller_shop/widgets/seller_empty_state.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -180,7 +181,7 @@ class _CheckCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Text(
-                      l10n.buyerCheckVerdictValue(check.verdict),
+                      VerdictCopy.label(l10n, check.verdict),
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,

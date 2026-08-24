@@ -2070,4 +2070,19 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get accountMyActivity => 'Hoạt động của tôi';
+
+  @override
+  String get verdictTrusted => 'Khớp cam kết';
+
+  @override
+  String get verdictWarning => 'Lệch nhẹ';
+
+  @override
+  String get verdictHighRisk => 'Lệch nhiều';
+
+  @override
+  String get verdictNoPledge => 'Chưa có cam kết';
+
+  @override
+  String get verdictUnknown => 'Chưa rõ';
 }

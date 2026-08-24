@@ -3811,6 +3811,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My activity'**
   String get accountMyActivity;
+
+  /// No description provided for @verdictTrusted.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches the pledge'**
+  String get verdictTrusted;
+
+  /// No description provided for @verdictWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Slightly off'**
+  String get verdictWarning;
+
+  /// No description provided for @verdictHighRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Well off'**
+  String get verdictHighRisk;
+
+  /// No description provided for @verdictNoPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'No pledge yet'**
+  String get verdictNoPledge;
+
+  /// No description provided for @verdictUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unclear'**
+  String get verdictUnknown;
 }
 
 class _AppLocalizationsDelegate
