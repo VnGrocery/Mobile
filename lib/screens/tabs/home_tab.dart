@@ -94,147 +94,153 @@ class _HomeTabState extends State<HomeTab> {
                 color: AppColors.primaryGreen,
                 onRefresh: _refresh,
                 child: ListView(
-                // AlwaysScrollable so the pull-to-refresh gesture works even
-                // when the catalogue is short enough to fit on one screen.
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.only(bottom: widget.bottomContentInset),
-                children: [
-                  HomeHeader(
-                    userName: userName,
-                    onOpenMenu: widget.onOpenMenu,
-                    areaName: state.location?.areaName ?? '',
-                    located: state.location != null,
-                    onOpenMap: () => _openMap(hadLocation: state.location != null),
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: HomeSearchBar(
-                      controller: _search,
-                      onChanged: () => setState(() {}),
-                      onClear: () => setState(_search.clear),
+                  // AlwaysScrollable so the pull-to-refresh gesture works even
+                  // when the catalogue is short enough to fit on one screen.
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(bottom: widget.bottomContentInset),
+                  children: [
+                    HomeHeader(
+                      userName: userName,
+                      onOpenMenu: widget.onOpenMenu,
+                      areaName: state.location?.areaName ?? '',
+                      located: state.location != null,
+                      onOpenMap: () =>
+                          _openMap(hadLocation: state.location != null),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: HomeScanHeroCard(
-                      onTap: () => Navigator.pushNamed(context, Routes.scan),
-                    ),
-                  ),
-                  // Hidden entirely when nothing has a category yet, rather
-                  // than showing chips that match no product.
-                  if (categories.isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    HomeSectionTitle(
-                      l10n.homeCategoriesTitle,
-                      showAction: false,
-                    ),
-                    const SizedBox(height: 12),
-                    HomeCategoryList(
-                      categories: categories,
-                      selectedCategory: activeCategory,
-                      onSelect: (category) => setState(() {
-                        // Tapping the active one clears the filter.
-                        _category = category == activeCategory
-                            ? _allCategory
-                            : category;
-                      }),
-                    ),
-                  ],
-                  if (state.hasRecommendations) ...[
-                    const SizedBox(height: 28),
-                    RecommendationSection(
-                      recommendations: state.recommendations!,
-                    ),
-                  ],
-                  if (topRatedShops.isNotEmpty) ...[
-                    const SizedBox(height: 28),
-                    HomeSectionTitle(
-                      l10n.homeTopRatedStoresTitle,
-                      showAction: false,
-                    ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      // Fits a two-line shop name plus the trust chip and the
-                      // rating row. Real shop names wrap ("Trái Cây Nhà Vườn
-                      // Cái Mơn"), which the earlier 150 did not allow for.
-                      height: 172,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: topRatedShops.length,
-                        separatorBuilder: (_, __) => const SizedBox(width: 12),
-                        itemBuilder: (_, i) =>
-                            HomeTrustShopCard(shop: topRatedShops[i]),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: HomeSearchBar(
+                        controller: _search,
+                        onChanged: () => setState(() {}),
+                        onClear: () => setState(_search.clear),
                       ),
                     ),
-                  ],
-                  if (state.isEmpty)
-                    // Nothing at all: one message for the whole page beats a
-                    // heading with a blank space under it.
-                    switch (state.status) {
-                      HomeStatus.loading => const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 64),
-                        child: Center(child: CircularProgressIndicator()),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: HomeScanHeroCard(
+                        onTap: () => Navigator.pushNamed(context, Routes.scan),
                       ),
-                      HomeStatus.failed => HomeStatusMessage(
-                        icon: Icons.cloud_off,
-                        title: l10n.homeLoadFailedTitle,
-                        message: l10n.homeLoadFailedMessage,
-                        actionLabel: l10n.homeRetryAction,
-                        onAction: _homeCubit.load,
-                      ),
-                      HomeStatus.ready => HomeStatusMessage(
-                        icon: Icons.inventory_2_outlined,
-                        title: l10n.homeEmptyTitle,
-                        message: l10n.homeEmptyMessage,
-                      ),
-                    }
-                  else ...[
-                    const SizedBox(height: 30),
-                    HomeSectionTitle(
-                      l10n.homeRecentChecksTitle,
-                      // Nothing to open when the filter matched nothing.
-                      showAction: featuredPledgeItems.isNotEmpty,
-                      onSeeAll: () =>
-                          showHomePledgeSheet(context, state.pledgeItems),
                     ),
-                    const SizedBox(height: 12),
-                    if (featuredPledgeItems.isEmpty)
-                      HomeStatusMessage(
-                        icon: Icons.inventory_2_outlined,
-                        title: l10n.homeEmptyTitle,
-                        message: l10n.homeEmptyMessage,
-                      )
+                    // Hidden entirely when nothing has a category yet, rather
+                    // than showing chips that match no product.
+                    if (categories.isNotEmpty) ...[
+                      const SizedBox(height: 24),
+                      HomeSectionTitle(
+                        l10n.homeCategoriesTitle,
+                        showAction: false,
+                      ),
+                      const SizedBox(height: 12),
+                      HomeCategoryList(
+                        categories: categories,
+                        selectedCategory: activeCategory,
+                        onSelect: (category) => setState(() {
+                          // Tapping the active one clears the filter.
+                          _category = category == activeCategory
+                              ? _allCategory
+                              : category;
+                        }),
+                      ),
+                    ],
+                    // The search box and the category chips filter this
+                    // list, so it follows them directly. It used to sit two
+                    // carousels below, where tapping a chip changed
+                    // something off screen.
+                    if (state.isEmpty)
+                      // Nothing at all: one message for the whole page beats a
+                      // heading with a blank space under it.
+                      switch (state.status) {
+                        HomeStatus.loading => const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 64),
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                        HomeStatus.failed => HomeStatusMessage(
+                          icon: Icons.cloud_off,
+                          title: l10n.homeLoadFailedTitle,
+                          message: l10n.homeLoadFailedMessage,
+                          actionLabel: l10n.homeRetryAction,
+                          onAction: _homeCubit.load,
+                        ),
+                        HomeStatus.ready => HomeStatusMessage(
+                          icon: Icons.inventory_2_outlined,
+                          title: l10n.homeEmptyTitle,
+                          message: l10n.homeEmptyMessage,
+                        ),
+                      }
                     else ...[
-                      if (outsideRange)
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                          child: Text(
-                            l10n.homeOutsideRangeNotice,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.textSecondary,
+                      const SizedBox(height: 30),
+                      HomeSectionTitle(
+                        l10n.homeRecentChecksTitle,
+                        // Nothing to open when the filter matched nothing.
+                        showAction: featuredPledgeItems.isNotEmpty,
+                        onSeeAll: () =>
+                            showHomePledgeSheet(context, state.pledgeItems),
+                      ),
+                      const SizedBox(height: 12),
+                      if (featuredPledgeItems.isEmpty)
+                        HomeStatusMessage(
+                          icon: Icons.inventory_2_outlined,
+                          title: l10n.homeEmptyTitle,
+                          message: l10n.homeEmptyMessage,
+                        )
+                      else ...[
+                        if (outsideRange)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                            child: Text(
+                              l10n.homeOutsideRangeNotice,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ),
+                        ...featuredPledgeItems.map(
+                          (entry) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 5,
+                            ),
+                            child: HomePledgeCard(
+                              item: entry.item,
+                              distanceKm: entry.distanceKm,
                             ),
                           ),
                         ),
-                      ...featuredPledgeItems.map(
-                        (entry) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 5,
-                          ),
-                          child: HomePledgeCard(
-                            item: entry.item,
-                            distanceKm: entry.distanceKm,
-                          ),
+                      ],
+                      const SizedBox(height: 30),
+                    ],
+                    if (state.hasRecommendations) ...[
+                      const SizedBox(height: 28),
+                      RecommendationSection(
+                        recommendations: state.recommendations!,
+                      ),
+                    ],
+                    if (topRatedShops.isNotEmpty) ...[
+                      const SizedBox(height: 28),
+                      HomeSectionTitle(
+                        l10n.homeTopRatedStoresTitle,
+                        showAction: false,
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        // Fits a two-line shop name plus the trust chip and the
+                        // rating row. Real shop names wrap ("Trái Cây Nhà Vườn
+                        // Cái Mơn"), which the earlier 150 did not allow for.
+                        height: 172,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          itemCount: topRatedShops.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(width: 12),
+                          itemBuilder: (_, i) =>
+                              HomeTrustShopCard(shop: topRatedShops[i]),
                         ),
                       ),
                     ],
-                    const SizedBox(height: 30),
                   ],
-                ],
                 ),
               ),
             ),
