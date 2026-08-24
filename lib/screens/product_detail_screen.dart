@@ -14,6 +14,8 @@ import 'package:vngrocery/features/products/widgets/product_detail_components.da
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/products/controllers/product_comments_cubit.dart';
 import 'package:vngrocery/features/products/widgets/product_comments.dart';
+import 'package:vngrocery/features/engagement/controllers/engagement_cubit.dart';
+import 'package:vngrocery/features/engagement/widgets/product_reaction_bar.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -34,6 +36,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   late final ProductDetailCubit _productCubit;
+  late final EngagementCubit _engagementCubit;
 
   /// Created once the product is known, because the comment endpoints are
   /// addressed by shop as well as by product.
@@ -43,11 +46,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   void initState() {
     super.initState();
     _productCubit = ProductDetailCubit()..load(widget.productId);
+    _engagementCubit = EngagementCubit(
+      targetType: 'product',
+      targetId: widget.productId,
+    )..load();
   }
 
   @override
   void dispose() {
     _commentsCubit?.close();
+    _engagementCubit.close();
     _productCubit.close();
     super.dispose();
   }
@@ -63,8 +71,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return BlocProvider.value(
-      value: _productCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _productCubit),
+        BlocProvider.value(value: _engagementCubit),
+      ],
       child: BlocBuilder<ProductDetailCubit, ProductDetailState>(
         builder: (context, state) {
           final product = state.product;
@@ -89,6 +100,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ProductTitleBlock(product: product, shop: state.shop),
+                      const SizedBox(height: 12),
+                      // Under the title, above the proof: how many people
+                      // liked it is a softer signal than the record behind
+                      // it, and should not outrank it.
+                      const ProductReactionBar(),
                       const SizedBox(height: 12),
                       // Always something. Rendering nothing when the proof was
                       // missing meant a buyer - and an examiner - could not

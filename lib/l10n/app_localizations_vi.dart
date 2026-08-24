@@ -2224,4 +2224,42 @@ class AppLocalizationsVi extends AppLocalizations {
   String sellerVouchersClaimedFree(int claimed) {
     return 'Đã phát $claimed lượt';
   }
+
+  @override
+  String get engagementFollow => 'Theo dõi';
+
+  @override
+  String get engagementFollowing => 'Đang theo dõi';
+
+  @override
+  String engagementFollowers(int count) {
+    return '$count người theo dõi';
+  }
+
+  @override
+  String engagementLikes(int count) {
+    return '$count thích';
+  }
+
+  @override
+  String engagementLoves(int count) {
+    return '$count yêu thích';
+  }
+
+  @override
+  String get engagementAnchored => 'Đã ghi lên chuỗi';
+
+  @override
+  String get engagementAnchorPending => 'Đang chờ ghi lên chuỗi';
+
+  @override
+  String engagementAnchoredAt(String time) {
+    return 'Ghi lúc $time';
+  }
+
+  @override
+  String get engagementFailed => 'Chưa đọc được lượt quan tâm';
+
+  @override
+  String get engagementActionFailed => 'Chưa ghi nhận được, thử lại giúp nhé';
 }

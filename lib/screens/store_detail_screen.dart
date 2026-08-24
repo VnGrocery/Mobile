@@ -12,6 +12,8 @@ import 'package:vngrocery/features/vouchers/controllers/shop_vouchers_cubit.dart
 import 'package:vngrocery/features/vouchers/widgets/shop_voucher_section.dart';
 import 'package:vngrocery/features/stores/controllers/store_detail_state.dart';
 import 'package:vngrocery/features/stores/widgets/store_detail_components.dart';
+import 'package:vngrocery/features/engagement/controllers/engagement_cubit.dart';
+import 'package:vngrocery/features/engagement/widgets/follow_shop_button.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -28,6 +30,7 @@ class StoreDetailScreen extends StatefulWidget {
 class _StoreDetailScreenState extends State<StoreDetailScreen> {
   late final StoreDetailCubit _storeCubit;
   late final ShopVouchersCubit _vouchersCubit;
+  late final EngagementCubit _engagementCubit;
   int _tab = 0;
 
   @override
@@ -35,10 +38,15 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
     super.initState();
     _storeCubit = StoreDetailCubit()..load(widget.shopId);
     _vouchersCubit = ShopVouchersCubit(shopId: widget.shopId)..load();
+    _engagementCubit = EngagementCubit(
+      targetType: 'shop',
+      targetId: widget.shopId,
+    )..load();
   }
 
   @override
   void dispose() {
+    _engagementCubit.close();
     _vouchersCubit.close();
     _storeCubit.close();
     super.dispose();
@@ -50,6 +58,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
       providers: [
         BlocProvider.value(value: _storeCubit),
         BlocProvider.value(value: _vouchersCubit),
+        BlocProvider.value(value: _engagementCubit),
       ],
       child: BlocBuilder<StoreDetailCubit, StoreDetailState>(
         builder: (context, state) {
@@ -79,6 +88,12 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
               padding: EdgeInsets.zero,
               children: [
                 StoreHeader(shop: shop),
+                // Directly under the header: following is the one thing a
+                // reader can do about this shop without scrolling.
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
+                  child: FollowShopButton(),
+                ),
                 if (shop.trustSummary != null)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),

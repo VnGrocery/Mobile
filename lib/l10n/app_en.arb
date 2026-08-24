@@ -1617,5 +1617,43 @@
         "type": "int"
       }
     }
-  }
+  },
+  "engagementFollow": "Follow",
+  "engagementFollowing": "Following",
+  "engagementFollowers": "{count} followers",
+  "@engagementFollowers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "engagementLikes": "{count} likes",
+  "@engagementLikes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "engagementLoves": "{count} loves",
+  "@engagementLoves": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "engagementAnchored": "Written on chain",
+  "engagementAnchorPending": "Waiting to be written on chain",
+  "engagementAnchoredAt": "Written at {time}",
+  "@engagementAnchoredAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "engagementFailed": "Could not read the reactions",
+  "engagementActionFailed": "That did not register, please try again"
 }

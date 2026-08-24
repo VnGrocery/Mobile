@@ -4105,6 +4105,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{claimed} claimed'**
   String sellerVouchersClaimedFree(int claimed);
+
+  /// No description provided for @engagementFollow.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow'**
+  String get engagementFollow;
+
+  /// No description provided for @engagementFollowing.
+  ///
+  /// In en, this message translates to:
+  /// **'Following'**
+  String get engagementFollowing;
+
+  /// No description provided for @engagementFollowers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} followers'**
+  String engagementFollowers(int count);
+
+  /// No description provided for @engagementLikes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} likes'**
+  String engagementLikes(int count);
+
+  /// No description provided for @engagementLoves.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} loves'**
+  String engagementLoves(int count);
+
+  /// No description provided for @engagementAnchored.
+  ///
+  /// In en, this message translates to:
+  /// **'Written on chain'**
+  String get engagementAnchored;
+
+  /// No description provided for @engagementAnchorPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting to be written on chain'**
+  String get engagementAnchorPending;
+
+  /// No description provided for @engagementAnchoredAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Written at {time}'**
+  String engagementAnchoredAt(String time);
+
+  /// No description provided for @engagementFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read the reactions'**
+  String get engagementFailed;
+
+  /// No description provided for @engagementActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'That did not register, please try again'**
+  String get engagementActionFailed;
 }
 
 class _AppLocalizationsDelegate

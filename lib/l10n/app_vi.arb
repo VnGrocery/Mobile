@@ -1113,5 +1113,43 @@
         "type": "int"
       }
     }
-  }
+  },
+  "engagementFollow": "Theo dõi",
+  "engagementFollowing": "Đang theo dõi",
+  "engagementFollowers": "{count} người theo dõi",
+  "@engagementFollowers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "engagementLikes": "{count} thích",
+  "@engagementLikes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "engagementLoves": "{count} yêu thích",
+  "@engagementLoves": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "engagementAnchored": "Đã ghi lên chuỗi",
+  "engagementAnchorPending": "Đang chờ ghi lên chuỗi",
+  "engagementAnchoredAt": "Ghi lúc {time}",
+  "@engagementAnchoredAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "engagementFailed": "Chưa đọc được lượt quan tâm",
+  "engagementActionFailed": "Chưa ghi nhận được, thử lại giúp nhé"
 }

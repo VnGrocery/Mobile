@@ -2235,4 +2235,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String sellerVouchersClaimedFree(int claimed) {
     return '$claimed claimed';
   }
+
+  @override
+  String get engagementFollow => 'Follow';
+
+  @override
+  String get engagementFollowing => 'Following';
+
+  @override
+  String engagementFollowers(int count) {
+    return '$count followers';
+  }
+
+  @override
+  String engagementLikes(int count) {
+    return '$count likes';
+  }
+
+  @override
+  String engagementLoves(int count) {
+    return '$count loves';
+  }
+
+  @override
+  String get engagementAnchored => 'Written on chain';
+
+  @override
+  String get engagementAnchorPending => 'Waiting to be written on chain';
+
+  @override
+  String engagementAnchoredAt(String time) {
+    return 'Written at $time';
+  }
+
+  @override
+  String get engagementFailed => 'Could not read the reactions';
+
+  @override
+  String get engagementActionFailed =>
+      'That did not register, please try again';
 }
