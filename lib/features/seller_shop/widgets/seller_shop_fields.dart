@@ -104,38 +104,47 @@ class _CommentModerationSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final palette = context.palette;
-    return Container(
-      decoration: BoxDecoration(
+    // MergeSemantics + the whole row as the target: the label is the part a
+    // thumb lands on and the part TalkBack should read with the switch, not
+    // beside it.
+    return MergeSemantics(
+      child: Material(
         color: palette.mutedSurface,
         borderRadius: BorderRadius.circular(12),
-      ),
-      padding: const EdgeInsets.fromLTRB(14, 6, 6, 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l10n.sellerCommentsModerationLabel,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+        child: InkWell(
+          onTap: () => onChanged(!value),
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(14, 6, 6, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.sellerCommentsModerationLabel,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Switch(value: value, onChanged: onChanged),
+                  ],
+                ),
+                Text(
+                  l10n.sellerCommentsModerationExplainer,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: palette.textSecondary,
+                    height: 1.35,
                   ),
                 ),
-              ),
-              Switch(value: value, onChanged: onChanged),
-            ],
-          ),
-          Text(
-            l10n.sellerCommentsModerationExplainer,
-            style: TextStyle(
-              fontSize: 12,
-              color: palette.textSecondary,
-              height: 1.35,
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
