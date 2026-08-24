@@ -42,8 +42,9 @@ class HomeProductGrid extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
-        // Square photo plus two lines of name, the shop, and the price row.
-        childAspectRatio: 0.62,
+        // Square photo plus two lines of name, the shop, the price and the
+        // note. 0.62 left a band of dead space under every one-line name.
+        childAspectRatio: 0.70,
       ),
       itemCount: products.length,
       itemBuilder: (context, index) => _GridCard(product: products[index]),
@@ -117,7 +118,7 @@ class _GridCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 11, color: palette.textSecondary),
               ),
-              const Spacer(),
+              const SizedBox(height: 6),
               Text(
                 formatVnd(product.price.round()),
                 maxLines: 1,
