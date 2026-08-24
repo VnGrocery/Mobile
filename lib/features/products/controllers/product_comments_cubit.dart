@@ -56,7 +56,12 @@ class ProductCommentsCubit extends Cubit<ProductCommentsState>
 
   Future<void> load() async {
     final remote = _remote;
-    if (remote == null) return;
+    if (remote == null) {
+      // Not a silent no-op: an unconfigured remote leaves the section
+      // spinning, which claims the comments are still on their way.
+      emit(state.copyWith(loading: false, failed: true));
+      return;
+    }
     emit(state.copyWith(loading: true, failed: false));
     try {
       final thread = await remote.productComments(shopId, productId);
@@ -71,7 +76,7 @@ class ProductCommentsCubit extends Cubit<ProductCommentsState>
   /// app's guess at it.
   Future<void> submit(String body) async {
     final remote = _remote;
-    if (remote == null) return;
+    if (remote == null) throw StateError('no remote data source');
     emit(state.copyWith(submitting: true));
     try {
       await remote.createProductComment(shopId, productId, body);
@@ -85,37 +90,15 @@ class ProductCommentsCubit extends Cubit<ProductCommentsState>
 
   Future<void> withdraw(ProductComment comment, String reason) async {
     final remote = _remote;
-    if (remote == null) return;
+    // Thrown rather than swallowed: the caller shows a failure snackbar, and
+    // a write that never left the phone must not look like it landed.
+    if (remote == null) throw StateError('no remote data source');
     emit(state.copyWith(submitting: true));
     try {
       await remote.deleteProductComment(
         shopId,
         comment.id,
         expectedVersion: comment.version,
-        reason: reason,
-      );
-    } catch (_) {
-      emit(state.copyWith(submitting: false));
-      rethrow;
-    }
-    await load();
-    emit(state.copyWith(submitting: false));
-  }
-
-  Future<void> moderate(
-    ProductComment comment, {
-    required bool approve,
-    required String reason,
-  }) async {
-    final remote = _remote;
-    if (remote == null) return;
-    emit(state.copyWith(submitting: true));
-    try {
-      await remote.moderateProductComment(
-        shopId,
-        comment.id,
-        expectedVersion: comment.version,
-        approve: approve,
         reason: reason,
       );
     } catch (_) {
