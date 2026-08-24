@@ -5,8 +5,8 @@ import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/session.dart';
 import 'package:vngrocery/features/products/controllers/product_comments_cubit.dart';
+import 'package:vngrocery/features/products/widgets/comment_reason_dialog.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
-import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/utils/format.dart';
 
@@ -81,9 +81,24 @@ class _ProductCommentsState extends State<ProductComments> {
                   ),
                 )
               else if (state.failed)
-                Text(
-                  l10n.commentsFailed,
-                  style: TextStyle(fontSize: 13, color: palette.warnInk),
+                // There is no pull-to-refresh on the product screen, so the
+                // recovery has to be a button the reader can actually press.
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.commentsFailed,
+                      style: TextStyle(fontSize: 13, color: palette.warnInk),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                        onPressed: () =>
+                            context.read<ProductCommentsCubit>().load(),
+                        child: Text(l10n.homeRetryAction),
+                      ),
+                    ),
+                  ],
                 )
               else if (thread.isEmpty)
                 Text(
@@ -92,7 +107,7 @@ class _ProductCommentsState extends State<ProductComments> {
                 )
               else
                 for (final comment in thread.items) ...[
-                  _CommentTile(comment: comment),
+                  _CommentTile(comment: comment, onWithdraw: _withdraw),
                   const SizedBox(height: 10),
                 ],
               const SizedBox(height: 4),
@@ -131,6 +146,33 @@ class _ProductCommentsState extends State<ProductComments> {
     _body.clear();
     setState(() {});
     AppFeedback.showSnackBar(context, l10n.commentsSent);
+  }
+
+  /// Taking back your own words. The shop can refuse a comment but never
+  /// remove one, so this is the only hand that can, and it still has to say
+  /// why: the withdrawal is signed like every other decision.
+  Future<void> _withdraw(ProductComment comment) async {
+    final l10n = AppLocalizations.of(context);
+    final cubit = context.read<ProductCommentsCubit>();
+    final reason = await CommentReasonDialog.show(
+      context,
+      title: l10n.commentsWithdraw,
+      hint: l10n.commentsWithdrawReason,
+    );
+    if (reason == null || !mounted) return;
+    try {
+      await cubit.withdraw(comment, reason);
+    } catch (_) {
+      if (!mounted) return;
+      AppFeedback.showSnackBar(
+        context,
+        l10n.commentsSendFailed,
+        icon: Icons.error_outline,
+      );
+      return;
+    }
+    if (!mounted) return;
+    AppFeedback.showSnackBar(context, l10n.commentsWithdrawn);
   }
 }
 
@@ -189,8 +231,9 @@ class _ModerationBanner extends StatelessWidget {
 
 class _CommentTile extends StatelessWidget {
   final ProductComment comment;
+  final Future<void> Function(ProductComment comment) onWithdraw;
 
-  const _CommentTile({required this.comment});
+  const _CommentTile({required this.comment, required this.onWithdraw});
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +243,9 @@ class _CommentTile extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: palette.mutedSurface,
+        // Not mutedSurface: on the light theme it is the same grey as the
+        // section around it, so three comments read as one block of text.
+        color: palette.elevatedCard,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.all(12),
@@ -281,6 +326,23 @@ class _CommentTile extends StatelessWidget {
                 ),
               ),
           ],
+          if (mine)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                onPressed: () => onWithdraw(comment),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  minimumSize: const Size(48, 48),
+                  foregroundColor: palette.textSecondary,
+                ),
+                icon: const Icon(Icons.delete_outline, size: 16),
+                label: Text(
+                  l10n.commentsWithdraw,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -316,7 +378,9 @@ class _WriteBoxState extends State<_WriteBox> {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.qr_code_scanner, size: 16, color: palette.iconMuted),
+          // Not iconMuted: that blue-grey measures 2.45:1 on the card, and
+          // this icon sits beside the one sentence that gates the feature.
+          Icon(Icons.qr_code_scanner, size: 16, color: palette.textSecondary),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -351,12 +415,22 @@ class _WriteBoxState extends State<_WriteBox> {
         const SizedBox(height: 8),
         FilledButton.icon(
           onPressed: ready && !widget.submitting ? widget.onSubmit : null,
-          style: FilledButton.styleFrom(
-            backgroundColor: AppColors.primaryGreen,
-            minimumSize: const Size.fromHeight(48),
-          ),
-          icon: const Icon(Icons.send, size: 18),
-          label: Text(widget.submitting ? '...' : l10n.commentsSend),
+          // No backgroundColor: the theme already uses primaryGreenInk, and
+          // white on the paint green measures 3.04:1.
+          style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+          // The label stays put while sending, so the button keeps its width
+          // and a screen reader keeps reading the same thing.
+          icon: widget.submitting
+              ? const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : const Icon(Icons.send, size: 18),
+          label: Text(l10n.commentsSend),
         ),
         if (!ready && widget.controller.text.isNotEmpty)
           Padding(
