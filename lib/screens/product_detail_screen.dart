@@ -111,12 +111,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         )
                       else
                         TrustBadge.absent(loading: state.loadingProof),
+                      const SizedBox(height: 16),
+                      // The reason a buyer opened this screen while standing at
+                      // the stall: check the goods against the record. It leads,
+                      // and the cart follows it as the secondary action.
+                      const ProductCheckAction(),
                       const SizedBox(height: 12),
                       SizedBox(
                         // Minimum, not fixed: a fixed 52 clipped the label at
                         // the system font scales this app has to survive.
                         width: double.infinity,
-                        child: FilledButton.icon(
+                        child: OutlinedButton.icon(
                           onPressed: () {
                             context.read<CartBloc>().add(
                               CartAddRequested(product: product),
@@ -127,11 +132,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               icon: Icons.add_shopping_cart_rounded,
                             );
                           },
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(48),
+                          ),
                           icon: const Icon(Icons.add_shopping_cart),
                           label: Text(l10n.productDetailAddToCart),
                         ),
                       ),
                       const SizedBox(height: 16),
+                      // What other buyers found when they did the same check.
+                      // It sits above the seller's own claims on purpose.
+                      Builder(
+                        builder: (context) {
+                          _ensureComments(product);
+                          return BlocProvider.value(
+                            value: _commentsCubit!,
+                            child: const ProductComments(),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      // Then what the shop says and what the record shows:
+                      // pledge score, prices, and the signed change log.
                       ProductScoreCard(score: product.freshnessScore),
                       if (state.historyFailed && !state.hasHistory) ...[
                         const SizedBox(height: 16),
@@ -154,19 +176,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(height: 12),
                         ProductChangeLog(history: state.history!),
                       ],
-                      const SizedBox(height: 16),
-                      Builder(
-                        builder: (context) {
-                          _ensureComments(product);
-                          return BlocProvider.value(
-                            value: _commentsCubit!,
-                            child: const ProductComments(),
-                          );
-                        },
-                      ),
                       const SizedBox(height: 24),
-                      const ProductCheckAction(),
-                      const SizedBox(height: 32),
                       ProductCounterInfo(product: product),
                     ],
                   ),
