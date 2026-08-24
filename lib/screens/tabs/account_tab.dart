@@ -133,6 +133,15 @@ class _AccountTabState extends State<AccountTab> {
           // here, which are already the bottom nav destinations. It also broke
           // when the map tab was merged away: the hardcoded tab indexes then
           // pointed at the wrong screens.
+          // The reader's own record of what they checked. Nothing but scanning
+          // a product at a stall puts anything in it, so it sits with their
+          // account rather than on a discovery screen.
+          AccountSectionLabel(l10n.accountMyActivity),
+          AccountMenuItem(
+            icon: Icons.fact_check_outlined,
+            label: l10n.accountMyChecks,
+            onTap: () => Navigator.pushNamed(context, Routes.myChecks),
+          ),
           AccountSectionLabel(l10n.accountSettings),
           ValueListenableBuilder<ThemeMode>(
             valueListenable: ThemeController.instance.mode,
