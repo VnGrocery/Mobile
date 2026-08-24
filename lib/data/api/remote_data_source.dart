@@ -413,6 +413,28 @@ class RemoteDataSource {
         .toList();
   }
 
+  /// Follows and hearts on one shop or product, with where the totals were
+  /// last written on chain.
+  Future<Engagement> engagement(String targetType, String targetId) async =>
+      Engagement.fromJson(
+        await client.get(
+          '/v1/engagements?targetType=$targetType&targetId=$targetId',
+        ),
+      );
+
+  /// Adds this reader's mark or takes it back -- the server decides which from
+  /// what it already holds, so a double tap cannot count twice.
+  Future<Engagement> toggleEngagement({
+    required String targetType,
+    required String targetId,
+    required String kind,
+  }) async => Engagement.fromJson(
+    await client.post(
+      '/v1/engagements',
+      body: {'targetType': targetType, 'targetId': targetId, 'kind': kind},
+    ),
+  );
+
   /// Offers a shop is running, with how many claims are left on each.
   Future<List<Voucher>> shopVouchers(String shopId) async {
     // The endpoint answers {items: [...]}, not a bare array, so getList would
