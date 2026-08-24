@@ -2262,4 +2262,99 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get engagementActionFailed => 'Chưa ghi nhận được, thử lại giúp nhé';
+
+  @override
+  String get activityTitle => 'Lịch sử hoạt động';
+
+  @override
+  String get activityEmptyTitle => 'Chưa có hoạt động nào';
+
+  @override
+  String get activityEmptyBody =>
+      'Mỗi lượt theo dõi, thích, bình luận hay xác thực sản phẩm sẽ được ký và ghi lại ở đây.';
+
+  @override
+  String get activityFailed => 'Không tải được lịch sử hoạt động';
+
+  @override
+  String get activityRetry => 'Thử lại';
+
+  @override
+  String get activityVerifyAction => 'Kiểm chứng';
+
+  @override
+  String get activityVerifyFailed => 'Không kiểm chứng được lúc này';
+
+  @override
+  String get activityVerifiedOk =>
+      'Nguyên vẹn: chữ ký, mã băm và liên kết chuỗi đều khớp';
+
+  @override
+  String get activityVerifiedBroken =>
+      'Không khớp — bản ghi này đã bị sửa hoặc thiếu mắt xích';
+
+  @override
+  String get activityUnsigned => 'Bản ghi cũ, chưa có chữ ký để kiểm chứng';
+
+  @override
+  String activitySequence(int sequence) {
+    return 'Số thứ tự $sequence trong chuỗi';
+  }
+
+  @override
+  String get activityFollowAdded => 'Theo dõi cửa hàng';
+
+  @override
+  String get activityFollowRemoved => 'Bỏ theo dõi cửa hàng';
+
+  @override
+  String get activityLikeAdded => 'Thích sản phẩm';
+
+  @override
+  String get activityLikeRemoved => 'Bỏ thích sản phẩm';
+
+  @override
+  String get activityLoveAdded => 'Yêu thích sản phẩm';
+
+  @override
+  String get activityLoveRemoved => 'Bỏ yêu thích sản phẩm';
+
+  @override
+  String get activityCheckCompleted => 'Xác thực sản phẩm tại quầy';
+
+  @override
+  String get activityCommentCreated => 'Bình luận sản phẩm';
+
+  @override
+  String get activityCommentUpdated => 'Sửa bình luận';
+
+  @override
+  String get activityCommentDeleted => 'Xoá bình luận';
+
+  @override
+  String get activityReviewCreated => 'Đánh giá cửa hàng';
+
+  @override
+  String get activityReviewUpdated => 'Sửa đánh giá cửa hàng';
+
+  @override
+  String get activityReviewDeleted => 'Xoá đánh giá cửa hàng';
+
+  @override
+  String get activityPledgeCommitted => 'Cam kết sản phẩm lên chuỗi';
+
+  @override
+  String get activityPledgeRevoked => 'Thu hồi cam kết';
+
+  @override
+  String get activityPledgeReanchored => 'Neo lại cam kết lên chuỗi';
+
+  @override
+  String get activityShopUpdated => 'Cập nhật cửa hàng';
+
+  @override
+  String get activityAccountCreated => 'Tạo tài khoản';
+
+  @override
+  String get accountActivityHistory => 'Lịch sử hoạt động';
 }

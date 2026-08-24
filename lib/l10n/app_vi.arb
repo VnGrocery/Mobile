@@ -1151,5 +1151,42 @@
     }
   },
   "engagementFailed": "Chưa đọc được lượt quan tâm",
-  "engagementActionFailed": "Chưa ghi nhận được, thử lại giúp nhé"
+  "engagementActionFailed": "Chưa ghi nhận được, thử lại giúp nhé",
+  "activityTitle": "Lịch sử hoạt động",
+  "activityEmptyTitle": "Chưa có hoạt động nào",
+  "activityEmptyBody": "Mỗi lượt theo dõi, thích, bình luận hay xác thực sản phẩm sẽ được ký và ghi lại ở đây.",
+  "activityFailed": "Không tải được lịch sử hoạt động",
+  "activityRetry": "Thử lại",
+  "activityVerifyAction": "Kiểm chứng",
+  "activityVerifyFailed": "Không kiểm chứng được lúc này",
+  "activityVerifiedOk": "Nguyên vẹn: chữ ký, mã băm và liên kết chuỗi đều khớp",
+  "activityVerifiedBroken": "Không khớp — bản ghi này đã bị sửa hoặc thiếu mắt xích",
+  "activityUnsigned": "Bản ghi cũ, chưa có chữ ký để kiểm chứng",
+  "activitySequence": "Số thứ tự {sequence} trong chuỗi",
+  "@activitySequence": {
+    "placeholders": {
+      "sequence": {
+        "type": "int"
+      }
+    }
+  },
+  "activityFollowAdded": "Theo dõi cửa hàng",
+  "activityFollowRemoved": "Bỏ theo dõi cửa hàng",
+  "activityLikeAdded": "Thích sản phẩm",
+  "activityLikeRemoved": "Bỏ thích sản phẩm",
+  "activityLoveAdded": "Yêu thích sản phẩm",
+  "activityLoveRemoved": "Bỏ yêu thích sản phẩm",
+  "activityCheckCompleted": "Xác thực sản phẩm tại quầy",
+  "activityCommentCreated": "Bình luận sản phẩm",
+  "activityCommentUpdated": "Sửa bình luận",
+  "activityCommentDeleted": "Xoá bình luận",
+  "activityReviewCreated": "Đánh giá cửa hàng",
+  "activityReviewUpdated": "Sửa đánh giá cửa hàng",
+  "activityReviewDeleted": "Xoá đánh giá cửa hàng",
+  "activityPledgeCommitted": "Cam kết sản phẩm lên chuỗi",
+  "activityPledgeRevoked": "Thu hồi cam kết",
+  "activityPledgeReanchored": "Neo lại cam kết lên chuỗi",
+  "activityShopUpdated": "Cập nhật cửa hàng",
+  "activityAccountCreated": "Tạo tài khoản",
+  "accountActivityHistory": "Lịch sử hoạt động"
 }

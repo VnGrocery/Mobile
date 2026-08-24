@@ -142,6 +142,14 @@ class _AccountTabState extends State<AccountTab> {
             label: l10n.accountMyChecks,
             onTap: () => Navigator.pushNamed(context, Routes.myChecks),
           ),
+          // The signed trail behind everything else in this section: what was
+          // followed, liked, commented and checked, and whether each entry
+          // still matches the hash it was written with.
+          AccountMenuItem(
+            icon: Icons.history,
+            label: l10n.accountActivityHistory,
+            onTap: () => Navigator.pushNamed(context, Routes.activityHistory),
+          ),
           AccountSectionLabel(l10n.accountSettings),
           ValueListenableBuilder<ThemeMode>(
             valueListenable: ThemeController.instance.mode,

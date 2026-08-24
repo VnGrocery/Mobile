@@ -2274,4 +2274,99 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get engagementActionFailed =>
       'That did not register, please try again';
+
+  @override
+  String get activityTitle => 'Activity history';
+
+  @override
+  String get activityEmptyTitle => 'Nothing here yet';
+
+  @override
+  String get activityEmptyBody =>
+      'Every follow, like, comment and product check is signed and recorded here.';
+
+  @override
+  String get activityFailed => 'Could not load your activity history';
+
+  @override
+  String get activityRetry => 'Try again';
+
+  @override
+  String get activityVerifyAction => 'Verify';
+
+  @override
+  String get activityVerifyFailed => 'Could not verify right now';
+
+  @override
+  String get activityVerifiedOk =>
+      'Intact: signature, hash and chain link all match';
+
+  @override
+  String get activityVerifiedBroken =>
+      'Mismatch — this entry was altered or a link is missing';
+
+  @override
+  String get activityUnsigned => 'Older entry, no signature to verify';
+
+  @override
+  String activitySequence(int sequence) {
+    return 'Number $sequence in the chain';
+  }
+
+  @override
+  String get activityFollowAdded => 'Followed a shop';
+
+  @override
+  String get activityFollowRemoved => 'Unfollowed a shop';
+
+  @override
+  String get activityLikeAdded => 'Liked a product';
+
+  @override
+  String get activityLikeRemoved => 'Removed a like';
+
+  @override
+  String get activityLoveAdded => 'Loved a product';
+
+  @override
+  String get activityLoveRemoved => 'Removed a heart';
+
+  @override
+  String get activityCheckCompleted => 'Checked a product at the stall';
+
+  @override
+  String get activityCommentCreated => 'Commented on a product';
+
+  @override
+  String get activityCommentUpdated => 'Edited a comment';
+
+  @override
+  String get activityCommentDeleted => 'Deleted a comment';
+
+  @override
+  String get activityReviewCreated => 'Reviewed a shop';
+
+  @override
+  String get activityReviewUpdated => 'Edited a shop review';
+
+  @override
+  String get activityReviewDeleted => 'Deleted a shop review';
+
+  @override
+  String get activityPledgeCommitted => 'Committed a pledge on chain';
+
+  @override
+  String get activityPledgeRevoked => 'Revoked a pledge';
+
+  @override
+  String get activityPledgeReanchored => 'Re-anchored a pledge on chain';
+
+  @override
+  String get activityShopUpdated => 'Updated the shop';
+
+  @override
+  String get activityAccountCreated => 'Created the account';
+
+  @override
+  String get accountActivityHistory => 'Activity history';
 }

@@ -1655,5 +1655,42 @@
     }
   },
   "engagementFailed": "Could not read the reactions",
-  "engagementActionFailed": "That did not register, please try again"
+  "engagementActionFailed": "That did not register, please try again",
+  "activityTitle": "Activity history",
+  "activityEmptyTitle": "Nothing here yet",
+  "activityEmptyBody": "Every follow, like, comment and product check is signed and recorded here.",
+  "activityFailed": "Could not load your activity history",
+  "activityRetry": "Try again",
+  "activityVerifyAction": "Verify",
+  "activityVerifyFailed": "Could not verify right now",
+  "activityVerifiedOk": "Intact: signature, hash and chain link all match",
+  "activityVerifiedBroken": "Mismatch — this entry was altered or a link is missing",
+  "activityUnsigned": "Older entry, no signature to verify",
+  "activitySequence": "Number {sequence} in the chain",
+  "@activitySequence": {
+    "placeholders": {
+      "sequence": {
+        "type": "int"
+      }
+    }
+  },
+  "activityFollowAdded": "Followed a shop",
+  "activityFollowRemoved": "Unfollowed a shop",
+  "activityLikeAdded": "Liked a product",
+  "activityLikeRemoved": "Removed a like",
+  "activityLoveAdded": "Loved a product",
+  "activityLoveRemoved": "Removed a heart",
+  "activityCheckCompleted": "Checked a product at the stall",
+  "activityCommentCreated": "Commented on a product",
+  "activityCommentUpdated": "Edited a comment",
+  "activityCommentDeleted": "Deleted a comment",
+  "activityReviewCreated": "Reviewed a shop",
+  "activityReviewUpdated": "Edited a shop review",
+  "activityReviewDeleted": "Deleted a shop review",
+  "activityPledgeCommitted": "Committed a pledge on chain",
+  "activityPledgeRevoked": "Revoked a pledge",
+  "activityPledgeReanchored": "Re-anchored a pledge on chain",
+  "activityShopUpdated": "Updated the shop",
+  "activityAccountCreated": "Created the account",
+  "accountActivityHistory": "Activity history"
 }

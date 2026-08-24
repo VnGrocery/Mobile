@@ -7,6 +7,7 @@ import 'package:vngrocery/screens/auth_screen.dart';
 import 'package:vngrocery/screens/main_screen.dart';
 import 'package:vngrocery/screens/manual_voucher_screen.dart';
 import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/screens/activity_history_screen.dart';
 import 'package:vngrocery/screens/my_checks_screen.dart';
 import 'package:vngrocery/screens/seller_voucher_screen.dart';
 import 'package:vngrocery/screens/change_password_screen.dart';
@@ -102,6 +103,7 @@ class Routes {
   static const manualVoucher = 'manual_voucher';
   static const changePassword = 'change_password';
   static const myChecks = 'my_checks';
+  static const activityHistory = 'activity_history';
   static const sellerEditProduct = 'seller_edit_product';
   static const sellerVouchers = 'seller_vouchers';
   static const exploreMap = 'explore_map';
@@ -170,6 +172,9 @@ class Routes {
         break;
       case myChecks:
         page = const MyChecksScreen();
+        break;
+      case activityHistory:
+        page = const ActivityHistoryScreen();
         break;
       case exploreMap:
         final mapArgs =

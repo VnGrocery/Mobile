@@ -4165,6 +4165,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That did not register, please try again'**
   String get engagementActionFailed;
+
+  /// No description provided for @activityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity history'**
+  String get activityTitle;
+
+  /// No description provided for @activityEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get activityEmptyTitle;
+
+  /// No description provided for @activityEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every follow, like, comment and product check is signed and recorded here.'**
+  String get activityEmptyBody;
+
+  /// No description provided for @activityFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load your activity history'**
+  String get activityFailed;
+
+  /// No description provided for @activityRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get activityRetry;
+
+  /// No description provided for @activityVerifyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get activityVerifyAction;
+
+  /// No description provided for @activityVerifyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not verify right now'**
+  String get activityVerifyFailed;
+
+  /// No description provided for @activityVerifiedOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Intact: signature, hash and chain link all match'**
+  String get activityVerifiedOk;
+
+  /// No description provided for @activityVerifiedBroken.
+  ///
+  /// In en, this message translates to:
+  /// **'Mismatch — this entry was altered or a link is missing'**
+  String get activityVerifiedBroken;
+
+  /// No description provided for @activityUnsigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Older entry, no signature to verify'**
+  String get activityUnsigned;
+
+  /// No description provided for @activitySequence.
+  ///
+  /// In en, this message translates to:
+  /// **'Number {sequence} in the chain'**
+  String activitySequence(int sequence);
+
+  /// No description provided for @activityFollowAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Followed a shop'**
+  String get activityFollowAdded;
+
+  /// No description provided for @activityFollowRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollowed a shop'**
+  String get activityFollowRemoved;
+
+  /// No description provided for @activityLikeAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Liked a product'**
+  String get activityLikeAdded;
+
+  /// No description provided for @activityLikeRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed a like'**
+  String get activityLikeRemoved;
+
+  /// No description provided for @activityLoveAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Loved a product'**
+  String get activityLoveAdded;
+
+  /// No description provided for @activityLoveRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed a heart'**
+  String get activityLoveRemoved;
+
+  /// No description provided for @activityCheckCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked a product at the stall'**
+  String get activityCheckCompleted;
+
+  /// No description provided for @activityCommentCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Commented on a product'**
+  String get activityCommentCreated;
+
+  /// No description provided for @activityCommentUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited a comment'**
+  String get activityCommentUpdated;
+
+  /// No description provided for @activityCommentDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted a comment'**
+  String get activityCommentDeleted;
+
+  /// No description provided for @activityReviewCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed a shop'**
+  String get activityReviewCreated;
+
+  /// No description provided for @activityReviewUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Edited a shop review'**
+  String get activityReviewUpdated;
+
+  /// No description provided for @activityReviewDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted a shop review'**
+  String get activityReviewDeleted;
+
+  /// No description provided for @activityPledgeCommitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Committed a pledge on chain'**
+  String get activityPledgeCommitted;
+
+  /// No description provided for @activityPledgeRevoked.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoked a pledge'**
+  String get activityPledgeRevoked;
+
+  /// No description provided for @activityPledgeReanchored.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-anchored a pledge on chain'**
+  String get activityPledgeReanchored;
+
+  /// No description provided for @activityShopUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated the shop'**
+  String get activityShopUpdated;
+
+  /// No description provided for @activityAccountCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created the account'**
+  String get activityAccountCreated;
+
+  /// No description provided for @accountActivityHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity history'**
+  String get accountActivityHistory;
 }
 
 class _AppLocalizationsDelegate

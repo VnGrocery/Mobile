@@ -413,6 +413,23 @@ class RemoteDataSource {
         .toList();
   }
 
+  /// This reader's own signed trail, newest first.
+  ///
+  /// No actor is sent: the server answers for whoever holds the session, so a
+  /// tampered request cannot ask for somebody else's history.
+  Future<List<ActivityEvent>> myActivity({int page = 1, int pageSize = 20}) =>
+      client
+          .get('/v1/events?page=$page&pageSize=$pageSize')
+          .then(
+            (json) => _maps(json['items']).map(ActivityEvent.fromJson).toList(),
+          );
+
+  /// Re-checks one entry against its hash, its signature and its neighbours.
+  Future<ActivityVerification> verifyActivityEvent(String eventId) async =>
+      ActivityVerification.fromJson(
+        await client.get('/v1/events/$eventId/verify'),
+      );
+
   /// Follows and hearts on one shop or product, with where the totals were
   /// last written on chain.
   Future<Engagement> engagement(String targetType, String targetId) async =>
