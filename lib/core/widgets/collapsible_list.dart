@@ -69,16 +69,16 @@ class _CollapsibleListState extends State<CollapsibleList> {
             child: TextButton.icon(
               onPressed: () => setState(() => _expanded = !_expanded),
               icon: Icon(
-                _expanded
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
+                _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                 size: 20,
               ),
               label: Text(
                 _expanded ? l10n.historyShowLess : l10n.historyShowMore(hidden),
               ),
+              // Ink, not paint: the label is text, and the brand green
+              // measures 3.44:1 on white.
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.primaryGreen,
+                foregroundColor: AppColors.primaryGreenInk,
               ),
             ),
           ),

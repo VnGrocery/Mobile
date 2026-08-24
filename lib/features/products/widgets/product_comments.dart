@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/core/widgets/collapsible_list.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/session.dart';
 import 'package:vngrocery/features/products/controllers/product_comments_cubit.dart';
@@ -106,10 +107,19 @@ class _ProductCommentsState extends State<ProductComments> {
                   style: TextStyle(fontSize: 13, color: palette.textSecondary),
                 )
               else
-                for (final comment in thread.items) ...[
-                  _CommentTile(comment: comment, onWithdraw: _withdraw),
-                  const SizedBox(height: 10),
-                ],
+                // Five, then a toggle - the same cut the change log and the
+                // pledge timeline use, so a busy product does not push the
+                // write box a screen and a half down.
+                CollapsibleList(
+                  itemCount: thread.items.length,
+                  itemBuilder: (context, index, isLast) => Padding(
+                    padding: EdgeInsets.only(bottom: isLast ? 0 : 10),
+                    child: _CommentTile(
+                      comment: thread.items[index],
+                      onWithdraw: _withdraw,
+                    ),
+                  ),
+                ),
               const SizedBox(height: 4),
               _WriteBox(
                 controller: _body,
