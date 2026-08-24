@@ -32,25 +32,49 @@ class HomeProductGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     if (products.isEmpty) return const SizedBox.shrink();
 
-    return GridView.builder(
-      // Inside the page's own scroll view: the grid is the tail of the home
-      // list, not a second scrolling surface competing with it.
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+    // Two columns filled alternately rather than a GridView.
+    //
+    // A grid makes every tile in a row the same height, which means picking a
+    // childAspectRatio up front - and no single ratio survives both a one-line
+    // and a two-line product name, let alone the system's larger font sizes.
+    // The last one clipped the card's own bottom padding and left the distance
+    // line welded to the edge. Columns let each card be exactly as tall as
+    // what is in it.
+    final left = <RecommendedProduct>[];
+    final right = <RecommendedProduct>[];
+    for (var i = 0; i < products.length; i++) {
+      (i.isEven ? left : right).add(products[i]);
+    }
+
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        // Square photo plus two lines of name, the shop, the price and the
-        // note. The photo is sized by the column, so every extra millimetre of
-        // type has to come out of the ratio - at the system's largest sizes a
-        // fixed 0.70 pushed the price clean off the bottom of the card.
-        childAspectRatio:
-            0.70 / MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(child: _Column(products: left)),
+          const SizedBox(width: 12),
+          Expanded(child: _Column(products: right)),
+        ],
       ),
-      itemCount: products.length,
-      itemBuilder: (context, index) => _GridCard(product: products[index]),
+    );
+  }
+}
+
+class _Column extends StatelessWidget {
+  final List<RecommendedProduct> products;
+
+  const _Column({required this.products});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < products.length; i++) ...[
+          if (i > 0) const SizedBox(height: 12),
+          _GridCard(product: products[i]),
+        ],
+      ],
     );
   }
 }
