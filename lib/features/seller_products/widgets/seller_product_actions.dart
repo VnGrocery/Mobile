@@ -86,13 +86,6 @@ class SellerProductActionSheet extends StatelessWidget {
               ),
               onTap: () => onChangeStatus(next),
             ),
-          if (product.status.toLowerCase() ==
-              SellerProductPresenter.archivedState)
-            SellerProductActionRow(
-              icon: Icons.visibility_off_outlined,
-              label: AppLocalizations.of(context).sellerProductActionArchive,
-              onTap: () => onChangeStatus(SellerProductPresenter.archivedState),
-            ),
           SellerProductActionRow(
             icon: Icons.delete_outline,
             label: AppLocalizations.of(context).sellerProductActionDelete,
