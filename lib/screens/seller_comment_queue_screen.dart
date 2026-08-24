@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/products/widgets/comment_reason_dialog.dart';
+import 'package:vngrocery/features/seller_shop/widgets/seller_empty_state.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
-import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/utils/format.dart';
 
@@ -36,7 +37,15 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
 
   Future<void> _load() async {
     final remote = AppRepositories.instance.products.remote;
-    if (remote == null) return;
+    if (remote == null) {
+      // Not a quiet no-op: leaving _loading true here spins forever, which
+      // reads as "still working" for something that will never finish.
+      setState(() {
+        _loading = false;
+        _failed = true;
+      });
+      return;
+    }
     setState(() {
       _loading = true;
       _failed = false;
@@ -75,35 +84,63 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
         onRefresh: _load,
         child: _loading
             ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  if (_failed)
-                    Text(
-                      l10n.commentsFailed,
-                      style: TextStyle(color: context.palette.warnInk),
-                    )
-                  else if (_thread.isEmpty)
-                    Text(
-                      l10n.sellerCommentsEmpty,
-                      style: TextStyle(color: context.palette.textSecondary),
-                    )
-                  else
-                    for (final comment in _thread.items) ...[
-                      _QueueCard(comment: comment, onDecide: _decide),
-                      const SizedBox(height: 12),
-                    ],
-                ],
-              ),
+            : _body(l10n),
       ),
+    );
+  }
+
+  Widget _body(AppLocalizations l10n) {
+    // Edge-to-edge is on from Android 15, so the last card's two decision
+    // buttons would otherwise sit under the gesture bar.
+    final bottom = 16 + MediaQuery.paddingOf(context).bottom;
+
+    if (_failed || _thread.isEmpty) {
+      // Kept scrollable on purpose: a RefreshIndicator over a short child
+      // never fires, which is how "pull down to try again" became a lie.
+      return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(16, 40, 16, bottom),
+        children: [
+          if (_failed)
+            SellerEmptyState(
+              icon: Icons.cloud_off,
+              title: l10n.commentsFailed,
+              body: l10n.commentsFailedBody,
+              actionLabel: l10n.homeRetryAction,
+              onAction: _load,
+            )
+          else
+            SellerEmptyState(
+              icon: Icons.mark_email_read_outlined,
+              title: l10n.sellerCommentsEmpty,
+              body: l10n.sellerCommentsEmptyBody,
+              actionLabel: l10n.sellerCommentsEmptyAction,
+              onAction: () => Navigator.of(context).maybePop(),
+            ),
+        ],
+      );
+    }
+
+    return ListView.separated(
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, bottom),
+      itemCount: _thread.items.length,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemBuilder: (_, index) =>
+          _QueueCard(comment: _thread.items[index], onDecide: _decide),
     );
   }
 
   Future<void> _decide(ProductComment comment, bool approve) async {
     final l10n = AppLocalizations.of(context);
-    final reason = await showDialog<String>(
-      context: context,
-      builder: (context) => _ReasonDialog(approve: approve),
+    final reason = await CommentReasonDialog.show(
+      context,
+      title: approve ? l10n.sellerCommentsApprove : l10n.sellerCommentsReject,
+      // The example has to match the decision: an approval prompted with
+      // "posted on the wrong product" reads as a rejection.
+      hint: approve
+          ? l10n.sellerCommentsApproveHint
+          : l10n.sellerCommentsReasonHint,
     );
     if (reason == null || !mounted) return;
 
@@ -152,6 +189,32 @@ class _QueueCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Which goods this is about. The queue crosses the whole shop, so
+          // without it "posted on the wrong product" is unanswerable.
+          if (comment.productName.isNotEmpty) ...[
+            Row(
+              children: [
+                Icon(
+                  Icons.inventory_2_outlined,
+                  size: 14,
+                  color: palette.textSecondary,
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    comment.productName,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: palette.textSecondary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+          ],
           Row(
             children: [
               Flexible(
@@ -215,8 +278,9 @@ class _QueueCard extends StatelessWidget {
               Expanded(
                 child: FilledButton(
                   onPressed: () => onDecide(comment, true),
+                  // No backgroundColor override: the theme's primaryGreenInk
+                  // clears 4.5:1 under white text, the paint green does not.
                   style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
                     minimumSize: const Size.fromHeight(48),
                   ),
                   child: Text(l10n.sellerCommentsApprove),
@@ -226,77 +290,6 @@ class _QueueCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _ReasonDialog extends StatefulWidget {
-  final bool approve;
-
-  const _ReasonDialog({required this.approve});
-
-  @override
-  State<_ReasonDialog> createState() => _ReasonDialogState();
-}
-
-class _ReasonDialogState extends State<_ReasonDialog> {
-  final TextEditingController _reason = TextEditingController();
-
-  @override
-  void dispose() {
-    _reason.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final ready = _reason.text.trim().length >= 5;
-    return AlertDialog(
-      title: Text(
-        widget.approve ? l10n.sellerCommentsApprove : l10n.sellerCommentsReject,
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: _reason,
-            autofocus: true,
-            maxLength: 200,
-            onChanged: (_) => setState(() {}),
-            decoration: InputDecoration(
-              labelText: l10n.sellerCommentsReasonLabel,
-              // The example has to match the decision: an approval prompted
-              // with "posted on the wrong product" reads as a rejection.
-              hintText: widget.approve
-                  ? l10n.sellerCommentsApproveHint
-                  : l10n.sellerCommentsReasonHint,
-              counterText: '',
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.changeReasonExplainer,
-            style: TextStyle(
-              fontSize: 12,
-              color: context.palette.textSecondary,
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.commonCancel),
-        ),
-        FilledButton(
-          onPressed: ready
-              ? () => Navigator.of(context).pop(_reason.text.trim())
-              : null,
-          child: Text(l10n.commonConfirm),
-        ),
-      ],
     );
   }
 }

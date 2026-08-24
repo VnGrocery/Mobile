@@ -438,8 +438,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commentsEmpty => 'Nobody has commented on this product yet.';
 
   @override
-  String get commentsFailed =>
-      'Comments could not be read. Pull down to try again.';
+  String get commentsFailed => 'Could not load the comments.';
+
+  @override
+  String get commentsFailedBody => 'Check your connection and try again.';
 
   @override
   String get commentsNeedCheck =>
@@ -525,6 +527,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sellerCommentsEmpty => 'Nothing is waiting for review.';
+
+  @override
+  String get sellerCommentsEmptyBody =>
+      'New comments wait here while you have review turned on. Turn it off and they appear straight away, with nothing taken off your trust score.';
+
+  @override
+  String get sellerCommentsEmptyAction => 'Back to shop settings';
 
   @override
   String get sellerCommentsDone => 'Decision saved';

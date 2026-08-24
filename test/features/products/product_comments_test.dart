@@ -6,6 +6,7 @@ import 'package:http/testing.dart';
 import 'package:vngrocery/core/network/api_client.dart';
 import 'package:vngrocery/data/api/remote_data_source.dart';
 import 'package:vngrocery/data/mock_data.dart';
+import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/products/controllers/product_comments_cubit.dart';
 
@@ -138,5 +139,93 @@ void main() {
     // is the server's call, not this app's.
     expect(listed, 1);
     expect(cubit.state.thread.pendingCount, 1);
+  });
+
+  test('withdrawing sends the reason and re-reads the server', () async {
+    String? sentReason;
+    var listed = 0;
+    final cubit = _cubit(
+      MockClient((request) async {
+        if (request.method == 'DELETE') {
+          sentReason =
+              (jsonDecode(request.body) as Map<String, Object?>)['reason']
+                  as String?;
+          return _json({'commentId': 'c-1', 'status': 'deleted'});
+        }
+        listed++;
+        return _json({
+          'items': <Object>[],
+          'moderation': false,
+          'approvedCount': 0,
+          'pendingCount': 0,
+          'rejectedCount': 0,
+          'canComment': true,
+        });
+      }),
+    );
+
+    await cubit.withdraw(
+      ProductComment(
+        id: 'c-1',
+        shopId: 'shop-1',
+        productId: 'p-1',
+        authorUserId: 'u-1',
+        authorName: 'Khách hàng 2',
+        body: 'Tôi nhầm sản phẩm',
+        status: 'approved',
+        checkId: 'chk-1',
+        verdict: 'trusted',
+        moderationReason: '',
+        moderatedAt: null,
+        version: 1,
+        createdAt: DateTime.utc(2026, 8, 24),
+        updatedAt: DateTime.utc(2026, 8, 24),
+      ),
+      'Tôi nhầm sản phẩm khác',
+    );
+
+    // The shop can refuse a comment but never remove one, so this path is the
+    // only way a buyer takes their own words back - and it is signed too.
+    expect(sentReason, 'Tôi nhầm sản phẩm khác');
+    expect(listed, 1);
+  });
+
+  test('a queue row knows which product it is judging', () async {
+    // The owner queue crosses the whole shop; a row without a product name
+    // cannot answer "posted on the wrong product".
+    final remote = RemoteDataSource(
+      ApiClient(
+        baseUrl: 'http://localhost:5050',
+        tokenReader: () => 'token',
+        client: MockClient(
+          (request) async => _json({
+            'items': [
+              {
+                'commentId': 'c-1',
+                'shopId': 'shop-1',
+                'productId': 'p-1',
+                'productName': 'Rau muống',
+                'authorUserId': 'u-1',
+                'authorName': 'Khách hàng 2',
+                'body': 'Rau còn tươi đúng như ghi nhận',
+                'status': 'pending',
+                'checkId': 'chk-1',
+                'verdict': 'trusted',
+                'version': 1,
+                'createdAt': '2026-08-24T03:15:00Z',
+                'updatedAt': '2026-08-24T03:15:00Z',
+              },
+            ],
+            'moderation': true,
+            'approvedCount': 0,
+            'pendingCount': 1,
+            'rejectedCount': 0,
+          }),
+        ),
+      ),
+    );
+
+    final thread = await remote.shopComments('shop-1', status: 'pending');
+    expect(thread.items.single.productName, 'Rau muống');
   });
 }

@@ -10,6 +10,10 @@ class ProductComment {
   /// Empty when the account has no display name; the view shows a generic
   /// label rather than the raw user id.
   final String authorName;
+
+  /// Filled only by the shop-wide moderation queue, which crosses products.
+  /// A product screen already knows where it is standing and leaves it empty.
+  final String productName;
   final String body;
 
   /// `approved`, `pending`, `rejected` or `deleted`.
@@ -35,6 +39,7 @@ class ProductComment {
     required this.productId,
     required this.authorUserId,
     required this.authorName,
+    this.productName = '',
     required this.body,
     required this.status,
     required this.checkId,
@@ -58,6 +63,7 @@ class ProductComment {
     shopId: json['shopId']?.toString() ?? '',
     productId: json['productId']?.toString() ?? '',
     authorUserId: json['authorUserId']?.toString() ?? '',
+    productName: json['productName']?.toString() ?? '',
     authorName: json['authorName']?.toString() ?? '',
     body: json['body']?.toString() ?? '',
     status: json['status']?.toString() ?? '',

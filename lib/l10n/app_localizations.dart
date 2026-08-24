@@ -899,8 +899,14 @@ abstract class AppLocalizations {
   /// No description provided for @commentsFailed.
   ///
   /// In en, this message translates to:
-  /// **'Comments could not be read. Pull down to try again.'**
+  /// **'Could not load the comments.'**
   String get commentsFailed;
+
+  /// No description provided for @commentsFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your connection and try again.'**
+  String get commentsFailedBody;
 
   /// No description provided for @commentsNeedCheck.
   ///
@@ -1045,6 +1051,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing is waiting for review.'**
   String get sellerCommentsEmpty;
+
+  /// No description provided for @sellerCommentsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'New comments wait here while you have review turned on. Turn it off and they appear straight away, with nothing taken off your trust score.'**
+  String get sellerCommentsEmptyBody;
+
+  /// No description provided for @sellerCommentsEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to shop settings'**
+  String get sellerCommentsEmptyAction;
 
   /// No description provided for @sellerCommentsDone.
   ///

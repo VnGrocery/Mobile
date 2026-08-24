@@ -436,8 +436,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get commentsEmpty => 'Chưa có ai bình luận sản phẩm này.';
 
   @override
-  String get commentsFailed =>
-      'Không đọc được bình luận. Kéo xuống để thử lại.';
+  String get commentsFailed => 'Không đọc được bình luận.';
+
+  @override
+  String get commentsFailedBody => 'Kiểm tra kết nối rồi thử lại.';
 
   @override
   String get commentsNeedCheck =>
@@ -523,6 +525,13 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get sellerCommentsEmpty => 'Không có bình luận nào đang chờ.';
+
+  @override
+  String get sellerCommentsEmptyBody =>
+      'Bình luận mới sẽ chờ ở đây khi bạn bật duyệt bình luận. Tắt duyệt thì bình luận hiện ngay và điểm tin cậy không bị trừ.';
+
+  @override
+  String get sellerCommentsEmptyAction => 'Về cài đặt cửa hàng';
 
   @override
   String get sellerCommentsDone => 'Đã lưu quyết định';
