@@ -17,8 +17,6 @@ Map<String, Object?> _offer({
   bool active = true,
   String expires = '2027-01-01T00:00:00Z',
 }) {
-  final limited = total > 0;
-  final remaining = limited ? (total - claimed).clamp(0, total) : 0;
   return {
     'voucherId': id,
     'shopId': 'shop-1',
@@ -31,9 +29,6 @@ Map<String, Object?> _offer({
     'active': active,
     'totalQuantity': total,
     'claimedCount': claimed,
-    'remaining': remaining,
-    'limited': limited,
-    'soldOut': limited && remaining == 0,
   };
 }
 
@@ -211,6 +206,6 @@ void main() {
     await cubit.load();
 
     expect(cubit.state.failed, isTrue);
-    expect(cubit.state.isEmpty, isTrue);
+    expect(cubit.state.offers, isEmpty);
   });
 }
