@@ -137,10 +137,6 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                         setState(() => _commentModeration = value),
                     onChanged: (_) => setState(() {}),
                   ),
-                  if (!state.isCreating && state.shop != null) ...[
-                    const SizedBox(height: 12),
-                    SellerCommentQueueLink(shopId: state.shop!.id),
-                  ],
                   const SizedBox(height: 18),
                   SellerShopSaveButton(
                     saving: state.saving,
@@ -150,6 +146,14 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
                   ),
                   const SizedBox(height: 16),
                   const SellerShopFootnote(),
+                  // Below the save button, not between the reason field and
+                  // it: this leaves the screen, and a row that sits inside the
+                  // form invites a tap that drops unsaved edits.
+                  if (!state.isCreating && state.shop != null) ...[
+                    const SizedBox(height: 8),
+                    const Divider(height: 24),
+                    SellerCommentQueueLink(shopId: state.shop!.id),
+                  ],
                 ],
               ),
             );
