@@ -49,7 +49,9 @@ class AppPalette extends ThemeExtension<AppPalette> {
     border: Color(0xFFF1F1F5),
     // Đủ 4.5:1 trên cả nền trắng lẫn nền thẻ xám; xem AppColors.textSecondary.
     textSecondary: Color(0xFF626864),
-    textTertiary: Color(0xFF7C837E),
+    // Siêu dữ liệu chạy ở 11px — cỡ nhỏ nhất trong app — nên nó cần đủ 4.5:1
+    // chứ không phải 3:1. #7C837E chỉ đo được 3.56:1 trên thẻ xám.
+    textTertiary: Color(0xFF696F6B),
     iconMuted: Color(0xFF8BA1B2),
     positiveBg: Color(0xFFE8F5E9),
     warningBg: Color(0xFFFFF3E0),
@@ -67,7 +69,8 @@ class AppPalette extends ThemeExtension<AppPalette> {
     field: Color(0xFF202620),
     border: Color(0xFF303830),
     textSecondary: Color(0xFFA6AEA8),
-    textTertiary: Color(0xFF7F8A83),
+    // Cùng lý do như bản sáng: #7F8A83 đo được 4.04:1 trên mutedSurface.
+    textTertiary: Color(0xFF8F9A93),
     iconMuted: Color(0xFF9CAEA0),
     positiveBg: Color(0xFF12351F),
     warningBg: Color(0xFF3A2A13),
