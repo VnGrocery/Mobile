@@ -375,6 +375,18 @@ class RemoteDataSource {
     );
   }
 
+  /// Live offers across every shop, for the home screen's offer slot.
+  Future<List<FeaturedVoucher>> featuredVouchers({int limit = 5}) async {
+    final json = await client.get('/v1/vouchers', query: {'limit': limit});
+    return _maps(json['items']).map(FeaturedVoucher.fromJson).toList();
+  }
+
+  /// The reader's own checks. Nothing else fills this list.
+  Future<List<MyCheck>> myChecks() async {
+    final json = await client.get('/v1/me/checks');
+    return _maps(json['items']).map(MyCheck.fromJson).toList();
+  }
+
   Future<List<({UserVoucher userVoucher, Voucher voucher})>> wallet() async {
     final json = await client.get('/v1/me/vouchers');
     return _maps(json['items'])
