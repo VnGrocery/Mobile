@@ -3691,6 +3691,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Integrity'**
   String get sellerIntegrityLabel;
+
+  /// No description provided for @homeOfferPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}% off'**
+  String homeOfferPercent(int value);
+
+  /// No description provided for @homeOfferAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} off'**
+  String homeOfferAmount(String value);
+
+  /// No description provided for @homeOfferMinSpend.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders from {value}'**
+  String homeOfferMinSpend(String value);
+
+  /// No description provided for @homeOfferExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {value}'**
+  String homeOfferExpiry(String value);
+
+  /// No description provided for @homeOffersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers on now'**
+  String get homeOffersTitle;
+
+  /// No description provided for @homeRankedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked for you'**
+  String get homeRankedTitle;
+
+  /// No description provided for @homeRankedPopularTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Products people look at'**
+  String get homeRankedPopularTitle;
+
+  /// No description provided for @homeSpotlightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Most looked at'**
+  String get homeSpotlightTitle;
+
+  /// No description provided for @homeFilterResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Results'**
+  String get homeFilterResults;
+
+  /// No description provided for @homeFilterEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No product matches that.'**
+  String get homeFilterEmpty;
+
+  /// No description provided for @accountMyChecks.
+  ///
+  /// In en, this message translates to:
+  /// **'Products I checked'**
+  String get accountMyChecks;
+
+  /// No description provided for @myChecksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Products I checked'**
+  String get myChecksTitle;
+
+  /// No description provided for @myChecksEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not checked anything yet'**
+  String get myChecksEmptyTitle;
+
+  /// No description provided for @myChecksEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a product code at the stall and photograph the goods — every check is saved here.'**
+  String get myChecksEmptyBody;
+
+  /// No description provided for @myChecksEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a product'**
+  String get myChecksEmptyAction;
+
+  /// No description provided for @myChecksFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load your checks.'**
+  String get myChecksFailed;
+
+  /// No description provided for @myChecksScores.
+  ///
+  /// In en, this message translates to:
+  /// **'Pledged {pledged} · Measured {actual}'**
+  String myChecksScores(String pledged, String actual);
+
+  /// No description provided for @myChecksNoPledge.
+  ///
+  /// In en, this message translates to:
+  /// **'No pledge to compare against'**
+  String get myChecksNoPledge;
+
+  /// No description provided for @commonProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get commonProduct;
+
+  /// No description provided for @accountMyActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'My activity'**
+  String get accountMyActivity;
 }
 
 class _AppLocalizationsDelegate

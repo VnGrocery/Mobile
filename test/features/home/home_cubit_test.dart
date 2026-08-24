@@ -3,15 +3,13 @@ import 'package:vngrocery/features/home/controllers/home_cubit.dart';
 import 'package:vngrocery/features/home/controllers/home_state.dart';
 
 void main() {
-  test('HomeCubit loads shops, products, and pledge items', () async {
+  test('HomeCubit loads the shops and the catalogue behind them', () async {
     final cubit = HomeCubit();
 
     await cubit.load();
 
     expect(cubit.state.shops, isNotEmpty);
     expect(cubit.state.products, isNotEmpty);
-    expect(cubit.state.pledgeItems.length, cubit.state.products.length);
-    expect(cubit.state.featuredPledgeItems().length, lessThanOrEqualTo(3));
 
     cubit.close();
   });

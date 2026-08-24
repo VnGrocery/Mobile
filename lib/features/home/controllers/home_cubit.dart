@@ -4,7 +4,6 @@ import 'package:vngrocery/core/bloc/close_safe_emit.dart';
 
 import 'package:vngrocery/core/location/location_service.dart';
 import 'package:vngrocery/data/repositories.dart';
-import 'package:vngrocery/features/home/home_presenter.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
@@ -30,6 +29,7 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
       await load();
     }
     await loadRecommendations();
+    await loadOffers();
   }
 
   /// Loads suggestions for this reader.
@@ -41,11 +41,30 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
     final remote = _repositories.products.remote;
     if (remote == null) return;
     try {
-      final suggestions = await remote.recommendations(near: state.origin);
+      // Deep enough to fill the ranked grid, not just the spotlight row: the
+      // grid is the catalogue, ordered by the same signals.
+      final suggestions = await remote.recommendations(
+        near: state.origin,
+        limit: HomeState.rankedLimit,
+      );
       emit(state.withRecommendations(suggestions));
     } catch (_) {
       // The section stays hidden rather than showing an empty list, which
       // would read as "we have nothing for you".
+    }
+  }
+
+  /// Loads the offers behind the advert slot.
+  ///
+  /// Kept apart from the catalogue for the same reason as the suggestions: a
+  /// home page with no offers is still a home page.
+  Future<void> loadOffers() async {
+    final remote = _repositories.products.remote;
+    if (remote == null) return;
+    try {
+      emit(state.withOffers(await remote.featuredVouchers()));
+    } catch (_) {
+      // The slot hides itself rather than advertising an error.
     }
   }
 
@@ -58,6 +77,7 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
       }
       _emitCached(HomeStatus.ready);
       await loadRecommendations();
+      await loadOffers();
     } catch (_) {
       // Whatever is cached still gets shown; the status is what lets the tab
       // say the refresh failed instead of pretending there is nothing to sell.
@@ -68,27 +88,17 @@ class HomeCubit extends Cubit<HomeState> with CloseSafeEmit {
   void _emitCached(HomeStatus status) {
     final shops = _repositories.shops.all();
     final products = _repositories.products.all();
-    // A product whose shop is not in the cache cannot be shown: the card names
-    // the shop selling it. Skipping is right rather than throwing, because this
-    // runs on the failure path too, where the shop list may be mid-refresh.
-    final pledgeItems = <HomePledgeItem>[];
-    for (final product in products) {
-      final shop = _repositories.shops.byIdOrNull(product.shopId);
-      if (shop == null) continue;
-      pledgeItems.add(HomePledgeItem(product: product, shop: shop));
-    }
-
     emit(
       HomeState(
         status: status,
         shops: shops,
         products: products,
-        pledgeItems: pledgeItems,
         // A catalogue refresh must not throw away a location already found,
         // nor the suggestions loaded alongside it.
         location: state.location,
         locationDenial: state.locationDenial,
         recommendations: state.recommendations,
+        offers: state.offers,
       ),
     );
   }

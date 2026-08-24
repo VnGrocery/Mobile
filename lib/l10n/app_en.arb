@@ -180,7 +180,13 @@
   "commentsVerifiedBadge": "Checked at the stall",
   "commentsModerationOn": "This shop reviews comments before they appear",
   "commentsWithheld": "{count, plural, other{{count} comments are not being shown}}",
-  "@commentsWithheld": {"placeholders": {"count": {"type": "int"}}},
+  "@commentsWithheld": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "commentsModerationEffect": "Comments held back lower the shop's trust score.",
   "commentsWithdraw": "Withdraw my comment",
   "commentsWithdrawReason": "Why withdraw it?",
@@ -1480,5 +1486,63 @@
   "sellerShopStateActive": "Active",
   "sellerShopStateSuspended": "Suspended",
   "sellerShopStateDeleted": "Deleted",
-  "sellerIntegrityLabel": "Integrity"
+  "sellerIntegrityLabel": "Integrity",
+  "homeOfferPercent": "{value}% off",
+  "@homeOfferPercent": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "homeOfferAmount": "{value} off",
+  "@homeOfferAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOfferMinSpend": "Orders from {value}",
+  "@homeOfferMinSpend": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOfferExpiry": "Until {value}",
+  "@homeOfferExpiry": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOffersTitle": "Offers on now",
+  "homeRankedTitle": "Picked for you",
+  "homeRankedPopularTitle": "Products people look at",
+  "homeSpotlightTitle": "Most looked at",
+  "homeFilterResults": "Results",
+  "homeFilterEmpty": "No product matches that.",
+  "accountMyChecks": "Products I checked",
+  "myChecksTitle": "Products I checked",
+  "myChecksEmptyTitle": "You have not checked anything yet",
+  "myChecksEmptyBody": "Scan a product code at the stall and photograph the goods — every check is saved here.",
+  "myChecksEmptyAction": "Scan a product",
+  "myChecksFailed": "Could not load your checks.",
+  "myChecksScores": "Pledged {pledged} · Measured {actual}",
+  "@myChecksScores": {
+    "placeholders": {
+      "pledged": {
+        "type": "String"
+      },
+      "actual": {
+        "type": "String"
+      }
+    }
+  },
+  "myChecksNoPledge": "No pledge to compare against",
+  "commonProduct": "Product",
+  "accountMyActivity": "My activity"
 }

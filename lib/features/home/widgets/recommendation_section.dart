@@ -18,12 +18,25 @@ import 'package:vngrocery/utils/format.dart';
 class RecommendationSection extends StatelessWidget {
   final Recommendations recommendations;
 
-  const RecommendationSection({super.key, required this.recommendations});
+  /// The slice to show. The home page hands in the spotlight few and prints
+  /// the rest as a grid below, so the two never repeat a product.
+  final List<RecommendedProduct>? products;
+
+  /// Overrides the heading. Without it the section names itself from whether
+  /// the ranking is personal, which is still the right answer everywhere else.
+  final String? title;
+
+  const RecommendationSection({
+    super.key,
+    required this.recommendations,
+    this.products,
+    this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final products = recommendations.products;
+    final products = this.products ?? recommendations.products;
     if (products.isEmpty) return const SizedBox.shrink();
 
     return Column(
@@ -45,7 +58,7 @@ class RecommendationSection extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    RecommendationCopy.title(l10n, recommendations),
+                    title ?? RecommendationCopy.title(l10n, recommendations),
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

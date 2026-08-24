@@ -1999,4 +1999,75 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get sellerIntegrityLabel => 'Tính toàn vẹn';
+
+  @override
+  String homeOfferPercent(int value) {
+    return 'Giảm $value%';
+  }
+
+  @override
+  String homeOfferAmount(String value) {
+    return 'Giảm $value';
+  }
+
+  @override
+  String homeOfferMinSpend(String value) {
+    return 'Đơn từ $value';
+  }
+
+  @override
+  String homeOfferExpiry(String value) {
+    return 'Đến $value';
+  }
+
+  @override
+  String get homeOffersTitle => 'Ưu đãi đang có';
+
+  @override
+  String get homeRankedTitle => 'Gợi ý cho bạn';
+
+  @override
+  String get homeRankedPopularTitle => 'Sản phẩm được quan tâm';
+
+  @override
+  String get homeSpotlightTitle => 'Sản phẩm được quan tâm nhiều';
+
+  @override
+  String get homeFilterResults => 'Kết quả';
+
+  @override
+  String get homeFilterEmpty => 'Không có sản phẩm nào khớp.';
+
+  @override
+  String get accountMyChecks => 'Sản phẩm tôi đã kiểm tra';
+
+  @override
+  String get myChecksTitle => 'Sản phẩm tôi đã kiểm tra';
+
+  @override
+  String get myChecksEmptyTitle => 'Chưa kiểm tra sản phẩm nào';
+
+  @override
+  String get myChecksEmptyBody =>
+      'Quét mã sản phẩm tại quầy và chụp ảnh đối chứng — mỗi lần kiểm tra sẽ được lưu vào đây.';
+
+  @override
+  String get myChecksEmptyAction => 'Quét sản phẩm';
+
+  @override
+  String get myChecksFailed => 'Không đọc được danh sách kiểm tra.';
+
+  @override
+  String myChecksScores(String pledged, String actual) {
+    return 'Cam kết $pledged · Đo được $actual';
+  }
+
+  @override
+  String get myChecksNoPledge => 'Không có cam kết để đối chiếu';
+
+  @override
+  String get commonProduct => 'Sản phẩm';
+
+  @override
+  String get accountMyActivity => 'Hoạt động của tôi';
 }

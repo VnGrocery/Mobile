@@ -180,7 +180,13 @@
   "commentsVerifiedBadge": "Đã kiểm tra tại quầy",
   "commentsModerationOn": "Cửa hàng này duyệt bình luận trước khi hiển thị",
   "commentsWithheld": "{count, plural, other{{count} bình luận chưa được hiển thị}}",
-  "@commentsWithheld": {"placeholders": {"count": {"type": "int"}}},
+  "@commentsWithheld": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "commentsModerationEffect": "Bình luận bị giữ lại làm giảm điểm tin cậy của cửa hàng.",
   "commentsWithdraw": "Gỡ bình luận của tôi",
   "commentsWithdrawReason": "Vì sao gỡ?",
@@ -976,5 +982,63 @@
   "sellerShopStateActive": "Đang hoạt động",
   "sellerShopStateSuspended": "Tạm ngưng",
   "sellerShopStateDeleted": "Đã xoá",
-  "sellerIntegrityLabel": "Tính toàn vẹn"
+  "sellerIntegrityLabel": "Tính toàn vẹn",
+  "homeOfferPercent": "Giảm {value}%",
+  "@homeOfferPercent": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "homeOfferAmount": "Giảm {value}",
+  "@homeOfferAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOfferMinSpend": "Đơn từ {value}",
+  "@homeOfferMinSpend": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOfferExpiry": "Đến {value}",
+  "@homeOfferExpiry": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOffersTitle": "Ưu đãi đang có",
+  "homeRankedTitle": "Gợi ý cho bạn",
+  "homeRankedPopularTitle": "Sản phẩm được quan tâm",
+  "homeSpotlightTitle": "Sản phẩm được quan tâm nhiều",
+  "homeFilterResults": "Kết quả",
+  "homeFilterEmpty": "Không có sản phẩm nào khớp.",
+  "accountMyChecks": "Sản phẩm tôi đã kiểm tra",
+  "myChecksTitle": "Sản phẩm tôi đã kiểm tra",
+  "myChecksEmptyTitle": "Chưa kiểm tra sản phẩm nào",
+  "myChecksEmptyBody": "Quét mã sản phẩm tại quầy và chụp ảnh đối chứng — mỗi lần kiểm tra sẽ được lưu vào đây.",
+  "myChecksEmptyAction": "Quét sản phẩm",
+  "myChecksFailed": "Không đọc được danh sách kiểm tra.",
+  "myChecksScores": "Cam kết {pledged} · Đo được {actual}",
+  "@myChecksScores": {
+    "placeholders": {
+      "pledged": {
+        "type": "String"
+      },
+      "actual": {
+        "type": "String"
+      }
+    }
+  },
+  "myChecksNoPledge": "Không có cam kết để đối chiếu",
+  "commonProduct": "Sản phẩm",
+  "accountMyActivity": "Hoạt động của tôi"
 }

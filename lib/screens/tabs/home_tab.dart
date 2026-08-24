@@ -6,6 +6,8 @@ import 'package:vngrocery/features/home/controllers/home_cubit.dart';
 import 'package:vngrocery/features/home/controllers/home_state.dart';
 import 'package:vngrocery/features/home/widgets/home_components.dart';
 import 'package:vngrocery/features/home/widgets/home_status_message.dart';
+import 'package:vngrocery/features/home/widgets/home_offer_card.dart';
+import 'package:vngrocery/features/home/widgets/home_product_grid.dart';
 import 'package:vngrocery/features/home/widgets/recommendation_section.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
@@ -82,9 +84,18 @@ class _HomeTabState extends State<HomeTab> {
           // Located, but everything is past the search radius: the list below
           // is the closest that exists rather than anything actually nearby.
           final outsideRange = state.outsideRange;
-          final featuredPledgeItems = state.featuredPledgeItems(
-            category: activeCategory == _allCategory ? null : activeCategory,
-          );
+
+          final category = activeCategory == _allCategory
+              ? null
+              : activeCategory;
+          final query = _search.text;
+          final filtering = state.filtering(category: category, query: query);
+          final spotlight = state.spotlightProducts;
+          final grid = state.rankedGrid(category: category, query: query);
+          // Only the server can say whether the ranking rests on anything this
+          // reader has done; the heading follows that answer rather than
+          // claiming "for you" by default.
+          final personalised = state.recommendations?.personalised ?? false;
 
           return Scaffold(
             backgroundColor: context.palette.appBackground,
@@ -117,16 +128,18 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: HomeScanHeroCard(
-                        onTap: () => Navigator.pushNamed(context, Routes.scan),
-                      ),
-                    ),
+                    // The advert slot. Real offers only: the server has
+                    // already dropped everything expired, paused, or belonging
+                    // to a shop that is gone, and an empty list hides the slot
+                    // rather than showing a banner for nothing.
+                    if (state.offers.isNotEmpty) ...[
+                      HomeOfferCard(offers: state.offers),
+                      const SizedBox(height: 8),
+                    ],
                     // Hidden entirely when nothing has a category yet, rather
                     // than showing chips that match no product.
                     if (categories.isNotEmpty) ...[
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 16),
                       HomeSectionTitle(
                         l10n.homeCategoriesTitle,
                         showAction: false,
@@ -143,10 +156,6 @@ class _HomeTabState extends State<HomeTab> {
                         }),
                       ),
                     ],
-                    // The search box and the category chips filter this
-                    // list, so it follows them directly. It used to sit two
-                    // carousels below, where tapping a chip changed
-                    // something off screen.
                     if (state.isEmpty)
                       // Nothing at all: one message for the whole page beats a
                       // heading with a blank space under it.
@@ -169,76 +178,81 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       }
                     else ...[
-                      const SizedBox(height: 30),
-                      HomeSectionTitle(
-                        l10n.homeRecentChecksTitle,
-                        // Nothing to open when the filter matched nothing.
-                        showAction: featuredPledgeItems.isNotEmpty,
-                        onSeeAll: () =>
-                            showHomePledgeSheet(context, state.pledgeItems),
-                      ),
-                      const SizedBox(height: 12),
-                      if (featuredPledgeItems.isEmpty)
-                        HomeStatusMessage(
-                          icon: Icons.inventory_2_outlined,
-                          title: l10n.homeEmptyTitle,
-                          message: l10n.homeEmptyMessage,
-                        )
-                      else ...[
-                        if (outsideRange)
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                            child: Text(
-                              l10n.homeOutsideRangeNotice,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.textSecondary,
+                      // Both carousels stand down while the reader is
+                      // searching or filtering: a "top rated" row carved out
+                      // of their own results would hide matches from them.
+                      if (!filtering) ...[
+                        if (topRatedShops.isNotEmpty) ...[
+                          const SizedBox(height: 28),
+                          HomeSectionTitle(
+                            l10n.homeTopRatedStoresTitle,
+                            showAction: false,
+                          ),
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            // Fits a two-line shop name plus the trust chip
+                            // and the rating row.
+                            height: 172,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
                               ),
+                              itemCount: topRatedShops.length,
+                              separatorBuilder: (_, _) =>
+                                  const SizedBox(width: 12),
+                              itemBuilder: (_, i) =>
+                                  HomeTrustShopCard(shop: topRatedShops[i]),
                             ),
                           ),
-                        ...featuredPledgeItems.map(
-                          (entry) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 5,
-                            ),
-                            child: HomePledgeCard(
-                              item: entry.item,
-                              distanceKm: entry.distanceKm,
-                            ),
+                        ],
+                        if (spotlight.isNotEmpty) ...[
+                          const SizedBox(height: 28),
+                          RecommendationSection(
+                            recommendations: state.recommendations!,
+                            products: spotlight,
+                            title: l10n.homeSpotlightTitle,
                           ),
-                        ),
+                        ],
                       ],
-                      const SizedBox(height: 30),
-                    ],
-                    if (state.hasRecommendations) ...[
-                      const SizedBox(height: 28),
-                      RecommendationSection(
-                        recommendations: state.recommendations!,
-                      ),
-                    ],
-                    if (topRatedShops.isNotEmpty) ...[
                       const SizedBox(height: 28),
                       HomeSectionTitle(
-                        l10n.homeTopRatedStoresTitle,
+                        filtering
+                            ? l10n.homeFilterResults
+                            : personalised
+                            ? l10n.homeRankedTitle
+                            : l10n.homeRankedPopularTitle,
                         showAction: false,
                       ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        // Fits a two-line shop name plus the trust chip and the
-                        // rating row. Real shop names wrap ("Trái Cây Nhà Vườn
-                        // Cái Mơn"), which the earlier 150 did not allow for.
-                        height: 172,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          itemCount: topRatedShops.length,
-                          separatorBuilder: (_, __) =>
-                              const SizedBox(width: 12),
-                          itemBuilder: (_, i) =>
-                              HomeTrustShopCard(shop: topRatedShops[i]),
+                      if (outsideRange && !filtering)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                          child: Text(
+                            l10n.homeOutsideRangeNotice,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
                         ),
-                      ),
+                      const SizedBox(height: 12),
+                      if (grid.isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            l10n.homeFilterEmpty,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: context.palette.textSecondary,
+                            ),
+                          ),
+                        )
+                      else
+                        HomeProductGrid(
+                          products: grid,
+                          personalised: personalised,
+                        ),
+                      const SizedBox(height: 30),
                     ],
                   ],
                 ),

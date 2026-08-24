@@ -3,7 +3,6 @@ import 'package:vngrocery/core/location/geo.dart';
 import 'package:vngrocery/core/location/location_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/home/controllers/home_state.dart';
-import 'package:vngrocery/features/home/home_presenter.dart';
 
 /// Bến Thành market, District 1.
 const _origin = GeoPoint(10.7721, 106.6980);
@@ -20,28 +19,8 @@ Shop _shop(String id, {double lat = 0, double lng = 0, double rating = 5}) =>
       longitude: lng,
     );
 
-Product _product(String id, Shop shop) => Product(
-  id: id,
-  shopId: shop.id,
-  name: 'p$id',
-  description: '',
-  category: 'fruit',
-  price: 1000,
-  freshnessScore: 8,
-  freshnessNote: '',
-  tags: const [],
-  imageUrls: const [],
-  status: 'published',
-);
-
-HomeState _state(List<Shop> shops, {ReaderLocation? at}) => HomeState(
-  shops: shops,
-  pledgeItems: [
-    for (final shop in shops)
-      HomePledgeItem(product: _product(shop.id, shop), shop: shop),
-  ],
-  location: at,
-);
+HomeState _state(List<Shop> shops, {ReaderLocation? at}) =>
+    HomeState(shops: shops, location: at);
 
 void main() {
   // 1 km, 4 km and 10 km due north of Bến Thành.
@@ -51,19 +30,16 @@ void main() {
   final here = const ReaderLocation(point: _origin, areaName: 'Quận 1');
 
   group('home ordering by distance', () {
-    test('recent checks are nearest first', () {
+    test('shops are nearest first', () {
       final state = _state([far, near, mid], at: here);
 
-      expect(state.featuredPledgeItems().map((e) => e.item.shop.id), [
-        'near',
-        'mid',
-      ]);
+      expect(state.nearbyShops.items.map((e) => e.item.id), ['near', 'mid']);
     });
 
     test('carries the distance so the card can show it', () {
       final state = _state([near], at: here);
 
-      expect(state.featuredPledgeItems().single.distanceKm, closeTo(1, 0.1));
+      expect(state.nearbyShops.items.single.distanceKm, closeTo(1, 0.1));
     });
 
     test('the 10 km shop is hidden while a closer one exists', () {
@@ -98,7 +74,7 @@ void main() {
         'mid',
       ]);
       expect(
-        state.featuredPledgeItems().every((e) => e.distanceKm == null),
+        state.nearbyShops.items.every((e) => e.distanceKm == null),
         isTrue,
       );
     });
@@ -114,9 +90,9 @@ void main() {
       );
 
       expect(state.outsideRange, isTrue);
-      expect(state.featuredPledgeItems(), isNotEmpty);
+      expect(state.nearbyShops.items, isNotEmpty);
       // Still nearest first, just nowhere near.
-      expect(state.featuredPledgeItems().first.item.shop.id, 'far');
+      expect(state.nearbyShops.items.first.item.id, 'far');
     });
 
     test('inside the radius nothing claims to be out of range', () {

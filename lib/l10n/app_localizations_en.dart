@@ -2009,4 +2009,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sellerIntegrityLabel => 'Integrity';
+
+  @override
+  String homeOfferPercent(int value) {
+    return '$value% off';
+  }
+
+  @override
+  String homeOfferAmount(String value) {
+    return '$value off';
+  }
+
+  @override
+  String homeOfferMinSpend(String value) {
+    return 'Orders from $value';
+  }
+
+  @override
+  String homeOfferExpiry(String value) {
+    return 'Until $value';
+  }
+
+  @override
+  String get homeOffersTitle => 'Offers on now';
+
+  @override
+  String get homeRankedTitle => 'Picked for you';
+
+  @override
+  String get homeRankedPopularTitle => 'Products people look at';
+
+  @override
+  String get homeSpotlightTitle => 'Most looked at';
+
+  @override
+  String get homeFilterResults => 'Results';
+
+  @override
+  String get homeFilterEmpty => 'No product matches that.';
+
+  @override
+  String get accountMyChecks => 'Products I checked';
+
+  @override
+  String get myChecksTitle => 'Products I checked';
+
+  @override
+  String get myChecksEmptyTitle => 'You have not checked anything yet';
+
+  @override
+  String get myChecksEmptyBody =>
+      'Scan a product code at the stall and photograph the goods — every check is saved here.';
+
+  @override
+  String get myChecksEmptyAction => 'Scan a product';
+
+  @override
+  String get myChecksFailed => 'Could not load your checks.';
+
+  @override
+  String myChecksScores(String pledged, String actual) {
+    return 'Pledged $pledged · Measured $actual';
+  }
+
+  @override
+  String get myChecksNoPledge => 'No pledge to compare against';
+
+  @override
+  String get commonProduct => 'Product';
+
+  @override
+  String get accountMyActivity => 'My activity';
 }

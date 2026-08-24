@@ -1,21 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/home/controllers/home_state.dart';
-import 'package:vngrocery/features/home/home_presenter.dart';
-
-Product _product(String id, String category) => Product(
-  id: id,
-  shopId: 's1',
-  name: 'p$id',
-  description: '',
-  category: category,
-  price: 1000,
-  freshnessScore: 8,
-  freshnessNote: '',
-  tags: const [],
-  imageUrls: const [],
-  status: 'published',
-);
 
 const _shop = Shop(
   id: 's1',
@@ -41,14 +26,20 @@ Shop _shopWith({
   trustSummary: trust,
 );
 
-HomeState _state(List<Product> products) {
-  return HomeState(
-    products: products,
-    pledgeItems: [
-      for (final p in products) HomePledgeItem(product: p, shop: _shop),
-    ],
-  );
-}
+RecommendedProduct _ranked(String id, String category, {String name = ''}) =>
+    RecommendedProduct(
+      productId: id,
+      shopId: _shop.id,
+      shopName: _shop.name,
+      name: name.isEmpty ? 'p$id' : name,
+      category: category,
+      price: 1000,
+    );
+
+/// The chips and the grid both read the ranked catalogue, so that is what a
+/// state under test has to carry.
+HomeState _state(List<RecommendedProduct> products) =>
+    HomeState(recommendations: Recommendations(products: products));
 
 void main() {
   group('top rated shops', () {
@@ -112,59 +103,82 @@ void main() {
   group('home categories', () {
     test('are taken from the products on screen, sorted and deduplicated', () {
       final state = _state([
-        _product('1', 'fresh_produce'),
-        _product('2', 'meat'),
-        _product('3', 'fresh_produce'),
+        _ranked('1', 'fresh_produce'),
+        _ranked('2', 'meat'),
+        _ranked('3', 'fresh_produce'),
       ]);
 
       expect(state.categories, ['fresh_produce', 'meat']);
     });
 
     test('ignore products with no category', () {
-      final state = _state([
-        _product('1', 'fresh_produce'),
-        _product('2', '  '),
-      ]);
+      final state = _state([_ranked('1', 'fresh_produce'), _ranked('2', '  ')]);
 
       expect(state.categories, ['fresh_produce']);
     });
 
     test('are empty when nothing is categorised, so the row can hide', () {
-      expect(_state([_product('1', '')]).categories, isEmpty);
+      expect(_state([_ranked('1', '')]).categories, isEmpty);
       expect(const HomeState().categories, isEmpty);
     });
 
-    test('selecting one narrows the recent checks', () {
+    test('selecting one narrows the grid', () {
       final state = _state([
-        _product('1', 'fresh_produce'),
-        _product('2', 'meat'),
-        _product('3', 'fresh_produce'),
+        _ranked('1', 'fresh_produce'),
+        _ranked('2', 'meat'),
+        _ranked('3', 'fresh_produce'),
       ]);
 
-      final produce = state.featuredPledgeItems(category: 'fresh_produce');
-      expect(produce.map((e) => e.item.product.id), ['1', '3']);
-
-      final meat = state.featuredPledgeItems(category: 'meat');
-      expect(meat.map((e) => e.item.product.id), ['2']);
+      expect(
+        state.rankedGrid(category: 'fresh_produce').map((p) => p.productId),
+        ['1', '3'],
+      );
+      expect(state.rankedGrid(category: 'meat').map((p) => p.productId), ['2']);
     });
 
-    test('no selection shows everything, still capped by the limit', () {
+    test('a category with no products yields an empty grid', () {
+      final state = _state([_ranked('1', 'fresh_produce')]);
+
+      expect(state.rankedGrid(category: 'seafood'), isEmpty);
+    });
+
+    test('search matches the product name and the shop name', () {
       final state = _state([
-        _product('1', 'a'),
-        _product('2', 'b'),
-        _product('3', 'c'),
-        _product('4', 'd'),
+        _ranked('1', 'fresh_produce', name: 'Cải ngọt Đà Lạt'),
+        _ranked('2', 'meat', name: 'Thịt ba chỉ'),
       ]);
 
-      expect(state.featuredPledgeItems().length, 3);
-      expect(state.featuredPledgeItems(category: null).length, 3);
-      expect(state.featuredPledgeItems(limit: 10).length, 4);
+      expect(state.rankedGrid(query: 'cải').map((p) => p.productId), ['1']);
+      expect(state.rankedGrid(query: 'Shop').map((p) => p.productId), [
+        '1',
+        '2',
+      ]);
+      expect(state.rankedGrid(query: 'không có gì'), isEmpty);
     });
 
-    test('a category with no products yields an empty list', () {
-      final state = _state([_product('1', 'fresh_produce')]);
+    test('the spotlight and the grid never print the same product twice', () {
+      final products = [
+        for (var i = 0; i < 9; i++) _ranked('$i', 'fresh_produce'),
+      ];
+      final state = _state(products);
 
-      expect(state.featuredPledgeItems(category: 'seafood'), isEmpty);
+      final spotlight = state.spotlightProducts.map((p) => p.productId);
+      final grid = state.rankedGrid().map((p) => p.productId);
+
+      expect(spotlight, ['0', '1', '2', '3', '4', '5']);
+      expect(grid, ['6', '7', '8']);
+      expect(spotlight.toSet().intersection(grid.toSet()), isEmpty);
+    });
+
+    test('filtering collapses the split so no match is hidden', () {
+      final products = [
+        for (var i = 0; i < 9; i++) _ranked('$i', 'fresh_produce'),
+      ];
+      final state = _state(products);
+
+      // Carving a spotlight out of the reader's own search results would drop
+      // the six strongest matches off the screen entirely.
+      expect(state.rankedGrid(category: 'fresh_produce').length, 9);
     });
   });
 }

@@ -2,7 +2,6 @@ import 'package:vngrocery/core/location/geo.dart';
 import 'package:vngrocery/core/location/location_service.dart';
 import 'package:vngrocery/core/location/nearby.dart';
 import 'package:vngrocery/data/models.dart';
-import 'package:vngrocery/features/home/home_presenter.dart';
 
 /// Where the home tab is in its load.
 ///
@@ -15,7 +14,6 @@ class HomeState {
   final HomeStatus status;
   final List<Shop> shops;
   final List<Product> products;
-  final List<HomePledgeItem> pledgeItems;
 
   /// Where the reader is, when they let the app find out.
   final ReaderLocation? location;
@@ -27,14 +25,18 @@ class HomeState {
   /// failed, which hides the section rather than showing an empty one.
   final Recommendations? recommendations;
 
+  /// Live offers for the advert slot. Empty hides the slot: an offer card with
+  /// nothing in it would be an advert for nothing.
+  final List<FeaturedVoucher> offers;
+
   const HomeState({
     this.status = HomeStatus.loading,
     this.shops = const [],
     this.products = const [],
-    this.pledgeItems = const [],
     this.location,
     this.locationDenial,
     this.recommendations,
+    this.offers = const [],
   });
 
   /// Replaces the location outcome wholesale.
@@ -47,20 +49,30 @@ class HomeState {
         status: status,
         shops: shops,
         products: products,
-        pledgeItems: pledgeItems,
         location: location,
         locationDenial: denial,
         recommendations: recommendations,
+        offers: offers,
       );
 
   HomeState withRecommendations(Recommendations value) => HomeState(
     status: status,
     shops: shops,
     products: products,
-    pledgeItems: pledgeItems,
     location: location,
     locationDenial: locationDenial,
     recommendations: value,
+    offers: offers,
+  );
+
+  HomeState withOffers(List<FeaturedVoucher> value) => HomeState(
+    status: status,
+    shops: shops,
+    products: products,
+    location: location,
+    locationDenial: locationDenial,
+    recommendations: recommendations,
+    offers: value,
   );
 
   /// True once there is something worth showing in the suggestions section.
@@ -72,8 +84,52 @@ class HomeState {
   static GeoPoint? _shopPoint(Shop shop) =>
       GeoPoint(shop.latitude, shop.longitude);
 
-  /// Nothing to show: no shops worth ranking and no recent checks.
-  bool get isEmpty => shops.isEmpty && pledgeItems.isEmpty;
+  /// Nothing to show: nothing ranked and no shops worth listing.
+  bool get isEmpty => shops.isEmpty && rankedProducts.isEmpty;
+
+  /// How deep the ranked catalogue is fetched. The grid at the foot of the
+  /// home page is the whole catalogue in interest order, not a teaser, so it
+  /// needs more than the ten a spotlight row would.
+  static const rankedLimit = 40;
+
+  /// How many ranked products the spotlight row shows before the grid takes
+  /// over. The grid skips exactly these, so nothing is printed twice.
+  static const spotlightCount = 6;
+
+  /// Every product the server ranked, best first.
+  List<RecommendedProduct> get rankedProducts =>
+      recommendations?.products ?? const [];
+
+  /// The spotlight row: the strongest few, shown horizontally.
+  List<RecommendedProduct> get spotlightProducts =>
+      rankedProducts.take(spotlightCount).toList();
+
+  /// The grid under it. Filtering collapses the split - once the reader has
+  /// narrowed the catalogue, a "most wanted" row carved off the top of their
+  /// own search would just hide results from them.
+  List<RecommendedProduct> rankedGrid({String? category, String query = ''}) {
+    final needle = query.trim().toLowerCase();
+    final filtering =
+        needle.isNotEmpty || (category != null && category.isNotEmpty);
+    final source = filtering
+        ? rankedProducts
+        : rankedProducts.skip(spotlightCount);
+    return source.where((product) {
+      if (category != null &&
+          category.isNotEmpty &&
+          product.category != category) {
+        return false;
+      }
+      if (needle.isEmpty) return true;
+      return product.name.toLowerCase().contains(needle) ||
+          product.shopName.toLowerCase().contains(needle);
+    }).toList();
+  }
+
+  /// True while the reader has narrowed the catalogue, which is what hides the
+  /// carousels above the grid.
+  bool filtering({String? category, String query = ''}) =>
+      query.trim().isNotEmpty || (category != null && category.isNotEmpty);
 
   /// Categories actually present in the loaded products.
   ///
@@ -81,10 +137,12 @@ class HomeState {
   /// matched neither the sample data ("Thịt gà") nor the server, which sends
   /// keys like "fresh_produce", so a filter built on it could only ever return
   /// nothing.
+  /// Taken from the ranked catalogue the chips actually filter, so a chip can
+  /// never offer a category the grid below it cannot show.
   List<String> get categories {
     final seen = <String>{};
-    for (final item in pledgeItems) {
-      final category = item.product.category.trim();
+    for (final product in rankedProducts) {
+      final category = product.category.trim();
       if (category.isNotEmpty) seen.add(category);
     }
     final list = seen.toList()..sort();
@@ -98,16 +156,9 @@ class HomeState {
   NearbySelection<Shop> get nearbyShops =>
       selectNearby(shops, origin: origin, locate: _shopPoint);
 
-  /// Recent checks from shops near the reader, nearest first.
-  NearbySelection<HomePledgeItem> get nearbyPledgeItems => selectNearby(
-    pledgeItems,
-    origin: origin,
-    locate: (item) => _shopPoint(item.shop),
-  );
-
   /// True when the reader is outside the search radius of everything, so the
   /// lists are the closest that exist rather than anything actually nearby.
-  bool get outsideRange => nearbyPledgeItems.outsideRange;
+  bool get outsideRange => nearbyShops.outsideRange;
 
   /// Shops worth putting under "đánh giá tốt", best first.
   ///
@@ -138,20 +189,4 @@ class HomeState {
   }
 
   static double _trustScore(Shop shop) => shop.trustSummary?.score ?? 0;
-
-  /// Recent checks, nearest first, optionally narrowed to one category.
-  ///
-  /// Distance decides the order rather than whatever the catalogue returned, so
-  /// the three products on the home page are ones the reader could go and buy.
-  List<Nearby<HomePledgeItem>> featuredPledgeItems({
-    int limit = 3,
-    String? category,
-  }) {
-    final items = category == null || category.isEmpty
-        ? nearbyPledgeItems.items
-        : nearbyPledgeItems.items
-              .where((entry) => entry.item.product.category == category)
-              .toList();
-    return items.take(limit).toList();
-  }
 }
