@@ -1045,5 +1045,19 @@
   "verdictWarning": "Lệch nhẹ",
   "verdictHighRisk": "Lệch nhiều",
   "verdictNoPledge": "Chưa có cam kết",
-  "verdictUnknown": "Chưa rõ"
+  "verdictUnknown": "Chưa rõ",
+  "sellerProductEditTitle": "Sửa sản phẩm",
+  "sellerProductActionEdit": "Sửa thông tin",
+  "sellerProductActionPublish": "Đăng bán",
+  "sellerProductActionArchive": "Ẩn khỏi cửa hàng",
+  "sellerProductActionRepublish": "Bán lại",
+  "sellerProductActionDelete": "Xoá sản phẩm",
+  "sellerProductPublishHint": "Ví dụ: hàng đã về, mở bán lại",
+  "sellerProductArchiveHint": "Ví dụ: hết hàng, tạm ngừng bán",
+  "sellerProductDeleteHint": "Ví dụ: đăng nhầm sản phẩm",
+  "sellerProductStatusChanged": "Đã cập nhật trạng thái",
+  "sellerProductStatusFailed": "Không đổi được trạng thái",
+  "sellerProductDeleted": "Đã xoá sản phẩm",
+  "sellerProductDeleteFailed": "Không xoá được sản phẩm",
+  "sellerProductUpdated": "Đã lưu thay đổi"
 }

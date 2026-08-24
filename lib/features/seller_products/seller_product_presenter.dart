@@ -31,6 +31,37 @@ class SellerProductPresenter {
     };
   }
 
+  /// The one status move that makes sense from where a product stands.
+  ///
+  /// A draft goes on sale; something on sale gets hidden; something hidden
+  /// goes back on sale. Null for a status the app does not manage.
+  static String? publishAction(String status) {
+    return switch (status.toLowerCase()) {
+      draftState => publishedState,
+      publishedState || 'active' => archivedState,
+      archivedState => publishedState,
+      _ => null,
+    };
+  }
+
+  static String publishActionLabel(String status, AppLocalizations l10n) {
+    return switch (status.toLowerCase()) {
+      draftState => l10n.sellerProductActionPublish,
+      publishedState || 'active' => l10n.sellerProductActionArchive,
+      archivedState => l10n.sellerProductActionRepublish,
+      _ => l10n.sellerProductActionPublish,
+    };
+  }
+
+  /// The example shown in the reason box, matched to the move being made: an
+  /// example about running out of stock reads as a mistake on a re-listing.
+  static String publishActionHint(String status, AppLocalizations l10n) {
+    return switch (status.toLowerCase()) {
+      publishedState || 'active' => l10n.sellerProductArchiveHint,
+      _ => l10n.sellerProductPublishHint,
+    };
+  }
+
   static String freshnessNote(bool hasImage, AppLocalizations l10n) {
     return hasImage
         ? l10n.sellerProductFreshnessWithImage

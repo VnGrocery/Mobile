@@ -42,14 +42,18 @@ class SellerProductImagePickerCard extends StatelessWidget {
                 Icon(
                   selected ? Icons.check_circle : Icons.add_photo_alternate,
                   size: 48,
-                  color: selected ? AppColors.primaryGreen : context.palette.textSecondary,
+                  color: selected
+                      ? AppColors.primaryGreen
+                      : context.palette.textSecondary,
                 ),
                 Text(
                   selected
                       ? l10n.sellerProductImageReady
                       : l10n.sellerProductImageSelect,
                   style: TextStyle(
-                    color: selected ? AppColors.primaryGreen : context.palette.textSecondary,
+                    color: selected
+                        ? AppColors.primaryGreen
+                        : context.palette.textSecondary,
                     fontSize: 14,
                     fontWeight: selected ? FontWeight.bold : FontWeight.normal,
                   ),
@@ -107,7 +111,10 @@ class SellerCreateProductFields extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               l10n.sellerProductCategoryLabel,
-              style: TextStyle(fontSize: 14, color: context.palette.textSecondary),
+              style: TextStyle(
+                fontSize: 14,
+                color: context.palette.textSecondary,
+              ),
             ),
           ),
         ),

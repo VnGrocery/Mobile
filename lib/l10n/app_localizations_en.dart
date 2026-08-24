@@ -2095,4 +2095,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verdictUnknown => 'Unclear';
+
+  @override
+  String get sellerProductEditTitle => 'Edit product';
+
+  @override
+  String get sellerProductActionEdit => 'Edit details';
+
+  @override
+  String get sellerProductActionPublish => 'Put on sale';
+
+  @override
+  String get sellerProductActionArchive => 'Hide from the shop';
+
+  @override
+  String get sellerProductActionRepublish => 'Sell again';
+
+  @override
+  String get sellerProductActionDelete => 'Delete product';
+
+  @override
+  String get sellerProductPublishHint =>
+      'For example: stock arrived, selling again';
+
+  @override
+  String get sellerProductArchiveHint => 'For example: sold out, pausing sales';
+
+  @override
+  String get sellerProductDeleteHint => 'For example: listed the wrong product';
+
+  @override
+  String get sellerProductStatusChanged => 'Status updated';
+
+  @override
+  String get sellerProductStatusFailed => 'The status could not be changed';
+
+  @override
+  String get sellerProductDeleted => 'Product deleted';
+
+  @override
+  String get sellerProductDeleteFailed => 'The product could not be deleted';
+
+  @override
+  String get sellerProductUpdated => 'Changes saved';
 }

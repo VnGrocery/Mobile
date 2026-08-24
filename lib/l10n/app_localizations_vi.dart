@@ -2085,4 +2085,46 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get verdictUnknown => 'Chưa rõ';
+
+  @override
+  String get sellerProductEditTitle => 'Sửa sản phẩm';
+
+  @override
+  String get sellerProductActionEdit => 'Sửa thông tin';
+
+  @override
+  String get sellerProductActionPublish => 'Đăng bán';
+
+  @override
+  String get sellerProductActionArchive => 'Ẩn khỏi cửa hàng';
+
+  @override
+  String get sellerProductActionRepublish => 'Bán lại';
+
+  @override
+  String get sellerProductActionDelete => 'Xoá sản phẩm';
+
+  @override
+  String get sellerProductPublishHint => 'Ví dụ: hàng đã về, mở bán lại';
+
+  @override
+  String get sellerProductArchiveHint => 'Ví dụ: hết hàng, tạm ngừng bán';
+
+  @override
+  String get sellerProductDeleteHint => 'Ví dụ: đăng nhầm sản phẩm';
+
+  @override
+  String get sellerProductStatusChanged => 'Đã cập nhật trạng thái';
+
+  @override
+  String get sellerProductStatusFailed => 'Không đổi được trạng thái';
+
+  @override
+  String get sellerProductDeleted => 'Đã xoá sản phẩm';
+
+  @override
+  String get sellerProductDeleteFailed => 'Không xoá được sản phẩm';
+
+  @override
+  String get sellerProductUpdated => 'Đã lưu thay đổi';
 }

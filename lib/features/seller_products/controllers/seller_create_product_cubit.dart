@@ -15,11 +15,26 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState>
   final AppRepositories _repositories;
   final String shopId;
 
+  /// The listing being edited, or null when this is a new one. Editing keeps
+  /// the id, the version and the status: the form changes what the product is,
+  /// not where it stands in the shop.
+  final Product? existing;
+
   SellerCreateProductCubit({
     required this.shopId,
+    this.existing,
     AppRepositories? repositories,
   }) : _repositories = repositories ?? AppRepositories.instance,
-       super(SellerCreateProductState.initial());
+       super(
+         existing == null
+             ? SellerCreateProductState.initial()
+             : SellerCreateProductState(
+                 category: existing.category,
+                 imageSelected: existing.imageUrls.isNotEmpty,
+               ),
+       );
+
+  bool get isEditing => existing != null;
 
   void setCategory(String category) {
     emit(state.copyWith(category: category, saved: false));
@@ -41,12 +56,16 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState>
     emit(state.copyWith(imageSelected: false, saved: false));
   }
 
+  /// [changeReason] is required when editing. The server signs the edit with
+  /// that sentence inside the envelope and prints it in the product's change
+  /// log, so a shopper can see not just that the price moved but why.
   Future<Product> save({
     required String name,
     required String description,
     required String price,
     required String tags,
     required AppLocalizations l10n,
+    String changeReason = '',
   }) async {
     emit(state.copyWith(saving: true, saved: false));
 
@@ -69,28 +88,41 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState>
       }
     }
 
+    final current = existing;
     final product = Product(
-      id: _repositories.ids.nextId(),
+      // Editing keeps the id and the version: the version is what lets the
+      // server reject an edit written against a copy someone else has moved on.
+      id: current?.id ?? _repositories.ids.nextId(),
+      version: current?.version ?? 0,
       shopId: shopId,
       name: name.trim(),
       description: description.trim(),
       category: state.category,
-      freshnessScore: 8,
-      freshnessNote: SellerProductPresenter.freshnessNote(
-        state.imageSelected,
-        l10n,
-      ),
+      freshnessScore: current?.freshnessScore ?? 8,
+      freshnessNote:
+          current?.freshnessNote ??
+          SellerProductPresenter.freshnessNote(state.imageSelected, l10n),
       price: SellerProductPresenter.parsePrice(price),
       tags: SellerProductPresenter.parseTags(tags),
-      imageUrls: imageUrls,
+      // A photo that was not re-taken keeps the one already on the listing.
+      imageUrls: imageUrls.isEmpty && photo == null
+          ? (current?.imageUrls ?? const [])
+          : imageUrls,
       // Draft products are invisible to buyers: the server only exposes
       // "active" and "published". Creating them as drafts meant a seller could
-      // add a product and never see it in their shop.
-      status: 'published',
+      // add a product and never see it in their shop. An edit leaves the
+      // status where the seller put it.
+      status: current?.status ?? 'published',
     );
     try {
-      final savedProduct = await _repositories.products.saveRemote(product);
-      emit(state.copyWith(saving: false, saved: true, imageFailed: imageFailed));
+      final savedProduct = await _repositories.products.saveRemote(
+        product,
+        create: current == null,
+        changeReason: changeReason,
+      );
+      emit(
+        state.copyWith(saving: false, saved: true, imageFailed: imageFailed),
+      );
       return savedProduct;
     } catch (_) {
       // Without this the button span for ever and the screen still announced

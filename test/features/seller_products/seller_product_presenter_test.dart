@@ -8,6 +8,7 @@ import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/theme/app_theme.dart';
 
 void main() {
+  _statusMoves();
   group('SellerProductPresenter', () {
     testWidgets('stateLabel maps known statuses', (tester) async {
       late AppLocalizations l10n;
@@ -108,6 +109,37 @@ void main() {
         SellerProductPresenter.freshnessNote(false, l10n),
         'Sản phẩm mới tạo.',
       );
+    });
+  });
+}
+
+void _statusMoves() {
+  group('status moves', () {
+    test('every state offers the one move that makes sense from it', () {
+      // The card printed "Đã ẩn" while nothing in the app could hide anything,
+      // and the Đang bán / Bản nháp filters could never be exercised.
+      expect(
+        SellerProductPresenter.publishAction('draft'),
+        SellerProductPresenter.publishedState,
+      );
+      expect(
+        SellerProductPresenter.publishAction('published'),
+        SellerProductPresenter.archivedState,
+      );
+      expect(
+        SellerProductPresenter.publishAction('archived'),
+        SellerProductPresenter.publishedState,
+      );
+      // The server also writes "active" for a live listing.
+      expect(
+        SellerProductPresenter.publishAction('active'),
+        SellerProductPresenter.archivedState,
+      );
+    });
+
+    test('a state the app does not manage offers nothing', () {
+      expect(SellerProductPresenter.publishAction('deleted'), isNull);
+      expect(SellerProductPresenter.publishAction(''), isNull);
     });
   });
 }

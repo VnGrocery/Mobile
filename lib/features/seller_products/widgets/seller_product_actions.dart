@@ -13,6 +13,12 @@ class SellerProductActionSheet extends StatelessWidget {
   final VoidCallback onOpenDetail;
   final VoidCallback onOpenHistory;
   final VoidCallback onCreatePledge;
+  final VoidCallback onEdit;
+
+  /// Moves the listing between draft, on sale and hidden. The sheet offers
+  /// only the move that makes sense from where the product stands.
+  final ValueChanged<String> onChangeStatus;
+  final VoidCallback onDelete;
 
   const SellerProductActionSheet({
     super.key,
@@ -20,6 +26,9 @@ class SellerProductActionSheet extends StatelessWidget {
     required this.onOpenDetail,
     required this.onOpenHistory,
     required this.onCreatePledge,
+    required this.onEdit,
+    required this.onChangeStatus,
+    required this.onDelete,
   });
 
   @override
@@ -57,6 +66,39 @@ class SellerProductActionSheet extends StatelessWidget {
             label: AppLocalizations.of(context).sellerProductActionAddPledge,
             onTap: onCreatePledge,
           ),
+          SellerProductActionRow(
+            icon: Icons.edit_outlined,
+            label: AppLocalizations.of(context).sellerProductActionEdit,
+            onTap: onEdit,
+          ),
+          // The status badge on the card said "Đã ẩn" while nothing in the app
+          // could hide anything, and the Đang bán / Bản nháp filters could
+          // never be exercised. These are the moves that fill that in.
+          if (SellerProductPresenter.publishAction(product.status)
+              case final next?)
+            SellerProductActionRow(
+              icon: next == SellerProductPresenter.publishedState
+                  ? Icons.storefront_outlined
+                  : Icons.visibility_off_outlined,
+              label: SellerProductPresenter.publishActionLabel(
+                product.status,
+                AppLocalizations.of(context),
+              ),
+              onTap: () => onChangeStatus(next),
+            ),
+          if (product.status.toLowerCase() ==
+              SellerProductPresenter.archivedState)
+            SellerProductActionRow(
+              icon: Icons.visibility_off_outlined,
+              label: AppLocalizations.of(context).sellerProductActionArchive,
+              onTap: () => onChangeStatus(SellerProductPresenter.archivedState),
+            ),
+          SellerProductActionRow(
+            icon: Icons.delete_outline,
+            label: AppLocalizations.of(context).sellerProductActionDelete,
+            danger: true,
+            onTap: onDelete,
+          ),
         ],
       ),
     );
@@ -68,22 +110,37 @@ class SellerProductActionRow extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
+  /// Marks the one row that removes something. Orange, not red: red is the
+  /// price colour in this app and nothing else.
+  final bool danger;
+
   const SellerProductActionRow({
     super.key,
     required this.icon,
     required this.label,
     required this.onTap,
+    this.danger = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.palette;
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
-        backgroundColor: context.palette.positiveBg,
-        child: Icon(icon, color: AppColors.primaryGreen),
+        backgroundColor: danger ? palette.warningBg : palette.positiveBg,
+        child: Icon(
+          icon,
+          color: danger ? palette.warnInk : AppColors.primaryGreen,
+        ),
       ),
-      title: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+      title: Text(
+        label,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: danger ? palette.warnInk : null,
+        ),
+      ),
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );

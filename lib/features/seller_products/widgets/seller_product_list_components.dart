@@ -92,7 +92,10 @@ class SellerProductCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.more_horiz, color: context.palette.textSecondary),
+                  icon: Icon(
+                    Icons.more_horiz,
+                    color: context.palette.textSecondary,
+                  ),
                   onPressed: onMore,
                 ),
               ],

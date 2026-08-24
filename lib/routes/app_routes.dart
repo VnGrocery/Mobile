@@ -6,6 +6,7 @@ import 'package:vngrocery/screens/onboarding_screen.dart';
 import 'package:vngrocery/screens/auth_screen.dart';
 import 'package:vngrocery/screens/main_screen.dart';
 import 'package:vngrocery/screens/manual_voucher_screen.dart';
+import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/screens/my_checks_screen.dart';
 import 'package:vngrocery/screens/change_password_screen.dart';
 import 'package:vngrocery/screens/explore_map_screen.dart';
@@ -82,6 +83,16 @@ class SellerProductArgs {
   const SellerProductArgs(this.productId);
 }
 
+/// The product to edit. Both ids travel because the form saves through the
+/// shop-scoped endpoint, and the product itself is read from the cache the
+/// seller's own list already filled.
+class SellerEditProductArgs {
+  final String shopId;
+  final String productId;
+
+  const SellerEditProductArgs({required this.shopId, required this.productId});
+}
+
 class Routes {
   static const splash = 'splash';
   static const onboarding = 'onboarding';
@@ -90,6 +101,7 @@ class Routes {
   static const manualVoucher = 'manual_voucher';
   static const changePassword = 'change_password';
   static const myChecks = 'my_checks';
+  static const sellerEditProduct = 'seller_edit_product';
   static const exploreMap = 'explore_map';
   static const scan = 'scan';
   static const productDetail = 'product_detail';
@@ -241,6 +253,23 @@ class Routes {
         );
         if (shopArgs == null) return _fallbackRoute(settings, session: session);
         page = SellerCreateProductScreen(shopId: shopArgs.shopId);
+        break;
+      case sellerEditProduct:
+        if (args is! SellerEditProductArgs) {
+          return _fallbackRoute(settings, session: session);
+        }
+        // Read from the cache the seller's list just filled rather than
+        // passing a model through route arguments.
+        final editing = AppRepositories.instance.products.byIdOrNull(
+          args.productId,
+        );
+        if (editing == null) {
+          return _fallbackRoute(settings, session: session);
+        }
+        page = SellerCreateProductScreen(
+          shopId: args.shopId,
+          product: editing,
+        );
         break;
       case sellerCreatePledge:
         final productArgs = _singleStringRouteArg(

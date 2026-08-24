@@ -7,7 +7,8 @@ import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 import 'seller_product_list_state.dart';
 
-class SellerProductListCubit extends Cubit<SellerProductListState> with CloseSafeEmit {
+class SellerProductListCubit extends Cubit<SellerProductListState>
+    with CloseSafeEmit {
   final AppRepositories _repositories;
   final String shopId;
 

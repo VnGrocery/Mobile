@@ -4,16 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/seller_shop/widgets/seller_shop_text_field.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_cubit.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_state.dart';
 import 'package:vngrocery/features/seller_products/widgets/seller_create_product_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
+/// One form for adding a listing and for editing one.
+///
+/// Editing pre-fills what is there and adds the mandatory reason: the change
+/// is signed with that sentence inside it and appears in the product's own
+/// change log, the same as every other edit to a signed record in this app.
 class SellerCreateProductScreen extends StatefulWidget {
   final String shopId;
 
-  const SellerCreateProductScreen({super.key, required this.shopId});
+  /// Null to add a new listing.
+  final Product? product;
+
+  const SellerCreateProductScreen({
+    super.key,
+    required this.shopId,
+    this.product,
+  });
 
   @override
   State<SellerCreateProductScreen> createState() =>
@@ -25,15 +39,33 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
   final _price = TextEditingController();
   final _desc = TextEditingController();
   final _tags = TextEditingController();
+  final _changeReason = TextEditingController();
   late final SellerCreateProductCubit _createCubit;
 
-  bool get _canSave =>
-      _name.text.trim().isNotEmpty && _price.text.trim().isNotEmpty;
+  bool get _editing => widget.product != null;
+
+  bool get _canSave {
+    if (_name.text.trim().isEmpty || _price.text.trim().isEmpty) return false;
+    // No unexplained edits to a signed record. Creating one needs no reason:
+    // there is nothing yet to explain a change to.
+    if (_editing && _changeReason.text.trim().length < 5) return false;
+    return true;
+  }
 
   @override
   void initState() {
     super.initState();
-    _createCubit = SellerCreateProductCubit(shopId: widget.shopId);
+    _createCubit = SellerCreateProductCubit(
+      shopId: widget.shopId,
+      existing: widget.product,
+    );
+    final product = widget.product;
+    if (product != null) {
+      _name.text = product.name;
+      _price.text = product.price.toString();
+      _desc.text = product.description;
+      _tags.text = product.tags.join(', ');
+    }
   }
 
   @override
@@ -43,6 +75,7 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
     _price.dispose();
     _desc.dispose();
     _tags.dispose();
+    _changeReason.dispose();
     super.dispose();
   }
 
@@ -78,7 +111,9 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
             backgroundColor: context.palette.appBackground,
             appBar: AppBar(
               title: Text(
-                l10n.sellerProductCreateTitle,
+                _editing
+                    ? l10n.sellerProductEditTitle
+                    : l10n.sellerProductCreateTitle,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -99,6 +134,24 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
                   onCategoryChanged: _createCubit.setCategory,
                   onRequiredChanged: (_) => setState(() {}),
                 ),
+                if (_editing) ...[
+                  const SizedBox(height: 16),
+                  SellerShopTextField(
+                    controller: _changeReason,
+                    label: l10n.changeReasonLabel,
+                    icon: Icons.edit_note,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    l10n.changeReasonExplainer,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.palette.textSecondary,
+                      height: 1.35,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 32),
                 SellerCreateProductSubmitButton(
                   canSave: _canSave && !state.saving,
@@ -123,6 +176,7 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
         price: _price.text,
         tags: _tags.text,
         l10n: l10n,
+        changeReason: _changeReason.text.trim(),
       );
     } catch (_) {
       // This screen used to report success whatever happened and pop, so a

@@ -3841,6 +3841,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unclear'**
   String get verdictUnknown;
+
+  /// No description provided for @sellerProductEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit product'**
+  String get sellerProductEditTitle;
+
+  /// No description provided for @sellerProductActionEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit details'**
+  String get sellerProductActionEdit;
+
+  /// No description provided for @sellerProductActionPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Put on sale'**
+  String get sellerProductActionPublish;
+
+  /// No description provided for @sellerProductActionArchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from the shop'**
+  String get sellerProductActionArchive;
+
+  /// No description provided for @sellerProductActionRepublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell again'**
+  String get sellerProductActionRepublish;
+
+  /// No description provided for @sellerProductActionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete product'**
+  String get sellerProductActionDelete;
+
+  /// No description provided for @sellerProductPublishHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: stock arrived, selling again'**
+  String get sellerProductPublishHint;
+
+  /// No description provided for @sellerProductArchiveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: sold out, pausing sales'**
+  String get sellerProductArchiveHint;
+
+  /// No description provided for @sellerProductDeleteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: listed the wrong product'**
+  String get sellerProductDeleteHint;
+
+  /// No description provided for @sellerProductStatusChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Status updated'**
+  String get sellerProductStatusChanged;
+
+  /// No description provided for @sellerProductStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The status could not be changed'**
+  String get sellerProductStatusFailed;
+
+  /// No description provided for @sellerProductDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Product deleted'**
+  String get sellerProductDeleted;
+
+  /// No description provided for @sellerProductDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The product could not be deleted'**
+  String get sellerProductDeleteFailed;
+
+  /// No description provided for @sellerProductUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes saved'**
+  String get sellerProductUpdated;
 }
 
 class _AppLocalizationsDelegate

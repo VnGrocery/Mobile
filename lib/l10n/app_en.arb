@@ -1549,5 +1549,19 @@
   "verdictWarning": "Slightly off",
   "verdictHighRisk": "Well off",
   "verdictNoPledge": "No pledge yet",
-  "verdictUnknown": "Unclear"
+  "verdictUnknown": "Unclear",
+  "sellerProductEditTitle": "Edit product",
+  "sellerProductActionEdit": "Edit details",
+  "sellerProductActionPublish": "Put on sale",
+  "sellerProductActionArchive": "Hide from the shop",
+  "sellerProductActionRepublish": "Sell again",
+  "sellerProductActionDelete": "Delete product",
+  "sellerProductPublishHint": "For example: stock arrived, selling again",
+  "sellerProductArchiveHint": "For example: sold out, pausing sales",
+  "sellerProductDeleteHint": "For example: listed the wrong product",
+  "sellerProductStatusChanged": "Status updated",
+  "sellerProductStatusFailed": "The status could not be changed",
+  "sellerProductDeleted": "Product deleted",
+  "sellerProductDeleteFailed": "The product could not be deleted",
+  "sellerProductUpdated": "Changes saved"
 }

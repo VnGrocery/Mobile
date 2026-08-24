@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:vngrocery/core/ui/app_feedback.dart';
+import 'package:vngrocery/core/ui/change_reason_dialog.dart';
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_product_list_cubit.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_product_list_state.dart';
 import 'package:vngrocery/features/seller_products/widgets/seller_product_components.dart';
@@ -186,7 +190,85 @@ class _SellerProductListScreenState extends State<SellerProductListScreen> {
           Navigator.pop(context);
           await _openCreatePledgeForProduct(product);
         },
+        onEdit: () async {
+          Navigator.pop(context);
+          await _openEdit(product);
+        },
+        onChangeStatus: (status) async {
+          Navigator.pop(context);
+          await _changeStatus(product, status);
+        },
+        onDelete: () async {
+          Navigator.pop(context);
+          await _delete(product);
+        },
       ),
     );
+  }
+
+  Future<void> _openEdit(Product product) async {
+    await Navigator.pushNamed(
+      context,
+      Routes.sellerEditProduct,
+      arguments: SellerEditProductArgs(
+        shopId: product.shopId,
+        productId: product.id,
+      ),
+    );
+    if (mounted) _productCubit?.load();
+  }
+
+  /// Moving a listing between draft, on sale and hidden is an edit to a signed
+  /// record like any other, so it costs a sentence saying why.
+  Future<void> _changeStatus(Product product, String status) async {
+    final l10n = AppLocalizations.of(context);
+    final reason = await ChangeReasonDialog.show(
+      context,
+      title: SellerProductPresenter.publishActionLabel(product.status, l10n),
+      hint: SellerProductPresenter.publishActionHint(product.status, l10n),
+    );
+    if (reason == null || !mounted) return;
+    try {
+      await AppRepositories.instance.products.saveRemote(
+        product.copyWith(status: status),
+        create: false,
+        changeReason: reason,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      AppFeedback.showSnackBar(
+        context,
+        l10n.sellerProductStatusFailed,
+        icon: Icons.error_outline,
+      );
+      return;
+    }
+    if (!mounted) return;
+    AppFeedback.showSnackBar(context, l10n.sellerProductStatusChanged);
+    await _productCubit?.load();
+  }
+
+  Future<void> _delete(Product product) async {
+    final l10n = AppLocalizations.of(context);
+    final reason = await ChangeReasonDialog.show(
+      context,
+      title: l10n.sellerProductActionDelete,
+      hint: l10n.sellerProductDeleteHint,
+    );
+    if (reason == null || !mounted) return;
+    try {
+      await AppRepositories.instance.products.deleteRemote(product, reason);
+    } catch (_) {
+      if (!mounted) return;
+      AppFeedback.showSnackBar(
+        context,
+        l10n.sellerProductDeleteFailed,
+        icon: Icons.error_outline,
+      );
+      return;
+    }
+    if (!mounted) return;
+    AppFeedback.showSnackBar(context, l10n.sellerProductDeleted);
+    await _productCubit?.load();
   }
 }
