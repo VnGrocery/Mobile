@@ -20,6 +20,12 @@ class ChainAnchorBadge extends StatelessWidget {
     final palette = context.palette;
     final anchored = engagement.anchored;
 
+    // Nobody has marked this yet, so there is no figure owed to a block. A
+    // badge here would promise a write that nothing has asked for.
+    if (engagement.anchorStatus.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     return Tooltip(
       message: anchored && engagement.chainTxHash.isNotEmpty
           ? engagement.chainTxHash
