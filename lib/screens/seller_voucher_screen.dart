@@ -7,6 +7,7 @@ import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_products/seller_product_presenter.dart';
 import 'package:vngrocery/features/seller_shop/widgets/seller_empty_state.dart';
 import 'package:vngrocery/features/seller_shop/widgets/seller_shop_text_field.dart';
+import 'package:vngrocery/features/vouchers/widgets/voucher_meta_text.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -246,38 +247,20 @@ class _OfferRow extends StatelessWidget {
             runSpacing: 2,
             children: [
               if (offer.minSpend > 0)
-                _Meta(l10n.homeOfferMinSpend(formatVnd(offer.minSpend))),
-              _Meta(
+                VoucherMetaText(
+                  l10n.homeOfferMinSpend(formatVnd(offer.minSpend)),
+                ),
+              VoucherMetaText(
                 l10n.homeOfferExpiry(formatShortDate('${offer.expiresAt}')),
               ),
               // States the shop can act on, said plainly rather than implied
               // by a greyed-out row.
-              if (expired) _Meta(l10n.voucherSoldOut, warn: true),
+              if (expired) VoucherMetaText(l10n.voucherSoldOut, warn: true),
               if (!expired && offer.soldOut)
-                _Meta(l10n.voucherSoldOut, warn: true),
+                VoucherMetaText(l10n.voucherSoldOut, warn: true),
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Meta extends StatelessWidget {
-  final String text;
-  final bool warn;
-
-  const _Meta(this.text, {this.warn = false});
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = context.palette;
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: 11,
-        fontWeight: warn ? FontWeight.bold : FontWeight.normal,
-        color: warn ? palette.warnInk : palette.textTertiary,
       ),
     );
   }

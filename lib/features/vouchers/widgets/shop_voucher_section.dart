@@ -23,8 +23,11 @@ class ShopVoucherSection extends StatelessWidget {
 
     return BlocBuilder<ShopVouchersCubit, ShopVouchersState>(
       builder: (context, state) {
-        if (state.loading && state.isEmpty) return const SizedBox.shrink();
-        if (!state.failed && state.isEmpty) return const SizedBox.shrink();
+        // load() never reports failed and loading at once, so an empty list
+        // that has not failed is either still arriving or genuinely empty.
+        if (state.offers.isEmpty && !state.failed) {
+          return const SizedBox.shrink();
+        }
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),

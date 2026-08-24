@@ -30,8 +30,6 @@ class ShopVouchersState {
     this.claiming,
   });
 
-  bool get isEmpty => offers.isEmpty;
-
   ShopVouchersState copyWith({
     List<Voucher>? offers,
     Set<String>? claimed,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/data/models.dart';
+import 'package:vngrocery/features/vouchers/widgets/voucher_meta_text.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/utils/format.dart';
@@ -79,15 +80,17 @@ class VoucherOfferCard extends StatelessWidget {
                   runSpacing: 2,
                   children: [
                     if (offer.minSpend > 0)
-                      _Meta(l10n.homeOfferMinSpend(formatVnd(offer.minSpend))),
-                    _Meta(
+                      VoucherMetaText(
+                        l10n.homeOfferMinSpend(formatVnd(offer.minSpend)),
+                      ),
+                    VoucherMetaText(
                       l10n.homeOfferExpiry(
                         formatShortDate('${offer.expiresAt}'),
                       ),
                     ),
                     // Only when the shop set a limit.
                     if (offer.limited)
-                      _Meta(l10n.voucherRemaining(offer.remaining)),
+                      VoucherMetaText(l10n.voucherRemaining(offer.remaining)),
                   ],
                 ),
               ],
@@ -102,20 +105,6 @@ class VoucherOfferCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _Meta extends StatelessWidget {
-  final String text;
-
-  const _Meta(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: TextStyle(fontSize: 11, color: context.palette.textTertiary),
     );
   }
 }
