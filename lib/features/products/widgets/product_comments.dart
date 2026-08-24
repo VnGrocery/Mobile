@@ -6,7 +6,7 @@ import 'package:vngrocery/core/widgets/collapsible_list.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/session.dart';
 import 'package:vngrocery/features/products/controllers/product_comments_cubit.dart';
-import 'package:vngrocery/features/products/widgets/comment_reason_dialog.dart';
+import 'package:vngrocery/core/ui/change_reason_dialog.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 import 'package:vngrocery/utils/format.dart';
@@ -164,7 +164,7 @@ class _ProductCommentsState extends State<ProductComments> {
   Future<void> _withdraw(ProductComment comment) async {
     final l10n = AppLocalizations.of(context);
     final cubit = context.read<ProductCommentsCubit>();
-    final reason = await CommentReasonDialog.show(
+    final reason = await ChangeReasonDialog.show(
       context,
       title: l10n.commentsWithdraw,
       hint: l10n.commentsWithdrawReason,

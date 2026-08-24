@@ -3,19 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
-/// Asks for the sentence that will be signed along with the decision.
+/// Asks for the sentence that will be signed along with the change.
 ///
-/// Withdrawing your own comment and screening someone else's are different
-/// acts, but both end up inside a signed envelope, so both are asked the same
-/// way: a reason of at least five characters, or no decision at all.
-class CommentReasonDialog extends StatefulWidget {
+/// Editing a product, hiding it, screening a comment and withdrawing your own
+/// are different acts, but every one of them ends up inside a signed envelope
+/// that nobody can rewrite afterwards. So every one of them is asked the same
+/// way: a reason of at least five characters, or no change at all.
+class ChangeReasonDialog extends StatefulWidget {
   final String title;
   final String hint;
 
-  const CommentReasonDialog({
+  /// Defaults to "Lý do thay đổi". Moderation passes its own wording.
+  final String? label;
+
+  const ChangeReasonDialog({
     super.key,
     required this.title,
     required this.hint,
+    this.label,
   });
 
   /// Returns the trimmed reason, or null when the user backs out.
@@ -23,18 +28,20 @@ class CommentReasonDialog extends StatefulWidget {
     BuildContext context, {
     required String title,
     required String hint,
+    String? label,
   }) {
     return showDialog<String>(
       context: context,
-      builder: (_) => CommentReasonDialog(title: title, hint: hint),
+      builder: (_) =>
+          ChangeReasonDialog(title: title, hint: hint, label: label),
     );
   }
 
   @override
-  State<CommentReasonDialog> createState() => _CommentReasonDialogState();
+  State<ChangeReasonDialog> createState() => _ChangeReasonDialogState();
 }
 
-class _CommentReasonDialogState extends State<CommentReasonDialog> {
+class _ChangeReasonDialogState extends State<ChangeReasonDialog> {
   static const minReason = 5;
 
   final TextEditingController _reason = TextEditingController();
@@ -61,7 +68,7 @@ class _CommentReasonDialogState extends State<CommentReasonDialog> {
             maxLength: 200,
             onChanged: (_) => setState(() {}),
             decoration: InputDecoration(
-              labelText: l10n.sellerCommentsReasonLabel,
+              labelText: widget.label ?? l10n.changeReasonLabel,
               hintText: widget.hint,
               counterText: '',
             ),

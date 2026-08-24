@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
-import 'package:vngrocery/features/products/widgets/comment_reason_dialog.dart';
+import 'package:vngrocery/core/ui/change_reason_dialog.dart';
 import 'package:vngrocery/features/seller_shop/widgets/seller_empty_state.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
@@ -133,7 +133,7 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
 
   Future<void> _decide(ProductComment comment, bool approve) async {
     final l10n = AppLocalizations.of(context);
-    final reason = await CommentReasonDialog.show(
+    final reason = await ChangeReasonDialog.show(
       context,
       title: approve ? l10n.sellerCommentsApprove : l10n.sellerCommentsReject,
       // The example has to match the decision: an approval prompted with
@@ -141,6 +141,7 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
       hint: approve
           ? l10n.sellerCommentsApproveHint
           : l10n.sellerCommentsReasonHint,
+      label: l10n.sellerCommentsReasonLabel,
     );
     if (reason == null || !mounted) return;
 
