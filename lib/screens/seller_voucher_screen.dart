@@ -232,7 +232,10 @@ class _OfferRow extends StatelessWidget {
                     ? 0
                     : offer.claimedCount / offer.totalQuantity,
                 minHeight: 6,
-                backgroundColor: palette.mutedSurface,
+                // mutedSurface is the card colour, so an untouched offer used
+                // to render as a blank gap. Tint the track from the fill
+                // instead, so 0/N still reads as an empty bar.
+                backgroundColor: palette.greenInk.withValues(alpha: 0.18),
                 valueColor: AlwaysStoppedAnimation(palette.greenInk),
               ),
             ),
