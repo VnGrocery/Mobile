@@ -16,7 +16,14 @@ class ManualVoucherState {
   });
 
   factory ManualVoucherState.initial() {
-    return ManualVoucherState(expiresAt: DateTime(2026, 6, 30, 23, 59));
+    // Relative to today, not a fixed calendar date: a hardcoded date rots the
+    // moment it passes, and every manual voucher saved without picking one
+    // then fails server-side validation ("voucher is no longer available")
+    // for a reason no error message on this screen explains.
+    final in30Days = DateTime.now().add(const Duration(days: 30));
+    return ManualVoucherState(
+      expiresAt: DateTime(in30Days.year, in30Days.month, in30Days.day, 23, 59),
+    );
   }
 
   ManualVoucherState copyWith({

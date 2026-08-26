@@ -16,6 +16,17 @@ void main() {
     cubit.close();
   });
 
+  // A fixed calendar date used to sit here and rot the day it passed: every
+  // manual voucher saved without picking an expiry would then fail
+  // server-side as already expired.
+  test('a fresh cubit defaults to an expiry that has not passed', () {
+    final cubit = ManualVoucherCubit()..load();
+
+    expect(cubit.state.expiresAt.isAfter(DateTime.now()), isTrue);
+
+    cubit.close();
+  });
+
   test('ManualVoucherCubit updates expiry and saves manual voucher', () {
     final cubit = ManualVoucherCubit()..load();
     cubit.setExpiry(DateTime(2027, 1, 2));
