@@ -57,6 +57,7 @@ class _ActivityHistoryScreenState extends State<ActivityHistoryScreen> {
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
+        key: const ValueKey('activity_history'),
         backgroundColor: context.palette.appBackground,
         appBar: AppBar(
           title: Text(

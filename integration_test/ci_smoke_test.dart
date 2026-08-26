@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:vngrocery/core/storage/hive_storage_service.dart';
 import 'package:vngrocery/data/session.dart';
+import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/main.dart' as app;
 import 'package:vngrocery/theme/theme_controller.dart';
 
@@ -101,6 +103,31 @@ void main() {
       await tester.pump();
       await pumpFor(tester, const Duration(milliseconds: 800));
       expect(find.byKey(const ValueKey('store_list')), findsNothing);
+    },
+    skip: !onDevice,
+  );
+
+  testWidgets(
+    'the activity history opens and says the trail could not be read',
+    (tester) async {
+      await launchSignedIn(tester);
+
+      await tester.tap(navTab('account'));
+      await tester.pump();
+      await pumpFor(tester, const Duration(milliseconds: 800));
+
+      final entry = find.byKey(const ValueKey('account.activity_history_button'));
+      await tester.scrollUntilVisible(entry, 200, maxScrolls: 20);
+      await tester.tap(entry);
+      await tester.pump();
+      await pumpFor(tester, const Duration(seconds: 2));
+
+      expect(find.byKey(const ValueKey('activity_history')), findsOneWidget);
+      // Nothing answers on the API port here, and a signed trail that cannot be
+      // read must not look like a life with nothing in it.
+      final l10n = await AppLocalizations.delegate.load(const Locale('vi'));
+      expect(find.text(l10n.activityFailed), findsWidgets);
+      expect(find.text(l10n.activityEmptyTitle), findsNothing);
     },
     skip: !onDevice,
   );

@@ -146,6 +146,7 @@ class _AccountTabState extends State<AccountTab> {
           // followed, liked, commented and checked, and whether each entry
           // still matches the hash it was written with.
           AccountMenuItem(
+            key: const ValueKey('account.activity_history_button'),
             icon: Icons.history,
             label: l10n.accountActivityHistory,
             onTap: () => Navigator.pushNamed(context, Routes.activityHistory),
