@@ -78,7 +78,13 @@ class LocationService {
     }
 
     var permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
+    // The OS dialog can sit open for as long as the reader takes to answer
+    // it, and the provider is only just starting up the instant they do -
+    // the first fix right after saying yes is the one most likely to be
+    // slow or momentarily empty. Nothing else on this screen asks again, so
+    // one retry here beats a chip that never updates without a manual pull.
+    final justGranted = permission == LocationPermission.denied;
+    if (justGranted) {
       permission = await Geolocator.requestPermission();
     }
     if (permission == LocationPermission.deniedForever) {
@@ -88,7 +94,10 @@ class LocationService {
       return (null, LocationDenial.denied);
     }
 
-    final position = await _position();
+    var position = await _position();
+    if (position == null && justGranted) {
+      position = await _position();
+    }
     if (position == null) return (null, LocationDenial.unavailable);
 
     final point = GeoPoint(position.latitude, position.longitude);
