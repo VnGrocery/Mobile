@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +13,16 @@ import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:vngrocery/theme/app_palette.dart';
+
+/// Whether Google sign-in can be offered at all on this platform.
+///
+/// google_sign_in's iOS plugin raises an Objective-C exception when no
+/// GIDClientID sits in Info.plist, and an ObjC exception aborts the process
+/// past any Dart catch: the button is an app crash wearing a Google logo. This
+/// build ships no iOS OAuth client, so the honest thing is not to offer it.
+/// Add GIDClientID to ios/Runner/Info.plist and this guard can go.
+bool get googleSignInAvailable =>
+    kIsWeb || defaultTargetPlatform != TargetPlatform.iOS;
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -68,6 +79,7 @@ class _AuthScreenState extends State<AuthScreen> {
               const SizedBox(height: 18),
               RegisterNameField(visible: _isRegister, controller: _name),
               AuthTextField(
+                key: const ValueKey('auth.email_field'),
                 controller: _email,
                 label: AppLocalizations.of(context).authEmailLabel,
                 icon: Icons.email,
@@ -76,6 +88,7 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               const SizedBox(height: 14),
               AuthPasswordField(
+                key: const ValueKey('auth.password_field'),
                 controller: _password,
                 label: AppLocalizations.of(context).authPasswordLabel,
                 visible: _showPassword,
@@ -113,7 +126,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     onPressed: _forgotPassword,
                     child: Text(
                       AppLocalizations.of(context).authForgotPassword,
-                      style: TextStyle(color: context.palette.textSecondary, fontSize: 14),
+                      style: TextStyle(
+                        color: context.palette.textSecondary,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ),
@@ -123,11 +139,13 @@ class _AuthScreenState extends State<AuthScreen> {
                 register: _isRegister,
                 onPressed: _submit,
               ),
-              const SizedBox(height: 16),
-              GoogleSignInButton(
-                loading: _loading,
-                onPressed: _continueWithGoogle,
-              ),
+              if (googleSignInAvailable) ...[
+                const SizedBox(height: 16),
+                GoogleSignInButton(
+                  loading: _loading,
+                  onPressed: _continueWithGoogle,
+                ),
+              ],
             ],
           ),
         ),
