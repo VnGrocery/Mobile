@@ -67,34 +67,35 @@ class VnGroceryApp extends StatelessWidget {
             BlocProvider(create: (_) => SessionCubit()),
             BlocProvider(create: (_) => CartBloc()..add(const CartStarted())),
           ],
-          child: BlocBuilder<SessionCubit, SessionState>(
-            builder: (context, session) {
-              return MaterialApp(
-                onGenerateTitle: (context) =>
-                    AppLocalizations.of(context).appTitle,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: AppLocalizations.supportedLocales,
-                // Vietnamese regardless of the device language. Around 140
-                // user-facing strings are still hardcoded in Vietnamese, so
-                // following the device locale produced screens with English
-                // headings above Vietnamese body text.
-                locale: const Locale('vi'),
-                debugShowCheckedModeBanner: false,
-                theme: AppTheme.light,
-                darkTheme: AppTheme.dark,
-                themeMode: themeMode,
-                builder: (context, child) =>
-                    _AppBackdrop(child: child ?? const SizedBox()),
-                scrollBehavior: const _AppScrollBehavior(),
-                initialRoute: Routes.splash,
-                onGenerateRoute: Routes.routeFactory(session),
-              );
-            },
+          child: MaterialApp(
+            onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            // Vietnamese regardless of the device language. Around 140
+            // user-facing strings are still hardcoded in Vietnamese, so
+            // following the device locale produced screens with English
+            // headings above Vietnamese body text.
+            locale: const Locale('vi'),
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeMode,
+            builder: (context, child) =>
+                _AppBackdrop(child: child ?? const SizedBox()),
+            scrollBehavior: const _AppScrollBehavior(),
+            initialRoute: Routes.splash,
+            // Read at generate time, not build time: a screen that signs in
+            // and navigates in the same microtask would otherwise be routed by
+            // the session captured before the login, and bounced back to auth.
+            onGenerateRoute: (settings) => Routes.onGenerateRoute(
+              settings,
+              session: SessionState.fromManager(SessionManager.instance),
+            ),
           ),
         );
       },
