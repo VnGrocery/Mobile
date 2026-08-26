@@ -25,25 +25,36 @@ class FollowShopButton extends StatelessWidget {
         final busy = state.pending != null;
         final following = data?.following ?? false;
 
-        return Row(
-          children: [
-            if (following)
-              OutlinedButton.icon(
-                onPressed: busy || data == null ? null : () => _toggle(context),
-                icon: const Icon(Icons.check, size: 18),
-                label: Text(l10n.engagementFollowing),
-              )
-            else
-              FilledButton.icon(
-                onPressed: busy || data == null ? null : () => _toggle(context),
-                icon: const Icon(Icons.add, size: 18),
-                label: Text(l10n.engagementFollow),
-              ),
-            const SizedBox(width: 12),
-            if (data != null) ...[
-              Expanded(
-                child: Column(
+        // Everything above this on the store header is centred; an Expanded
+        // column here used to force the whole row to the page's full width,
+        // which read as the button drifting off to the left under a centred
+        // title. mainAxisSize.min plus Center lets it sit as one centred
+        // group instead.
+        return Center(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (following)
+                OutlinedButton.icon(
+                  onPressed: busy || data == null
+                      ? null
+                      : () => _toggle(context),
+                  icon: const Icon(Icons.check, size: 18),
+                  label: Text(l10n.engagementFollowing),
+                )
+              else
+                FilledButton.icon(
+                  onPressed: busy || data == null
+                      ? null
+                      : () => _toggle(context),
+                  icon: const Icon(Icons.add, size: 18),
+                  label: Text(l10n.engagementFollow),
+                ),
+              const SizedBox(width: 12),
+              if (data != null)
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       l10n.engagementFollowers(data.follows),
@@ -56,16 +67,14 @@ class FollowShopButton extends StatelessWidget {
                     const SizedBox(height: 4),
                     ChainAnchorBadge(engagement: data),
                   ],
-                ),
-              ),
-            ] else if (state.failed)
-              Expanded(
-                child: Text(
+                )
+              else if (state.failed)
+                Text(
                   l10n.engagementFailed,
                   style: TextStyle(fontSize: 12, color: palette.warnInk),
                 ),
-              ),
-          ],
+            ],
+          ),
         );
       },
     );
