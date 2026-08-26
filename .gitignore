@@ -56,3 +56,4 @@ app.*.map.json
 .agents/
 skills-lock.json
 .serena/
+.env

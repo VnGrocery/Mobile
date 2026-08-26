@@ -93,6 +93,13 @@ Google login cần cấu hình OAuth native theo `google_sign_in` và truyền w
 flutter run --dart-define=GOOGLE_CLIENT_ID=your-web-client-id.apps.googleusercontent.com
 ```
 
+Thay vì lặp lại từng `--dart-define`, có thể gom hết vào một file (`.env`, gitignored) và nạp bằng cờ đọc file gốc của Flutter:
+
+```bash
+cp .env.example .env   # rồi sửa domain/port cho đúng máy của bạn
+flutter run --dart-define-from-file=.env
+```
+
 Thiết bị thật phải dùng địa chỉ LAN/HTTPS mà thiết bị truy cập được. HTTP cleartext chỉ được bật trong Android debug manifest; production nên dùng HTTPS.
 
 `integration_test/app_smoke_test.dart` dùng `integration_test`; cần Android/iOS device hoặc emulator. Smoke hiện dùng stable keys cho onboarding/auth/logout flow thay vì selector text cứng. Lệnh chuẩn:
