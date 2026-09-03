@@ -2309,6 +2309,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activityUnsigned => 'Older entry, no signature to verify';
 
   @override
+  String get activityVerifiedBadge => 'Verified';
+
+  @override
+  String get activityUnverifiedBadge => 'Unverified';
+
+  @override
+  String get activityBrokenBadge => 'Mismatch';
+
+  @override
+  String get activityDetailTitle => 'Entry details';
+
+  @override
+  String get activityDetailHash => 'Content hash';
+
+  @override
+  String get activityDetailSignature => 'Signature';
+
+  @override
+  String get activityDetailPrevious => 'Previous link';
+
+  @override
+  String get activityDetailContentMatch => 'Content hash matches';
+
+  @override
+  String get activityDetailSignatureMatch => 'Signature valid';
+
+  @override
+  String get activityDetailChainMatch => 'Chain link matches';
+
+  @override
   String activitySequence(int sequence) {
     return 'Number $sequence in the chain';
   }

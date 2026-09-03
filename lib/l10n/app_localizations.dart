@@ -4226,6 +4226,66 @@ abstract class AppLocalizations {
   /// **'Older entry, no signature to verify'**
   String get activityUnsigned;
 
+  /// No description provided for @activityVerifiedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get activityVerifiedBadge;
+
+  /// No description provided for @activityUnverifiedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Unverified'**
+  String get activityUnverifiedBadge;
+
+  /// No description provided for @activityBrokenBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Mismatch'**
+  String get activityBrokenBadge;
+
+  /// No description provided for @activityDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry details'**
+  String get activityDetailTitle;
+
+  /// No description provided for @activityDetailHash.
+  ///
+  /// In en, this message translates to:
+  /// **'Content hash'**
+  String get activityDetailHash;
+
+  /// No description provided for @activityDetailSignature.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature'**
+  String get activityDetailSignature;
+
+  /// No description provided for @activityDetailPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous link'**
+  String get activityDetailPrevious;
+
+  /// No description provided for @activityDetailContentMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Content hash matches'**
+  String get activityDetailContentMatch;
+
+  /// No description provided for @activityDetailSignatureMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature valid'**
+  String get activityDetailSignatureMatch;
+
+  /// No description provided for @activityDetailChainMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain link matches'**
+  String get activityDetailChainMatch;
+
   /// No description provided for @activitySequence.
   ///
   /// In en, this message translates to:

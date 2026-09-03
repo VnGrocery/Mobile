@@ -2297,6 +2297,36 @@ class AppLocalizationsVi extends AppLocalizations {
   String get activityUnsigned => 'Bản ghi cũ, chưa có chữ ký để kiểm chứng';
 
   @override
+  String get activityVerifiedBadge => 'Đã xác thực';
+
+  @override
+  String get activityUnverifiedBadge => 'Chưa xác thực';
+
+  @override
+  String get activityBrokenBadge => 'Sai lệch';
+
+  @override
+  String get activityDetailTitle => 'Chi tiết bản ghi';
+
+  @override
+  String get activityDetailHash => 'Mã băm nội dung';
+
+  @override
+  String get activityDetailSignature => 'Chữ ký';
+
+  @override
+  String get activityDetailPrevious => 'Mắt xích trước';
+
+  @override
+  String get activityDetailContentMatch => 'Mã băm khớp';
+
+  @override
+  String get activityDetailSignatureMatch => 'Chữ ký hợp lệ';
+
+  @override
+  String get activityDetailChainMatch => 'Liên kết chuỗi khớp';
+
+  @override
   String activitySequence(int sequence) {
     return 'Số thứ tự $sequence trong chuỗi';
   }

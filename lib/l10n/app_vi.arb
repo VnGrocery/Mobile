@@ -1162,6 +1162,16 @@
   "activityVerifiedOk": "Nguyên vẹn: chữ ký, mã băm và liên kết chuỗi đều khớp",
   "activityVerifiedBroken": "Không khớp — bản ghi này đã bị sửa hoặc thiếu mắt xích",
   "activityUnsigned": "Bản ghi cũ, chưa có chữ ký để kiểm chứng",
+  "activityVerifiedBadge": "Đã xác thực",
+  "activityUnverifiedBadge": "Chưa xác thực",
+  "activityBrokenBadge": "Sai lệch",
+  "activityDetailTitle": "Chi tiết bản ghi",
+  "activityDetailHash": "Mã băm nội dung",
+  "activityDetailSignature": "Chữ ký",
+  "activityDetailPrevious": "Mắt xích trước",
+  "activityDetailContentMatch": "Mã băm khớp",
+  "activityDetailSignatureMatch": "Chữ ký hợp lệ",
+  "activityDetailChainMatch": "Liên kết chuỗi khớp",
   "activitySequence": "Số thứ tự {sequence} trong chuỗi",
   "@activitySequence": {
     "placeholders": {

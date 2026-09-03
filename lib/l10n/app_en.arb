@@ -1666,6 +1666,16 @@
   "activityVerifiedOk": "Intact: signature, hash and chain link all match",
   "activityVerifiedBroken": "Mismatch — this entry was altered or a link is missing",
   "activityUnsigned": "Older entry, no signature to verify",
+  "activityVerifiedBadge": "Verified",
+  "activityUnverifiedBadge": "Unverified",
+  "activityBrokenBadge": "Mismatch",
+  "activityDetailTitle": "Entry details",
+  "activityDetailHash": "Content hash",
+  "activityDetailSignature": "Signature",
+  "activityDetailPrevious": "Previous link",
+  "activityDetailContentMatch": "Content hash matches",
+  "activityDetailSignatureMatch": "Signature valid",
+  "activityDetailChainMatch": "Chain link matches",
   "activitySequence": "Number {sequence} in the chain",
   "@activitySequence": {
     "placeholders": {
