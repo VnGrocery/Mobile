@@ -28,6 +28,12 @@ class ShopAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = _loadableUrl;
 
+    // Decode to the size actually drawn, same fix ProductThumbnail already
+    // has: a 22dp avatar was decoding whatever full-resolution photo the
+    // seller uploaded, once per visible card.
+    final pixels = (radius * 2 * MediaQuery.devicePixelRatioOf(context))
+        .round();
+
     return CircleAvatar(
       radius: radius,
       backgroundColor: context.palette.elevatedCard,
@@ -39,6 +45,8 @@ class ShopAvatar extends StatelessWidget {
                 width: radius * 2,
                 height: radius * 2,
                 fit: BoxFit.cover,
+                memCacheWidth: pixels,
+                memCacheHeight: pixels,
                 errorWidget: (_, __, ___) => _fallback(),
               ),
             ),

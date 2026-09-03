@@ -27,6 +27,7 @@ class ExploreSearchShell extends StatelessWidget {
             shape: const CircleBorder(),
             child: IconButton(
               onPressed: onBack,
+              tooltip: l10n.a11yBack,
               icon: const Icon(Icons.arrow_back),
             ),
           ),

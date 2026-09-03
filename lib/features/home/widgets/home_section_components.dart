@@ -30,9 +30,11 @@ class HomeSectionTitle extends StatelessWidget {
             TextButton(
               onPressed: onSeeAll,
               style: TextButton.styleFrom(
-                minimumSize: const Size(0, 36),
+                // shrinkWrap put the actual tap target under the 48dp
+                // Material minimum; the default tap target size keeps the
+                // text small while restoring a real 48dp hit area.
+                minimumSize: const Size(0, 48),
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
               child: Text(
                 AppLocalizations.of(context).homeSeeAll,
