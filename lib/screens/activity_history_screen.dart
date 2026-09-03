@@ -121,16 +121,17 @@ class _ActivityHistoryScreenState extends State<ActivityHistoryScreen> {
       itemBuilder: (_, index) {
         if (index == state.events.length) return _footer(l10n, state);
         final event = state.events[index];
+        final busy = state.verifyingIds.contains(event.eventId);
         return _TimelineRow(
           isFirst: index == 0,
           isLast: index == state.events.length - 1 && !state.hasMore,
           verification: state.checked[event.eventId],
-          busy: state.verifying == event.eventId,
+          busy: busy,
           signed: event.signed,
           child: _ActivityCard(
             event: event,
             verification: state.checked[event.eventId],
-            busy: state.verifying == event.eventId,
+            busy: busy,
             onVerify: () => _verify(event.eventId),
           ),
         );
@@ -161,6 +162,9 @@ class _ActivityHistoryScreenState extends State<ActivityHistoryScreen> {
     return const SizedBox(height: 8);
   }
 
+  /// Manual tap through the badge routes here so a failed check surfaces to
+  /// the reader; auto-verify on load swallows the same failure silently
+  /// since there's no tap for the reader to have made.
   Future<void> _verify(String eventId) async {
     final l10n = AppLocalizations.of(context);
     try {
@@ -174,6 +178,7 @@ class _ActivityHistoryScreenState extends State<ActivityHistoryScreen> {
       );
     }
   }
+
 }
 
 /// The spine from History of Everything: a continuous line down the left

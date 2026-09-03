@@ -160,7 +160,7 @@ void main() {
     expect(result.verified, isFalse);
     expect(result.contentHashValid, isFalse);
     expect(result.signatureValid, isTrue);
-    expect(cubit.state.verifying, isNull);
+    expect(cubit.state.verifyingIds, isEmpty);
   });
 
   test('a check that could not run rethrows instead of passing', () async {
@@ -179,6 +179,6 @@ void main() {
 
     await expectLater(cubit.verify('event-1'), throwsA(isA<Exception>()));
     expect(cubit.state.checked, isEmpty);
-    expect(cubit.state.verifying, isNull);
+    expect(cubit.state.verifyingIds, isEmpty);
   });
 }

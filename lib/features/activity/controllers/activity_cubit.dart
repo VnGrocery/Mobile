@@ -16,8 +16,11 @@ class ActivityState {
   /// Verifications the reader has asked for, by event id.
   final Map<String, ActivityVerification> checked;
 
-  /// The entry a verification is in flight for.
-  final String? verifying;
+  /// Entries a verification is in flight for. A set rather than one id,
+  /// because every signed row on a freshly loaded page checks itself at
+  /// once — the reader shouldn't have to tap through a badge per row for
+  /// something the row already has enough proof to answer on its own.
+  final Set<String> verifyingIds;
 
   const ActivityState({
     this.events = const [],
@@ -25,7 +28,7 @@ class ActivityState {
     this.failed = false,
     this.hasMore = true,
     this.checked = const {},
-    this.verifying,
+    this.verifyingIds = const {},
   });
 
   ActivityState copyWith({
@@ -34,8 +37,7 @@ class ActivityState {
     bool? failed,
     bool? hasMore,
     Map<String, ActivityVerification>? checked,
-    String? verifying,
-    bool clearVerifying = false,
+    Set<String>? verifyingIds,
   }) {
     return ActivityState(
       events: events ?? this.events,
@@ -43,7 +45,7 @@ class ActivityState {
       failed: failed ?? this.failed,
       hasMore: hasMore ?? this.hasMore,
       checked: checked ?? this.checked,
-      verifying: clearVerifying ? null : (verifying ?? this.verifying),
+      verifyingIds: verifyingIds ?? this.verifyingIds,
     );
   }
 }
@@ -84,6 +86,7 @@ class ActivityCubit extends Cubit<ActivityState> with CloseSafeEmit {
           checked: const {},
         ),
       );
+      _autoVerify(events);
     } catch (_) {
       emit(state.copyWith(loading: false, failed: true));
     }
@@ -103,6 +106,7 @@ class ActivityCubit extends Cubit<ActivityState> with CloseSafeEmit {
           hasMore: next.length == pageSize,
         ),
       );
+      _autoVerify(next);
     } catch (_) {
       // The pages already read stay on screen: losing them would punish the
       // reader for scrolling.
@@ -110,22 +114,38 @@ class ActivityCubit extends Cubit<ActivityState> with CloseSafeEmit {
     }
   }
 
-  /// Re-checks one entry. Rethrows so the screen can say the check itself
+  /// Checks every signed row on a page as soon as it lands, the way a commit
+  /// list shows Verified without being asked — the reader shouldn't have to
+  /// tap each badge to learn what the server already knows. Each row settles
+  /// independently rather than waiting on the whole page, so nothing on
+  /// screen blocks the rest. Errors are swallowed here (not the reader's
+  /// doing, nothing for them to react to); a manual tap through [verify]
+  /// still surfaces its own failure.
+  void _autoVerify(List<ActivityEvent> events) {
+    for (final event in events) {
+      if (event.signed) verify(event.eventId).catchError((_) {});
+    }
+  }
+
+  /// Checks one entry. Rethrows so the screen can say the check itself
   /// failed, which is a different thing from the entry failing its check.
   Future<void> verify(String eventId) async {
     final remote = _remote;
     if (remote == null) throw StateError('no remote data source');
-    emit(state.copyWith(verifying: eventId));
+    emit(state.copyWith(verifyingIds: {...state.verifyingIds, eventId}));
     try {
       final result = await remote.verifyActivityEvent(eventId);
+      if (isClosed) return;
       emit(
         state.copyWith(
           checked: {...state.checked, eventId: result},
-          clearVerifying: true,
+          verifyingIds: {...state.verifyingIds}..remove(eventId),
         ),
       );
     } catch (_) {
-      emit(state.copyWith(clearVerifying: true));
+      if (!isClosed) {
+        emit(state.copyWith(verifyingIds: {...state.verifyingIds}..remove(eventId)));
+      }
       rethrow;
     }
   }
