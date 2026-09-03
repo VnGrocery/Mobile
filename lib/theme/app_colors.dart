@@ -36,6 +36,7 @@ class AppColors {
   static const Color trustGreen = Color(0xFF2E7D32);
   static const Color trustGreenBg = Color(0xFFE8F5E9);
   static const Color warningBg = Color(0xFFFFF3E0);
+  static const Color errorBg = Color(0xFFFFEBEE);
 
   // Nền & bề mặt grocery
   static const Color screenBg = Color(0xFFFFFFFF);

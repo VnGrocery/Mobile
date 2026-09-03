@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
+import 'package:vngrocery/theme/app_palette.dart';
 
 class GlassTabItem extends StatelessWidget {
   final IconData icon;
@@ -26,10 +27,8 @@ class GlassTabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final inactiveColor = isDark
-        ? const Color(0xFF9CAEA0)
-        : const Color(0xFF8BA1B2);
+    // Was a hardcoded light/dark branch duplicating iconMuted's own values.
+    final inactiveColor = context.palette.iconMuted;
     // Only the icon carries the accent: a green label too would read as a
     // second selected tab.
     final iconColor = selected || accent

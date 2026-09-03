@@ -184,17 +184,20 @@ class _DongSonMotifPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = math.min(size.width, size.height) / 2 - 8;
+    // Fixed motif ink, not a theme color — the Đông Sơn drum reads the same
+    // gold in light or dark, so this doesn't route through AppPalette.
+    const motifGold = Color(0xFFD9981F);
     final gold = Paint()
-      ..color = const Color(0xFFD9981F)
+      ..color = motifGold
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.1
       ..strokeCap = StrokeCap.round;
     final fineGold = Paint()
-      ..color = const Color(0xFFD9981F)
+      ..color = motifGold
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.1;
     final fillGold = Paint()
-      ..color = const Color(0xFFD9981F)
+      ..color = motifGold
       ..style = PaintingStyle.fill;
 
     for (final r in [

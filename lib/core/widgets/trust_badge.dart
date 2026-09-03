@@ -32,7 +32,7 @@ const _styles = <ProofStatus, _BadgeStyle>{
   ),
   ProofStatus.revoked: _BadgeStyle(
     AppColors.priceRed,
-    Color(0xFFFFEBEE),
+    AppColors.errorBg,
     Icons.gpp_bad,
   ),
   ProofStatus.unknown: _BadgeStyle(
