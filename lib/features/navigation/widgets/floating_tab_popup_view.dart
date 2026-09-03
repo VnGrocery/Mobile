@@ -18,6 +18,18 @@ class FloatingTabPopup extends StatelessWidget {
     required this.onSelect,
   });
 
+  static const double _phoneWidth = 342;
+
+  /// A phone-width pill left untouched on a tablet reads as a stray sliver
+  /// on a mostly-empty screen. Above the Material medium breakpoint (600dp)
+  /// it grows with the screen, capped so it never becomes an absurd
+  /// full-bleed bar.
+  double _width(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    if (screenWidth < 600) return _phoneWidth;
+    return (screenWidth * 0.5).clamp(_phoneWidth, 640.0);
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -26,7 +38,7 @@ class FloatingTabPopup extends StatelessWidget {
       top: false,
       child: Center(
         child: SizedBox(
-          width: 342,
+          width: _width(context),
           height: 84,
           child: Stack(
             alignment: Alignment.bottomCenter,
