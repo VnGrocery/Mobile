@@ -4229,13 +4229,13 @@ abstract class AppLocalizations {
   /// No description provided for @activityVerifiedBadge.
   ///
   /// In en, this message translates to:
-  /// **'Verified'**
+  /// **'Intact'**
   String get activityVerifiedBadge;
 
   /// No description provided for @activityUnverifiedBadge.
   ///
   /// In en, this message translates to:
-  /// **'Unverified'**
+  /// **'Not checked'**
   String get activityUnverifiedBadge;
 
   /// No description provided for @activityBrokenBadge.

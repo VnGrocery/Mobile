@@ -2309,10 +2309,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activityUnsigned => 'Older entry, no signature to verify';
 
   @override
-  String get activityVerifiedBadge => 'Verified';
+  String get activityVerifiedBadge => 'Intact';
 
   @override
-  String get activityUnverifiedBadge => 'Unverified';
+  String get activityUnverifiedBadge => 'Not checked';
 
   @override
   String get activityBrokenBadge => 'Mismatch';

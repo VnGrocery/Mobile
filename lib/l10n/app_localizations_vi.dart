@@ -2297,10 +2297,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get activityUnsigned => 'Bản ghi cũ, chưa có chữ ký để kiểm chứng';
 
   @override
-  String get activityVerifiedBadge => 'Đã xác thực';
+  String get activityVerifiedBadge => 'Nguyên vẹn';
 
   @override
-  String get activityUnverifiedBadge => 'Chưa xác thực';
+  String get activityUnverifiedBadge => 'Chưa kiểm tra';
 
   @override
   String get activityBrokenBadge => 'Sai lệch';
