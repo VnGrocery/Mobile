@@ -107,14 +107,24 @@ class LocationService {
     );
   }
 
-  /// A fresh fix if one arrives quickly, otherwise the last one Android saw.
+  /// The last position Android already has, if any; otherwise a fresh fix.
   ///
   /// Indoors — which is where someone browses a grocery app — a cold GPS fix
-  /// can take longer than anyone will wait, or never arrive at all. The last
-  /// known position puts the reader within a few hundred metres of where they
-  /// are, which is ample for choosing between a 2 km shop and a 15 km one.
-  /// Waiting for a perfect fix instead left the app claiming it had no idea.
+  /// can take longer than anyone will wait, or never arrive at all. Every
+  /// screen that asks for a position (the map, the home chip, the store
+  /// list) used to sit blocked behind up to 8s of "locating" for a fix whose
+  /// only use is ranking shops by kilometres. The last known position puts
+  /// the reader within a few hundred metres of where they are, which is
+  /// ample for choosing between a 2 km shop and a 15 km one, and Android
+  /// hands it back immediately — so it is worth trying before paying for a
+  /// live fix, not just as the fallback once one fails.
   Future<Position?> _position() async {
+    try {
+      final last = await Geolocator.getLastKnownPosition();
+      if (last != null) return last;
+    } catch (_) {
+      // Fall through to a live fix.
+    }
     try {
       return await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
@@ -125,11 +135,7 @@ class LocationService {
         ),
       );
     } catch (_) {
-      try {
-        return await Geolocator.getLastKnownPosition();
-      } catch (_) {
-        return null;
-      }
+      return null;
     }
   }
 
