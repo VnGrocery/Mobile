@@ -353,13 +353,13 @@ class _ShaChip extends StatelessWidget {
     final short = hash.substring(0, hash.length < 6 ? hash.length : 6);
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
           color: palette.mutedSurface,
           border: Border.all(color: verified ? palette.greenInk : palette.border),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
           short,
