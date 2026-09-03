@@ -32,10 +32,23 @@ class ProductThumbnail extends StatelessWidget {
     for (final url in imageUrls) {
       final trimmed = url.trim();
       if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-        return trimmed;
+        return _forEmulator(trimmed);
       }
     }
     return null;
+  }
+
+  /// The IPFS gateway URL the server hands back points at its own view of
+  /// itself (127.0.0.1:8080, same host the dev API defaults to in
+  /// [ApiClient.defaultBaseUrl]). On the emulator that resolves to the
+  /// emulator, not the dev machine running the gateway, so every photo
+  /// silently failed to load. 10.0.2.2 is the emulator's alias for the host;
+  /// a real device or production build already gets a real domain here and
+  /// passes through unchanged.
+  static String _forEmulator(String url) {
+    return url
+        .replaceFirst('://127.0.0.1:', '://10.0.2.2:')
+        .replaceFirst('://localhost:', '://10.0.2.2:');
   }
 
   @override
