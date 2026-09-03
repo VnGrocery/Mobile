@@ -298,7 +298,11 @@ class _ActivityCard extends StatelessWidget {
           else
             Row(
               children: [
-                _ShaChip(hash: event.contentSha256, onTap: () => _openDetail(context)),
+                _ShaChip(
+                  hash: event.contentSha256,
+                  verified: verification?.verified ?? false,
+                  onTap: () => _openDetail(context),
+                ),
                 const Spacer(),
                 _VerifyBadge(
                   result: verification,
@@ -334,9 +338,14 @@ class _ActivityCard extends StatelessWidget {
 /// itself (that's what tapping through to the detail sheet is for).
 class _ShaChip extends StatelessWidget {
   final String hash;
+  final bool verified;
   final VoidCallback onTap;
 
-  const _ShaChip({required this.hash, required this.onTap});
+  const _ShaChip({
+    required this.hash,
+    required this.verified,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -349,7 +358,7 @@ class _ShaChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: palette.mutedSurface,
-          border: Border.all(color: palette.border),
+          border: Border.all(color: verified ? palette.greenInk : palette.border),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
