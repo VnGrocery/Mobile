@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/services/camera_devices.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_colors.dart';
 
@@ -34,7 +35,7 @@ class _CameraCaptureScreenState extends State<CameraCaptureScreen> {
 
   Future<void> _open() async {
     try {
-      final cameras = await availableCameras();
+      final cameras = await cachedCameras();
       if (cameras.isEmpty) {
         if (mounted) setState(() => _error = 'no_camera');
         return;

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/services/camera_devices.dart';
 import 'package:vngrocery/core/services/food_ai_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
@@ -103,7 +104,7 @@ class _ScannerScreenState extends State<ScannerScreen>
   Future<void> _initCamera() async {
     if (_camera != null) return;
     try {
-      final cameras = await availableCameras();
+      final cameras = await cachedCameras();
       // Localised where it is shown, not here: reading context after an await
       // is unsafe.
       if (cameras.isEmpty) {
