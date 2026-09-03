@@ -25,6 +25,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get a11yBack => 'Back';
 
   @override
+  String get searchClearTooltip => 'Clear search';
+
+  @override
+  String get storeShareTooltip => 'Share';
+
+  @override
+  String get sellerProductMoreTooltip => 'More options';
+
+  @override
   String get a11yToggleFlash => 'Toggle the flash';
 
   @override

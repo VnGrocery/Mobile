@@ -78,6 +78,7 @@ class _SellerCreatePledgeScreenState extends State<SellerCreatePledgeScreen> {
               title: Text(SellerPledgePresenter.titleForStep(state.step, l10n)),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
+                tooltip: l10n.a11yBack,
                 onPressed: () => _back(state),
               ),
             ),

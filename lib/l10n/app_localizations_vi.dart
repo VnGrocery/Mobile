@@ -25,6 +25,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get a11yBack => 'Quay lại';
 
   @override
+  String get searchClearTooltip => 'Xóa tìm kiếm';
+
+  @override
+  String get storeShareTooltip => 'Chia sẻ';
+
+  @override
+  String get sellerProductMoreTooltip => 'Tùy chọn khác';
+
+  @override
   String get a11yToggleFlash => 'Bật/tắt đèn flash';
 
   @override

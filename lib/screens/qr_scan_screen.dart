@@ -86,6 +86,7 @@ class _QrScanScreenState extends State<QrScanScreen> {
           IconButton(
             onPressed: () => _controller.toggleTorch(),
             icon: const Icon(Icons.flash_on),
+            tooltip: l10n.a11yToggleFlash,
           ),
         ],
       ),

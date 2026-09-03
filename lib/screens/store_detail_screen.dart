@@ -81,6 +81,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
                 IconButton(
                   onPressed: () => _shareShop(shop),
                   icon: const Icon(Icons.share),
+                  tooltip: l10n.storeShareTooltip,
                 ),
               ],
             ),

@@ -96,6 +96,7 @@ class SellerProductCard extends StatelessWidget {
                     Icons.more_horiz,
                     color: context.palette.textSecondary,
                   ),
+                  tooltip: l10n.sellerProductMoreTooltip,
                   onPressed: onMore,
                 ),
               ],

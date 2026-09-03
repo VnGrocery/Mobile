@@ -15,6 +15,9 @@
     }
   },
   "a11yBack": "Quay lại",
+  "searchClearTooltip": "Xóa tìm kiếm",
+  "storeShareTooltip": "Chia sẻ",
+  "sellerProductMoreTooltip": "Tùy chọn khác",
   "a11yToggleFlash": "Bật/tắt đèn flash",
   "a11yCloseCamera": "Đóng camera",
   "a11yShowPassword": "Hiện mật khẩu",

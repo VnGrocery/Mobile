@@ -28,6 +28,7 @@ class HomeSearchBar extends StatelessWidget {
             ? null
             : IconButton(
                 icon: const Icon(Icons.close, color: AppColors.textSecondary),
+                tooltip: l10n.searchClearTooltip,
                 onPressed: onClear,
               ),
       ),

@@ -122,6 +122,24 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get a11yBack;
 
+  /// No description provided for @searchClearTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get searchClearTooltip;
+
+  /// No description provided for @storeShareTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get storeShareTooltip;
+
+  /// No description provided for @sellerProductMoreTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get sellerProductMoreTooltip;
+
   /// No description provided for @a11yToggleFlash.
   ///
   /// In en, this message translates to:

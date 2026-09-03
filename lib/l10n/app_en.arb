@@ -15,6 +15,9 @@
     }
   },
   "a11yBack": "Back",
+  "searchClearTooltip": "Clear search",
+  "storeShareTooltip": "Share",
+  "sellerProductMoreTooltip": "More options",
   "a11yToggleFlash": "Toggle the flash",
   "a11yCloseCamera": "Close the camera",
   "a11yShowPassword": "Show the password",
