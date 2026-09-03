@@ -12,8 +12,12 @@ class SellerMetricGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    // Cố định 2 cột thì trên tablet 4 thẻ vẫn xếp thành ô vuông to giữa màn
+    // hình rộng - dùng chung breakpoint 600dp với nav bar để dàn thành 1
+    // hàng 4 thẻ thay vì phóng to thẻ phone.
+    final crossAxisCount = MediaQuery.sizeOf(context).width < 600 ? 2 : 4;
     return GridView.count(
-      crossAxisCount: 2,
+      crossAxisCount: crossAxisCount,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 12,
@@ -21,7 +25,8 @@ class SellerMetricGrid extends StatelessWidget {
       // Ô cao cố định theo tỉ lệ: ở cỡ chữ hệ thống 1.3 lần thì nhãn + số
       // tràn ra ngoài, nên chiều cao ô phải nới theo textScaler.
       childAspectRatio:
-          1.55 / MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0),
+          (crossAxisCount == 2 ? 1.55 : 1.15) /
+          MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0),
       children: [
         SellerMetricCard(
           label: l10n.sellerTrustLabel,

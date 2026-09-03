@@ -32,7 +32,7 @@ class HomeProductGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     if (products.isEmpty) return const SizedBox.shrink();
 
-    // Two columns filled alternately rather than a GridView.
+    // Columns filled round-robin rather than a GridView.
     //
     // A grid makes every tile in a row the same height, which means picking a
     // childAspectRatio up front - and no single ratio survives both a one-line
@@ -40,10 +40,14 @@ class HomeProductGrid extends StatelessWidget {
     // The last one clipped the card's own bottom padding and left the distance
     // line welded to the edge. Columns let each card be exactly as tall as
     // what is in it.
-    final left = <RecommendedProduct>[];
-    final right = <RecommendedProduct>[];
+    //
+    // Two columns on a phone; a fixed two columns on a tablet just draws the
+    // same phone card twice as wide with empty space either side, so a third
+    // column joins above the same 600dp breakpoint the nav bar already uses.
+    final columnCount = MediaQuery.sizeOf(context).width < 600 ? 2 : 3;
+    final columns = List.generate(columnCount, (_) => <RecommendedProduct>[]);
     for (var i = 0; i < products.length; i++) {
-      (i.isEven ? left : right).add(products[i]);
+      columns[i % columnCount].add(products[i]);
     }
 
     return Padding(
@@ -51,9 +55,10 @@ class HomeProductGrid extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: _Column(products: left)),
-          const SizedBox(width: 12),
-          Expanded(child: _Column(products: right)),
+          for (var i = 0; i < columns.length; i++) ...[
+            if (i > 0) const SizedBox(width: 12),
+            Expanded(child: _Column(products: columns[i])),
+          ],
         ],
       ),
     );
