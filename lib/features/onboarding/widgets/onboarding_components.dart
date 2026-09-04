@@ -102,22 +102,27 @@ class OnboardingBottomBar extends StatelessWidget {
   final int page;
   final VoidCallback onNext;
 
+  /// Number of slides. Defaults to the buyer flow's fixed set; the seller
+  /// setup intro passes its own count to reuse this bar.
+  final int pageCount;
+
   const OnboardingBottomBar({
     super.key,
     required this.page,
     required this.onNext,
+    this.pageCount = OnboardingPages.count,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final isLast = page == OnboardingPages.count - 1;
+    final isLast = page == pageCount - 1;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          OnboardingDots(page: page),
+          OnboardingDots(page: page, count: pageCount),
           FilledButton(
             key: ValueKey(
               isLast
@@ -144,13 +149,18 @@ class OnboardingBottomBar extends StatelessWidget {
 
 class OnboardingDots extends StatelessWidget {
   final int page;
+  final int count;
 
-  const OnboardingDots({super.key, required this.page});
+  const OnboardingDots({
+    super.key,
+    required this.page,
+    this.count = OnboardingPages.count,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: List.generate(OnboardingPages.count, (index) {
+      children: List.generate(count, (index) {
         final active = index == page;
         return AnimatedContainer(
           duration: const Duration(milliseconds: 250),

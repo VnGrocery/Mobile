@@ -2020,6 +2020,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerShopSetupExit => 'Exit, back to buyer';
 
   @override
+  String get sellerOnboardingTitle1 => 'Create your own shop';
+
+  @override
+  String get sellerOnboardingBody1 =>
+      'Set a name, description, and address so buyers can find you.';
+
+  @override
+  String get sellerOnboardingTitle2 => 'List products, manage orders';
+
+  @override
+  String get sellerOnboardingBody2 =>
+      'Add products, track orders, and chat with buyers right in the app.';
+
+  @override
+  String get sellerOnboardingTitle3 => 'Build trust';
+
+  @override
+  String get sellerOnboardingBody3 =>
+      'Reply to comments and keep your trust score healthy for smoother sales.';
+
+  @override
   String get sellerDashboardFailedTitle => 'Could not load the shop figures';
 
   @override

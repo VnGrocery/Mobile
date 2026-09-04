@@ -3710,6 +3710,42 @@ abstract class AppLocalizations {
   /// **'Exit, back to buyer'**
   String get sellerShopSetupExit;
 
+  /// No description provided for @sellerOnboardingTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your own shop'**
+  String get sellerOnboardingTitle1;
+
+  /// No description provided for @sellerOnboardingBody1.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a name, description, and address so buyers can find you.'**
+  String get sellerOnboardingBody1;
+
+  /// No description provided for @sellerOnboardingTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'List products, manage orders'**
+  String get sellerOnboardingTitle2;
+
+  /// No description provided for @sellerOnboardingBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'Add products, track orders, and chat with buyers right in the app.'**
+  String get sellerOnboardingBody2;
+
+  /// No description provided for @sellerOnboardingTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Build trust'**
+  String get sellerOnboardingTitle3;
+
+  /// No description provided for @sellerOnboardingBody3.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to comments and keep your trust score healthy for smoother sales.'**
+  String get sellerOnboardingBody3;
+
   /// No description provided for @sellerDashboardFailedTitle.
   ///
   /// In en, this message translates to:

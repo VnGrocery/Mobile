@@ -14,6 +14,7 @@ import 'package:vngrocery/theme/app_palette.dart';
 import 'scanner_screen.dart';
 import 'seller_product_list_screen.dart';
 import 'seller_shop_screen.dart';
+import 'seller_shop_setup_screen.dart';
 import 'tabs/account_tab.dart';
 import 'tabs/explore_tab.dart';
 import 'tabs/home_tab.dart';
@@ -57,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
         // otherwise open to its own "no shop" empty state, so the setup form
         // is shown on its own instead, with a way back to buyer mode.
         if (isSeller && (session.shopId == null || session.shopId!.isEmpty)) {
-          return const SellerShopScreen(showExitAction: true);
+          return const SellerShopSetupScreen();
         }
 
         // Tab count is fixed per role, so the index can be clamped before the

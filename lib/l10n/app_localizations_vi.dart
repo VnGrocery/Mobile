@@ -2010,6 +2010,27 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerShopSetupExit => 'Thoát, quay về người mua';
 
   @override
+  String get sellerOnboardingTitle1 => 'Tạo cửa hàng của riêng bạn';
+
+  @override
+  String get sellerOnboardingBody1 =>
+      'Đặt tên, mô tả và địa chỉ để khách hàng dễ dàng tìm thấy bạn.';
+
+  @override
+  String get sellerOnboardingTitle2 => 'Đăng sản phẩm, quản lý đơn hàng';
+
+  @override
+  String get sellerOnboardingBody2 =>
+      'Thêm sản phẩm, theo dõi đơn hàng và trò chuyện với khách mua ngay trên ứng dụng.';
+
+  @override
+  String get sellerOnboardingTitle3 => 'Xây dựng uy tín';
+
+  @override
+  String get sellerOnboardingBody3 =>
+      'Trả lời bình luận và giữ điểm tin cậy luôn ở mức tốt để bán hàng thuận lợi hơn.';
+
+  @override
   String get sellerDashboardFailedTitle => 'Không tải được số liệu cửa hàng';
 
   @override
