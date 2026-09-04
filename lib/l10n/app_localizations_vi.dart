@@ -549,6 +549,28 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerCommentsFailed => 'Không lưu được quyết định';
 
   @override
+  String get sellerCommentsStatusPending => 'Đang chờ';
+
+  @override
+  String get sellerCommentsStatusApproved => 'Đã hiển thị';
+
+  @override
+  String get sellerCommentsReply => 'Trả lời';
+
+  @override
+  String get sellerCommentsReplyHint =>
+      'Ví dụ: cảm ơn góp ý, shop đã điều chỉnh';
+
+  @override
+  String get sellerCommentsReplySent => 'Đã gửi phản hồi';
+
+  @override
+  String get sellerCommentsReplyFailed => 'Không gửi được phản hồi';
+
+  @override
+  String get commentsShopReplyLabel => 'Phản hồi từ cửa hàng';
+
+  @override
   String get sellerPledgeNoteLabel => 'Vì sao chấm điểm này?';
 
   @override

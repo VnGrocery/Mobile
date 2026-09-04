@@ -107,6 +107,21 @@ class RemoteDataSource {
     return ProductComment.fromJson(json);
   }
 
+  /// Sets the shop's public reply to one comment. Owner only; a second call
+  /// replaces the reply rather than adding to it.
+  Future<ProductComment> replyProductComment(
+    String shopId,
+    String commentId, {
+    required int expectedVersion,
+    required String body,
+  }) async {
+    final json = await client.post(
+      '/v1/shops/$shopId/comments/$commentId/reply',
+      body: {'expectedVersion': expectedVersion, 'body': body},
+    );
+    return ProductComment.fromJson(json);
+  }
+
   /// Withdraws the reader's own comment.
   Future<ProductComment> deleteProductComment(
     String shopId,

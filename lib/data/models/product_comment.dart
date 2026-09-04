@@ -29,6 +29,10 @@ class ProductComment {
   final String moderationReason;
   final DateTime? moderatedAt;
 
+  /// The shop's public reply, if it has left one. One slot, not a thread.
+  final String shopReplyBody;
+  final DateTime? shopRepliedAt;
+
   final int version;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -46,6 +50,8 @@ class ProductComment {
     required this.verdict,
     required this.moderationReason,
     required this.moderatedAt,
+    this.shopReplyBody = '',
+    this.shopRepliedAt,
     required this.version,
     required this.createdAt,
     required this.updatedAt,
@@ -57,6 +63,8 @@ class ProductComment {
 
   /// True when a buyer check backs the words.
   bool get isVerified => checkId.isNotEmpty;
+
+  bool get hasShopReply => shopReplyBody.isNotEmpty;
 
   factory ProductComment.fromJson(Map<String, Object?> json) => ProductComment(
     id: json['commentId']?.toString() ?? '',
@@ -71,6 +79,8 @@ class ProductComment {
     verdict: json['verdict']?.toString() ?? '',
     moderationReason: json['moderationReason']?.toString() ?? '',
     moderatedAt: optionalDateTime(json['moderatedAt']),
+    shopReplyBody: json['shopReplyBody']?.toString() ?? '',
+    shopRepliedAt: optionalDateTime(json['shopRepliedAt']),
     version: (json['version'] as num?)?.toInt() ?? 0,
     createdAt: dateTime(json['createdAt']),
     updatedAt: dateTime(json['updatedAt']),

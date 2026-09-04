@@ -28,6 +28,9 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
   ProductCommentThread _thread = const ProductCommentThread();
   bool _loading = true;
   bool _failed = false;
+  // Replying only makes sense once a comment is public, so the queue - which
+  // defaults to what still needs a decision - can switch to show those too.
+  String _status = 'pending';
 
   @override
   void initState() {
@@ -51,10 +54,7 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
       _failed = false;
     });
     try {
-      final thread = await remote.shopComments(
-        widget.shopId,
-        status: 'pending',
-      );
+      final thread = await remote.shopComments(widget.shopId, status: _status);
       if (!mounted) return;
       setState(() {
         _thread = thread;
@@ -69,6 +69,12 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
     }
   }
 
+  void _setStatus(String status) {
+    if (status == _status) return;
+    setState(() => _status = status);
+    _load();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -80,11 +86,34 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: _load,
-        child: _loading
-            ? const Center(child: CircularProgressIndicator())
-            : _body(l10n),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+            child: SegmentedButton<String>(
+              segments: [
+                ButtonSegment(
+                  value: 'pending',
+                  label: Text(l10n.sellerCommentsStatusPending),
+                ),
+                ButtonSegment(
+                  value: 'approved',
+                  label: Text(l10n.sellerCommentsStatusApproved),
+                ),
+              ],
+              selected: {_status},
+              onSelectionChanged: (selection) => _setStatus(selection.first),
+            ),
+          ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _load,
+              child: _loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _body(l10n),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -126,8 +155,11 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
       padding: EdgeInsets.fromLTRB(16, 16, 16, bottom),
       itemCount: _thread.items.length,
       separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (_, index) =>
-          _QueueCard(comment: _thread.items[index], onDecide: _decide),
+      itemBuilder: (_, index) => _QueueCard(
+        comment: _thread.items[index],
+        onDecide: _decide,
+        onReply: _reply,
+      ),
     );
   }
 
@@ -169,13 +201,67 @@ class _SellerCommentQueueScreenState extends State<SellerCommentQueueScreen> {
     AppFeedback.showSnackBar(context, l10n.sellerCommentsDone);
     await _load();
   }
+
+  // Same one-slot rule the comment itself follows: a second reply replaces
+  // the first rather than stacking a thread.
+  Future<void> _reply(ProductComment comment, String body) async {
+    final l10n = AppLocalizations.of(context);
+    final remote = AppRepositories.instance.products.remote;
+    if (remote == null) return;
+    try {
+      await remote.replyProductComment(
+        widget.shopId,
+        comment.id,
+        expectedVersion: comment.version,
+        body: body,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      AppFeedback.showSnackBar(
+        context,
+        l10n.sellerCommentsReplyFailed,
+        icon: Icons.error_outline,
+      );
+      return;
+    }
+    if (!mounted) return;
+    AppFeedback.showSnackBar(context, l10n.sellerCommentsReplySent);
+    await _load();
+  }
 }
 
-class _QueueCard extends StatelessWidget {
+class _QueueCard extends StatefulWidget {
   final ProductComment comment;
   final Future<void> Function(ProductComment comment, bool approve) onDecide;
+  final Future<void> Function(ProductComment comment, String body) onReply;
 
-  const _QueueCard({required this.comment, required this.onDecide});
+  const _QueueCard({
+    required this.comment,
+    required this.onDecide,
+    required this.onReply,
+  });
+
+  @override
+  State<_QueueCard> createState() => _QueueCardState();
+}
+
+class _QueueCardState extends State<_QueueCard> {
+  final _replyController = TextEditingController();
+  bool _replying = false;
+
+  @override
+  void dispose() {
+    _replyController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submitReply() async {
+    setState(() => _replying = true);
+    await widget.onReply(widget.comment, _replyController.text.trim());
+    if (!mounted) return;
+    _replyController.clear();
+    setState(() => _replying = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +278,7 @@ class _QueueCard extends StatelessWidget {
         children: [
           // Which goods this is about. The queue crosses the whole shop, so
           // without it "posted on the wrong product" is unanswerable.
-          if (comment.productName.isNotEmpty) ...[
+          if (widget.comment.productName.isNotEmpty) ...[
             Row(
               children: [
                 Icon(
@@ -203,7 +289,7 @@ class _QueueCard extends StatelessWidget {
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text(
-                    comment.productName,
+                    widget.comment.productName,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 12,
@@ -220,14 +306,14 @@ class _QueueCard extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  comment.authorName.isEmpty
+                  widget.comment.authorName.isEmpty
                       ? l10n.reviewAnonymousAuthor
-                      : comment.authorName,
+                      : widget.comment.authorName,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
-              if (comment.isVerified) ...[
+              if (widget.comment.isVerified) ...[
                 const SizedBox(width: 8),
                 Flexible(
                   child: Row(
@@ -256,39 +342,99 @@ class _QueueCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(comment.body),
+          Text(widget.comment.body),
           const SizedBox(height: 6),
           Text(
-            formatDateTime(comment.createdAt),
+            formatDateTime(widget.comment.createdAt),
             style: TextStyle(fontSize: 11, color: palette.textTertiary),
           ),
           const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => onDecide(comment, false),
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
-                    foregroundColor: palette.warnInk,
-                  ),
-                  child: Text(l10n.sellerCommentsReject),
+          if (widget.comment.isApproved) ...[
+            if (widget.comment.hasShopReply) ...[
+              Container(
+                decoration: BoxDecoration(
+                  color: palette.elevatedCard,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.commentsShopReplyLabel,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: palette.greenInk,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(widget.comment.shopReplyBody),
+                  ],
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: FilledButton(
-                  onPressed: () => onDecide(comment, true),
-                  // No backgroundColor override: the theme's primaryGreenInk
-                  // clears 4.5:1 under white text, the paint green does not.
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(48),
-                  ),
-                  child: Text(l10n.sellerCommentsApprove),
-                ),
-              ),
+              const SizedBox(height: 10),
             ],
-          ),
+            TextField(
+              controller: _replyController,
+              maxLines: 3,
+              maxLength: 1000,
+              decoration: InputDecoration(
+                hintText: l10n.sellerCommentsReplyHint,
+                filled: true,
+                fillColor: palette.field,
+                counterText: '',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            FilledButton(
+              onPressed: _replying ? null : _submitReply,
+              style: FilledButton.styleFrom(
+                minimumSize: const Size.fromHeight(48),
+              ),
+              child: _replying
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(l10n.sellerCommentsReply),
+            ),
+          ] else
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () =>
+                        widget.onDecide(widget.comment, false),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                      foregroundColor: palette.warnInk,
+                    ),
+                    child: Text(l10n.sellerCommentsReject),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () => widget.onDecide(widget.comment, true),
+                    // No backgroundColor override: the theme's
+                    // primaryGreenInk clears 4.5:1 under white text, the
+                    // paint green does not.
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                    ),
+                    child: Text(l10n.sellerCommentsApprove),
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );

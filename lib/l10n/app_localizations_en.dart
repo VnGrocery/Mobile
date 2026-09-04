@@ -551,6 +551,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerCommentsFailed => 'The decision could not be saved';
 
   @override
+  String get sellerCommentsStatusPending => 'Pending';
+
+  @override
+  String get sellerCommentsStatusApproved => 'Published';
+
+  @override
+  String get sellerCommentsReply => 'Reply';
+
+  @override
+  String get sellerCommentsReplyHint =>
+      'For example: thanks for the feedback, price fixed';
+
+  @override
+  String get sellerCommentsReplySent => 'Reply sent';
+
+  @override
+  String get sellerCommentsReplyFailed => 'The reply could not be sent';
+
+  @override
+  String get commentsShopReplyLabel => 'Reply from the shop';
+
+  @override
   String get sellerPledgeNoteLabel => 'Why this score?';
 
   @override

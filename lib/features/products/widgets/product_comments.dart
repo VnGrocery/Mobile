@@ -336,6 +336,31 @@ class _CommentTile extends StatelessWidget {
                 ),
               ),
           ],
+          if (comment.hasShopReply) ...[
+            const SizedBox(height: 8),
+            Container(
+              decoration: BoxDecoration(
+                color: palette.card,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.commentsShopReplyLabel,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: palette.greenInk,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(comment.shopReplyBody, style: const TextStyle(fontSize: 13)),
+                ],
+              ),
+            ),
+          ],
           if (mine)
             Align(
               alignment: Alignment.centerLeft,

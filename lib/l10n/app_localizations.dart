@@ -1094,6 +1094,48 @@ abstract class AppLocalizations {
   /// **'The decision could not be saved'**
   String get sellerCommentsFailed;
 
+  /// No description provided for @sellerCommentsStatusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get sellerCommentsStatusPending;
+
+  /// No description provided for @sellerCommentsStatusApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Published'**
+  String get sellerCommentsStatusApproved;
+
+  /// No description provided for @sellerCommentsReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get sellerCommentsReply;
+
+  /// No description provided for @sellerCommentsReplyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: thanks for the feedback, price fixed'**
+  String get sellerCommentsReplyHint;
+
+  /// No description provided for @sellerCommentsReplySent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply sent'**
+  String get sellerCommentsReplySent;
+
+  /// No description provided for @sellerCommentsReplyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The reply could not be sent'**
+  String get sellerCommentsReplyFailed;
+
+  /// No description provided for @commentsShopReplyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply from the shop'**
+  String get commentsShopReplyLabel;
+
   /// No description provided for @sellerPledgeNoteLabel.
   ///
   /// In en, this message translates to:
