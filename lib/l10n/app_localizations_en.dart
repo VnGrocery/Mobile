@@ -2017,6 +2017,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sellerDashboardNoShopAction => 'Create a shop';
 
   @override
+  String get sellerShopSetupExit => 'Exit, back to buyer';
+
+  @override
   String get sellerDashboardFailedTitle => 'Could not load the shop figures';
 
   @override

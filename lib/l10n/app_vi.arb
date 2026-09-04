@@ -985,6 +985,7 @@
   "sellerDashboardNoShopTitle": "Tài khoản này chưa có cửa hàng",
   "sellerDashboardNoShopBody": "Tạo cửa hàng trước, rồi mới thêm sản phẩm và ghi nhận được.",
   "sellerDashboardNoShopAction": "Tạo cửa hàng",
+  "sellerShopSetupExit": "Thoát, quay về người mua",
   "sellerDashboardFailedTitle": "Không tải được số liệu cửa hàng",
   "sellerDashboardFailedBody": "Kiểm tra kết nối rồi thử lại.",
   "sellerShopSaveFailed": "Không lưu được cửa hàng. Kiểm tra kết nối rồi thử lại.",

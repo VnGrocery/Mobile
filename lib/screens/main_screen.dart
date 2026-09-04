@@ -52,6 +52,14 @@ class _MainScreenState extends State<MainScreen> {
     return BlocBuilder<SessionCubit, SessionState>(
       builder: (context, session) {
         final isSeller = session.isSeller;
+
+        // A seller just promoted has no shop yet: every seller tab would
+        // otherwise open to its own "no shop" empty state, so the setup form
+        // is shown on its own instead, with a way back to buyer mode.
+        if (isSeller && (session.shopId == null || session.shopId!.isEmpty)) {
+          return const SellerShopScreen(showExitAction: true);
+        }
+
         // Tab count is fixed per role, so the index can be clamped before the
         // tabs are built; the scanner needs it to know whether it is on screen.
         // Both roles have four tabs, so the index can be clamped before the

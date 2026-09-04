@@ -1489,6 +1489,7 @@
   "sellerDashboardNoShopTitle": "This account has no shop yet",
   "sellerDashboardNoShopBody": "Create a shop first, then you can add products and records.",
   "sellerDashboardNoShopAction": "Create a shop",
+  "sellerShopSetupExit": "Exit, back to buyer",
   "sellerDashboardFailedTitle": "Could not load the shop figures",
   "sellerDashboardFailedBody": "Check the connection and try again.",
   "sellerShopSaveFailed": "Could not save the shop. Check the connection and try again.",

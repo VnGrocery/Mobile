@@ -3704,6 +3704,12 @@ abstract class AppLocalizations {
   /// **'Create a shop'**
   String get sellerDashboardNoShopAction;
 
+  /// No description provided for @sellerShopSetupExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit, back to buyer'**
+  String get sellerShopSetupExit;
+
   /// No description provided for @sellerDashboardFailedTitle.
   ///
   /// In en, this message translates to:

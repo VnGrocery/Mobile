@@ -2007,6 +2007,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get sellerDashboardNoShopAction => 'Tạo cửa hàng';
 
   @override
+  String get sellerShopSetupExit => 'Thoát, quay về người mua';
+
+  @override
   String get sellerDashboardFailedTitle => 'Không tải được số liệu cửa hàng';
 
   @override

@@ -16,7 +16,16 @@ import 'package:vngrocery/theme/app_palette.dart';
 class SellerShopScreen extends StatefulWidget {
   final double bottomContentInset;
 
-  const SellerShopScreen({super.key, this.bottomContentInset = 0});
+  /// Whether a close button leaves seller mode instead of only popping a
+  /// route. Set by the mandatory setup screen a newly-promoted seller with
+  /// no shop yet is shown in place of the seller tabs.
+  final bool showExitAction;
+
+  const SellerShopScreen({
+    super.key,
+    this.bottomContentInset = 0,
+    this.showExitAction = false,
+  });
 
   @override
   State<SellerShopScreen> createState() => _SellerShopScreenState();
@@ -174,10 +183,19 @@ class _SellerShopScreenState extends State<SellerShopScreen> {
   }
 
   Widget _shell({required String title, required Widget body}) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: context.palette.appBackground,
       appBar: AppBar(
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        leading: widget.showExitAction
+            ? IconButton(
+                icon: const Icon(Icons.close),
+                tooltip: l10n.sellerShopSetupExit,
+                onPressed: () =>
+                    context.read<SessionCubit>().setSellerMode(false),
+              )
+            : null,
       ),
       body: body,
     );
