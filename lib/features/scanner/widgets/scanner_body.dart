@@ -104,6 +104,12 @@ class ScannerBody extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
+                // Spelled out because the default disabled pair is derived from
+                // the light theme's onSurface: over the camera preview it came
+                // out as grey on dark and the main action read as absent
+                // rather than as waiting for a code.
+                disabledBackgroundColor: Colors.white24,
+                disabledForegroundColor: Colors.white70,
                 minimumSize: const Size(220, 48),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
