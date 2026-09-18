@@ -108,20 +108,35 @@ class _ScannerScreenState extends State<ScannerScreen> {
     }
   }
 
-  Future<void> _scanCode() async {
-    final token = await Navigator.push<BundleToken>(
-      context,
-      MaterialPageRoute(builder: (_) => const QrScanScreen()),
-    );
-    if (token == null || !mounted) return;
-    // A printed crate label carries only the lot code, so there is nothing to
-    // check a photo against. It answers a different question - what did the
-    // seller pledge for this lot - so it opens the record instead.
-    if (token.isLotCode) {
-      await _openLot(token.bundleId);
-      return;
-    }
-    setState(() => _bundle = token);
+  /// Runs [push] with our camera released, and reopens it on the way back.
+  ///
+  /// Nothing stacked on top of this screen wants our preview, and the QR
+  /// scanner opens a camera of its own - two clients on one device, which some
+  /// phones refuse outright. Holding it open behind a page the buyer is
+  /// reading keeps the HAL awake for nothing, which is the same cost that
+  /// made [ScannerScreen.active] necessary.
+  Future<void> _pushWithCameraClosed(Future<void> Function() push) async {
+    await _closeCamera();
+    await push();
+    if (mounted && widget.active) await _initCamera();
+  }
+
+  Future<void> _scanCode() {
+    return _pushWithCameraClosed(() async {
+      final token = await Navigator.push<BundleToken>(
+        context,
+        MaterialPageRoute(builder: (_) => const QrScanScreen()),
+      );
+      if (token == null || !mounted) return;
+      // A printed crate label carries only the lot code, so there is nothing to
+      // check a photo against. It answers a different question - what did the
+      // seller pledge for this lot - so it opens the record instead.
+      if (token.isLotCode) {
+        await _openLot(token.bundleId);
+        return;
+      }
+      setState(() => _bundle = token);
+    });
   }
 
   Future<void> _openLot(String lotCode) async {
@@ -131,21 +146,13 @@ class _ScannerScreenState extends State<ScannerScreen> {
       _showMessage(l10n.lotLookupFailed);
       return;
     }
+    // The spinner covers the lookup only. It used to wrap the push as well,
+    // which left it turning underneath the product page for as long as the
+    // buyer read it.
+    Map<String, Object?> pledge;
     setState(() => _verifying = true);
     try {
-      final pledge = await remote.bundleByLotCode(lotCode);
-      final productId = pledge['productId']?.toString() ?? '';
-      final shopId = pledge['shopId']?.toString() ?? '';
-      if (!mounted) return;
-      if (productId.isEmpty || shopId.isEmpty) {
-        _showMessage(l10n.lotLookupFailed);
-        return;
-      }
-      Navigator.pushNamed(
-        context,
-        Routes.productDetail,
-        arguments: ProductDetailArgs(shopId: shopId, productId: productId),
-      );
+      pledge = await remote.bundleByLotCode(lotCode);
     } catch (error) {
       if (!mounted) return;
       _showMessage(
@@ -153,9 +160,26 @@ class _ScannerScreenState extends State<ScannerScreen> {
             ? l10n.lotNotFound
             : l10n.lotLookupFailed,
       );
+      return;
     } finally {
       if (mounted) setState(() => _verifying = false);
     }
+
+    final productId = pledge['productId']?.toString() ?? '';
+    final shopId = pledge['shopId']?.toString() ?? '';
+    if (!mounted) return;
+    if (productId.isEmpty || shopId.isEmpty) {
+      _showMessage(l10n.lotLookupFailed);
+      return;
+    }
+    // Awaited so the caller knows when the buyer is back and the camera is
+    // worth reopening; without it the preview restarts behind the page they
+    // just opened.
+    await Navigator.pushNamed(
+      context,
+      Routes.productDetail,
+      arguments: ProductDetailArgs(shopId: shopId, productId: productId),
+    );
   }
 
   /// Takes the photo and sends it to be checked against the scanned code.
@@ -249,7 +273,9 @@ class _ScannerScreenState extends State<ScannerScreen> {
       if (!mounted) return;
       // The token is single use, so it cannot be reused for another photo.
       setState(() => _bundle = null);
-      Navigator.pushNamed(context, Routes.buyerCheckResult);
+      await _pushWithCameraClosed(
+        () => Navigator.pushNamed(context, Routes.buyerCheckResult),
+      );
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
