@@ -1452,6 +1452,19 @@ class AppLocalizationsVi extends AppLocalizations {
   String get qrScanChecking => 'Đang kiểm tra...';
 
   @override
+  String buyerCheckErrorRateLimited(int minutes) {
+    return 'Bạn đã kiểm tra khá nhiều trong thời gian ngắn. Thử lại sau $minutes phút nhé.';
+  }
+
+  @override
+  String get buyerCheckErrorNetwork =>
+      'Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại nhé.';
+
+  @override
+  String get buyerCheckErrorGeneric =>
+      'Chưa kiểm tra được mã này. Bạn thử lại giúp nhé.';
+
+  @override
   String get navHome => 'Trang chủ';
 
   @override

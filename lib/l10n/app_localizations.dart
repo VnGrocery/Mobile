@@ -2744,6 +2744,24 @@ abstract class AppLocalizations {
   /// **'Checking...'**
   String get qrScanChecking;
 
+  /// Shown when the buyer check quota is used up. The wait comes from the server.
+  ///
+  /// In en, this message translates to:
+  /// **'You have checked a lot in a short time. Try again in {minutes} minutes.'**
+  String buyerCheckErrorRateLimited(int minutes);
+
+  /// Shown when the buyer check could not be sent at all.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check your connection and try again.'**
+  String get buyerCheckErrorNetwork;
+
+  /// Fallback for a buyer check the app cannot explain.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not check this code. Please try again.'**
+  String get buyerCheckErrorGeneric;
+
   /// Bottom navigation and side menu label.
   ///
   /// In en, this message translates to:

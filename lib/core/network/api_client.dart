@@ -193,6 +193,11 @@ class ApiClient {
       throw ApiException(
         response.statusCode,
         map['error']?.toString() ?? 'Server error (${response.statusCode})',
+        // Only the server knows when the window clears, so the wait travels
+        // with the error instead of each screen guessing at one.
+        retryAfterMinutes: map['retryAfterMinutes'] is num
+            ? (map['retryAfterMinutes'] as num).round()
+            : null,
       );
     }
     if (decoded == null) return const {};

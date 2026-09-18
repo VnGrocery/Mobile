@@ -7,6 +7,7 @@ import 'package:vngrocery/core/services/camera_devices.dart';
 import 'package:vngrocery/core/services/food_ai_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/buyer_check/buyer_check_presenter.dart';
 import 'package:vngrocery/features/scanner/widgets/scanner_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -187,9 +188,9 @@ class _ScannerScreenState extends State<ScannerScreen>
       Navigator.pushNamed(context, Routes.buyerCheckResult);
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('${l10n.qrScanChecking} $error')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(BuyerCheckPresenter.errorMessage(error, l10n))),
+      );
     }
   }
 

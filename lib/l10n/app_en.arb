@@ -792,6 +792,23 @@
   "@qrScanChecking": {
     "description": "Shown while the buyer check runs."
   },
+  "buyerCheckErrorRateLimited": "You have checked a lot in a short time. Try again in {minutes} minutes.",
+  "@buyerCheckErrorRateLimited": {
+    "description": "Shown when the buyer check quota is used up. The wait comes from the server.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "buyerCheckErrorNetwork": "Could not reach the server. Check your connection and try again.",
+  "@buyerCheckErrorNetwork": {
+    "description": "Shown when the buyer check could not be sent at all."
+  },
+  "buyerCheckErrorGeneric": "Could not check this code. Please try again.",
+  "@buyerCheckErrorGeneric": {
+    "description": "Fallback for a buyer check the app cannot explain."
+  },
   "navHome": "Home",
   "@navHome": {
     "description": "Bottom navigation and side menu label."

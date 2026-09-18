@@ -1460,6 +1460,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get qrScanChecking => 'Checking...';
 
   @override
+  String buyerCheckErrorRateLimited(int minutes) {
+    return 'You have checked a lot in a short time. Try again in $minutes minutes.';
+  }
+
+  @override
+  String get buyerCheckErrorNetwork =>
+      'Could not reach the server. Check your connection and try again.';
+
+  @override
+  String get buyerCheckErrorGeneric =>
+      'Could not check this code. Please try again.';
+
+  @override
   String get navHome => 'Home';
 
   @override
