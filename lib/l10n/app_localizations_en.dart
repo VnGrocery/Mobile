@@ -1506,6 +1506,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not export the label image. Please try again.';
 
   @override
+  String get scannedLotTitle => 'THE LOT YOU SCANNED';
+
+  @override
+  String scannedLotCommitted(String date) {
+    return 'Recorded by the seller on $date';
+  }
+
+  @override
   String get freshnessReportAction => 'Rate freshness';
 
   @override

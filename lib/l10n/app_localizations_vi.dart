@@ -1498,6 +1498,14 @@ class AppLocalizationsVi extends AppLocalizations {
       'Chưa xuất được ảnh tem. Bạn thử lại giúp nhé.';
 
   @override
+  String get scannedLotTitle => 'LÔ HÀNG BẠN VỪA QUÉT';
+
+  @override
+  String scannedLotCommitted(String date) {
+    return 'Người bán ghi nhận ngày $date';
+  }
+
+  @override
   String get freshnessReportAction => 'Chấm độ tươi';
 
   @override

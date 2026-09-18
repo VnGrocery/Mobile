@@ -6,6 +6,7 @@ import 'package:vngrocery/screens/onboarding_screen.dart';
 import 'package:vngrocery/screens/auth_screen.dart';
 import 'package:vngrocery/screens/main_screen.dart';
 import 'package:vngrocery/screens/manual_voucher_screen.dart';
+import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/screens/activity_history_screen.dart';
 import 'package:vngrocery/screens/my_checks_screen.dart';
@@ -33,7 +34,23 @@ class ProductDetailArgs {
   final String shopId;
   final String productId;
 
-  const ProductDetailArgs({required this.shopId, required this.productId});
+  /// The lot code that led here, when the buyer arrived by scanning a printed
+  /// crate label. Empty every other way in.
+  final String lotCode;
+
+  /// What the seller pledged for [lotCode].
+  ///
+  /// Carried rather than refetched, and shown rather than dropped: the lookup
+  /// behind the label already returns it, and without it a scan lands on the
+  /// product's newest score instead of the crate the buyer is holding.
+  final PledgeHistoryItem? lot;
+
+  const ProductDetailArgs({
+    required this.shopId,
+    required this.productId,
+    this.lotCode = '',
+    this.lot,
+  });
 }
 
 class StoreDetailArgs {
@@ -211,6 +228,8 @@ class Routes {
         page = ProductDetailScreen(
           shopId: detailArgs.shopId,
           productId: detailArgs.productId,
+          lotCode: detailArgs.lotCode,
+          lot: detailArgs.lot,
         );
         break;
       case buyerCheckResult:

@@ -178,7 +178,15 @@ class _ScannerScreenState extends State<ScannerScreen> {
     await Navigator.pushNamed(
       context,
       Routes.productDetail,
-      arguments: ProductDetailArgs(shopId: shopId, productId: productId),
+      arguments: ProductDetailArgs(
+        shopId: shopId,
+        productId: productId,
+        // The rest of the pledge travels with it. Taking only the ids sent the
+        // buyer to a page showing the product's newest score, which is a
+        // different crate from the one whose label they just scanned.
+        lotCode: lotCode,
+        lot: PledgeHistoryItem.fromJson(pledge),
+      ),
     );
   }
 

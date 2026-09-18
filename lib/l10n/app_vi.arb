@@ -582,6 +582,13 @@
   "qrLabelExportAction": "Lưu / in tem",
   "qrLabelExporting": "Đang tạo ảnh tem...",
   "qrLabelExportFailed": "Chưa xuất được ảnh tem. Bạn thử lại giúp nhé.",
+  "scannedLotTitle": "LÔ HÀNG BẠN VỪA QUÉT",
+  "scannedLotCommitted": "Người bán ghi nhận ngày {date}",
+  "@scannedLotCommitted": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
   "freshnessReportAction": "Chấm độ tươi",
   "freshnessReportTitle": "Bạn thấy hàng thế nào?",
   "freshnessReportSelfReportedNote": "Người mua tự chấm. Điểm này là cảm nhận của bạn, không phải kết quả kiểm định.",

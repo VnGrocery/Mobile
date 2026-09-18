@@ -13,6 +13,7 @@ import 'package:vngrocery/features/products/widgets/product_change_log.dart';
 import 'package:vngrocery/features/products/widgets/freshness_self_report_sheet.dart';
 import 'package:vngrocery/features/products/widgets/product_detail_components.dart';
 import 'package:vngrocery/features/products/widgets/product_info_blocks.dart';
+import 'package:vngrocery/features/products/widgets/scanned_lot_card.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/products/controllers/product_comments_cubit.dart';
 import 'package:vngrocery/features/products/widgets/product_comments.dart';
@@ -26,10 +27,19 @@ class ProductDetailScreen extends StatefulWidget {
   final String shopId;
   final String productId;
 
+  /// Set when the buyer got here by scanning a printed crate label.
+  final String lotCode;
+
+  /// What the seller pledged for [lotCode]. Null every other way in, and the
+  /// page then reads as it always did.
+  final PledgeHistoryItem? lot;
+
   const ProductDetailScreen({
     super.key,
     required this.shopId,
     required this.productId,
+    this.lotCode = '',
+    this.lot,
   });
 
   @override
@@ -115,6 +125,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ProductTitleBlock(product: product, shop: state.shop),
+                      // Above everything the page says about the product,
+                      // because a buyer who scanned a label is asking about
+                      // one crate and the rest of this screen answers about
+                      // the newest one.
+                      if (widget.lot != null) ...[
+                        const SizedBox(height: 12),
+                        ScannedLotCard(
+                          lotCode: widget.lotCode,
+                          lot: widget.lot!,
+                          onRate: () => _rateFreshness(product),
+                        ),
+                      ],
                       const SizedBox(height: 12),
                       // Under the title, above the proof: how many people
                       // liked it is a softer signal than the record behind

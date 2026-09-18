@@ -833,6 +833,17 @@
   "@qrLabelExportFailed": {
     "description": "Shown when rendering or sharing the label failed."
   },
+  "scannedLotTitle": "THE LOT YOU SCANNED",
+  "@scannedLotTitle": {
+    "description": "Heading of the card showing the pledge behind a scanned crate label."
+  },
+  "scannedLotCommitted": "Recorded by the seller on {date}",
+  "@scannedLotCommitted": {
+    "description": "When the seller committed the scanned lot.",
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
   "freshnessReportAction": "Rate freshness",
   "@freshnessReportAction": {
     "description": "Opens the sheet where a buyer scores the produce themselves."

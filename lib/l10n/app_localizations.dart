@@ -2816,6 +2816,18 @@ abstract class AppLocalizations {
   /// **'Could not export the label image. Please try again.'**
   String get qrLabelExportFailed;
 
+  /// Heading of the card showing the pledge behind a scanned crate label.
+  ///
+  /// In en, this message translates to:
+  /// **'THE LOT YOU SCANNED'**
+  String get scannedLotTitle;
+
+  /// When the seller committed the scanned lot.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded by the seller on {date}'**
+  String scannedLotCommitted(String date);
+
   /// Opens the sheet where a buyer scores the produce themselves.
   ///
   /// In en, this message translates to:
