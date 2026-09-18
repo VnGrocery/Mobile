@@ -1488,6 +1488,61 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not check this code. Please try again.';
 
   @override
+  String get freshnessReportAction => 'Rate freshness';
+
+  @override
+  String get freshnessReportTitle => 'How was the produce?';
+
+  @override
+  String get freshnessReportSelfReportedNote =>
+      'Buyer self-reported. This is your impression, not an inspection result.';
+
+  @override
+  String get freshnessReportPhotoHint =>
+      'Photograph the part of the goods you mean';
+
+  @override
+  String get freshnessCategoryFresh => 'Fresh';
+
+  @override
+  String get freshnessCategoryBruised => 'Bruised';
+
+  @override
+  String get freshnessCategoryWilted => 'Wilted';
+
+  @override
+  String get freshnessCategorySpoiled => 'Spoiled';
+
+  @override
+  String get freshnessReportCommentLabel => 'Comment (optional)';
+
+  @override
+  String get freshnessReportCommentHint =>
+      'For example: bruised on one side, the rest is fresh';
+
+  @override
+  String get freshnessReportSubmit => 'Send rating';
+
+  @override
+  String get freshnessReportSending => 'Sending...';
+
+  @override
+  String get freshnessReportSent => 'Your rating was recorded';
+
+  @override
+  String freshnessReportErrorRateLimited(int minutes) {
+    return 'You have rated a lot in a short time. Try again in $minutes minutes.';
+  }
+
+  @override
+  String get freshnessReportErrorNetwork =>
+      'Could not reach the server. Check your connection and try again.';
+
+  @override
+  String get freshnessReportErrorGeneric =>
+      'Could not send your rating. Please try again.';
+
+  @override
   String get navHome => 'Home';
 
   @override

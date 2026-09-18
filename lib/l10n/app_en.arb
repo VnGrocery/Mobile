@@ -813,6 +813,75 @@
   "@buyerCheckErrorGeneric": {
     "description": "Fallback for a buyer check the app cannot explain."
   },
+  "freshnessReportAction": "Rate freshness",
+  "@freshnessReportAction": {
+    "description": "Opens the sheet where a buyer scores the produce themselves."
+  },
+  "freshnessReportTitle": "How was the produce?",
+  "@freshnessReportTitle": {
+    "description": "Title of the buyer self-scoring sheet."
+  },
+  "freshnessReportSelfReportedNote": "Buyer self-reported. This is your impression, not an inspection result.",
+  "@freshnessReportSelfReportedNote": {
+    "description": "States that the score is unverified, so it is not mistaken for the pledge score."
+  },
+  "freshnessReportPhotoHint": "Photograph the part of the goods you mean",
+  "@freshnessReportPhotoHint": {
+    "description": "Hint on the camera screen opened before the rating sheet."
+  },
+  "freshnessCategoryFresh": "Fresh",
+  "@freshnessCategoryFresh": {
+    "description": "Defect class: nothing wrong."
+  },
+  "freshnessCategoryBruised": "Bruised",
+  "@freshnessCategoryBruised": {
+    "description": "Defect class: knocked about."
+  },
+  "freshnessCategoryWilted": "Wilted",
+  "@freshnessCategoryWilted": {
+    "description": "Defect class: limp or dried out."
+  },
+  "freshnessCategorySpoiled": "Spoiled",
+  "@freshnessCategorySpoiled": {
+    "description": "Defect class: not fit to eat."
+  },
+  "freshnessReportCommentLabel": "Comment (optional)",
+  "@freshnessReportCommentLabel": {
+    "description": "Label of the optional comment field."
+  },
+  "freshnessReportCommentHint": "For example: bruised on one side, the rest is fresh",
+  "@freshnessReportCommentHint": {
+    "description": "Example comment."
+  },
+  "freshnessReportSubmit": "Send rating",
+  "@freshnessReportSubmit": {
+    "description": "Submits the self-reported score."
+  },
+  "freshnessReportSending": "Sending...",
+  "@freshnessReportSending": {
+    "description": "Shown on the submit button while the report is in flight."
+  },
+  "freshnessReportSent": "Your rating was recorded",
+  "@freshnessReportSent": {
+    "description": "Confirms the report reached the server."
+  },
+  "freshnessReportErrorRateLimited": "You have rated a lot in a short time. Try again in {minutes} minutes.",
+  "@freshnessReportErrorRateLimited": {
+    "description": "Shown when the freshness report quota is used up. The wait comes from the server.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "freshnessReportErrorNetwork": "Could not reach the server. Check your connection and try again.",
+  "@freshnessReportErrorNetwork": {
+    "description": "Shown when the report could not be sent at all."
+  },
+  "freshnessReportErrorGeneric": "Could not send your rating. Please try again.",
+  "@freshnessReportErrorGeneric": {
+    "description": "Fallback for a failed report the app cannot explain."
+  },
   "navHome": "Home",
   "@navHome": {
     "description": "Bottom navigation and side menu label."

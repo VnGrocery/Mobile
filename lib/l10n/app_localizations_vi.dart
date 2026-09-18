@@ -1480,6 +1480,60 @@ class AppLocalizationsVi extends AppLocalizations {
       'Chưa kiểm tra được mã này. Bạn thử lại giúp nhé.';
 
   @override
+  String get freshnessReportAction => 'Chấm độ tươi';
+
+  @override
+  String get freshnessReportTitle => 'Bạn thấy hàng thế nào?';
+
+  @override
+  String get freshnessReportSelfReportedNote =>
+      'Người mua tự chấm. Điểm này là cảm nhận của bạn, không phải kết quả kiểm định.';
+
+  @override
+  String get freshnessReportPhotoHint => 'Chụp đúng phần hàng bạn muốn nói tới';
+
+  @override
+  String get freshnessCategoryFresh => 'Tươi ngon';
+
+  @override
+  String get freshnessCategoryBruised => 'Hơi dập';
+
+  @override
+  String get freshnessCategoryWilted => 'Héo';
+
+  @override
+  String get freshnessCategorySpoiled => 'Hỏng';
+
+  @override
+  String get freshnessReportCommentLabel => 'Nhận xét (không bắt buộc)';
+
+  @override
+  String get freshnessReportCommentHint =>
+      'Ví dụ: hơi dập một bên, còn lại tươi';
+
+  @override
+  String get freshnessReportSubmit => 'Gửi đánh giá';
+
+  @override
+  String get freshnessReportSending => 'Đang gửi...';
+
+  @override
+  String get freshnessReportSent => 'Đã ghi nhận đánh giá của bạn';
+
+  @override
+  String freshnessReportErrorRateLimited(int minutes) {
+    return 'Bạn đã chấm khá nhiều trong thời gian ngắn. Thử lại sau $minutes phút nhé.';
+  }
+
+  @override
+  String get freshnessReportErrorNetwork =>
+      'Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại nhé.';
+
+  @override
+  String get freshnessReportErrorGeneric =>
+      'Chưa gửi được đánh giá. Bạn thử lại giúp nhé.';
+
+  @override
   String get navHome => 'Trang chủ';
 
   @override

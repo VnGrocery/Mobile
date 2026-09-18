@@ -2786,6 +2786,102 @@ abstract class AppLocalizations {
   /// **'Could not check this code. Please try again.'**
   String get buyerCheckErrorGeneric;
 
+  /// Opens the sheet where a buyer scores the produce themselves.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate freshness'**
+  String get freshnessReportAction;
+
+  /// Title of the buyer self-scoring sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'How was the produce?'**
+  String get freshnessReportTitle;
+
+  /// States that the score is unverified, so it is not mistaken for the pledge score.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer self-reported. This is your impression, not an inspection result.'**
+  String get freshnessReportSelfReportedNote;
+
+  /// Hint on the camera screen opened before the rating sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Photograph the part of the goods you mean'**
+  String get freshnessReportPhotoHint;
+
+  /// Defect class: nothing wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh'**
+  String get freshnessCategoryFresh;
+
+  /// Defect class: knocked about.
+  ///
+  /// In en, this message translates to:
+  /// **'Bruised'**
+  String get freshnessCategoryBruised;
+
+  /// Defect class: limp or dried out.
+  ///
+  /// In en, this message translates to:
+  /// **'Wilted'**
+  String get freshnessCategoryWilted;
+
+  /// Defect class: not fit to eat.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoiled'**
+  String get freshnessCategorySpoiled;
+
+  /// Label of the optional comment field.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment (optional)'**
+  String get freshnessReportCommentLabel;
+
+  /// Example comment.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: bruised on one side, the rest is fresh'**
+  String get freshnessReportCommentHint;
+
+  /// Submits the self-reported score.
+  ///
+  /// In en, this message translates to:
+  /// **'Send rating'**
+  String get freshnessReportSubmit;
+
+  /// Shown on the submit button while the report is in flight.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get freshnessReportSending;
+
+  /// Confirms the report reached the server.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating was recorded'**
+  String get freshnessReportSent;
+
+  /// Shown when the freshness report quota is used up. The wait comes from the server.
+  ///
+  /// In en, this message translates to:
+  /// **'You have rated a lot in a short time. Try again in {minutes} minutes.'**
+  String freshnessReportErrorRateLimited(int minutes);
+
+  /// Shown when the report could not be sent at all.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check your connection and try again.'**
+  String get freshnessReportErrorNetwork;
+
+  /// Fallback for a failed report the app cannot explain.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send your rating. Please try again.'**
+  String get freshnessReportErrorGeneric;
+
   /// Bottom navigation and side menu label.
   ///
   /// In en, this message translates to:
