@@ -1577,7 +1577,7 @@ abstract class AppLocalizations {
   /// No description provided for @scannerFrameHint.
   ///
   /// In en, this message translates to:
-  /// **'Place the QR code or product tag inside the frame'**
+  /// **'Put the product in the frame, then take a photo'**
   String get scannerFrameHint;
 
   /// No description provided for @scannerCheckingAction.
@@ -1589,8 +1589,32 @@ abstract class AppLocalizations {
   /// No description provided for @scannerSimulateAction.
   ///
   /// In en, this message translates to:
-  /// **'Capture & analyze with AI'**
+  /// **'Capture & analyse on device'**
   String get scannerSimulateAction;
+
+  /// No description provided for @scannerCaptureAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture & send for checking'**
+  String get scannerCaptureAction;
+
+  /// No description provided for @scannerNeedsCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the code on the seller\'s tag first, then take a photo to compare against it.'**
+  String get scannerNeedsCodeHint;
+
+  /// No description provided for @scannerLocalAiFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not analyse on this device. You can still scan a code and send a photo to be checked.'**
+  String get scannerLocalAiFailed;
+
+  /// No description provided for @scannerCaptureFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not take the photo. Please try again.'**
+  String get scannerCaptureFailed;
 
   /// No description provided for @scannerStatusVerifying.
   ///

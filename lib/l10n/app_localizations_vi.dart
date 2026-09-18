@@ -807,13 +807,28 @@ class AppLocalizationsVi extends AppLocalizations {
   String get accountScanProducts => 'Quét sản phẩm';
 
   @override
-  String get scannerFrameHint => 'Đưa mã QR hoặc tem sản phẩm vào khung hình';
+  String get scannerFrameHint => 'Đưa sản phẩm vào khung hình rồi chụp';
 
   @override
   String get scannerCheckingAction => 'Đang kiểm tra...';
 
   @override
-  String get scannerSimulateAction => 'Chụp & phân tích AI';
+  String get scannerSimulateAction => 'Chụp & phân tích trên máy';
+
+  @override
+  String get scannerCaptureAction => 'Chụp & gửi kiểm tra';
+
+  @override
+  String get scannerNeedsCodeHint =>
+      'Quét mã trên tem của người bán trước, rồi mới chụp để đối chiếu.';
+
+  @override
+  String get scannerLocalAiFailed =>
+      'Chưa phân tích được trên máy này. Bạn vẫn có thể quét mã rồi chụp để gửi đi kiểm tra.';
+
+  @override
+  String get scannerCaptureFailed =>
+      'Không chụp được ảnh. Bạn thử lại giúp nhé.';
 
   @override
   String get scannerStatusVerifying => 'Đang kiểm tra vị trí quầy hàng...';

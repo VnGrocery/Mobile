@@ -811,13 +811,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scannerFrameHint =>
-      'Place the QR code or product tag inside the frame';
+      'Put the product in the frame, then take a photo';
 
   @override
   String get scannerCheckingAction => 'Checking...';
 
   @override
-  String get scannerSimulateAction => 'Capture & analyze with AI';
+  String get scannerSimulateAction => 'Capture & analyse on device';
+
+  @override
+  String get scannerCaptureAction => 'Capture & send for checking';
+
+  @override
+  String get scannerNeedsCodeHint =>
+      'Scan the code on the seller\'s tag first, then take a photo to compare against it.';
+
+  @override
+  String get scannerLocalAiFailed =>
+      'Could not analyse on this device. You can still scan a code and send a photo to be checked.';
+
+  @override
+  String get scannerCaptureFailed =>
+      'Could not take the photo. Please try again.';
 
   @override
   String get scannerStatusVerifying => 'Checking counter location...';
