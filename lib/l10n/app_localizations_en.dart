@@ -1122,6 +1122,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Take a photo of the price board or product to compare with the latest recorded data.';
 
   @override
+  String get productDetailSpecsTitle => 'Product information';
+
+  @override
+  String get productDetailDescriptionTitle => 'Product description';
+
+  @override
+  String get productDetailDescriptionExpand => 'Read more';
+
+  @override
+  String get productDetailDescriptionCollapse => 'Show less';
+
+  @override
   String get productDetailCounterInfoTitle => 'Counter information';
 
   @override

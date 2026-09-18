@@ -11,6 +11,7 @@ import 'package:vngrocery/features/products/widgets/market_price_chart.dart';
 import 'package:vngrocery/features/products/widgets/price_history_chart.dart';
 import 'package:vngrocery/features/products/widgets/product_change_log.dart';
 import 'package:vngrocery/features/products/widgets/product_detail_components.dart';
+import 'package:vngrocery/features/products/widgets/product_info_blocks.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/features/products/controllers/product_comments_cubit.dart';
 import 'package:vngrocery/features/products/widgets/product_comments.dart';
@@ -171,6 +172,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       // Then what the shop says and what the record shows:
                       // pledge score, prices, and the signed change log.
                       ProductScoreCard(score: product.freshnessScore),
+                      // What the seller says about the goods, after the score
+                      // and the proof rather than before them: the claims are
+                      // the least verifiable thing on this screen.
+                      if (product.specs.isNotEmpty) ...[
+                        const SizedBox(height: 16),
+                        ProductSpecsTable(specs: product.specs),
+                      ],
+                      const SizedBox(height: 16),
+                      ProductDescriptionBlocks(
+                        blocks: product.descBlocks,
+                        fallbackText: product.description,
+                      ),
                       if (state.historyFailed && !state.hasHistory) ...[
                         const SizedBox(height: 16),
                         ProductHistoryUnavailable(

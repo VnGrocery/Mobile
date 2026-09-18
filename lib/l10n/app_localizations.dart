@@ -2132,6 +2132,30 @@ abstract class AppLocalizations {
   /// **'Take a photo of the price board or product to compare with the latest recorded data.'**
   String get productDetailCheckActionHint;
 
+  /// No description provided for @productDetailSpecsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product information'**
+  String get productDetailSpecsTitle;
+
+  /// No description provided for @productDetailDescriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product description'**
+  String get productDetailDescriptionTitle;
+
+  /// No description provided for @productDetailDescriptionExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Read more'**
+  String get productDetailDescriptionExpand;
+
+  /// No description provided for @productDetailDescriptionCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get productDetailDescriptionCollapse;
+
   /// No description provided for @productDetailCounterInfoTitle.
   ///
   /// In en, this message translates to:

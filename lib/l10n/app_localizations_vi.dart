@@ -1119,6 +1119,18 @@ class AppLocalizationsVi extends AppLocalizations {
       'Hãy chụp ảnh bảng giá hoặc sản phẩm để so với dữ liệu gần nhất.';
 
   @override
+  String get productDetailSpecsTitle => 'Thông tin sản phẩm';
+
+  @override
+  String get productDetailDescriptionTitle => 'Mô tả sản phẩm';
+
+  @override
+  String get productDetailDescriptionExpand => 'Xem thêm mô tả';
+
+  @override
+  String get productDetailDescriptionCollapse => 'Thu gọn';
+
+  @override
   String get productDetailCounterInfoTitle => 'Thông tin quầy hàng';
 
   @override
