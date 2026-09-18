@@ -29,9 +29,7 @@ class ScannerStatusPill extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            verifying
-                ? l10n.scannerStatusVerifying
-                : l10n.scannerStatusReady,
+            verifying ? l10n.scannerStatusVerifying : l10n.scannerStatusReady,
             style: const TextStyle(color: Colors.white, fontSize: 12),
           ),
         ],

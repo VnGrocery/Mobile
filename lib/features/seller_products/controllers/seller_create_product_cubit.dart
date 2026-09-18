@@ -40,6 +40,27 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState>
     emit(state.copyWith(category: category, saved: false));
   }
 
+  /// The spec table and the description, as the form currently holds them.
+  ///
+  /// Seeded from the listing being edited: an update replaces the whole
+  /// record, so anything this form does not carry back is erased from the
+  /// signed product.
+  late List<SpecItem> _specs = List.of(existing?.specs ?? const []);
+  late List<DescBlock> _descBlocks = List.of(existing?.descBlocks ?? const []);
+
+  List<SpecItem> get specs => List.unmodifiable(_specs);
+  List<DescBlock> get descBlocks => List.unmodifiable(_descBlocks);
+
+  void setSpecs(List<SpecItem> specs) {
+    _specs = List.of(specs);
+    emit(state.copyWith(saved: false));
+  }
+
+  void setDescBlocks(List<DescBlock> blocks) {
+    _descBlocks = List.of(blocks);
+    emit(state.copyWith(saved: false));
+  }
+
   /// Photo the seller took for the listing. This used to be a bare bool with
   /// no picture behind it, so products were always created without an image.
   Uint8List? _image;
@@ -104,6 +125,8 @@ class SellerCreateProductCubit extends Cubit<SellerCreateProductState>
           SellerProductPresenter.freshnessNote(state.imageSelected, l10n),
       price: SellerProductPresenter.parsePrice(price),
       tags: SellerProductPresenter.parseTags(tags),
+      specs: _specs,
+      descBlocks: _descBlocks,
       // A photo that was not re-taken keeps the one already on the listing.
       imageUrls: imageUrls.isEmpty && photo == null
           ? (current?.imageUrls ?? const [])

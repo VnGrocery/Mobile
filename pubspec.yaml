@@ -86,6 +86,10 @@ flutter:
   assets:
    - assets/images/
    - assets/models/
+   # Listed separately because an asset directory is not recursive: only
+   # router.onnx was ever bundled, so every prediction died at the expert
+   # model and the AI button could not work on any build.
+   - assets/models/freshness/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

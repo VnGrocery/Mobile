@@ -9,6 +9,7 @@ import 'package:vngrocery/features/seller_shop/widgets/seller_shop_text_field.da
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_cubit.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_state.dart';
 import 'package:vngrocery/features/seller_products/widgets/seller_create_product_components.dart';
+import 'package:vngrocery/features/seller_products/widgets/seller_product_content_editors.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/theme/app_palette.dart';
 
@@ -133,6 +134,16 @@ class _SellerCreateProductScreenState extends State<SellerCreateProductScreen> {
                   category: state.category,
                   onCategoryChanged: _createCubit.setCategory,
                   onRequiredChanged: (_) => setState(() {}),
+                ),
+                const SizedBox(height: 24),
+                SellerSpecsEditor(
+                  initial: _createCubit.specs,
+                  onChanged: _createCubit.setSpecs,
+                ),
+                const SizedBox(height: 24),
+                SellerDescriptionEditor(
+                  initial: _createCubit.descBlocks,
+                  onChanged: _createCubit.setDescBlocks,
                 ),
                 if (_editing) ...[
                   const SizedBox(height: 16),

@@ -811,13 +811,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scannerFrameHint =>
-      'Place the QR code or product tag inside the frame';
+      'Put the product in the frame, then take a photo';
 
   @override
   String get scannerCheckingAction => 'Checking...';
 
   @override
-  String get scannerSimulateAction => 'Capture & analyze with AI';
+  String get scannerSimulateAction => 'Capture & analyse on device';
+
+  @override
+  String get scannerCaptureAction => 'Capture & send for checking';
+
+  @override
+  String get scannerNeedsCodeHint =>
+      'Scan the code on the seller\'s tag first, then take a photo to compare against it.';
+
+  @override
+  String get scannerLocalAiFailed =>
+      'Could not analyse on this device. You can still scan a code and send a photo to be checked.';
+
+  @override
+  String get scannerCaptureFailed =>
+      'Could not take the photo. Please try again.';
 
   @override
   String get scannerStatusVerifying => 'Checking counter location...';
@@ -1120,6 +1135,18 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get productDetailCheckActionHint =>
       'Take a photo of the price board or product to compare with the latest recorded data.';
+
+  @override
+  String get productDetailSpecsTitle => 'Product information';
+
+  @override
+  String get productDetailDescriptionTitle => 'Product description';
+
+  @override
+  String get productDetailDescriptionExpand => 'Read more';
+
+  @override
+  String get productDetailDescriptionCollapse => 'Show less';
 
   @override
   String get productDetailCounterInfoTitle => 'Counter information';
@@ -1446,6 +1473,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get qrScanChecking => 'Checking...';
+
+  @override
+  String buyerCheckErrorRateLimited(int minutes) {
+    return 'You have checked a lot in a short time. Try again in $minutes minutes.';
+  }
+
+  @override
+  String get buyerCheckErrorNetwork =>
+      'Could not reach the server. Check your connection and try again.';
+
+  @override
+  String get buyerCheckErrorGeneric =>
+      'Could not check this code. Please try again.';
+
+  @override
+  String get freshnessReportAction => 'Rate freshness';
+
+  @override
+  String get freshnessReportTitle => 'How was the produce?';
+
+  @override
+  String get freshnessReportSelfReportedNote =>
+      'Buyer self-reported. This is your impression, not an inspection result.';
+
+  @override
+  String get freshnessReportPhotoHint =>
+      'Photograph the part of the goods you mean';
+
+  @override
+  String get freshnessCategoryFresh => 'Fresh';
+
+  @override
+  String get freshnessCategoryBruised => 'Bruised';
+
+  @override
+  String get freshnessCategoryWilted => 'Wilted';
+
+  @override
+  String get freshnessCategorySpoiled => 'Spoiled';
+
+  @override
+  String get freshnessReportCommentLabel => 'Comment (optional)';
+
+  @override
+  String get freshnessReportCommentHint =>
+      'For example: bruised on one side, the rest is fresh';
+
+  @override
+  String get freshnessReportSubmit => 'Send rating';
+
+  @override
+  String get freshnessReportSending => 'Sending...';
+
+  @override
+  String get freshnessReportSent => 'Your rating was recorded';
+
+  @override
+  String freshnessReportErrorRateLimited(int minutes) {
+    return 'You have rated a lot in a short time. Try again in $minutes minutes.';
+  }
+
+  @override
+  String get freshnessReportErrorNetwork =>
+      'Could not reach the server. Check your connection and try again.';
+
+  @override
+  String get freshnessReportErrorGeneric =>
+      'Could not send your rating. Please try again.';
 
   @override
   String get navHome => 'Home';
@@ -2454,4 +2549,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountActivityHistory => 'Activity history';
+
+  @override
+  String get sellerSpecsTitle => 'Product specifications';
+
+  @override
+  String get sellerSpecsHint =>
+      'What buyers ask most: origin, weight, how to store it.';
+
+  @override
+  String get sellerSpecsKeyLabel => 'Name';
+
+  @override
+  String get sellerSpecsValueLabel => 'Value';
+
+  @override
+  String get sellerSpecsAdd => 'Add specification';
+
+  @override
+  String get sellerSpecsRemove => 'Remove specification';
+
+  @override
+  String get sellerDescTitle => 'Detailed description';
+
+  @override
+  String get sellerDescTemplate => 'Use a template';
+
+  @override
+  String get sellerDescAddHeading => 'Heading';
+
+  @override
+  String get sellerDescAddParagraph => 'Paragraph';
+
+  @override
+  String get sellerDescAddBullets => 'Bullet list';
+
+  @override
+  String get sellerDescRemoveBlock => 'Remove block';
+
+  @override
+  String get sellerDescMoveUp => 'Move up';
+
+  @override
+  String get sellerDescMoveDown => 'Move down';
+
+  @override
+  String get sellerDescHeadingHint => 'For example: Highlights';
+
+  @override
+  String get sellerDescParagraphHint =>
+      'Write a short paragraph about the product';
+
+  @override
+  String get sellerDescBulletsHint => 'One point per line';
+
+  @override
+  String get sellerDescPledgeNotice =>
+      'The description introduces the product. A claim about freshness must be made as a Pledge so it is signed into the chain.';
+
+  @override
+  String get sellerDescTemplateHighlights => 'Highlights';
+
+  @override
+  String get sellerDescTemplateUsage => 'How to use';
+
+  @override
+  String get sellerDescTemplateStorage => 'Care & storage';
+
+  @override
+  String get sellerDescTemplatePackaging => 'Packaging';
 }

@@ -223,6 +223,11 @@ class RemoteDataSource {
       'category': product.category,
       'tags': product.tags,
       'imageUrls': product.imageUrls,
+      // An update replaces the whole record, so a field left out of this body
+      // is a field erased from the signed product. Everything the form can
+      // hold has to be sent back, touched or not.
+      'specs': product.specs.map((item) => item.toJson()).toList(),
+      'descBlocks': product.descBlocks.map((block) => block.toJson()).toList(),
       'freshnessNote': product.freshnessNote,
       'freshnessScore': product.freshnessScore,
       'price': product.price,
@@ -273,12 +278,15 @@ class RemoteDataSource {
     ),
   );
 
+  /// Stores an image and returns what the server made of it: gateway URL, CID
+  /// and content hash. Callers that need the hash must take it from here
+  /// rather than computing one locally - the record has to point at the bytes
+  /// the server actually holds.
+  Future<Map<String, Object?>> uploadImageDetails(Uint8List bytes) => client
+      .multipart('/v1/media/images', bytes: bytes, filename: 'review.png');
+
   Future<String?> uploadImage(Uint8List bytes) async {
-    final json = await client.multipart(
-      '/v1/media/images',
-      bytes: bytes,
-      filename: 'review.png',
-    );
+    final json = await uploadImageDetails(bytes);
     final url = json['gatewayUrl']?.toString() ?? '';
     if (url.isNotEmpty) return url;
     final cid = json['imageCid']?.toString() ?? '';
@@ -363,6 +371,31 @@ class RemoteDataSource {
       'imageHash': imageHash,
       'imageCid': imageCid,
       'note': note,
+    },
+  );
+
+  /// Records what a buyer thought of the produce they were handed.
+  ///
+  /// Separate from [buyerCheck]: that one proves a bundle is what the seller
+  /// pledged, this one is an opinion and the server stores it as
+  /// `reviewStatus: self_reported`. Nothing here is verified, and the app must
+  /// not present it as if it were.
+  Future<Map<String, Object?>> createFreshnessReport({
+    required String shopId,
+    required String productId,
+    required double score,
+    required String category,
+    required String imageHash,
+    String imageCid = '',
+    String comment = '',
+  }) => client.post(
+    '/v1/shops/$shopId/products/$productId/freshness-reports',
+    body: {
+      'score': score,
+      'category': category,
+      'comment': comment,
+      'imageHash': imageHash,
+      'imageCid': imageCid,
     },
   );
 

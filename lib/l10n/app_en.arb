@@ -314,9 +314,13 @@
   "sellerPledgeSaved": "Product pledge saved.",
   "accountExploreStores": "Explore stores",
   "accountScanProducts": "Scan products",
-  "scannerFrameHint": "Place the QR code or product tag inside the frame",
+  "scannerFrameHint": "Put the product in the frame, then take a photo",
   "scannerCheckingAction": "Checking...",
-  "scannerSimulateAction": "Capture & analyze with AI",
+  "scannerSimulateAction": "Capture & analyse on device",
+  "scannerCaptureAction": "Capture & send for checking",
+  "scannerNeedsCodeHint": "Scan the code on the seller's tag first, then take a photo to compare against it.",
+  "scannerLocalAiFailed": "Could not analyse on this device. You can still scan a code and send a photo to be checked.",
+  "scannerCaptureFailed": "Could not take the photo. Please try again.",
   "scannerStatusVerifying": "Checking counter location...",
   "scannerStatusReady": "Ready to verify product",
   "scannerOverlayVerifying": "Checking product...",
@@ -458,6 +462,10 @@
   "productDetailLatestScoreSubtitle": "Based on recorded images and product details",
   "productDetailCheckAction": "Submit product photo for review",
   "productDetailCheckActionHint": "Take a photo of the price board or product to compare with the latest recorded data.",
+  "productDetailSpecsTitle": "Product information",
+  "productDetailDescriptionTitle": "Product description",
+  "productDetailDescriptionExpand": "Read more",
+  "productDetailDescriptionCollapse": "Show less",
   "productDetailCounterInfoTitle": "Counter information",
   "productDetailShopCodeLabel": "Store code",
   "productDetailFreshnessNoteLabel": "Product note",
@@ -787,6 +795,92 @@
   "qrScanChecking": "Checking...",
   "@qrScanChecking": {
     "description": "Shown while the buyer check runs."
+  },
+  "buyerCheckErrorRateLimited": "You have checked a lot in a short time. Try again in {minutes} minutes.",
+  "@buyerCheckErrorRateLimited": {
+    "description": "Shown when the buyer check quota is used up. The wait comes from the server.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "buyerCheckErrorNetwork": "Could not reach the server. Check your connection and try again.",
+  "@buyerCheckErrorNetwork": {
+    "description": "Shown when the buyer check could not be sent at all."
+  },
+  "buyerCheckErrorGeneric": "Could not check this code. Please try again.",
+  "@buyerCheckErrorGeneric": {
+    "description": "Fallback for a buyer check the app cannot explain."
+  },
+  "freshnessReportAction": "Rate freshness",
+  "@freshnessReportAction": {
+    "description": "Opens the sheet where a buyer scores the produce themselves."
+  },
+  "freshnessReportTitle": "How was the produce?",
+  "@freshnessReportTitle": {
+    "description": "Title of the buyer self-scoring sheet."
+  },
+  "freshnessReportSelfReportedNote": "Buyer self-reported. This is your impression, not an inspection result.",
+  "@freshnessReportSelfReportedNote": {
+    "description": "States that the score is unverified, so it is not mistaken for the pledge score."
+  },
+  "freshnessReportPhotoHint": "Photograph the part of the goods you mean",
+  "@freshnessReportPhotoHint": {
+    "description": "Hint on the camera screen opened before the rating sheet."
+  },
+  "freshnessCategoryFresh": "Fresh",
+  "@freshnessCategoryFresh": {
+    "description": "Defect class: nothing wrong."
+  },
+  "freshnessCategoryBruised": "Bruised",
+  "@freshnessCategoryBruised": {
+    "description": "Defect class: knocked about."
+  },
+  "freshnessCategoryWilted": "Wilted",
+  "@freshnessCategoryWilted": {
+    "description": "Defect class: limp or dried out."
+  },
+  "freshnessCategorySpoiled": "Spoiled",
+  "@freshnessCategorySpoiled": {
+    "description": "Defect class: not fit to eat."
+  },
+  "freshnessReportCommentLabel": "Comment (optional)",
+  "@freshnessReportCommentLabel": {
+    "description": "Label of the optional comment field."
+  },
+  "freshnessReportCommentHint": "For example: bruised on one side, the rest is fresh",
+  "@freshnessReportCommentHint": {
+    "description": "Example comment."
+  },
+  "freshnessReportSubmit": "Send rating",
+  "@freshnessReportSubmit": {
+    "description": "Submits the self-reported score."
+  },
+  "freshnessReportSending": "Sending...",
+  "@freshnessReportSending": {
+    "description": "Shown on the submit button while the report is in flight."
+  },
+  "freshnessReportSent": "Your rating was recorded",
+  "@freshnessReportSent": {
+    "description": "Confirms the report reached the server."
+  },
+  "freshnessReportErrorRateLimited": "You have rated a lot in a short time. Try again in {minutes} minutes.",
+  "@freshnessReportErrorRateLimited": {
+    "description": "Shown when the freshness report quota is used up. The wait comes from the server.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "freshnessReportErrorNetwork": "Could not reach the server. Check your connection and try again.",
+  "@freshnessReportErrorNetwork": {
+    "description": "Shown when the report could not be sent at all."
+  },
+  "freshnessReportErrorGeneric": "Could not send your rating. Please try again.",
+  "@freshnessReportErrorGeneric": {
+    "description": "Fallback for a failed report the app cannot explain."
   },
   "navHome": "Home",
   "@navHome": {
@@ -1719,5 +1813,27 @@
   "activityPledgeReanchored": "Re-anchored a pledge on chain",
   "activityShopUpdated": "Updated the shop",
   "activityAccountCreated": "Created the account",
-  "accountActivityHistory": "Activity history"
+  "accountActivityHistory": "Activity history",
+  "sellerSpecsTitle": "Product specifications",
+  "sellerSpecsHint": "What buyers ask most: origin, weight, how to store it.",
+  "sellerSpecsKeyLabel": "Name",
+  "sellerSpecsValueLabel": "Value",
+  "sellerSpecsAdd": "Add specification",
+  "sellerSpecsRemove": "Remove specification",
+  "sellerDescTitle": "Detailed description",
+  "sellerDescTemplate": "Use a template",
+  "sellerDescAddHeading": "Heading",
+  "sellerDescAddParagraph": "Paragraph",
+  "sellerDescAddBullets": "Bullet list",
+  "sellerDescRemoveBlock": "Remove block",
+  "sellerDescMoveUp": "Move up",
+  "sellerDescMoveDown": "Move down",
+  "sellerDescHeadingHint": "For example: Highlights",
+  "sellerDescParagraphHint": "Write a short paragraph about the product",
+  "sellerDescBulletsHint": "One point per line",
+  "sellerDescPledgeNotice": "The description introduces the product. A claim about freshness must be made as a Pledge so it is signed into the chain.",
+  "sellerDescTemplateHighlights": "Highlights",
+  "sellerDescTemplateUsage": "How to use",
+  "sellerDescTemplateStorage": "Care & storage",
+  "sellerDescTemplatePackaging": "Packaging"
 }

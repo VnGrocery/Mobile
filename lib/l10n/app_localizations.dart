@@ -1577,7 +1577,7 @@ abstract class AppLocalizations {
   /// No description provided for @scannerFrameHint.
   ///
   /// In en, this message translates to:
-  /// **'Place the QR code or product tag inside the frame'**
+  /// **'Put the product in the frame, then take a photo'**
   String get scannerFrameHint;
 
   /// No description provided for @scannerCheckingAction.
@@ -1589,8 +1589,32 @@ abstract class AppLocalizations {
   /// No description provided for @scannerSimulateAction.
   ///
   /// In en, this message translates to:
-  /// **'Capture & analyze with AI'**
+  /// **'Capture & analyse on device'**
   String get scannerSimulateAction;
+
+  /// No description provided for @scannerCaptureAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture & send for checking'**
+  String get scannerCaptureAction;
+
+  /// No description provided for @scannerNeedsCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the code on the seller\'s tag first, then take a photo to compare against it.'**
+  String get scannerNeedsCodeHint;
+
+  /// No description provided for @scannerLocalAiFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not analyse on this device. You can still scan a code and send a photo to be checked.'**
+  String get scannerLocalAiFailed;
+
+  /// No description provided for @scannerCaptureFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not take the photo. Please try again.'**
+  String get scannerCaptureFailed;
 
   /// No description provided for @scannerStatusVerifying.
   ///
@@ -2131,6 +2155,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Take a photo of the price board or product to compare with the latest recorded data.'**
   String get productDetailCheckActionHint;
+
+  /// No description provided for @productDetailSpecsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product information'**
+  String get productDetailSpecsTitle;
+
+  /// No description provided for @productDetailDescriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product description'**
+  String get productDetailDescriptionTitle;
+
+  /// No description provided for @productDetailDescriptionExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Read more'**
+  String get productDetailDescriptionExpand;
+
+  /// No description provided for @productDetailDescriptionCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get productDetailDescriptionCollapse;
 
   /// No description provided for @productDetailCounterInfoTitle.
   ///
@@ -2719,6 +2767,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checking...'**
   String get qrScanChecking;
+
+  /// Shown when the buyer check quota is used up. The wait comes from the server.
+  ///
+  /// In en, this message translates to:
+  /// **'You have checked a lot in a short time. Try again in {minutes} minutes.'**
+  String buyerCheckErrorRateLimited(int minutes);
+
+  /// Shown when the buyer check could not be sent at all.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check your connection and try again.'**
+  String get buyerCheckErrorNetwork;
+
+  /// Fallback for a buyer check the app cannot explain.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not check this code. Please try again.'**
+  String get buyerCheckErrorGeneric;
+
+  /// Opens the sheet where a buyer scores the produce themselves.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate freshness'**
+  String get freshnessReportAction;
+
+  /// Title of the buyer self-scoring sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'How was the produce?'**
+  String get freshnessReportTitle;
+
+  /// States that the score is unverified, so it is not mistaken for the pledge score.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer self-reported. This is your impression, not an inspection result.'**
+  String get freshnessReportSelfReportedNote;
+
+  /// Hint on the camera screen opened before the rating sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Photograph the part of the goods you mean'**
+  String get freshnessReportPhotoHint;
+
+  /// Defect class: nothing wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh'**
+  String get freshnessCategoryFresh;
+
+  /// Defect class: knocked about.
+  ///
+  /// In en, this message translates to:
+  /// **'Bruised'**
+  String get freshnessCategoryBruised;
+
+  /// Defect class: limp or dried out.
+  ///
+  /// In en, this message translates to:
+  /// **'Wilted'**
+  String get freshnessCategoryWilted;
+
+  /// Defect class: not fit to eat.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoiled'**
+  String get freshnessCategorySpoiled;
+
+  /// Label of the optional comment field.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment (optional)'**
+  String get freshnessReportCommentLabel;
+
+  /// Example comment.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: bruised on one side, the rest is fresh'**
+  String get freshnessReportCommentHint;
+
+  /// Submits the self-reported score.
+  ///
+  /// In en, this message translates to:
+  /// **'Send rating'**
+  String get freshnessReportSubmit;
+
+  /// Shown on the submit button while the report is in flight.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get freshnessReportSending;
+
+  /// Confirms the report reached the server.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rating was recorded'**
+  String get freshnessReportSent;
+
+  /// Shown when the freshness report quota is used up. The wait comes from the server.
+  ///
+  /// In en, this message translates to:
+  /// **'You have rated a lot in a short time. Try again in {minutes} minutes.'**
+  String freshnessReportErrorRateLimited(int minutes);
+
+  /// Shown when the report could not be sent at all.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check your connection and try again.'**
+  String get freshnessReportErrorNetwork;
+
+  /// Fallback for a failed report the app cannot explain.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send your rating. Please try again.'**
+  String get freshnessReportErrorGeneric;
 
   /// Bottom navigation and side menu label.
   ///
@@ -4507,6 +4669,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Activity history'**
   String get accountActivityHistory;
+
+  /// No description provided for @sellerSpecsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product specifications'**
+  String get sellerSpecsTitle;
+
+  /// No description provided for @sellerSpecsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What buyers ask most: origin, weight, how to store it.'**
+  String get sellerSpecsHint;
+
+  /// No description provided for @sellerSpecsKeyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get sellerSpecsKeyLabel;
+
+  /// No description provided for @sellerSpecsValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get sellerSpecsValueLabel;
+
+  /// No description provided for @sellerSpecsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add specification'**
+  String get sellerSpecsAdd;
+
+  /// No description provided for @sellerSpecsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove specification'**
+  String get sellerSpecsRemove;
+
+  /// No description provided for @sellerDescTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed description'**
+  String get sellerDescTitle;
+
+  /// No description provided for @sellerDescTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a template'**
+  String get sellerDescTemplate;
+
+  /// No description provided for @sellerDescAddHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading'**
+  String get sellerDescAddHeading;
+
+  /// No description provided for @sellerDescAddParagraph.
+  ///
+  /// In en, this message translates to:
+  /// **'Paragraph'**
+  String get sellerDescAddParagraph;
+
+  /// No description provided for @sellerDescAddBullets.
+  ///
+  /// In en, this message translates to:
+  /// **'Bullet list'**
+  String get sellerDescAddBullets;
+
+  /// No description provided for @sellerDescRemoveBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove block'**
+  String get sellerDescRemoveBlock;
+
+  /// No description provided for @sellerDescMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get sellerDescMoveUp;
+
+  /// No description provided for @sellerDescMoveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get sellerDescMoveDown;
+
+  /// No description provided for @sellerDescHeadingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: Highlights'**
+  String get sellerDescHeadingHint;
+
+  /// No description provided for @sellerDescParagraphHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a short paragraph about the product'**
+  String get sellerDescParagraphHint;
+
+  /// No description provided for @sellerDescBulletsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One point per line'**
+  String get sellerDescBulletsHint;
+
+  /// No description provided for @sellerDescPledgeNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'The description introduces the product. A claim about freshness must be made as a Pledge so it is signed into the chain.'**
+  String get sellerDescPledgeNotice;
+
+  /// No description provided for @sellerDescTemplateHighlights.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlights'**
+  String get sellerDescTemplateHighlights;
+
+  /// No description provided for @sellerDescTemplateUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'How to use'**
+  String get sellerDescTemplateUsage;
+
+  /// No description provided for @sellerDescTemplateStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Care & storage'**
+  String get sellerDescTemplateStorage;
+
+  /// No description provided for @sellerDescTemplatePackaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaging'**
+  String get sellerDescTemplatePackaging;
 }
 
 class _AppLocalizationsDelegate

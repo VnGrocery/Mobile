@@ -7,6 +7,7 @@ import 'package:vngrocery/core/services/camera_devices.dart';
 import 'package:vngrocery/core/services/food_ai_service.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/buyer_check/buyer_check_presenter.dart';
 import 'package:vngrocery/features/scanner/widgets/scanner_components.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
 import 'package:vngrocery/routes/app_routes.dart';
@@ -43,9 +44,7 @@ class ScannerScreen extends StatefulWidget {
   State<ScannerScreen> createState() => _ScannerScreenState();
 }
 
-class _ScannerScreenState extends State<ScannerScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _line;
+class _ScannerScreenState extends State<ScannerScreen> {
   CameraController? _camera;
   FoodAiResult? _result;
   bool _verifying = false;
@@ -60,11 +59,7 @@ class _ScannerScreenState extends State<ScannerScreen>
   @override
   void initState() {
     super.initState();
-    _line = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-    if (widget.active) _startScanning();
+    if (widget.active) _initCamera();
   }
 
   @override
@@ -72,26 +67,10 @@ class _ScannerScreenState extends State<ScannerScreen>
     super.didUpdateWidget(oldWidget);
     if (widget.active == oldWidget.active) return;
     if (widget.active) {
-      _startScanning();
+      _initCamera();
     } else {
-      _stopScanning();
+      _closeCamera();
     }
-  }
-
-  /// The camera was already tied to the tab being visible. The scan line was
-  /// not: it began turning in [initState] and never stopped, and because this
-  /// screen is built up front inside the IndexedStack it kept turning behind
-  /// every other tab for as long as the app was open. A ticker that never
-  /// stops asks for a frame on every vsync, so the app never went idle — the
-  /// raster thread ran flat out drawing a line nobody was looking at.
-  void _startScanning() {
-    if (!_line.isAnimating) _line.repeat();
-    _initCamera();
-  }
-
-  void _stopScanning() {
-    _line.stop();
-    _closeCamera();
   }
 
   Future<void> _closeCamera() async {
@@ -137,28 +116,72 @@ class _ScannerScreenState extends State<ScannerScreen>
     setState(() => _bundle = token);
   }
 
-  Future<void> _captureAndPredict() async {
-    final camera = _camera;
-    if (_verifying || camera == null || !camera.value.isInitialized) return;
+  /// Takes the photo and sends it to be checked against the scanned code.
+  ///
+  /// The on-device model runs too, but only as a courtesy: it used to run
+  /// first, and because it throws when a model is missing it took the server
+  /// check down with it, burning the single-use token for nothing.
+  Future<void> _captureAndCheck() async {
+    final bytes = await _capture();
+    if (bytes == null) return;
     setState(() => _verifying = true);
     try {
-      final file = await camera.takePicture();
-      final bytes = await file.readAsBytes();
-
-      // Always classify locally so the user sees something even offline.
-      final result = await FoodAiService.instance.predict(bytes);
-      if (mounted) setState(() => _result = result);
-
       await _sendBuyerCheck(bytes);
-    } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('AI camera error: $error')));
-      }
+      await _predictLocally(bytes, announceFailure: false);
     } finally {
       if (mounted) setState(() => _verifying = false);
     }
+  }
+
+  /// Classifies a photo on the phone without sending it anywhere.
+  Future<void> _captureAndAnalyse() async {
+    final bytes = await _capture();
+    if (bytes == null) return;
+    setState(() => _verifying = true);
+    try {
+      await _predictLocally(bytes, announceFailure: true);
+    } finally {
+      if (mounted) setState(() => _verifying = false);
+    }
+  }
+
+  /// Returns the photo bytes, or null when the shutter itself failed.
+  Future<Uint8List?> _capture() async {
+    final camera = _camera;
+    if (_verifying || camera == null || !camera.value.isInitialized) {
+      return null;
+    }
+    try {
+      final file = await camera.takePicture();
+      return await file.readAsBytes();
+    } catch (_) {
+      if (mounted) {
+        _showMessage(AppLocalizations.of(context).scannerCaptureFailed);
+      }
+      return null;
+    }
+  }
+
+  Future<void> _predictLocally(
+    Uint8List bytes, {
+    required bool announceFailure,
+  }) async {
+    try {
+      final result = await FoodAiService.instance.predict(bytes);
+      if (mounted) setState(() => _result = result);
+    } catch (_) {
+      // The model is a convenience, not the record. Naming the exception would
+      // put a Dart stack trace in front of someone standing at a market stall.
+      if (mounted && announceFailure) {
+        _showMessage(AppLocalizations.of(context).scannerLocalAiFailed);
+      }
+    }
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   /// Sends the captured photo to the server to be compared against the pledge
@@ -187,9 +210,9 @@ class _ScannerScreenState extends State<ScannerScreen>
       Navigator.pushNamed(context, Routes.buyerCheckResult);
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('${l10n.qrScanChecking} $error')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(BuyerCheckPresenter.errorMessage(error, l10n))),
+      );
     }
   }
 
@@ -212,7 +235,6 @@ class _ScannerScreenState extends State<ScannerScreen>
   @override
   void dispose() {
     _camera?.dispose();
-    _line.dispose();
     super.dispose();
   }
 
@@ -227,7 +249,17 @@ class _ScannerScreenState extends State<ScannerScreen>
         children: [
           Positioned.fill(
             child: _camera?.value.isInitialized == true
-                ? CameraPreview(_camera!)
+                // Cover rather than stretch: filling the box directly squashed
+                // the preview, so what the person framed was not the shape of
+                // the photo they got.
+                ? FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _camera!.value.previewSize!.height,
+                      height: _camera!.value.previewSize!.width,
+                      child: CameraPreview(_camera!),
+                    ),
+                  )
                 : Center(
                     child: Text(
                       _noCamera
@@ -238,11 +270,27 @@ class _ScannerScreenState extends State<ScannerScreen>
                     ),
                   ),
           ),
+          // The controls are white on whatever the camera happens to see. Over
+          // a pale crate of produce the title and hints disappeared entirely.
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.black54, Colors.black26, Colors.black87],
+                    stops: [0, 0.35, 1],
+                  ),
+                ),
+              ),
+            ),
+          ),
           ScannerBody(
-            scanLine: _line,
             verifying: _verifying,
             bottomContentInset: widget.bottomContentInset,
-            onSimulate: _captureAndPredict,
+            onCapture: _captureAndCheck,
+            onAnalyseOnDevice: _captureAndAnalyse,
             onScanCode: _scanCode,
             scannedBundleId: _bundle?.bundleId,
           ),

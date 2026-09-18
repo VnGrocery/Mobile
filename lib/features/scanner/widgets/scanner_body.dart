@@ -6,10 +6,18 @@ import 'scanner_frame.dart';
 import 'scanner_status_pill.dart';
 
 class ScannerBody extends StatelessWidget {
-  final Animation<double> scanLine;
   final bool verifying;
   final double bottomContentInset;
-  final VoidCallback onSimulate;
+
+  /// Takes the photo and sends it to be checked against the scanned code.
+  ///
+  /// This is the plain capture. The screen used to offer only the on-device
+  /// analysis, so the one thing the server can actually verify was reachable
+  /// only through a model that had to succeed first.
+  final VoidCallback onCapture;
+
+  /// Takes a photo and classifies it on the phone, without sending anything.
+  final VoidCallback onAnalyseOnDevice;
 
   /// Opens the QR reader. Null hides the action, e.g. when there is no backend
   /// to check against.
@@ -21,10 +29,10 @@ class ScannerBody extends StatelessWidget {
 
   const ScannerBody({
     super.key,
-    required this.scanLine,
     required this.verifying,
     required this.bottomContentInset,
-    required this.onSimulate,
+    required this.onCapture,
+    required this.onAnalyseOnDevice,
     this.onScanCode,
     this.scannedBundleId,
   });
@@ -32,6 +40,9 @@ class ScannerBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    // Without a scanned code there is no pledge to compare the photo against,
+    // so sending it would be a silent no-op. Say so instead.
+    final canCheck = scannedBundleId != null;
     return Center(
       key: const ValueKey('scanner.body'),
       child: Padding(
@@ -56,10 +67,10 @@ class ScannerBody extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            ScannerFrame(scanLine: scanLine),
+            const ScannerFrame(),
             const SizedBox(height: 40),
             ScannerStatusPill(verifying: verifying),
-            if (scannedBundleId != null) ...[
+            if (canCheck) ...[
               const SizedBox(height: 8),
               Text(
                 scannedBundleId!,
@@ -87,22 +98,51 @@ class ScannerBody extends StatelessWidget {
               ),
               const SizedBox(height: 10),
             ],
-            ElevatedButton(
-              key: const ValueKey('scanner.simulate_scan_button'),
-              onPressed: verifying ? null : onSimulate,
+            ElevatedButton.icon(
+              key: const ValueKey('scanner.capture_button'),
+              onPressed: verifying || !canCheck ? null : onCapture,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
+                // Spelled out because the default disabled pair is derived from
+                // the light theme's onSurface: over the camera preview it came
+                // out as grey on dark and the main action read as absent
+                // rather than as waiting for a code.
+                disabledBackgroundColor: Colors.white24,
+                disabledForegroundColor: Colors.white70,
                 minimumSize: const Size(220, 48),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
               ),
-              child: Text(
+              icon: const Icon(Icons.camera_alt),
+              label: Text(
                 verifying
                     ? l10n.scannerCheckingAction
-                    : l10n.scannerSimulateAction,
+                    : l10n.scannerCaptureAction,
               ),
+            ),
+            if (!canCheck) ...[
+              const SizedBox(height: 8),
+              SizedBox(
+                width: 260,
+                child: Text(
+                  l10n.scannerNeedsCodeHint,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    fontSize: 12,
+                    height: 1.35,
+                  ),
+                ),
+              ),
+            ],
+            const SizedBox(height: 4),
+            TextButton(
+              key: const ValueKey('scanner.simulate_scan_button'),
+              onPressed: verifying ? null : onAnalyseOnDevice,
+              style: TextButton.styleFrom(foregroundColor: Colors.white70),
+              child: Text(l10n.scannerSimulateAction),
             ),
           ],
         ),

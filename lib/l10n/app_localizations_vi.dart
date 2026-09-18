@@ -807,13 +807,28 @@ class AppLocalizationsVi extends AppLocalizations {
   String get accountScanProducts => 'Quét sản phẩm';
 
   @override
-  String get scannerFrameHint => 'Đưa mã QR hoặc tem sản phẩm vào khung hình';
+  String get scannerFrameHint => 'Đưa sản phẩm vào khung hình rồi chụp';
 
   @override
   String get scannerCheckingAction => 'Đang kiểm tra...';
 
   @override
-  String get scannerSimulateAction => 'Chụp & phân tích AI';
+  String get scannerSimulateAction => 'Chụp & phân tích trên máy';
+
+  @override
+  String get scannerCaptureAction => 'Chụp & gửi kiểm tra';
+
+  @override
+  String get scannerNeedsCodeHint =>
+      'Quét mã trên tem của người bán trước, rồi mới chụp để đối chiếu.';
+
+  @override
+  String get scannerLocalAiFailed =>
+      'Chưa phân tích được trên máy này. Bạn vẫn có thể quét mã rồi chụp để gửi đi kiểm tra.';
+
+  @override
+  String get scannerCaptureFailed =>
+      'Không chụp được ảnh. Bạn thử lại giúp nhé.';
 
   @override
   String get scannerStatusVerifying => 'Đang kiểm tra vị trí quầy hàng...';
@@ -1117,6 +1132,18 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get productDetailCheckActionHint =>
       'Hãy chụp ảnh bảng giá hoặc sản phẩm để so với dữ liệu gần nhất.';
+
+  @override
+  String get productDetailSpecsTitle => 'Thông tin sản phẩm';
+
+  @override
+  String get productDetailDescriptionTitle => 'Mô tả sản phẩm';
+
+  @override
+  String get productDetailDescriptionExpand => 'Xem thêm mô tả';
+
+  @override
+  String get productDetailDescriptionCollapse => 'Thu gọn';
 
   @override
   String get productDetailCounterInfoTitle => 'Thông tin quầy hàng';
@@ -1438,6 +1465,73 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get qrScanChecking => 'Đang kiểm tra...';
+
+  @override
+  String buyerCheckErrorRateLimited(int minutes) {
+    return 'Bạn đã kiểm tra khá nhiều trong thời gian ngắn. Thử lại sau $minutes phút nhé.';
+  }
+
+  @override
+  String get buyerCheckErrorNetwork =>
+      'Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại nhé.';
+
+  @override
+  String get buyerCheckErrorGeneric =>
+      'Chưa kiểm tra được mã này. Bạn thử lại giúp nhé.';
+
+  @override
+  String get freshnessReportAction => 'Chấm độ tươi';
+
+  @override
+  String get freshnessReportTitle => 'Bạn thấy hàng thế nào?';
+
+  @override
+  String get freshnessReportSelfReportedNote =>
+      'Người mua tự chấm. Điểm này là cảm nhận của bạn, không phải kết quả kiểm định.';
+
+  @override
+  String get freshnessReportPhotoHint => 'Chụp đúng phần hàng bạn muốn nói tới';
+
+  @override
+  String get freshnessCategoryFresh => 'Tươi ngon';
+
+  @override
+  String get freshnessCategoryBruised => 'Hơi dập';
+
+  @override
+  String get freshnessCategoryWilted => 'Héo';
+
+  @override
+  String get freshnessCategorySpoiled => 'Hỏng';
+
+  @override
+  String get freshnessReportCommentLabel => 'Nhận xét (không bắt buộc)';
+
+  @override
+  String get freshnessReportCommentHint =>
+      'Ví dụ: hơi dập một bên, còn lại tươi';
+
+  @override
+  String get freshnessReportSubmit => 'Gửi đánh giá';
+
+  @override
+  String get freshnessReportSending => 'Đang gửi...';
+
+  @override
+  String get freshnessReportSent => 'Đã ghi nhận đánh giá của bạn';
+
+  @override
+  String freshnessReportErrorRateLimited(int minutes) {
+    return 'Bạn đã chấm khá nhiều trong thời gian ngắn. Thử lại sau $minutes phút nhé.';
+  }
+
+  @override
+  String get freshnessReportErrorNetwork =>
+      'Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại nhé.';
+
+  @override
+  String get freshnessReportErrorGeneric =>
+      'Chưa gửi được đánh giá. Bạn thử lại giúp nhé.';
 
   @override
   String get navHome => 'Trang chủ';
@@ -2442,4 +2536,72 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get accountActivityHistory => 'Lịch sử hoạt động';
+
+  @override
+  String get sellerSpecsTitle => 'Thông số sản phẩm';
+
+  @override
+  String get sellerSpecsHint =>
+      'Những thứ người mua hay hỏi: xuất xứ, trọng lượng, cách bảo quản.';
+
+  @override
+  String get sellerSpecsKeyLabel => 'Thông số';
+
+  @override
+  String get sellerSpecsValueLabel => 'Giá trị';
+
+  @override
+  String get sellerSpecsAdd => 'Thêm thông số';
+
+  @override
+  String get sellerSpecsRemove => 'Xoá thông số';
+
+  @override
+  String get sellerDescTitle => 'Mô tả chi tiết';
+
+  @override
+  String get sellerDescTemplate => 'Dùng khung mẫu';
+
+  @override
+  String get sellerDescAddHeading => 'Tiêu đề';
+
+  @override
+  String get sellerDescAddParagraph => 'Đoạn văn';
+
+  @override
+  String get sellerDescAddBullets => 'Gạch đầu dòng';
+
+  @override
+  String get sellerDescRemoveBlock => 'Xoá khối';
+
+  @override
+  String get sellerDescMoveUp => 'Chuyển lên';
+
+  @override
+  String get sellerDescMoveDown => 'Chuyển xuống';
+
+  @override
+  String get sellerDescHeadingHint => 'Ví dụ: Điểm nổi bật';
+
+  @override
+  String get sellerDescParagraphHint => 'Viết một đoạn ngắn về sản phẩm';
+
+  @override
+  String get sellerDescBulletsHint => 'Mỗi dòng một ý';
+
+  @override
+  String get sellerDescPledgeNotice =>
+      'Mô tả là phần giới thiệu sản phẩm. Cam kết về độ tươi phải tạo bằng Ghi nhận để được ký và lưu vào chuỗi.';
+
+  @override
+  String get sellerDescTemplateHighlights => 'Điểm nổi bật';
+
+  @override
+  String get sellerDescTemplateUsage => 'Hướng dẫn sử dụng';
+
+  @override
+  String get sellerDescTemplateStorage => 'Lưu ý & bảo quản';
+
+  @override
+  String get sellerDescTemplatePackaging => 'Quy cách đóng gói';
 }
