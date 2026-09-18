@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:vngrocery/theme/app_colors.dart';
@@ -46,6 +47,7 @@ class ProductThumbnail extends StatelessWidget {
   /// a real device or production build already gets a real domain here and
   /// passes through unchanged.
   static String _forEmulator(String url) {
+    if (defaultTargetPlatform != TargetPlatform.android) return url;
     return url
         .replaceFirst('://127.0.0.1:', '://10.0.2.2:')
         .replaceFirst('://localhost:', '://10.0.2.2:');
@@ -78,8 +80,8 @@ class ProductThumbnail extends StatelessWidget {
             // Decode to the size actually drawn. A 60dp thumbnail was
             // decoding a full-resolution Wikimedia photo into memory, once per
             // visible card.
-            final pixels =
-                (drawn * MediaQuery.devicePixelRatioOf(context)).round();
+            final pixels = (drawn * MediaQuery.devicePixelRatioOf(context))
+                .round();
             return CachedNetworkImage(
               imageUrl: url,
               fit: BoxFit.cover,
