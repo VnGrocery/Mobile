@@ -59,6 +59,37 @@ void main() {
       expect(BundleToken.tryParse(other), isNull);
     });
 
+    test('reads a lot code off a printed label', () {
+      final label = BundleToken.tryParse('LO-260918-8X1Z7MNE');
+      expect(label, isNotNull);
+      // isLotCode is what sends a scan down the lookup path instead of the
+      // buyer-check path, which would fail with no signed token to send.
+      expect(label!.isLotCode, isTrue);
+      expect(label.bundleId, 'LO-260918-8X1Z7MNE');
+      expect(label.expiresAt, isNull);
+    });
+
+    test('accepts a lot code typed in lower case', () {
+      // Someone reading a scuffed label off a crate types what they see.
+      expect(
+        BundleToken.tryParse('lo-260918-8x1z7mne')?.bundleId,
+        'LO-260918-8X1Z7MNE',
+      );
+    });
+
+    test('does not mistake ordinary text for a lot code', () {
+      expect(BundleToken.tryParse('LO-26091-8X1Z7MNE'), isNull);
+      expect(BundleToken.tryParse('buy LO-260918-8X1Z7MNE now'), isNull);
+      // I, L, O and U are not in Crockford base32; they are the characters
+      // that get misread, which is the point of leaving them out.
+      expect(BundleToken.tryParse('LO-260918-8X1Z7MNI'), isNull);
+    });
+
+    test('a signed token is not a lot code', () {
+      const token = 'eyJhbGciOiJIUzI1NiJ9.eyJidW5kbGVJZCI6ImItMSJ9.sig';
+      expect(BundleToken.tryParse(token)?.isLotCode, isFalse);
+    });
+
     test('flags a QR version this build does not know', () {
       const unknown = BundleToken(
         raw: 'x',

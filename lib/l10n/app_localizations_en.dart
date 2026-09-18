@@ -1488,6 +1488,24 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not check this code. Please try again.';
 
   @override
+  String get lotNotFound =>
+      'No such lot code. The label may be old or misprinted.';
+
+  @override
+  String get lotLookupFailed =>
+      'Could not look up the lot code. Check your connection and try again.';
+
+  @override
+  String get qrLabelExportAction => 'Save / print label';
+
+  @override
+  String get qrLabelExporting => 'Rendering the label...';
+
+  @override
+  String get qrLabelExportFailed =>
+      'Could not export the label image. Please try again.';
+
+  @override
   String get freshnessReportAction => 'Rate freshness';
 
   @override

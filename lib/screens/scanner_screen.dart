@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/network/api_exception.dart';
 import 'package:vngrocery/core/services/camera_devices.dart';
 import 'package:vngrocery/core/services/food_ai_service.dart';
 import 'package:vngrocery/data/models.dart';
@@ -113,7 +114,48 @@ class _ScannerScreenState extends State<ScannerScreen> {
       MaterialPageRoute(builder: (_) => const QrScanScreen()),
     );
     if (token == null || !mounted) return;
+    // A printed crate label carries only the lot code, so there is nothing to
+    // check a photo against. It answers a different question - what did the
+    // seller pledge for this lot - so it opens the record instead.
+    if (token.isLotCode) {
+      await _openLot(token.bundleId);
+      return;
+    }
     setState(() => _bundle = token);
+  }
+
+  Future<void> _openLot(String lotCode) async {
+    final remote = AppRepositories.instance.pledges.remote;
+    final l10n = AppLocalizations.of(context);
+    if (remote == null) {
+      _showMessage(l10n.lotLookupFailed);
+      return;
+    }
+    setState(() => _verifying = true);
+    try {
+      final pledge = await remote.bundleByLotCode(lotCode);
+      final productId = pledge['productId']?.toString() ?? '';
+      final shopId = pledge['shopId']?.toString() ?? '';
+      if (!mounted) return;
+      if (productId.isEmpty || shopId.isEmpty) {
+        _showMessage(l10n.lotLookupFailed);
+        return;
+      }
+      Navigator.pushNamed(
+        context,
+        Routes.productDetail,
+        arguments: ProductDetailArgs(shopId: shopId, productId: productId),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      _showMessage(
+        error is ApiException && error.statusCode == 404
+            ? l10n.lotNotFound
+            : l10n.lotLookupFailed,
+      );
+    } finally {
+      if (mounted) setState(() => _verifying = false);
+    }
   }
 
   /// Takes the photo and sends it to be checked against the scanned code.

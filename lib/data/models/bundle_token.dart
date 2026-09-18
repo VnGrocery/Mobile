@@ -42,6 +42,23 @@ class BundleToken {
   /// Enough to identify what was scanned.
   bool get isUsable => bundleId.isNotEmpty && raw.isNotEmpty;
 
+  /// Whether this came off a printed crate label rather than a seller's screen.
+  ///
+  /// The two carry different things and can do different things. A label holds
+  /// only the lot code: it never expires, anyone can scan it, and it is worth
+  /// one lookup of what the seller pledged. A seller's on-screen QR holds a
+  /// signed token, which is what a recorded buyer check needs and what gets
+  /// consumed by using it.
+  bool get isLotCode => raw == bundleId;
+
+  /// A lot code read straight off a label.
+  factory BundleToken.lotCode(String code) =>
+      BundleToken(raw: code, bundleId: code, pledgeId: '', shopId: '');
+
+  /// Lot codes as minted by the server: `LO-<yymmdd>-<8 of Crockford base32>`.
+  /// Anchored so a stray word on a poster is not taken for a label.
+  static final _lotCodePattern = RegExp(r'^LO-\d{6}-[0-9A-HJKMNP-TV-Z]{8}$');
+
   /// Reads a scanned QR payload. Returns null when it is not one of ours.
   ///
   /// Accepts the bare token, and also a `vngrocery://check?token=...` style URL
@@ -49,6 +66,11 @@ class BundleToken {
   static BundleToken? tryParse(String scanned) {
     final value = scanned.trim();
     if (value.isEmpty) return null;
+
+    // Checked before the JWT path: a lot code has no dots to split on, so it
+    // would otherwise fall through and read as "not one of ours".
+    final code = value.toUpperCase();
+    if (_lotCodePattern.hasMatch(code)) return BundleToken.lotCode(code);
 
     final token = _extractToken(value);
     if (token == null) return null;

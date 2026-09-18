@@ -346,10 +346,22 @@ class RemoteDataSource {
     filename: 'freshness.png',
   );
 
+  /// Resolves the lot code on a printed label to the pledge behind it.
+  ///
+  /// Unauthenticated, like the endpoint: the point of printing a label is that
+  /// whoever is holding the crate can read it without an account.
+  Future<Map<String, Object?>> bundleByLotCode(String bundleId) =>
+      client.get('/v1/bundles/$bundleId');
+
   Future<Map<String, Object?>> commit({
     required String shopId,
     required String productId,
-    required String bundleId,
+
+    /// The seller's own lot code, when they have one. Left empty the server
+    /// mints it, which is what the app does: it used to send a counter from
+    /// the mock database that restarted at g1 every launch, so two phones
+    /// happily claimed the same lot.
+    String bundleId = '',
     required double score,
     required String category,
     required double confidence,

@@ -1480,6 +1480,24 @@ class AppLocalizationsVi extends AppLocalizations {
       'Chưa kiểm tra được mã này. Bạn thử lại giúp nhé.';
 
   @override
+  String get lotNotFound =>
+      'Không tìm thấy mã lô này. Có thể tem đã cũ hoặc in sai.';
+
+  @override
+  String get lotLookupFailed =>
+      'Chưa tra được mã lô. Kiểm tra mạng rồi thử lại nhé.';
+
+  @override
+  String get qrLabelExportAction => 'Lưu / in tem';
+
+  @override
+  String get qrLabelExporting => 'Đang tạo ảnh tem...';
+
+  @override
+  String get qrLabelExportFailed =>
+      'Chưa xuất được ảnh tem. Bạn thử lại giúp nhé.';
+
+  @override
   String get freshnessReportAction => 'Chấm độ tươi';
 
   @override

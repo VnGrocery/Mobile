@@ -813,6 +813,26 @@
   "@buyerCheckErrorGeneric": {
     "description": "Fallback for a buyer check the app cannot explain."
   },
+  "lotNotFound": "No such lot code. The label may be old or misprinted.",
+  "@lotNotFound": {
+    "description": "Shown when a scanned crate label resolves to nothing."
+  },
+  "lotLookupFailed": "Could not look up the lot code. Check your connection and try again.",
+  "@lotLookupFailed": {
+    "description": "Shown when the lot lookup could not reach the server."
+  },
+  "qrLabelExportAction": "Save / print label",
+  "@qrLabelExportAction": {
+    "description": "Hands the rendered label image to the system share sheet."
+  },
+  "qrLabelExporting": "Rendering the label...",
+  "@qrLabelExporting": {
+    "description": "Shown while the label image is being produced."
+  },
+  "qrLabelExportFailed": "Could not export the label image. Please try again.",
+  "@qrLabelExportFailed": {
+    "description": "Shown when rendering or sharing the label failed."
+  },
   "freshnessReportAction": "Rate freshness",
   "@freshnessReportAction": {
     "description": "Opens the sheet where a buyer scores the produce themselves."

@@ -2786,6 +2786,36 @@ abstract class AppLocalizations {
   /// **'Could not check this code. Please try again.'**
   String get buyerCheckErrorGeneric;
 
+  /// Shown when a scanned crate label resolves to nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No such lot code. The label may be old or misprinted.'**
+  String get lotNotFound;
+
+  /// Shown when the lot lookup could not reach the server.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not look up the lot code. Check your connection and try again.'**
+  String get lotLookupFailed;
+
+  /// Hands the rendered label image to the system share sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save / print label'**
+  String get qrLabelExportAction;
+
+  /// Shown while the label image is being produced.
+  ///
+  /// In en, this message translates to:
+  /// **'Rendering the label...'**
+  String get qrLabelExporting;
+
+  /// Shown when rendering or sharing the label failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not export the label image. Please try again.'**
+  String get qrLabelExportFailed;
+
   /// Opens the sheet where a buyer scores the produce themselves.
   ///
   /// In en, this message translates to:
