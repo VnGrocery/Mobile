@@ -2454,4 +2454,72 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get accountActivityHistory => 'Lịch sử hoạt động';
+
+  @override
+  String get sellerSpecsTitle => 'Thông số sản phẩm';
+
+  @override
+  String get sellerSpecsHint =>
+      'Những thứ người mua hay hỏi: xuất xứ, trọng lượng, cách bảo quản.';
+
+  @override
+  String get sellerSpecsKeyLabel => 'Tên thông số';
+
+  @override
+  String get sellerSpecsValueLabel => 'Giá trị';
+
+  @override
+  String get sellerSpecsAdd => 'Thêm thông số';
+
+  @override
+  String get sellerSpecsRemove => 'Xoá thông số';
+
+  @override
+  String get sellerDescTitle => 'Mô tả chi tiết';
+
+  @override
+  String get sellerDescTemplate => 'Dùng khung mẫu';
+
+  @override
+  String get sellerDescAddHeading => 'Tiêu đề';
+
+  @override
+  String get sellerDescAddParagraph => 'Đoạn văn';
+
+  @override
+  String get sellerDescAddBullets => 'Gạch đầu dòng';
+
+  @override
+  String get sellerDescRemoveBlock => 'Xoá khối';
+
+  @override
+  String get sellerDescMoveUp => 'Chuyển lên';
+
+  @override
+  String get sellerDescMoveDown => 'Chuyển xuống';
+
+  @override
+  String get sellerDescHeadingHint => 'Ví dụ: Điểm nổi bật';
+
+  @override
+  String get sellerDescParagraphHint => 'Viết một đoạn ngắn về sản phẩm';
+
+  @override
+  String get sellerDescBulletsHint => 'Mỗi dòng một ý';
+
+  @override
+  String get sellerDescPledgeNotice =>
+      'Mô tả là phần giới thiệu sản phẩm. Cam kết về độ tươi phải tạo bằng Ghi nhận để được ký và lưu vào chuỗi.';
+
+  @override
+  String get sellerDescTemplateHighlights => 'Điểm nổi bật';
+
+  @override
+  String get sellerDescTemplateUsage => 'Hướng dẫn sử dụng';
+
+  @override
+  String get sellerDescTemplateStorage => 'Lưu ý & bảo quản';
+
+  @override
+  String get sellerDescTemplatePackaging => 'Quy cách đóng gói';
 }

@@ -4531,6 +4531,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Activity history'**
   String get accountActivityHistory;
+
+  /// No description provided for @sellerSpecsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Product specifications'**
+  String get sellerSpecsTitle;
+
+  /// No description provided for @sellerSpecsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What buyers ask most: origin, weight, how to store it.'**
+  String get sellerSpecsHint;
+
+  /// No description provided for @sellerSpecsKeyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Specification'**
+  String get sellerSpecsKeyLabel;
+
+  /// No description provided for @sellerSpecsValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get sellerSpecsValueLabel;
+
+  /// No description provided for @sellerSpecsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add specification'**
+  String get sellerSpecsAdd;
+
+  /// No description provided for @sellerSpecsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove specification'**
+  String get sellerSpecsRemove;
+
+  /// No description provided for @sellerDescTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed description'**
+  String get sellerDescTitle;
+
+  /// No description provided for @sellerDescTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a template'**
+  String get sellerDescTemplate;
+
+  /// No description provided for @sellerDescAddHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Heading'**
+  String get sellerDescAddHeading;
+
+  /// No description provided for @sellerDescAddParagraph.
+  ///
+  /// In en, this message translates to:
+  /// **'Paragraph'**
+  String get sellerDescAddParagraph;
+
+  /// No description provided for @sellerDescAddBullets.
+  ///
+  /// In en, this message translates to:
+  /// **'Bullet list'**
+  String get sellerDescAddBullets;
+
+  /// No description provided for @sellerDescRemoveBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove block'**
+  String get sellerDescRemoveBlock;
+
+  /// No description provided for @sellerDescMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get sellerDescMoveUp;
+
+  /// No description provided for @sellerDescMoveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get sellerDescMoveDown;
+
+  /// No description provided for @sellerDescHeadingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: Highlights'**
+  String get sellerDescHeadingHint;
+
+  /// No description provided for @sellerDescParagraphHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a short paragraph about the product'**
+  String get sellerDescParagraphHint;
+
+  /// No description provided for @sellerDescBulletsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One point per line'**
+  String get sellerDescBulletsHint;
+
+  /// No description provided for @sellerDescPledgeNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'The description introduces the product. A claim about freshness must be made as a Pledge so it is signed into the chain.'**
+  String get sellerDescPledgeNotice;
+
+  /// No description provided for @sellerDescTemplateHighlights.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlights'**
+  String get sellerDescTemplateHighlights;
+
+  /// No description provided for @sellerDescTemplateUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'How to use'**
+  String get sellerDescTemplateUsage;
+
+  /// No description provided for @sellerDescTemplateStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Care & storage'**
+  String get sellerDescTemplateStorage;
+
+  /// No description provided for @sellerDescTemplatePackaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaging'**
+  String get sellerDescTemplatePackaging;
 }
 
 class _AppLocalizationsDelegate

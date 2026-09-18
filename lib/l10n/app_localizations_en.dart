@@ -2466,4 +2466,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountActivityHistory => 'Activity history';
+
+  @override
+  String get sellerSpecsTitle => 'Product specifications';
+
+  @override
+  String get sellerSpecsHint =>
+      'What buyers ask most: origin, weight, how to store it.';
+
+  @override
+  String get sellerSpecsKeyLabel => 'Specification';
+
+  @override
+  String get sellerSpecsValueLabel => 'Value';
+
+  @override
+  String get sellerSpecsAdd => 'Add specification';
+
+  @override
+  String get sellerSpecsRemove => 'Remove specification';
+
+  @override
+  String get sellerDescTitle => 'Detailed description';
+
+  @override
+  String get sellerDescTemplate => 'Use a template';
+
+  @override
+  String get sellerDescAddHeading => 'Heading';
+
+  @override
+  String get sellerDescAddParagraph => 'Paragraph';
+
+  @override
+  String get sellerDescAddBullets => 'Bullet list';
+
+  @override
+  String get sellerDescRemoveBlock => 'Remove block';
+
+  @override
+  String get sellerDescMoveUp => 'Move up';
+
+  @override
+  String get sellerDescMoveDown => 'Move down';
+
+  @override
+  String get sellerDescHeadingHint => 'For example: Highlights';
+
+  @override
+  String get sellerDescParagraphHint =>
+      'Write a short paragraph about the product';
+
+  @override
+  String get sellerDescBulletsHint => 'One point per line';
+
+  @override
+  String get sellerDescPledgeNotice =>
+      'The description introduces the product. A claim about freshness must be made as a Pledge so it is signed into the chain.';
+
+  @override
+  String get sellerDescTemplateHighlights => 'Highlights';
+
+  @override
+  String get sellerDescTemplateUsage => 'How to use';
+
+  @override
+  String get sellerDescTemplateStorage => 'Care & storage';
+
+  @override
+  String get sellerDescTemplatePackaging => 'Packaging';
 }
