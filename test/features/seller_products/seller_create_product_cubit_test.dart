@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:vngrocery/core/network/api_client.dart';
 import 'package:vngrocery/data/api/remote_data_source.dart';
 import 'package:vngrocery/data/app_data_config.dart';
 import 'package:vngrocery/data/mock_data.dart';
+import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/seller_products/controllers/seller_create_product_cubit.dart';
 import 'package:vngrocery/features/home/category_presenter.dart';
@@ -117,6 +119,167 @@ void main() {
     // success message for a product the server never received.
     expect(cubit.state.saving, isFalse);
     expect(cubit.state.saved, isFalse);
+
+    cubit.close();
+  });
+
+  // An update replaces the whole record on the server, so a field the form
+  // fails to send back is a field erased from the signed product. Editing the
+  // price used to wipe the seller's spec table and description with it.
+  testWidgets('editing carries the specs and description it did not touch', (
+    tester,
+  ) async {
+    late AppLocalizations l10n;
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('vi'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Builder(
+          builder: (context) {
+            l10n = AppLocalizations.of(context);
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
+
+    final existing = Product(
+      id: 'p1',
+      shopId: AppDataConfig.demoShopId,
+      name: 'Cà chua bi',
+      description: 'Trái nhỏ',
+      category: CategoryPresenter.selectable.first,
+      freshnessScore: 8.9,
+      freshnessNote: 'Hàng tuyển loại 1',
+      price: 40000,
+      tags: const ['Đà Lạt'],
+      status: 'published',
+      version: 12,
+      imageUrls: const ['http://example.test/a.jpg'],
+      specs: const [SpecItem(key: 'Xuất xứ', value: 'Đà Lạt')],
+      descBlocks: const [
+        DescBlock(type: DescBlock.heading, text: 'Điểm nổi bật'),
+      ],
+    );
+
+    Map<String, Object?>? sent;
+    final cubit = SellerCreateProductCubit(
+      shopId: AppDataConfig.demoShopId,
+      existing: existing,
+      repositories: AppRepositories.forTesting(
+        MockDb.instance,
+        RemoteDataSource(
+          ApiClient(
+            baseUrl: 'http://localhost:5050',
+            tokenReader: () => 'token',
+            client: MockClient((request) async {
+              sent = jsonDecode(request.body) as Map<String, Object?>;
+              return http.Response(
+                jsonEncode({
+                  ...sent!,
+                  'productId': 'p1',
+                  'shopId': existing.shopId,
+                  'version': 13,
+                }),
+                200,
+                headers: {'content-type': 'application/json'},
+              );
+            }),
+          ),
+        ),
+      ),
+    );
+
+    // Only the price is touched, the way a seller adjusting a price would.
+    await cubit.save(
+      name: existing.name,
+      description: existing.description,
+      price: '42.000 đ',
+      tags: 'Đà Lạt',
+      l10n: l10n,
+      changeReason: 'Giá nhập tăng',
+    );
+
+    expect(sent, isNotNull);
+    expect(sent!['specs'], [
+      {'key': 'Xuất xứ', 'value': 'Đà Lạt'},
+    ]);
+    expect(sent!['descBlocks'], [
+      {'type': 'heading', 'text': 'Điểm nổi bật'},
+    ]);
+    // The photo and the freshness record are carried the same way.
+    expect(sent!['imageUrls'], ['http://example.test/a.jpg']);
+    expect(sent!['freshnessScore'], 8.9);
+
+    cubit.close();
+  });
+
+  testWidgets('the form can replace the specs and description', (tester) async {
+    late AppLocalizations l10n;
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('vi'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Builder(
+          builder: (context) {
+            l10n = AppLocalizations.of(context);
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
+
+    Map<String, Object?>? sent;
+    final cubit = SellerCreateProductCubit(
+      shopId: AppDataConfig.demoShopId,
+      repositories: AppRepositories.forTesting(
+        MockDb.instance,
+        RemoteDataSource(
+          ApiClient(
+            baseUrl: 'http://localhost:5050',
+            tokenReader: () => 'token',
+            client: MockClient((request) async {
+              sent = jsonDecode(request.body) as Map<String, Object?>;
+              return http.Response(
+                jsonEncode({
+                  ...sent!,
+                  'productId': 'p2',
+                  'shopId': AppDataConfig.demoShopId,
+                  'version': 1,
+                }),
+                200,
+                headers: {'content-type': 'application/json'},
+              );
+            }),
+          ),
+        ),
+      ),
+    );
+
+    cubit.setSpecs(const [SpecItem(key: 'Bảo quản', value: 'Ngăn mát')]);
+    cubit.setDescBlocks(const [
+      DescBlock(type: DescBlock.bullets, items: ['Hái sáng nay']),
+    ]);
+
+    await cubit.save(
+      name: 'Rau cải',
+      description: '',
+      price: '19.000 đ',
+      tags: '',
+      l10n: l10n,
+    );
+
+    expect(sent!['specs'], [
+      {'key': 'Bảo quản', 'value': 'Ngăn mát'},
+    ]);
+    expect(sent!['descBlocks'], [
+      {
+        'type': 'bullets',
+        'items': ['Hái sáng nay'],
+      },
+    ]);
 
     cubit.close();
   });

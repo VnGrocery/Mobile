@@ -223,6 +223,11 @@ class RemoteDataSource {
       'category': product.category,
       'tags': product.tags,
       'imageUrls': product.imageUrls,
+      // An update replaces the whole record, so a field left out of this body
+      // is a field erased from the signed product. Everything the form can
+      // hold has to be sent back, touched or not.
+      'specs': product.specs.map((item) => item.toJson()).toList(),
+      'descBlocks': product.descBlocks.map((block) => block.toJson()).toList(),
       'freshnessNote': product.freshnessNote,
       'freshnessScore': product.freshnessScore,
       'price': product.price,
