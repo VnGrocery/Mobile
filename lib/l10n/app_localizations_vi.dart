@@ -2463,7 +2463,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Những thứ người mua hay hỏi: xuất xứ, trọng lượng, cách bảo quản.';
 
   @override
-  String get sellerSpecsKeyLabel => 'Tên thông số';
+  String get sellerSpecsKeyLabel => 'Thông số';
 
   @override
   String get sellerSpecsValueLabel => 'Giá trị';

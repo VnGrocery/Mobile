@@ -4547,7 +4547,7 @@ abstract class AppLocalizations {
   /// No description provided for @sellerSpecsKeyLabel.
   ///
   /// In en, this message translates to:
-  /// **'Specification'**
+  /// **'Name'**
   String get sellerSpecsKeyLabel;
 
   /// No description provided for @sellerSpecsValueLabel.

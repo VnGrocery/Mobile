@@ -1726,7 +1726,7 @@
   "accountActivityHistory": "Activity history",
   "sellerSpecsTitle": "Product specifications",
   "sellerSpecsHint": "What buyers ask most: origin, weight, how to store it.",
-  "sellerSpecsKeyLabel": "Specification",
+  "sellerSpecsKeyLabel": "Name",
   "sellerSpecsValueLabel": "Value",
   "sellerSpecsAdd": "Add specification",
   "sellerSpecsRemove": "Remove specification",

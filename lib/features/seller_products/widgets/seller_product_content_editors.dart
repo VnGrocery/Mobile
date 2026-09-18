@@ -263,42 +263,49 @@ class _SellerDescriptionEditorState extends State<SellerDescriptionEditor> {
         ),
         for (final (index, block) in _blocks.indexed)
           Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: block.text,
-                    onChanged: (_) => _publish(),
-                    maxLines: block.type == DescBlock.heading ? 1 : null,
-                    style: block.type == DescBlock.heading
-                        ? const TextStyle(fontWeight: FontWeight.bold)
-                        : null,
-                    decoration: InputDecoration(
-                      hintText: _hintFor(l10n, block.type),
-                      isDense: true,
-                      border: const OutlineInputBorder(),
-                    ),
+                TextField(
+                  controller: block.text,
+                  onChanged: (_) => _publish(),
+                  maxLines: block.type == DescBlock.heading ? 1 : null,
+                  style: block.type == DescBlock.heading
+                      ? const TextStyle(fontWeight: FontWeight.bold)
+                      : null,
+                  decoration: InputDecoration(
+                    hintText: _hintFor(l10n, block.type),
+                    isDense: true,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
-                Column(
+                // Along the bottom rather than stacked beside the field: three
+                // buttons in a column stand taller than a one-line heading,
+                // which left most of a template block as empty space.
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    IconButton(
-                      onPressed: index == 0 ? null : () => _move(index, -1),
-                      tooltip: l10n.sellerDescMoveUp,
-                      icon: const Icon(Icons.arrow_upward, size: 18),
-                    ),
-                    IconButton(
-                      onPressed: index == _blocks.length - 1
-                          ? null
-                          : () => _move(index, 1),
-                      tooltip: l10n.sellerDescMoveDown,
-                      icon: const Icon(Icons.arrow_downward, size: 18),
-                    ),
+                    if (_blocks.length > 1) ...[
+                      IconButton(
+                        onPressed: index == 0 ? null : () => _move(index, -1),
+                        tooltip: l10n.sellerDescMoveUp,
+                        visualDensity: VisualDensity.compact,
+                        icon: const Icon(Icons.arrow_upward, size: 18),
+                      ),
+                      IconButton(
+                        onPressed: index == _blocks.length - 1
+                            ? null
+                            : () => _move(index, 1),
+                        tooltip: l10n.sellerDescMoveDown,
+                        visualDensity: VisualDensity.compact,
+                        icon: const Icon(Icons.arrow_downward, size: 18),
+                      ),
+                    ],
                     IconButton(
                       onPressed: () => _removeBlock(index),
                       tooltip: l10n.sellerDescRemoveBlock,
+                      visualDensity: VisualDensity.compact,
                       icon: const Icon(Icons.close, size: 18),
                     ),
                   ],

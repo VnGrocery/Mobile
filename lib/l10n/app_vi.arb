@@ -1222,7 +1222,7 @@
   "accountActivityHistory": "Lịch sử hoạt động",
   "sellerSpecsTitle": "Thông số sản phẩm",
   "sellerSpecsHint": "Những thứ người mua hay hỏi: xuất xứ, trọng lượng, cách bảo quản.",
-  "sellerSpecsKeyLabel": "Tên thông số",
+  "sellerSpecsKeyLabel": "Thông số",
   "sellerSpecsValueLabel": "Giá trị",
   "sellerSpecsAdd": "Thêm thông số",
   "sellerSpecsRemove": "Xoá thông số",

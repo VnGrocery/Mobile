@@ -2475,7 +2475,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'What buyers ask most: origin, weight, how to store it.';
 
   @override
-  String get sellerSpecsKeyLabel => 'Specification';
+  String get sellerSpecsKeyLabel => 'Name';
 
   @override
   String get sellerSpecsValueLabel => 'Value';
