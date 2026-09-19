@@ -15,4 +15,10 @@ class QrLabelState {
   });
 
   bool get hasToken => bundleToken.isNotEmpty;
+
+  /// Whether there is a label worth exporting.
+  ///
+  /// Keyed on the lot code, not the token: the printed label carries the code,
+  /// and a pledge keeps its code long after its token has expired.
+  bool get canPrint => bundleId.isNotEmpty;
 }

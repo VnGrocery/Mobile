@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:vngrocery/core/widgets/product_thumbnail.dart';
 import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/features/buyer_check/verdict_copy.dart';
@@ -131,96 +132,128 @@ class _CheckCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final palette = context.palette;
-    final trusted = check.verdict == 'trusted';
+    final pending = check.isPendingReview;
+    final trusted = !pending && check.verdict == 'trusted';
 
     return Material(
       color: palette.card,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: check.productId.isEmpty
-            ? null
-            : () => Navigator.pushNamed(
-                context,
-                Routes.productDetail,
-                arguments: ProductDetailArgs(
-                  shopId: check.shopId,
-                  productId: check.productId,
-                ),
-              ),
+        // Opens the check, not the product. Tapping used to jump straight to
+        // the product page, which answers a question about the shop's current
+        // listing rather than about the crate this reader photographed. The
+        // product is one button away from the detail screen.
+        onTap: () => Navigator.pushNamed(
+          context,
+          Routes.myCheckDetail,
+          arguments: check,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(14),
-          child: Column(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      // A product that has since been deleted keeps its place
-                      // in the history; only its name is gone.
-                      check.productName.isEmpty
-                          ? l10n.commonProduct
-                          : check.productName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: trusted ? palette.positiveBg : palette.warningBg,
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Text(
-                      VerdictCopy.label(l10n, check.verdict),
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: trusted ? palette.greenInk : palette.warnInk,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              if (check.shopName.isNotEmpty) ...[
-                const SizedBox(height: 4),
-                Text(
-                  check.shopName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 12, color: palette.textSecondary),
+              // The reader's own photo, not the shop's catalogue picture. It
+              // is the thing they went and did, and the only part of the row
+              // they can recognise a week later.
+              if (check.imageUrl.isNotEmpty) ...[
+                ProductThumbnail(
+                  key: const ValueKey('my_check.photo'),
+                  imageUrls: [check.imageUrl],
+                  size: 64,
                 ),
+                const SizedBox(width: 12),
               ],
-              const SizedBox(height: 8),
-              Text(
-                // No pledge means there was nothing to compare against, which
-                // is a different result from a comparison that went badly.
-                check.hasPledge
-                    ? l10n.myChecksScores(
-                        formatRating(check.pledgedScore),
-                        formatRating(check.actualScore),
-                      )
-                    : l10n.myChecksNoPledge,
-                style: TextStyle(fontSize: 13, color: palette.textSecondary),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                formatDateTime(check.createdAt),
-                style: TextStyle(fontSize: 11, color: palette.textTertiary),
-              ),
+              Expanded(child: _details(l10n, palette, pending, trusted)),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _details(
+    AppLocalizations l10n,
+    AppPalette palette,
+    bool pending,
+    bool trusted,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                // A product that has since been deleted keeps its place
+                // in the history; only its name is gone.
+                check.productName.isEmpty
+                    ? l10n.commonProduct
+                    : check.productName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              key: const ValueKey('my_check.badge'),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: trusted ? palette.positiveBg : palette.warningBg,
+                borderRadius: BorderRadius.circular(999),
+              ),
+              // A pending check has no verdict to print. Printing one of
+              // the scored labels here would claim the AI reached a
+              // conclusion it never reached.
+              child: Text(
+                pending
+                    ? l10n.myChecksPendingBadge
+                    : VerdictCopy.label(l10n, check.verdict),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: trusted ? palette.greenInk : palette.warnInk,
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (check.shopName.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(
+            check.shopName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 12, color: palette.textSecondary),
+          ),
+        ],
+        const SizedBox(height: 8),
+        Text(
+          // Three different situations, and they are not
+          // interchangeable: nothing scored it yet, there was nothing to
+          // compare against, or a comparison happened and these are the
+          // two numbers.
+          pending
+              ? l10n.myChecksPendingBody
+              : check.hasPledge
+              ? l10n.myChecksScores(
+                  formatRating(check.pledgedScore),
+                  formatRating(check.actualScore),
+                )
+              : l10n.myChecksNoPledge,
+          style: TextStyle(fontSize: 13, color: palette.textSecondary),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          formatDateTime(check.createdAt),
+          style: TextStyle(fontSize: 11, color: palette.textTertiary),
+        ),
+      ],
     );
   }
 }

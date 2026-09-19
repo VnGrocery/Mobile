@@ -55,6 +55,11 @@ dependencies:
   # was already downloaded. IPFS gateway URLs are content-addressed, so a
   # cached image can never go stale.
   cached_network_image: ^3.4.1
+  # Hands the rendered label PNG to the OS sheet, which is the only way a
+  # seller gets it to a printer, a photo library or Zalo. Without it the image
+  # can only be written to app-private storage, where nothing else can reach
+  # it, and "In tem" stays the button that lied about printing.
+  share_plus: ^13.3.0
 
 
 dev_dependencies:

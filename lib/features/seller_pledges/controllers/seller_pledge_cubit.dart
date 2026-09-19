@@ -97,7 +97,9 @@ class SellerPledgeCubit extends Cubit<SellerPledgeState> with CloseSafeEmit {
         final result = await remote.commit(
           shopId: product.shopId,
           productId: productId,
-          bundleId: _repositories.ids.nextId(),
+          // No bundleId: the server mints the lot code. This used to pass
+          // ids.nextId(), the mock database's counter, so the code printed on
+          // a crate was g1, g2 - restarting at g1 on the next launch.
           score: double.parse(score),
           category: state.category,
           confidence: state.confidence,

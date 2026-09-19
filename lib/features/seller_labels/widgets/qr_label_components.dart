@@ -36,13 +36,19 @@ class QrLabelIntro extends StatelessWidget {
 class QrLabelPreviewCard extends StatelessWidget {
   final String pledgeId;
 
-  /// The bundleToken to encode. Empty means there is nothing to print yet.
-  final String bundleToken;
+  /// The lot code to encode. Empty means there is nothing to print yet.
+  ///
+  /// This used to be the bundleToken, which was the wrong thing to print: the
+  /// token expires in thirty minutes and is consumed by the first successful
+  /// check, so a label stuck on a crate was dead before the crate reached the
+  /// stall and only ever worked for one buyer. The lot code does not expire
+  /// and every buyer can scan it.
+  final String bundleId;
 
   const QrLabelPreviewCard({
     super.key,
     required this.pledgeId,
-    this.bundleToken = '',
+    this.bundleId = '',
   });
 
   @override
@@ -81,18 +87,35 @@ class QrLabelPreviewCard extends StatelessWidget {
                 ),
                 // A real code, not a placeholder icon: this is what the buyer
                 // scans to verify the bundle.
-                child: bundleToken.isEmpty
+                child: bundleId.isEmpty
                     ? FittedBox(
                         child: Icon(Icons.qr_code_2, color: scheme.onSurface),
                       )
                     : QrImageView(
-                        data: bundleToken,
+                        data: bundleId,
                         version: QrVersions.auto,
                         backgroundColor: Colors.white,
-                        errorCorrectionLevel: QrErrorCorrectLevel.M,
+                        // High, not medium: this one gets printed and then
+                        // lives on a crate, where it picks up scuffs and damp
+                        // that an on-screen code never sees. A lot code is
+                        // short enough that the extra redundancy costs
+                        // nothing in module count.
+                        errorCorrectionLevel: QrErrorCorrectLevel.H,
                       ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
+              // Printed under the QR so a scuffed label is still usable: the
+              // code can be read out or typed in by hand.
+              if (bundleId.isNotEmpty)
+                SelectableText(
+                  bundleId,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              const SizedBox(height: 8),
               Text(
                 l10n.qrLabelRecordId(pledgeId),
                 style: const TextStyle(
@@ -121,10 +144,17 @@ class QrLabelActions extends StatelessWidget {
   final VoidCallback onCopy;
   final VoidCallback onBackHome;
 
+  /// Exports the label as an image. Null while there is no code to print.
+  final VoidCallback? onExport;
+
+  final bool exporting;
+
   const QrLabelActions({
     super.key,
     required this.onCopy,
     required this.onBackHome,
+    this.onExport,
+    this.exporting = false,
   });
 
   @override
@@ -132,12 +162,27 @@ class QrLabelActions extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Column(
       children: [
-        // "In tem" opened a dialog claiming the label was queued to a printer;
-        // nothing was ever printed. Copying is what the app can actually do.
+        // There used to be an "In tem" button that opened a dialog claiming
+        // the label had been queued to a printer, while nothing was printed.
+        // This hands the rendered label to the system share sheet, which is a
+        // thing that actually happens: save it, or send it to a printer app.
         SizedBox(
           height: 56,
           width: double.infinity,
           child: FilledButton.icon(
+            key: const ValueKey('qr_label.export_button'),
+            onPressed: exporting ? null : onExport,
+            icon: const Icon(Icons.ios_share),
+            label: Text(
+              exporting ? l10n.qrLabelExporting : l10n.qrLabelExportAction,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 56,
+          width: double.infinity,
+          child: OutlinedButton.icon(
             onPressed: onCopy,
             icon: const Icon(Icons.copy),
             label: Text(l10n.qrLabelCopyAction),

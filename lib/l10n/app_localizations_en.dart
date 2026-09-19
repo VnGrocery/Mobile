@@ -1183,6 +1183,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewSubmit => 'Submit review';
 
   @override
+  String get reviewUpdate => 'Update review';
+
+  @override
+  String reviewCooldownNotice(int hours) {
+    return 'You just reviewed this shop. You can change it in $hours hours.';
+  }
+
+  @override
   String get reviewSubmitted => 'Review submitted. Thank you!';
 
   @override
@@ -1486,6 +1494,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get buyerCheckErrorGeneric =>
       'Could not check this code. Please try again.';
+
+  @override
+  String get lotNotFound =>
+      'No such lot code. The label may be old or misprinted.';
+
+  @override
+  String get lotLookupFailed =>
+      'Could not look up the lot code. Check your connection and try again.';
+
+  @override
+  String get qrLabelExportAction => 'Save / print label';
+
+  @override
+  String get qrLabelExporting => 'Rendering the label...';
+
+  @override
+  String get qrLabelExportFailed =>
+      'Could not export the label image. Please try again.';
+
+  @override
+  String get scannedLotTitle => 'THE LOT YOU SCANNED';
+
+  @override
+  String scannedLotCommitted(String date) {
+    return 'Recorded by the seller on $date';
+  }
 
   @override
   String get freshnessReportAction => 'Rate freshness';
@@ -2224,6 +2258,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myChecksNoPledge => 'No pledge to compare against';
+
+  @override
+  String get myChecksPendingBadge => 'Awaiting review';
+
+  @override
+  String get myChecksPendingBody =>
+      'Photo saved, not yet scored by AI. Does not count towards the shop\'s score.';
+
+  @override
+  String get myCheckDetailTitle => 'Check details';
+
+  @override
+  String get myCheckDetailViewProduct => 'View product';
+
+  @override
+  String get myCheckDetailLot => 'Lot code';
+
+  @override
+  String get myCheckDetailCheckedAt => 'Checked at';
+
+  @override
+  String get trustReasonAwaitingAiReview =>
+      'The server AI has not scored this photo yet';
+
+  @override
+  String get trustReasonCategoryMismatch =>
+      'The goods in the photo are not the category the seller recorded';
+
+  @override
+  String get trustReasonLowAiConfidence =>
+      'The AI was not confident enough reading this photo';
+
+  @override
+  String get trustReasonScoreGapHigh =>
+      'The measured score is far from what was pledged';
+
+  @override
+  String get trustReasonScoreGapWarning =>
+      'The measured score is a little below what was pledged';
+
+  @override
+  String get trustReasonNoSellerPledge => 'This lot has no seller pledge';
 
   @override
   String get commonProduct => 'Product';

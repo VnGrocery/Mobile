@@ -477,6 +477,19 @@
   "reviewPhotoAttached": "Photo attached",
   "reviewPhotoAdd": "Add image",
   "reviewSubmit": "Submit review",
+  "reviewUpdate": "Update review",
+  "reviewCooldownNotice": "You just reviewed this shop. You can change it in {hours} hours.",
+  "@reviewCooldownNotice": {
+    "description": "Shown when a review is resent before the server's cooldown is over. The wait comes from the server.",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "@reviewUpdate": {
+    "description": "Submit button when the reader has already reviewed this shop, so sending replaces their previous review rather than adding a second one."
+  },
   "reviewSubmitted": "Review submitted. Thank you!",
   "reviewSubmittedWithPhoto": "Review with photo submitted. Thank you!",
   "scoreBadgeLabel": "Score",
@@ -812,6 +825,37 @@
   "buyerCheckErrorGeneric": "Could not check this code. Please try again.",
   "@buyerCheckErrorGeneric": {
     "description": "Fallback for a buyer check the app cannot explain."
+  },
+  "lotNotFound": "No such lot code. The label may be old or misprinted.",
+  "@lotNotFound": {
+    "description": "Shown when a scanned crate label resolves to nothing."
+  },
+  "lotLookupFailed": "Could not look up the lot code. Check your connection and try again.",
+  "@lotLookupFailed": {
+    "description": "Shown when the lot lookup could not reach the server."
+  },
+  "qrLabelExportAction": "Save / print label",
+  "@qrLabelExportAction": {
+    "description": "Hands the rendered label image to the system share sheet."
+  },
+  "qrLabelExporting": "Rendering the label...",
+  "@qrLabelExporting": {
+    "description": "Shown while the label image is being produced."
+  },
+  "qrLabelExportFailed": "Could not export the label image. Please try again.",
+  "@qrLabelExportFailed": {
+    "description": "Shown when rendering or sharing the label failed."
+  },
+  "scannedLotTitle": "THE LOT YOU SCANNED",
+  "@scannedLotTitle": {
+    "description": "Heading of the card showing the pledge behind a scanned crate label."
+  },
+  "scannedLotCommitted": "Recorded by the seller on {date}",
+  "@scannedLotCommitted": {
+    "description": "When the seller committed the scanned lot.",
+    "placeholders": {
+      "date": { "type": "String" }
+    }
   },
   "freshnessReportAction": "Rate freshness",
   "@freshnessReportAction": {
@@ -1654,6 +1698,54 @@
     }
   },
   "myChecksNoPledge": "No pledge to compare against",
+  "myChecksPendingBadge": "Awaiting review",
+  "@myChecksPendingBadge": {
+    "description": "Badge on a check whose photo the server AI has not scored yet."
+  },
+  "myChecksPendingBody": "Photo saved, not yet scored by AI. Does not count towards the shop's score.",
+  "@myChecksPendingBody": {
+    "description": "Explains what an unscored check does and does not mean."
+  },
+  "myCheckDetailTitle": "Check details",
+  "@myCheckDetailTitle": {
+    "description": "Title of the screen showing one of the reader's own checks in full."
+  },
+  "myCheckDetailViewProduct": "View product",
+  "@myCheckDetailViewProduct": {
+    "description": "Opens the product page for the check being read."
+  },
+  "myCheckDetailLot": "Lot code",
+  "@myCheckDetailLot": {
+    "description": "Label for the lot code the check was made against."
+  },
+  "myCheckDetailCheckedAt": "Checked at",
+  "@myCheckDetailCheckedAt": {
+    "description": "Label for when the check was made."
+  },
+  "trustReasonAwaitingAiReview": "The server AI has not scored this photo yet",
+  "@trustReasonAwaitingAiReview": {
+    "description": "Reason code awaiting_ai_review."
+  },
+  "trustReasonCategoryMismatch": "The goods in the photo are not the category the seller recorded",
+  "@trustReasonCategoryMismatch": {
+    "description": "Reason code category_mismatch."
+  },
+  "trustReasonLowAiConfidence": "The AI was not confident enough reading this photo",
+  "@trustReasonLowAiConfidence": {
+    "description": "Reason code low_ai_confidence."
+  },
+  "trustReasonScoreGapHigh": "The measured score is far from what was pledged",
+  "@trustReasonScoreGapHigh": {
+    "description": "Reason code score_gap_high."
+  },
+  "trustReasonScoreGapWarning": "The measured score is a little below what was pledged",
+  "@trustReasonScoreGapWarning": {
+    "description": "Reason code score_gap_warning."
+  },
+  "trustReasonNoSellerPledge": "This lot has no seller pledge",
+  "@trustReasonNoSellerPledge": {
+    "description": "Reason code no_seller_pledge."
+  },
   "commonProduct": "Product",
   "accountMyActivity": "My activity",
   "verdictTrusted": "Matches the pledge",

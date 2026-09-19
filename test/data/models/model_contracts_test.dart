@@ -273,11 +273,25 @@ void main() {
         () => UserVoucher.fromJson({'id': 'uv-test'}),
         throwsA(isA<TypeError>()),
       );
+    });
 
-      expect(
-        () => BuyerCheckResult.fromJson({'actualScore': 90}),
-        throwsA(isA<TypeError>()),
-      );
+    // Unlike the models above, this one must not throw on a thin payload: the
+    // server marks locationStatus and verdict omitempty, and a check the
+    // scorer never saw has no verdict to send at all.
+    test('a buyer check with no verdict yet parses', () {
+      final pending = BuyerCheckResult.fromJson({
+        'actualScore': 0,
+        'status': 'pending_review',
+      });
+
+      expect(pending.verdict, '');
+      expect(pending.locationStatus, '');
+      expect(pending.actualScore, 0);
+    });
+
+    test('keeps the measured score as a decimal', () {
+      // Rounding put 8.0 on screen for a check that scored 8.2.
+      expect(BuyerCheckResult.fromJson({'actualScore': 8.2}).actualScore, 8.2);
     });
   });
 }

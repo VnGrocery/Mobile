@@ -1,6 +1,10 @@
+import 'dart:ui' show ImageByteFormat;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:vngrocery/core/ui/app_feedback.dart';
 import 'package:vngrocery/features/seller_labels/controllers/qr_label_cubit.dart';
@@ -21,6 +25,10 @@ class QrLabelScreen extends StatefulWidget {
 
 class _QrLabelScreenState extends State<QrLabelScreen> {
   late final QrLabelCubit _labelCubit;
+
+  /// Wraps the label card so it can be rasterised at print resolution.
+  final _labelKey = GlobalKey();
+  bool _exporting = false;
 
   @override
   void initState() {
@@ -49,12 +57,17 @@ class _QrLabelScreenState extends State<QrLabelScreen> {
               child: Column(
                 children: [
                   const QrLabelIntro(),
-                  QrLabelPreviewCard(
-                    pledgeId: state.pledgeId,
-                    bundleToken: state.bundleToken,
+                  RepaintBoundary(
+                    key: _labelKey,
+                    child: QrLabelPreviewCard(
+                      pledgeId: state.pledgeId,
+                      bundleId: state.bundleId,
+                    ),
                   ),
                   const Spacer(),
                   QrLabelActions(
+                    exporting: _exporting,
+                    onExport: state.canPrint ? () => _exportLabel(state) : null,
                     onCopy: () => _copyLabel(context, state),
                     onBackHome: () => Navigator.popUntil(
                       context,
@@ -68,6 +81,49 @@ class _QrLabelScreenState extends State<QrLabelScreen> {
         },
       ),
     );
+  }
+
+  /// Rasterises the label and hands it to the system share sheet.
+  Future<void> _exportLabel(QrLabelState state) async {
+    // Read from State.context, which is what the mounted check below guards.
+    final l10n = AppLocalizations.of(context);
+    setState(() => _exporting = true);
+    try {
+      final boundary =
+          _labelKey.currentContext?.findRenderObject()
+              as RenderRepaintBoundary?;
+      if (boundary == null) throw StateError('label is not on screen');
+
+      // 4x the logical size. A label printed at 1x is roughly 200 device
+      // pixels of QR, which a phone camera struggles to resolve off paper.
+      final image = await boundary.toImage(pixelRatio: 4);
+      final data = await image.toByteData(format: ImageByteFormat.png);
+      if (data == null) throw StateError('label did not encode');
+
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [
+            XFile.fromData(
+              data.buffer.asUint8List(),
+              mimeType: 'image/png',
+              // Named after the lot so a seller printing a morning's worth of
+              // labels can tell the files apart.
+              name: 'vngrocery-${state.bundleId}.png',
+            ),
+          ],
+          fileNameOverrides: ['vngrocery-${state.bundleId}.png'],
+        ),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      AppFeedback.showSnackBar(
+        context,
+        l10n.qrLabelExportFailed,
+        icon: Icons.error_outline,
+      );
+    } finally {
+      if (mounted) setState(() => _exporting = false);
+    }
   }
 
   void _copyLabel(BuildContext context, QrLabelState state) {

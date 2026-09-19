@@ -6,8 +6,10 @@ import 'package:vngrocery/screens/onboarding_screen.dart';
 import 'package:vngrocery/screens/auth_screen.dart';
 import 'package:vngrocery/screens/main_screen.dart';
 import 'package:vngrocery/screens/manual_voucher_screen.dart';
+import 'package:vngrocery/data/models.dart';
 import 'package:vngrocery/data/repositories.dart';
 import 'package:vngrocery/screens/activity_history_screen.dart';
+import 'package:vngrocery/screens/my_check_detail_screen.dart';
 import 'package:vngrocery/screens/my_checks_screen.dart';
 import 'package:vngrocery/screens/seller_voucher_screen.dart';
 import 'package:vngrocery/screens/change_password_screen.dart';
@@ -33,7 +35,23 @@ class ProductDetailArgs {
   final String shopId;
   final String productId;
 
-  const ProductDetailArgs({required this.shopId, required this.productId});
+  /// The lot code that led here, when the buyer arrived by scanning a printed
+  /// crate label. Empty every other way in.
+  final String lotCode;
+
+  /// What the seller pledged for [lotCode].
+  ///
+  /// Carried rather than refetched, and shown rather than dropped: the lookup
+  /// behind the label already returns it, and without it a scan lands on the
+  /// product's newest score instead of the crate the buyer is holding.
+  final PledgeHistoryItem? lot;
+
+  const ProductDetailArgs({
+    required this.shopId,
+    required this.productId,
+    this.lotCode = '',
+    this.lot,
+  });
 }
 
 class StoreDetailArgs {
@@ -103,6 +121,7 @@ class Routes {
   static const manualVoucher = 'manual_voucher';
   static const changePassword = 'change_password';
   static const myChecks = 'my_checks';
+  static const myCheckDetail = 'my_check_detail';
   static const activityHistory = 'activity_history';
   static const sellerEditProduct = 'seller_edit_product';
   static const sellerVouchers = 'seller_vouchers';
@@ -173,6 +192,13 @@ class Routes {
       case myChecks:
         page = const MyChecksScreen();
         break;
+      case myCheckDetail:
+        // Passed whole rather than by id: the list already fetched every field
+        // this screen shows, so refetching would be a request for data the app
+        // is already holding.
+        if (args is! MyCheck) return _fallbackRoute(settings, session: session);
+        page = MyCheckDetailScreen(check: args);
+        break;
       case activityHistory:
         page = const ActivityHistoryScreen();
         break;
@@ -211,6 +237,8 @@ class Routes {
         page = ProductDetailScreen(
           shopId: detailArgs.shopId,
           productId: detailArgs.productId,
+          lotCode: detailArgs.lotCode,
+          lot: detailArgs.lot,
         );
         break;
       case buyerCheckResult:

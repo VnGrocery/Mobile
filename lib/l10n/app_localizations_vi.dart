@@ -1180,6 +1180,14 @@ class AppLocalizationsVi extends AppLocalizations {
   String get reviewSubmit => 'Gửi đánh giá';
 
   @override
+  String get reviewUpdate => 'Cập nhật đánh giá';
+
+  @override
+  String reviewCooldownNotice(int hours) {
+    return 'Bạn vừa đánh giá cửa hàng này. Có thể sửa lại sau $hours giờ.';
+  }
+
+  @override
   String get reviewSubmitted => 'Đã gửi đánh giá. Cảm ơn bạn!';
 
   @override
@@ -1478,6 +1486,32 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get buyerCheckErrorGeneric =>
       'Chưa kiểm tra được mã này. Bạn thử lại giúp nhé.';
+
+  @override
+  String get lotNotFound =>
+      'Không tìm thấy mã lô này. Có thể tem đã cũ hoặc in sai.';
+
+  @override
+  String get lotLookupFailed =>
+      'Chưa tra được mã lô. Kiểm tra mạng rồi thử lại nhé.';
+
+  @override
+  String get qrLabelExportAction => 'Lưu / in tem';
+
+  @override
+  String get qrLabelExporting => 'Đang tạo ảnh tem...';
+
+  @override
+  String get qrLabelExportFailed =>
+      'Chưa xuất được ảnh tem. Bạn thử lại giúp nhé.';
+
+  @override
+  String get scannedLotTitle => 'LÔ HÀNG BẠN VỪA QUÉT';
+
+  @override
+  String scannedLotCommitted(String date) {
+    return 'Người bán ghi nhận ngày $date';
+  }
 
   @override
   String get freshnessReportAction => 'Chấm độ tươi';
@@ -2213,6 +2247,48 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get myChecksNoPledge => 'Không có cam kết để đối chiếu';
+
+  @override
+  String get myChecksPendingBadge => 'Đang chờ duyệt';
+
+  @override
+  String get myChecksPendingBody =>
+      'Ảnh đã lưu, AI chưa chấm. Chưa tính vào điểm của shop.';
+
+  @override
+  String get myCheckDetailTitle => 'Chi tiết kiểm tra';
+
+  @override
+  String get myCheckDetailViewProduct => 'Xem sản phẩm';
+
+  @override
+  String get myCheckDetailLot => 'Mã lô hàng';
+
+  @override
+  String get myCheckDetailCheckedAt => 'Thời điểm kiểm tra';
+
+  @override
+  String get trustReasonAwaitingAiReview => 'AI trên máy chủ chưa chấm ảnh này';
+
+  @override
+  String get trustReasonCategoryMismatch =>
+      'Loại hàng trong ảnh khác với loại người bán ghi nhận';
+
+  @override
+  String get trustReasonLowAiConfidence =>
+      'AI không đủ chắc chắn khi đọc ảnh này';
+
+  @override
+  String get trustReasonScoreGapHigh =>
+      'Điểm đo được lệch nhiều so với cam kết';
+
+  @override
+  String get trustReasonScoreGapWarning =>
+      'Điểm đo được lệch nhẹ so với cam kết';
+
+  @override
+  String get trustReasonNoSellerPledge =>
+      'Lô hàng này không có cam kết của người bán';
 
   @override
   String get commonProduct => 'Sản phẩm';

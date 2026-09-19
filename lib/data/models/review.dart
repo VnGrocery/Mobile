@@ -5,12 +5,23 @@ class Review {
   final String comment;
   final String date;
 
+  /// Who wrote it. Needed to pick your own review out of a shop's list: there
+  /// is no endpoint that returns only yours.
+  final String reviewerUserId;
+
+  /// The server keeps one review per shop per account and refuses an edit
+  /// that does not name the version it replaces. The app sent 0 every time,
+  /// so a second review of the same shop came back 409 forever.
+  final int version;
+
   const Review({
     required this.id,
     required this.userName,
     required this.rating,
     required this.comment,
     required this.date,
+    this.reviewerUserId = '',
+    this.version = 0,
   });
 
   factory Review.fromJson(Map<String, Object?> json) {
@@ -23,6 +34,8 @@ class Review {
       rating: (json['rating'] as num).toInt(),
       comment: json['comment'] as String,
       date: (json['date'] ?? json['createdAt'] ?? '').toString(),
+      reviewerUserId: json['reviewerUserId']?.toString() ?? '',
+      version: (json['version'] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -32,5 +45,7 @@ class Review {
     'rating': rating,
     'comment': comment,
     'date': date,
+    'reviewerUserId': reviewerUserId,
+    'version': version,
   };
 }

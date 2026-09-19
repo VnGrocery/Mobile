@@ -2246,6 +2246,18 @@ abstract class AppLocalizations {
   /// **'Submit review'**
   String get reviewSubmit;
 
+  /// Submit button when the reader has already reviewed this shop, so sending replaces their previous review rather than adding a second one.
+  ///
+  /// In en, this message translates to:
+  /// **'Update review'**
+  String get reviewUpdate;
+
+  /// Shown when a review is resent before the server's cooldown is over. The wait comes from the server.
+  ///
+  /// In en, this message translates to:
+  /// **'You just reviewed this shop. You can change it in {hours} hours.'**
+  String reviewCooldownNotice(int hours);
+
   /// No description provided for @reviewSubmitted.
   ///
   /// In en, this message translates to:
@@ -2785,6 +2797,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not check this code. Please try again.'**
   String get buyerCheckErrorGeneric;
+
+  /// Shown when a scanned crate label resolves to nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No such lot code. The label may be old or misprinted.'**
+  String get lotNotFound;
+
+  /// Shown when the lot lookup could not reach the server.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not look up the lot code. Check your connection and try again.'**
+  String get lotLookupFailed;
+
+  /// Hands the rendered label image to the system share sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save / print label'**
+  String get qrLabelExportAction;
+
+  /// Shown while the label image is being produced.
+  ///
+  /// In en, this message translates to:
+  /// **'Rendering the label...'**
+  String get qrLabelExporting;
+
+  /// Shown when rendering or sharing the label failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not export the label image. Please try again.'**
+  String get qrLabelExportFailed;
+
+  /// Heading of the card showing the pledge behind a scanned crate label.
+  ///
+  /// In en, this message translates to:
+  /// **'THE LOT YOU SCANNED'**
+  String get scannedLotTitle;
+
+  /// When the seller committed the scanned lot.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded by the seller on {date}'**
+  String scannedLotCommitted(String date);
 
   /// Opens the sheet where a buyer scores the produce themselves.
   ///
@@ -4063,6 +4117,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No pledge to compare against'**
   String get myChecksNoPledge;
+
+  /// Badge on a check whose photo the server AI has not scored yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting review'**
+  String get myChecksPendingBadge;
+
+  /// Explains what an unscored check does and does not mean.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo saved, not yet scored by AI. Does not count towards the shop\'s score.'**
+  String get myChecksPendingBody;
+
+  /// Title of the screen showing one of the reader's own checks in full.
+  ///
+  /// In en, this message translates to:
+  /// **'Check details'**
+  String get myCheckDetailTitle;
+
+  /// Opens the product page for the check being read.
+  ///
+  /// In en, this message translates to:
+  /// **'View product'**
+  String get myCheckDetailViewProduct;
+
+  /// Label for the lot code the check was made against.
+  ///
+  /// In en, this message translates to:
+  /// **'Lot code'**
+  String get myCheckDetailLot;
+
+  /// Label for when the check was made.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked at'**
+  String get myCheckDetailCheckedAt;
+
+  /// Reason code awaiting_ai_review.
+  ///
+  /// In en, this message translates to:
+  /// **'The server AI has not scored this photo yet'**
+  String get trustReasonAwaitingAiReview;
+
+  /// Reason code category_mismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The goods in the photo are not the category the seller recorded'**
+  String get trustReasonCategoryMismatch;
+
+  /// Reason code low_ai_confidence.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI was not confident enough reading this photo'**
+  String get trustReasonLowAiConfidence;
+
+  /// Reason code score_gap_high.
+  ///
+  /// In en, this message translates to:
+  /// **'The measured score is far from what was pledged'**
+  String get trustReasonScoreGapHigh;
+
+  /// Reason code score_gap_warning.
+  ///
+  /// In en, this message translates to:
+  /// **'The measured score is a little below what was pledged'**
+  String get trustReasonScoreGapWarning;
+
+  /// Reason code no_seller_pledge.
+  ///
+  /// In en, this message translates to:
+  /// **'This lot has no seller pledge'**
+  String get trustReasonNoSellerPledge;
 
   /// No description provided for @commonProduct.
   ///

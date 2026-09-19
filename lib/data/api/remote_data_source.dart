@@ -261,16 +261,23 @@ class RemoteDataSource {
     '/v1/shops/$shopId/reviews',
   )).map((e) => Review.fromJson(_map(e))).toList();
 
+  /// Writes the reader's review of a shop. The server keeps one per account,
+  /// so this both creates and edits.
+  ///
+  /// [expectedVersion] is the version of the review being replaced, and 0 for
+  /// a first review. It used to be hardcoded to 0, so the server refused with
+  /// a 409 for anyone who had already reviewed the shop once.
   Future<Review> createReview(
     String shopId,
     int rating,
     String comment, {
     List<String> imageUrls = const [],
+    int expectedVersion = 0,
   }) async => Review.fromJson(
     await client.post(
       '/v1/shops/$shopId/reviews',
       body: {
-        'expectedVersion': 0,
+        'expectedVersion': expectedVersion,
         'rating': rating,
         'comment': comment,
         'imageUrls': imageUrls,
@@ -346,10 +353,22 @@ class RemoteDataSource {
     filename: 'freshness.png',
   );
 
+  /// Resolves the lot code on a printed label to the pledge behind it.
+  ///
+  /// Unauthenticated, like the endpoint: the point of printing a label is that
+  /// whoever is holding the crate can read it without an account.
+  Future<Map<String, Object?>> bundleByLotCode(String bundleId) =>
+      client.get('/v1/bundles/$bundleId');
+
   Future<Map<String, Object?>> commit({
     required String shopId,
     required String productId,
-    required String bundleId,
+
+    /// The seller's own lot code, when they have one. Left empty the server
+    /// mints it, which is what the app does: it used to send a counter from
+    /// the mock database that restarted at g1 every launch, so two phones
+    /// happily claimed the same lot.
+    String bundleId = '',
     required double score,
     required String category,
     required double confidence,
@@ -404,7 +423,12 @@ class RemoteDataSource {
     required String pledgeId,
     required String bundleId,
     required String bundleToken,
-    String locationStatus = 'unknown',
+    // The server takes one of four values and rejects anything else with a
+    // 400. It was sent `unknown`, which is not one of them, so every check the
+    // app made was refused before it ever reached the scorer. `reference_only`
+    // is the honest one while the app does not read GPS: the photo was taken,
+    // the place it was taken cannot be vouched for.
+    String locationStatus = 'reference_only',
   }) => client.multipart(
     '/v1/buyer/check',
     bytes: bytes,

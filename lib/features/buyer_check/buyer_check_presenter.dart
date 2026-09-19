@@ -26,8 +26,12 @@ class BuyerCheckPresenter {
     return l10n.buyerCheckErrorGeneric;
   }
 
+  /// The server's four values are `verified_near_shop`, `reference_only`,
+  /// `too_far_from_shop` and `shop_location_missing`. This compared against
+  /// `near`, which only ever existed in the mock fixture, so a check taken at
+  /// the stall and verified there still reported as unverified.
   static bool isNearStore(BuyerCheckResult result) {
-    return result.locationStatus == 'near';
+    return result.locationStatus == 'verified_near_shop';
   }
 
   static IconData locationIcon(BuyerCheckResult result) {

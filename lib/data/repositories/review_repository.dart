@@ -24,6 +24,7 @@ class ReviewRepository {
     int rating,
     String comment, {
     List<String> imageUrls = const [],
+    int expectedVersion = 0,
   }) async {
     final remote = _remote;
     if (remote == null) {
@@ -43,8 +44,13 @@ class ReviewRepository {
       rating,
       comment,
       imageUrls: imageUrls,
+      expectedVersion: expectedVersion,
     );
-    _db.reviewsByShop.putIfAbsent(shopId, () => []).insert(0, item);
+    // Replaces rather than prepends when this was an edit: one account has
+    // one review per shop, so inserting again listed the same person twice.
+    final list = _db.reviewsByShop.putIfAbsent(shopId, () => []);
+    list.removeWhere((existing) => existing.id == item.id);
+    list.insert(0, item);
     return item;
   }
 
