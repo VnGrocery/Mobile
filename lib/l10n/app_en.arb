@@ -1693,6 +1693,46 @@
   "@myChecksPendingBody": {
     "description": "Explains what an unscored check does and does not mean."
   },
+  "myCheckDetailTitle": "Check details",
+  "@myCheckDetailTitle": {
+    "description": "Title of the screen showing one of the reader's own checks in full."
+  },
+  "myCheckDetailViewProduct": "View product",
+  "@myCheckDetailViewProduct": {
+    "description": "Opens the product page for the check being read."
+  },
+  "myCheckDetailLot": "Lot code",
+  "@myCheckDetailLot": {
+    "description": "Label for the lot code the check was made against."
+  },
+  "myCheckDetailCheckedAt": "Checked at",
+  "@myCheckDetailCheckedAt": {
+    "description": "Label for when the check was made."
+  },
+  "trustReasonAwaitingAiReview": "The server AI has not scored this photo yet",
+  "@trustReasonAwaitingAiReview": {
+    "description": "Reason code awaiting_ai_review."
+  },
+  "trustReasonCategoryMismatch": "The goods in the photo are not the category the seller recorded",
+  "@trustReasonCategoryMismatch": {
+    "description": "Reason code category_mismatch."
+  },
+  "trustReasonLowAiConfidence": "The AI was not confident enough reading this photo",
+  "@trustReasonLowAiConfidence": {
+    "description": "Reason code low_ai_confidence."
+  },
+  "trustReasonScoreGapHigh": "The measured score is far from what was pledged",
+  "@trustReasonScoreGapHigh": {
+    "description": "Reason code score_gap_high."
+  },
+  "trustReasonScoreGapWarning": "The measured score is a little below what was pledged",
+  "@trustReasonScoreGapWarning": {
+    "description": "Reason code score_gap_warning."
+  },
+  "trustReasonNoSellerPledge": "This lot has no seller pledge",
+  "@trustReasonNoSellerPledge": {
+    "description": "Reason code no_seller_pledge."
+  },
   "commonProduct": "Product",
   "accountMyActivity": "My activity",
   "verdictTrusted": "Matches the pledge",

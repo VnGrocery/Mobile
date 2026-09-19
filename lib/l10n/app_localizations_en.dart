@@ -2259,6 +2259,41 @@ class AppLocalizationsEn extends AppLocalizations {
       'Photo saved, not yet scored by AI. Does not count towards the shop\'s score.';
 
   @override
+  String get myCheckDetailTitle => 'Check details';
+
+  @override
+  String get myCheckDetailViewProduct => 'View product';
+
+  @override
+  String get myCheckDetailLot => 'Lot code';
+
+  @override
+  String get myCheckDetailCheckedAt => 'Checked at';
+
+  @override
+  String get trustReasonAwaitingAiReview =>
+      'The server AI has not scored this photo yet';
+
+  @override
+  String get trustReasonCategoryMismatch =>
+      'The goods in the photo are not the category the seller recorded';
+
+  @override
+  String get trustReasonLowAiConfidence =>
+      'The AI was not confident enough reading this photo';
+
+  @override
+  String get trustReasonScoreGapHigh =>
+      'The measured score is far from what was pledged';
+
+  @override
+  String get trustReasonScoreGapWarning =>
+      'The measured score is a little below what was pledged';
+
+  @override
+  String get trustReasonNoSellerPledge => 'This lot has no seller pledge';
+
+  @override
   String get commonProduct => 'Product';
 
   @override

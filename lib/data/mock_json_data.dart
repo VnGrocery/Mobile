@@ -175,9 +175,13 @@ const Map<String, Object?> appMockJson = {
       'used': false,
     },
   ],
+  // Field for field what `POST /v1/buyer/check` returns. It used to hold a
+  // 0-100 score, a `near` location the server has never sent, and a
+  // Vietnamese sentence where the verdict code goes, so the fixture
+  // disagreed with the API it stands in for.
   'lastBuyerCheck': {
-    'actualScore': 78,
-    'locationStatus': 'near',
-    'verdict': 'Gần với ghi nhận trước đó',
+    'actualScore': 7.8,
+    'locationStatus': 'verified_near_shop',
+    'verdict': 'trusted',
   },
 };

@@ -4118,6 +4118,66 @@ abstract class AppLocalizations {
   /// **'Photo saved, not yet scored by AI. Does not count towards the shop\'s score.'**
   String get myChecksPendingBody;
 
+  /// Title of the screen showing one of the reader's own checks in full.
+  ///
+  /// In en, this message translates to:
+  /// **'Check details'**
+  String get myCheckDetailTitle;
+
+  /// Opens the product page for the check being read.
+  ///
+  /// In en, this message translates to:
+  /// **'View product'**
+  String get myCheckDetailViewProduct;
+
+  /// Label for the lot code the check was made against.
+  ///
+  /// In en, this message translates to:
+  /// **'Lot code'**
+  String get myCheckDetailLot;
+
+  /// Label for when the check was made.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked at'**
+  String get myCheckDetailCheckedAt;
+
+  /// Reason code awaiting_ai_review.
+  ///
+  /// In en, this message translates to:
+  /// **'The server AI has not scored this photo yet'**
+  String get trustReasonAwaitingAiReview;
+
+  /// Reason code category_mismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The goods in the photo are not the category the seller recorded'**
+  String get trustReasonCategoryMismatch;
+
+  /// Reason code low_ai_confidence.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI was not confident enough reading this photo'**
+  String get trustReasonLowAiConfidence;
+
+  /// Reason code score_gap_high.
+  ///
+  /// In en, this message translates to:
+  /// **'The measured score is far from what was pledged'**
+  String get trustReasonScoreGapHigh;
+
+  /// Reason code score_gap_warning.
+  ///
+  /// In en, this message translates to:
+  /// **'The measured score is a little below what was pledged'**
+  String get trustReasonScoreGapWarning;
+
+  /// Reason code no_seller_pledge.
+  ///
+  /// In en, this message translates to:
+  /// **'This lot has no seller pledge'**
+  String get trustReasonNoSellerPledge;
+
   /// No description provided for @commonProduct.
   ///
   /// In en, this message translates to:

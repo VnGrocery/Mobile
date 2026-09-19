@@ -17,8 +17,8 @@ BuyerCheckResult _result({
 }) {
   return BuyerCheckResult.fromJson(<String, Object?>{
     'actualScore': actual,
-    'locationStatus': 'in_store',
-    'verdict': 'mismatch',
+    'locationStatus': 'verified_near_shop',
+    'verdict': 'high_risk',
     'hasPledge': hasPledge,
     'trusted': trusted,
     'pledgedScore': pledged,
@@ -49,7 +49,9 @@ void main() {
     expect(find.text('Người bán cam kết'), findsOneWidget);
     expect(find.text('8.6'), findsOneWidget);
     expect(find.text('Đo được lúc này'), findsOneWidget);
-    expect(find.text('7.0'), findsOneWidget); // actualScore is rounded to int
+    // 7.4, not the 7.0 this used to assert: the model rounded the measured
+    // score to an int, so the screen disagreed with the server by 0.4.
+    expect(find.text('7.4'), findsOneWidget);
     expect(find.text('-1.2'), findsOneWidget);
   });
 

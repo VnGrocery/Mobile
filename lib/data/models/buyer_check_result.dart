@@ -5,7 +5,10 @@ import 'json_helpers.dart';
 /// The comparison fields are the point of the whole feature: they say whether
 /// what the buyer measured matches what the seller promised.
 class BuyerCheckResult {
-  final int actualScore;
+  /// Kept as a decimal. Rounding it to an int turned the 8.2 the server
+  /// measured into 8, and every screen below formats it to one decimal place
+  /// anyway, so a check that scored 8.2 read as 8.0.
+  final double actualScore;
   final String locationStatus;
   final String verdict;
 
@@ -49,9 +52,11 @@ class BuyerCheckResult {
 
   factory BuyerCheckResult.fromJson(Map<String, Object?> json) {
     return BuyerCheckResult(
-      actualScore: (json['actualScore'] as num).round(),
-      locationStatus: json['locationStatus'] as String,
-      verdict: json['verdict'] as String,
+      actualScore: (json['actualScore'] as num?)?.toDouble() ?? 0,
+      // Both carry `omitempty` on the server, and a check the scorer never saw
+      // has no verdict at all, so neither can be read as a required String.
+      locationStatus: json['locationStatus']?.toString() ?? '',
+      verdict: json['verdict']?.toString() ?? '',
       trusted: json['trusted'] == true,
       hasPledge: json['hasPledge'] == true,
       pledgedScore: (json['pledgedScore'] as num?)?.toDouble() ?? 0,

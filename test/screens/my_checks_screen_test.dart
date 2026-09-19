@@ -7,7 +7,9 @@ import 'package:http/testing.dart';
 import 'package:vngrocery/core/network/api_client.dart';
 import 'package:vngrocery/data/api/remote_data_source.dart';
 import 'package:vngrocery/data/repositories.dart';
+import 'package:vngrocery/features/account/controllers/session_state.dart';
 import 'package:vngrocery/l10n/app_localizations.dart';
+import 'package:vngrocery/routes/app_routes.dart';
 import 'package:vngrocery/screens/my_checks_screen.dart';
 
 /// One row of `GET /v1/me/checks`, in the shape the Go DTO writes it.
@@ -28,9 +30,21 @@ Map<String, Object?> _check({
   'actualScore': verdict == 'pending' ? 0 : 8.2,
   'imageUrl': imageUrl,
   'createdAt': '2026-09-18T17:42:09.769Z',
+  'bundleId': 'LO-260918-8X1Z7MNE',
+  'scoreDelta': verdict == 'pending' ? 0 : -0.3,
+  'categoryMatch': verdict != 'pending',
+  'actualConfidence': verdict == 'pending' ? 0 : 0.88,
+  'locationStatus': 'verified_near_shop',
+  'trusted': verdict == 'trusted',
+  'reasons': verdict == 'pending'
+      ? const ['awaiting_ai_review']
+      : const <String>[],
 };
 
-Future<void> _pump(WidgetTester tester, List<Map<String, Object?>> items) async {
+Future<void> _pump(
+  WidgetTester tester,
+  List<Map<String, Object?>> items,
+) async {
   AppRepositories.configureRemote(
     RemoteDataSource(
       ApiClient(
@@ -56,6 +70,18 @@ Future<void> _pump(WidgetTester tester, List<Map<String, Object?>> items) async 
       supportedLocales: AppLocalizations.supportedLocales,
       locale: const Locale('vi'),
       home: const MyChecksScreen(),
+      // The real route table, so a tap is routed the way the app routes it
+      // rather than the way the test wishes it would.
+      onGenerateRoute: (settings) => Routes.onGenerateRoute(
+        settings,
+        session: const SessionState(
+          token: 'token',
+          shopId: null,
+          email: 'buyer@vngrocery.demo',
+          displayName: 'Buyer',
+          role: 'buyer',
+        ),
+      ),
     ),
   );
   await tester.pump();
@@ -96,6 +122,61 @@ void main() {
 
       expect(find.byKey(const ValueKey('my_check.photo')), findsNothing);
       expect(find.text('Cà chua beef'), findsOneWidget);
+    });
+
+    testWidgets('tapping a row opens the check, not the product', (
+      tester,
+    ) async {
+      await _pump(tester, [_check(status: 'completed', verdict: 'trusted')]);
+
+      await tester.tap(find.byKey(const ValueKey('my_check.badge')));
+      // Pumped by hand rather than settled: the photo placeholder is a
+      // CircularProgressIndicator, which never stops animating, so
+      // pumpAndSettle waits for a frame that never comes.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+
+      expect(find.byKey(const ValueKey('my_check_detail.screen')), findsOne);
+      // The scores the row had no space for, and the reason they differ.
+      expect(find.text('8.5'), findsOneWidget);
+      expect(find.text('8.2'), findsOneWidget);
+      // The product is a button away rather than the whole destination. It
+      // sits below the fold, so the list has to be scrolled to build it.
+      // The list underneath is still mounted, so the drag has to name the
+      // detail screen's own list.
+      await tester.drag(
+        find.descendant(
+          of: find.byKey(const ValueKey('my_check_detail.screen')),
+          matching: find.byType(ListView),
+        ),
+        const Offset(0, -400),
+      );
+      await tester.pump();
+      expect(
+        find.byKey(const ValueKey('my_check_detail.view_product')),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('the detail of an unscored check shows no measurement', (
+      tester,
+    ) async {
+      await _pump(tester, [
+        _check(status: 'pending_review', verdict: 'pending'),
+      ]);
+
+      await tester.tap(find.byKey(const ValueKey('my_check.badge')));
+      // Pumped by hand rather than settled: the photo placeholder is a
+      // CircularProgressIndicator, which never stops animating, so
+      // pumpAndSettle waits for a frame that never comes.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+
+      expect(find.byKey(const ValueKey('my_check_detail.pending')), findsOne);
+      // No compare card, because there is nothing to compare: printing
+      // "Đo được 0.0" would be a measurement nothing took.
+      expect(find.text('Đo được lúc này'), findsNothing);
+      expect(find.text('LO-260918-8X1Z7MNE'), findsOneWidget);
     });
   });
 }

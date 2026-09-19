@@ -2248,6 +2248,41 @@ class AppLocalizationsVi extends AppLocalizations {
       'Ảnh đã lưu, AI chưa chấm. Chưa tính vào điểm của shop.';
 
   @override
+  String get myCheckDetailTitle => 'Chi tiết kiểm tra';
+
+  @override
+  String get myCheckDetailViewProduct => 'Xem sản phẩm';
+
+  @override
+  String get myCheckDetailLot => 'Mã lô hàng';
+
+  @override
+  String get myCheckDetailCheckedAt => 'Thời điểm kiểm tra';
+
+  @override
+  String get trustReasonAwaitingAiReview => 'AI trên máy chủ chưa chấm ảnh này';
+
+  @override
+  String get trustReasonCategoryMismatch =>
+      'Loại hàng trong ảnh khác với loại người bán ghi nhận';
+
+  @override
+  String get trustReasonLowAiConfidence =>
+      'AI không đủ chắc chắn khi đọc ảnh này';
+
+  @override
+  String get trustReasonScoreGapHigh =>
+      'Điểm đo được lệch nhiều so với cam kết';
+
+  @override
+  String get trustReasonScoreGapWarning =>
+      'Điểm đo được lệch nhẹ so với cam kết';
+
+  @override
+  String get trustReasonNoSellerPledge =>
+      'Lô hàng này không có cam kết của người bán';
+
+  @override
   String get commonProduct => 'Sản phẩm';
 
   @override

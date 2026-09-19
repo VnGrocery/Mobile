@@ -100,6 +100,21 @@ class TrustCopy {
         return l10n.trustReasonNoSellerPledges;
       case 'some_pledges_low_confidence':
         return l10n.trustReasonSomePledgesLowConfidence;
+      // The reasons a single buyer check carries. They were all falling
+      // through to null, so the card that exists to explain a verdict
+      // explained nothing.
+      case 'awaiting_ai_review':
+        return l10n.trustReasonAwaitingAiReview;
+      case 'category_mismatch':
+        return l10n.trustReasonCategoryMismatch;
+      case 'low_ai_confidence':
+        return l10n.trustReasonLowAiConfidence;
+      case 'score_gap_high':
+        return l10n.trustReasonScoreGapHigh;
+      case 'score_gap_warning':
+        return l10n.trustReasonScoreGapWarning;
+      case 'no_seller_pledge':
+        return l10n.trustReasonNoSellerPledge;
       default:
         return null;
     }

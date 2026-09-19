@@ -1,3 +1,4 @@
+import 'buyer_check_result.dart';
 import 'json_helpers.dart';
 
 /// One check the reader made at a stall, as it reads back later.
@@ -30,6 +31,18 @@ class MyCheck {
   /// or the record predates the field.
   final String imageUrl;
 
+  /// The lot code on the crate, as printed on its label.
+  final String bundleId;
+
+  /// Everything the server worked out about this check: the delta, the
+  /// categories, the confidence, the location and the reasons.
+  ///
+  /// The same JSON object parses as both - `/me/checks` returns a
+  /// `BuyerCheckResponse` with two names bolted on - so the detail view can
+  /// reuse the widgets the post-scan result screen already has, rather than
+  /// this model copying out a dozen fields by hand.
+  final BuyerCheckResult result;
+
   const MyCheck({
     required this.id,
     required this.shopId,
@@ -43,6 +56,12 @@ class MyCheck {
     required this.createdAt,
     this.status = '',
     this.imageUrl = '',
+    this.bundleId = '',
+    this.result = const BuyerCheckResult(
+      actualScore: 0,
+      locationStatus: '',
+      verdict: '',
+    ),
   });
 
   /// No AI has scored this yet, so nothing on it is a judgement of the shop.
@@ -61,5 +80,7 @@ class MyCheck {
     createdAt: dateTime(json['createdAt']),
     status: json['status']?.toString() ?? '',
     imageUrl: json['imageUrl']?.toString() ?? '',
+    bundleId: json['bundleId']?.toString() ?? '',
+    result: BuyerCheckResult.fromJson(json),
   );
 }

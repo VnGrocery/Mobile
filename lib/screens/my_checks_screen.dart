@@ -140,16 +140,15 @@ class _CheckCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: check.productId.isEmpty
-            ? null
-            : () => Navigator.pushNamed(
-                context,
-                Routes.productDetail,
-                arguments: ProductDetailArgs(
-                  shopId: check.shopId,
-                  productId: check.productId,
-                ),
-              ),
+        // Opens the check, not the product. Tapping used to jump straight to
+        // the product page, which answers a question about the shop's current
+        // listing rather than about the crate this reader photographed. The
+        // product is one button away from the detail screen.
+        onTap: () => Navigator.pushNamed(
+          context,
+          Routes.myCheckDetail,
+          arguments: check,
+        ),
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Row(

@@ -416,7 +416,12 @@ class RemoteDataSource {
     required String pledgeId,
     required String bundleId,
     required String bundleToken,
-    String locationStatus = 'unknown',
+    // The server takes one of four values and rejects anything else with a
+    // 400. It was sent `unknown`, which is not one of them, so every check the
+    // app made was refused before it ever reached the scorer. `reference_only`
+    // is the honest one while the app does not read GPS: the photo was taken,
+    // the place it was taken cannot be vouched for.
+    String locationStatus = 'reference_only',
   }) => client.multipart(
     '/v1/buyer/check',
     bytes: bytes,

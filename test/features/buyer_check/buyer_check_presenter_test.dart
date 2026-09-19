@@ -8,15 +8,17 @@ import 'package:vngrocery/theme/app_colors.dart';
 
 void main() {
   group('BuyerCheckPresenter', () {
+    // The values the server actually sends. `near` and `far` were invented
+    // here and match nothing the API produces.
     const near = BuyerCheckResult(
-      actualScore: 92,
-      locationStatus: 'near',
-      verdict: 'Ổn',
+      actualScore: 9.2,
+      locationStatus: 'verified_near_shop',
+      verdict: 'trusted',
     );
     const far = BuyerCheckResult(
-      actualScore: 61,
-      locationStatus: 'far',
-      verdict: 'Cần xem lại',
+      actualScore: 6.1,
+      locationStatus: 'too_far_from_shop',
+      verdict: 'warning',
     );
 
     test('isNearStore follows locationStatus', () {
@@ -28,10 +30,7 @@ void main() {
       expect(BuyerCheckPresenter.locationIcon(near), Icons.gps_fixed);
       expect(BuyerCheckPresenter.locationIcon(far), Icons.gps_off);
       expect(BuyerCheckPresenter.locationColor(near), AppColors.trustGreen);
-      expect(
-        BuyerCheckPresenter.locationColor(far),
-        AppColors.warningOrange,
-      );
+      expect(BuyerCheckPresenter.locationColor(far), AppColors.warningOrange);
     });
 
     testWidgets('location labels and descriptions reflect distance state', (
