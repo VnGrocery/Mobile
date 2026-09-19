@@ -1183,6 +1183,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get reviewUpdate => 'Cập nhật đánh giá';
 
   @override
+  String reviewCooldownNotice(int hours) {
+    return 'Bạn vừa đánh giá cửa hàng này. Có thể sửa lại sau $hours giờ.';
+  }
+
+  @override
   String get reviewSubmitted => 'Đã gửi đánh giá. Cảm ơn bạn!';
 
   @override

@@ -1186,6 +1186,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewUpdate => 'Update review';
 
   @override
+  String reviewCooldownNotice(int hours) {
+    return 'You just reviewed this shop. You can change it in $hours hours.';
+  }
+
+  @override
   String get reviewSubmitted => 'Review submitted. Thank you!';
 
   @override

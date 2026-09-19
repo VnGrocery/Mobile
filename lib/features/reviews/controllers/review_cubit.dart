@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vngrocery/core/bloc/close_safe_emit.dart';
+import 'package:vngrocery/core/network/api_exception.dart';
 
 import 'review_state.dart';
 import 'package:vngrocery/data/models.dart';
@@ -80,7 +81,14 @@ class ReviewCubit extends Cubit<ReviewState> with CloseSafeEmit {
 
   Future<void> submit(String comment) async {
     if (!state.canSubmit(comment)) return;
-    emit(state.copyWith(submitting: true, submitted: false, failed: false));
+    emit(
+      state.copyWith(
+        submitting: true,
+        submitted: false,
+        failed: false,
+        retryAfterMinutes: 0,
+      ),
+    );
     try {
       final imageUrls = <String>[];
       final photo = _photo;
@@ -96,6 +104,21 @@ class ReviewCubit extends Cubit<ReviewState> with CloseSafeEmit {
         expectedVersion: _existing?.version ?? 0,
       );
       emit(state.copyWith(submitting: false, submitted: true, failed: false));
+    } on ApiException catch (error) {
+      // A review can only be rewritten every few hours. Kept apart from the
+      // other failures because it is the one the reviewer can do something
+      // about: wait. Telling them only that it did not send sends them back
+      // to the button.
+      emit(
+        state.copyWith(
+          submitting: false,
+          submitted: false,
+          failed: true,
+          retryAfterMinutes: error.statusCode == 429
+              ? (error.retryAfterMinutes ?? 0)
+              : 0,
+        ),
+      );
     } catch (_) {
       emit(state.copyWith(submitting: false, submitted: false, failed: true));
     }

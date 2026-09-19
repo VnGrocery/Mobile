@@ -80,6 +80,54 @@ void main() {
     await cubit.close();
   });
 
+  test('a review sent inside the cooldown reports the wait', () async {
+    final repositories = AppRepositories.forTesting(
+      MockDb.instance,
+      RemoteDataSource(
+        ApiClient(
+          baseUrl: 'http://localhost',
+          tokenReader: () => 'token',
+          client: MockClient((request) async {
+            if (request.method == 'GET') {
+              return http.Response.bytes(
+                utf8.encode(jsonEncode([_review(reviewerUserId: _me)])),
+                200,
+                headers: {'content-type': 'application/json; charset=utf-8'},
+              );
+            }
+            // What the server answers within six hours of the last edit.
+            return http.Response.bytes(
+              utf8.encode(
+                jsonEncode({
+                  'error': 'rate limit exceeded',
+                  'retryAfterMinutes': 360,
+                }),
+              ),
+              429,
+              headers: {'content-type': 'application/json; charset=utf-8'},
+            );
+          }),
+        ),
+      ),
+    );
+
+    final cubit = ReviewCubit(
+      shopId: 's1',
+      repositories: repositories,
+      reviewerUserId: _me,
+    );
+    await cubit.loadExisting();
+    cubit.setRating(1);
+    await cubit.submit('Đổi ý');
+
+    expect(cubit.state.failed, isTrue);
+    // Without this the screen says only that it did not send, and the
+    // reviewer presses the button again.
+    expect(cubit.state.retryAfterMinutes, 360);
+
+    await cubit.close();
+  });
+
   test("someone else's review is not treated as mine", () async {
     final repositories = AppRepositories.forTesting(
       MockDb.instance,

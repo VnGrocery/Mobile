@@ -478,6 +478,15 @@
   "reviewPhotoAdd": "Add image",
   "reviewSubmit": "Submit review",
   "reviewUpdate": "Update review",
+  "reviewCooldownNotice": "You just reviewed this shop. You can change it in {hours} hours.",
+  "@reviewCooldownNotice": {
+    "description": "Shown when a review is resent before the server's cooldown is over. The wait comes from the server.",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
   "@reviewUpdate": {
     "description": "Submit button when the reader has already reviewed this shop, so sending replaces their previous review rather than adding a second one."
   },

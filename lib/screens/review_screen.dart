@@ -97,7 +97,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
     if (!mounted) return;
     final l10n = AppLocalizations.of(context);
     if (_reviewCubit.state.failed) {
-      AppFeedback.showSnackBar(context, l10n.reviewSubmitFailed);
+      final wait = _reviewCubit.state.retryAfterMinutes;
+      AppFeedback.showSnackBar(
+        context,
+        // Rounded up to the hour, the way the server rounds its minutes up:
+        // rounding down tells someone to come back while still blocked.
+        wait > 0
+            ? l10n.reviewCooldownNotice((wait + 59) ~/ 60)
+            : l10n.reviewSubmitFailed,
+      );
       return;
     }
     if (!_reviewCubit.state.submitted) return;

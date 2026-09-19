@@ -2252,6 +2252,12 @@ abstract class AppLocalizations {
   /// **'Update review'**
   String get reviewUpdate;
 
+  /// Shown when a review is resent before the server's cooldown is over. The wait comes from the server.
+  ///
+  /// In en, this message translates to:
+  /// **'You just reviewed this shop. You can change it in {hours} hours.'**
+  String reviewCooldownNotice(int hours);
+
   /// No description provided for @reviewSubmitted.
   ///
   /// In en, this message translates to:
