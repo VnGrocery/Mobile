@@ -2241,6 +2241,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get myChecksNoPledge => 'Không có cam kết để đối chiếu';
 
   @override
+  String get myChecksPendingBadge => 'Đang chờ duyệt';
+
+  @override
+  String get myChecksPendingBody =>
+      'Ảnh đã lưu, AI chưa chấm. Chưa tính vào điểm của shop.';
+
+  @override
   String get commonProduct => 'Sản phẩm';
 
   @override

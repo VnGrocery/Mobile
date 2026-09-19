@@ -19,6 +19,17 @@ class MyCheck {
   final bool hasPledge;
   final DateTime createdAt;
 
+  /// `completed`, `flagged`, `rejected`, `pending_review`.
+  ///
+  /// Only `pending_review` is new to the reader: the photo was taken and
+  /// stored, but the server's AI never got to look at it, so there is no
+  /// verdict yet and the check counts for nothing.
+  final String status;
+
+  /// The photo the reader took, as a gateway URL. Empty when the upload failed
+  /// or the record predates the field.
+  final String imageUrl;
+
   const MyCheck({
     required this.id,
     required this.shopId,
@@ -30,7 +41,12 @@ class MyCheck {
     required this.actualScore,
     required this.hasPledge,
     required this.createdAt,
+    this.status = '',
+    this.imageUrl = '',
   });
+
+  /// No AI has scored this yet, so nothing on it is a judgement of the shop.
+  bool get isPendingReview => status == 'pending_review';
 
   factory MyCheck.fromJson(Map<String, Object?> json) => MyCheck(
     id: json['checkId']?.toString() ?? '',
@@ -43,5 +59,7 @@ class MyCheck {
     actualScore: (json['actualScore'] as num?)?.toDouble() ?? 0,
     hasPledge: json['hasPledge'] == true,
     createdAt: dateTime(json['createdAt']),
+    status: json['status']?.toString() ?? '',
+    imageUrl: json['imageUrl']?.toString() ?? '',
   );
 }

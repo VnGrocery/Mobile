@@ -4106,6 +4106,18 @@ abstract class AppLocalizations {
   /// **'No pledge to compare against'**
   String get myChecksNoPledge;
 
+  /// Badge on a check whose photo the server AI has not scored yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting review'**
+  String get myChecksPendingBadge;
+
+  /// Explains what an unscored check does and does not mean.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo saved, not yet scored by AI. Does not count towards the shop\'s score.'**
+  String get myChecksPendingBody;
+
   /// No description provided for @commonProduct.
   ///
   /// In en, this message translates to:

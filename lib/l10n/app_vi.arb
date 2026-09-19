@@ -1095,6 +1095,8 @@
     }
   },
   "myChecksNoPledge": "Không có cam kết để đối chiếu",
+  "myChecksPendingBadge": "Đang chờ duyệt",
+  "myChecksPendingBody": "Ảnh đã lưu, AI chưa chấm. Chưa tính vào điểm của shop.",
   "commonProduct": "Sản phẩm",
   "accountMyActivity": "Hoạt động của tôi",
   "verdictTrusted": "Khớp cam kết",

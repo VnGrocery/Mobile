@@ -2252,6 +2252,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myChecksNoPledge => 'No pledge to compare against';
 
   @override
+  String get myChecksPendingBadge => 'Awaiting review';
+
+  @override
+  String get myChecksPendingBody =>
+      'Photo saved, not yet scored by AI. Does not count towards the shop\'s score.';
+
+  @override
   String get commonProduct => 'Product';
 
   @override

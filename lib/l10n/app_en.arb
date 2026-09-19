@@ -1685,6 +1685,14 @@
     }
   },
   "myChecksNoPledge": "No pledge to compare against",
+  "myChecksPendingBadge": "Awaiting review",
+  "@myChecksPendingBadge": {
+    "description": "Badge on a check whose photo the server AI has not scored yet."
+  },
+  "myChecksPendingBody": "Photo saved, not yet scored by AI. Does not count towards the shop's score.",
+  "@myChecksPendingBody": {
+    "description": "Explains what an unscored check does and does not mean."
+  },
   "commonProduct": "Product",
   "accountMyActivity": "My activity",
   "verdictTrusted": "Matches the pledge",
