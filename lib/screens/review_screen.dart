@@ -27,6 +27,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
   void initState() {
     super.initState();
     _reviewCubit = ReviewCubit(shopId: widget.shopId);
+    // One review per shop per account: if this reader already wrote one, the
+    // send edits it, and the server refuses an edit that does not name the
+    // version it replaces. Loading it supplies that version, and opens the
+    // form on the text being replaced instead of on a blank field.
+    _reviewCubit.loadExisting().then((comment) {
+      if (!mounted || comment == null) return;
+      setState(() => _comment.text = comment);
+    });
   }
 
   @override
@@ -72,6 +80,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ReviewSubmitButton(
                     enabled: state.canSubmit(_comment.text),
                     loading: state.submitting,
+                    editing: state.editing,
                     onSubmit: _submit,
                   ),
                 ],

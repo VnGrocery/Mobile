@@ -2246,6 +2246,12 @@ abstract class AppLocalizations {
   /// **'Submit review'**
   String get reviewSubmit;
 
+  /// Submit button when the reader has already reviewed this shop, so sending replaces their previous review rather than adding a second one.
+  ///
+  /// In en, this message translates to:
+  /// **'Update review'**
+  String get reviewUpdate;
+
   /// No description provided for @reviewSubmitted.
   ///
   /// In en, this message translates to:

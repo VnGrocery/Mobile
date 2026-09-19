@@ -8,12 +8,17 @@ class ReviewState {
   /// failed submit, giving no sign that anything had gone wrong.
   final bool failed;
 
+  /// Whether this reader has already reviewed the shop, so sending replaces
+  /// what they wrote before rather than adding a second review.
+  final bool editing;
+
   const ReviewState({
     this.rating = 0,
     this.photoAttached = false,
     this.submitting = false,
     this.submitted = false,
     this.failed = false,
+    this.editing = false,
   });
 
   bool canSubmit(String comment) {
@@ -26,6 +31,7 @@ class ReviewState {
     bool? submitting,
     bool? submitted,
     bool? failed,
+    bool? editing,
   }) {
     return ReviewState(
       rating: rating ?? this.rating,
@@ -33,6 +39,7 @@ class ReviewState {
       submitting: submitting ?? this.submitting,
       submitted: submitted ?? this.submitted,
       failed: failed ?? this.failed,
+      editing: editing ?? this.editing,
     );
   }
 }

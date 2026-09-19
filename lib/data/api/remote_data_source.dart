@@ -261,16 +261,23 @@ class RemoteDataSource {
     '/v1/shops/$shopId/reviews',
   )).map((e) => Review.fromJson(_map(e))).toList();
 
+  /// Writes the reader's review of a shop. The server keeps one per account,
+  /// so this both creates and edits.
+  ///
+  /// [expectedVersion] is the version of the review being replaced, and 0 for
+  /// a first review. It used to be hardcoded to 0, so the server refused with
+  /// a 409 for anyone who had already reviewed the shop once.
   Future<Review> createReview(
     String shopId,
     int rating,
     String comment, {
     List<String> imageUrls = const [],
+    int expectedVersion = 0,
   }) async => Review.fromJson(
     await client.post(
       '/v1/shops/$shopId/reviews',
       body: {
-        'expectedVersion': 0,
+        'expectedVersion': expectedVersion,
         'rating': rating,
         'comment': comment,
         'imageUrls': imageUrls,

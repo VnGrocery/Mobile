@@ -1180,6 +1180,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get reviewSubmit => 'Gửi đánh giá';
 
   @override
+  String get reviewUpdate => 'Cập nhật đánh giá';
+
+  @override
   String get reviewSubmitted => 'Đã gửi đánh giá. Cảm ơn bạn!';
 
   @override

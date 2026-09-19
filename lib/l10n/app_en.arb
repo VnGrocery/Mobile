@@ -477,6 +477,10 @@
   "reviewPhotoAttached": "Photo attached",
   "reviewPhotoAdd": "Add image",
   "reviewSubmit": "Submit review",
+  "reviewUpdate": "Update review",
+  "@reviewUpdate": {
+    "description": "Submit button when the reader has already reviewed this shop, so sending replaces their previous review rather than adding a second one."
+  },
   "reviewSubmitted": "Review submitted. Thank you!",
   "reviewSubmittedWithPhoto": "Review with photo submitted. Thank you!",
   "scoreBadgeLabel": "Score",

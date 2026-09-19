@@ -143,11 +143,17 @@ class ReviewSubmitButton extends StatelessWidget {
   final bool loading;
   final VoidCallback onSubmit;
 
+  /// Whether this replaces a review the reader already wrote. Said on the
+  /// button because the form arrives filled in, and "Gửi đánh giá" sitting
+  /// over text written last month reads like a second review is being added.
+  final bool editing;
+
   const ReviewSubmitButton({
     super.key,
     required this.enabled,
     required this.loading,
     required this.onSubmit,
+    this.editing = false,
   });
 
   @override
@@ -167,7 +173,9 @@ class ReviewSubmitButton extends StatelessWidget {
                 ),
               )
             : Text(
-                AppLocalizations.of(context).reviewSubmit,
+                editing
+                    ? AppLocalizations.of(context).reviewUpdate
+                    : AppLocalizations.of(context).reviewSubmit,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
